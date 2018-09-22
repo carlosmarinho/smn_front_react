@@ -6584,6 +6584,9 @@
      float: left;
 }
  .v3-mob-m-1 img {
+     /*included by carlos marinho*/
+     padding-top:10px;
+     padding-left:10px;
 }
  .v3-mob-m-2 {
      float: right;
