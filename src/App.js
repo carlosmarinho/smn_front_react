@@ -5,10 +5,13 @@ import { BrowserRouter, Route } from 'react-router-dom';
 import { createStore, applyMiddleware } from 'redux';
 import promise from 'redux-promise';
 
+import reducers from './reducers';
+
 import logo from './logo.svg';
 import './App.css';
 
 const Dashboard = () => {return <div>Minha Dashboard</div>}
+const Header = () => {return <div>Cabeçalho</div>}
 const createStoreWithMiddleware = applyMiddleware(promise)(createStore);
 
 class App extends Component {
