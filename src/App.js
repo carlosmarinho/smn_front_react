@@ -10,8 +10,10 @@ import reducers from './reducers';
 import logo from './logo.svg';
 import './App.css';
 
-const Dashboard = () => {return <div>Minha Dashboard</div>}
-const Header = () => {return <div>Cabeçalho</div>}
+import Header from './components/header'
+import Footer from './components/footer'
+import Content from './components/content'
+
 const createStoreWithMiddleware = applyMiddleware(promise)(createStore);
 
 class App extends Component {
@@ -22,9 +24,10 @@ class App extends Component {
               <Route>
                   <div>
                       <Header />
-                      <div className="container-fluid">
-                          <Route exact path="/" component={Dashboard} />
+                      <div>
+                          <Route exact path="/" component={Content} />
                       </div>
+                      <Footer />
                   </div>
               </Route>
           </BrowserRouter>
