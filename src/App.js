@@ -7,19 +7,25 @@ import promise from 'redux-promise';
 
 import reducers from './reducers';
 
-import logo from './logo.svg';
-import './App.css';
 
 import Header from './components/header'
 import Footer from './components/footer'
-import Content from './components/content'
+/* import Content from './components/content'
 import Blog from './components/modules/blog'
-import ListaGuia from './components/modules/lista_guia'
+import Lista from './components/modules/lista'
+import Grid from './components/modules/grid'
+ */
+
+ const Content = () => {return "Meu conteudo"}
+ const Blog = () => {return "Meu conteudo blog blog blog"}
+ const Lista = () => {return "Meu conteudo lista lista lista"}
+ const Grid = () => {return "Meu conteudo grid grid grid"}
 
 const createStoreWithMiddleware = applyMiddleware(promise)(createStore);
 
-class App extends Component {
-  render() {
+//class App extends Component {
+const App = () => {
+
     return (
       <Provider store={createStoreWithMiddleware(reducers)}>
           <BrowserRouter>
@@ -29,7 +35,9 @@ class App extends Component {
                       <div>
                           <Route exact path="/" component={Content} />
                           <Route exact path="/a-cidade" component={Blog} />
-                          <Route exact path="/guias" component={ListaGuia} />
+                          <Route exact path="/guias" component={Lista} />
+                          <Route exact path="/eventos" component={Grid} />
+                          
                       </div>
                       <Footer />
                   </div>
@@ -37,7 +45,6 @@ class App extends Component {
           </BrowserRouter>
       </Provider>
   )
-  }
 }
 
 export default App;

@@ -9,7 +9,8 @@
      margin: 0px;
      padding: 0px;
      padding-right: 0px !important;
-     overflow-x: hidden;
+     /*overflow-x: hidden;*/
+     overflow-x: visible;
 }
  @font-face {
      font-family: 'Material Icons';

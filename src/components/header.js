@@ -23,9 +23,9 @@ class Header extends Component {
         return(
             <div>
                 {/*<!--PRE LOADING--> */}
-                <div id="preloader">
+                {/*<div id="preloader">
                     <div id="status">&nbsp;</div>
-                </div>
+                </div>*/}
                 <section>
                     <Menu />
                 </section>

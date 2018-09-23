@@ -4,7 +4,7 @@ import HeaderHome from './header_destaque_home';
 class Content extends Component {
     render(){
         return(
-            <div>aaaaaaaaaaa
+            <div>
                 <HeaderHome />
                 {/*<!--FIND YOUR SERVICE-->*/}
                 <section className="cat-v2-hom com-padd mar-bot-red-m30">
