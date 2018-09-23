@@ -13,15 +13,17 @@ class Menu extends Component {
                             </div>
                             <div className="v3-m-2">
                                 <ul>
-                                    <li><a className='dropdown-button ed-sub-menu' href='#' data-activates='drop-menu-home'>Home</a>
+                                    <li><a className='dropdown-button' href='/' data-activates='drop-menu-home'>Home</a>
                                     </li>
-                                    <li><a className='dropdown-button ed-sub-menu' href='#' data-activates='drop-mega-menu'>Listing</a>
+                                    <li><a className='dropdown-button ed-sub-menu' href='#' data-activates='drop-menu-cidade'>A Cidade</a>
                                     </li>
-                                    <li><a className='dropdown-button ed-sub-menu' href='#' data-activates='drop-mega-dash'>Dashboard</a>
+                                    <li><a className='dropdown-button ed-sub-menu' href='/guias' data-activates='drop-mega-dash'>Guias</a>
                                     </li>
-                                    <li><a className='dropdown-button ed-sub-menu' href='#' data-activates='drop-menu-page'>Pages</a>
+                                    <li><a className='dropdown-button ed-sub-menu' href='/eventos' data-activates='drop-mega-dash'>Eventos</a>
                                     </li>
-                                    <li><a className='dropdown-button ed-sub-menu' href='#' data-activates='drop-menu-admin'>Admin</a>
+                                    <li><a className='dropdown-button ed-sub-menu' href='/noticias' data-activates='drop-menu-page'>Notícias</a>
+                                    </li>
+                                    <li><a className='dropdown-button ed-sub-menu' href='/contato' data-activates='drop-menu-admin'>Contato</a>
                                     </li>
                                 </ul>
                             </div>
@@ -35,7 +37,7 @@ class Menu extends Component {
                             </div>
                         </div>
                         <div className="all-drop-down-menu">
-                            <ul id='drop-menu-home' className='dropdown-content'>
+                            <ul id='drop-menu-cidade' className='dropdown-content'>
                                 <li><a href="index-1.html">Home Page - 1</a></li>
                                 <li className="divider"></li>
                                 <li><a href="index-2.html">Home Page - 2</a></li>

@@ -6500,7 +6500,8 @@
 }
  .v3-m-2 ul li a {
      color: #333;
-     padding: 10px 20px;
+     /* altered by carlos padding: 10px 20px;*/
+     padding: 10px 15px;
 }
  .v3-m-3 {
      float: left;
