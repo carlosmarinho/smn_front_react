@@ -1,10 +1,25 @@
 import React, { Component } from 'react';
 import Menu from './menu';
 import MenuMobile from './menu_mobile';
-import HeaderDestaque from './header_destaque';
+import HeaderDestaqueHome from './header_destaque_home';
+import HeaderDestaqueBlog from './header_destaque_blog';
 
 class Header extends Component {
+
+    constructor() {
+        super();
+        this.getHeader = this.getHeader.bind(this);
+    }
+
+    getHeader(){
+        console.log("header: ", this.props)
+        return(this.props.routes);
+        //return <HeaderDestaqueBlog />
+    }
+
     render(){
+        console.log("header render: ", this.props.routes)
+
         return(
             <div>
                 {/*<!--PRE LOADING--> */}
@@ -17,9 +32,8 @@ class Header extends Component {
                 <section>
                     <MenuMobile /> 
                 </section>
-                <section id="background1" className="dir1-home-head">
-                    <HeaderDestaque />
-                </section>
+                
+                
 
             </div>
         )

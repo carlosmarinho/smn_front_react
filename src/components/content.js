@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
+import HeaderHome from './header_destaque_home';
 
 class Content extends Component {
     render(){
         return(
-            <div>
+            <div>aaaaaaaaaaa
+                <HeaderHome />
                 {/*<!--FIND YOUR SERVICE-->*/}
                 <section className="cat-v2-hom com-padd mar-bot-red-m30">
                     <div className="container">

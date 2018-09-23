@@ -15,7 +15,7 @@ class Menu extends Component {
                                 <ul>
                                     <li><a className='dropdown-button' href='/' data-activates='drop-menu-home'>Home</a>
                                     </li>
-                                    <li><a className='dropdown-button ed-sub-menu' href='#' data-activates='drop-menu-cidade'>A Cidade</a>
+                                    <li><a className='dropdown-button ed-sub-menu' href='/a-cidade' data-activates='drop-menu-cidade'>A Cidade</a>
                                     </li>
                                     <li><a className='dropdown-button ed-sub-menu' href='/guias' data-activates='drop-mega-dash'>Guias</a>
                                     </li>
@@ -38,11 +38,11 @@ class Menu extends Component {
                         </div>
                         <div className="all-drop-down-menu">
                             <ul id='drop-menu-cidade' className='dropdown-content'>
-                                <li><a href="index-1.html">Home Page - 1</a></li>
+                                <li><a href="index-1.html">Bairros</a></li>
                                 <li className="divider"></li>
-                                <li><a href="index-2.html">Home Page - 2</a></li>
+                                <li><a href="index-2.html">Fotos da Cidade</a></li>
                                 <li className="divider"></li>
-                                <li><a href="index-3.html">Home Page - 3</a></li>
+                                <li><a href="index-3.html">História da Cidade</a></li>
                             </ul>
                             <ul id='email-temp' className='dropdown-content'>
                                 <li><a href="email-template-register.html" target="_blank">Register</a> </li>

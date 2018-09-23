@@ -6509,6 +6509,8 @@
 }
  .dropdown-content {
      overflow: visible;
+     /*added by carlos marinho*/
+     margin-top: 40px;
 }
  #dropdown2 {
      left: 162px !important;
