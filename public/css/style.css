@@ -7703,7 +7703,7 @@
 
 .div-footer-img{
     float: left;
-    width: 20%;
+    width: 56px;
     margin-right: 10px;
 
     background: #777;
@@ -7712,7 +7712,7 @@
 }
 
 .div-footer-img img{
-    width:100%;
+    width:50px;
     height:45px;
     border-radius: 50%;
     
