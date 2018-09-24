@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import FooterWidget from './modules/footer-widget';
 
 class Footer extends Component {
     render(){
@@ -16,72 +17,13 @@ class Footer extends Component {
                                                     <p className="hasimg">Somos o maior portal da cidade de Niterói!</p>
                                                     <p className="hasimg">Aqui você fica por dentro de tudo que acontece na sua cidade. Notícias, eventos, guias e muito Mais! </p>
                                                 </div>
-                                                <div className="col-sm-4 col-md-3">
-                                                    <h4>Guias Recentes</h4>
-                                                    <div class="footer-widget">
-                                                        <ul >
-                                                            <li>
-                                                                <a href="listing-details.html">
-                                                                    <div className="div-footer-img"> 
-                                                                        <img src="/images/services/s1.jpeg" alt="" /> 
-                                                                    </div>
-                                                                    <div className="div-footer-text">
-                                                                        <h5>Property Getaways</h5> <span>City: illunois, United States</span> 
-                                                                    </div>
-                                                                </a>
-                                                            </li>
-                                                            <li>
-                                                                <a href="listing-details.html">
-                                                                    <div className="div-footer-img" > 
-                                                                        <img src="/images/services/s1.jpeg" alt="" /> 
-                                                                    </div>
-                                                                    <div className="div-footer-text">
-                                                                        <h5>Property Getaways</h5> <span>City: illunois, United States</span> 
-                                                                    </div>
-                                                                </a>
-                                                            </li>
-                                                            <li>
-                                                                <a href="listing-details.html">
-                                                                    <div className="div-footer-img"> 
-                                                                        <img src="/images/services/s1.jpeg" alt="" /> 
-                                                                    </div>
-                                                                    <div className="div-footer-text">
-                                                                        <h5>Property Getaways</h5> <span>City: illunois, United States</span> 
-                                                                    </div>
-                                                                </a>
-                                                            </li>
-                                                            <li>
-                                                                <a href="listing-details.html">
-                                                                    <div className="div-footer-img"> 
-                                                                        <img src="/images/services/s1.jpeg" alt="" /> 
-                                                                    </div>
-                                                                    <div className="div-footer-text">
-                                                                        <h5>Property Getaways</h5> <span>City: illunois, United States</span> 
-                                                                    </div>
-                                                                </a>
-                                                            </li>
-                                                        </ul>
-                                                    </div>
-                                                </div>
-                                                <div className="col-sm-4 col-md-3">
-                                                    <h4>Últimas Notícias</h4>
-                                                    <ul className="two-columns">
-                                                        <li> <a href="#!">Hotels</a> </li>
-                                                        <li> <a href="#!">Hospitals</a> </li>
-                                                        <li> <a href="#!">Transportation</a> </li>
-                                                        <li> <a href="#!">Real Estates </a> </li>
-                                                        <li> <a href="#!">Automobiles</a> </li>
-                                                        <li> <a href="#!">Resorts</a> </li>
-                                                        <li> <a href="#!">Education</a> </li>
-                                                        <li> <a href="#!">Sports Events</a> </li>
-                                                        <li> <a href="#!">Web Services </a> </li>
-                                                        <li> <a href="#!">Skin Care</a> </li>
-                                                    </ul>
-                                                </div>
+                                                <FooterWidget title="Guias Recentes" />
+                                                <FooterWidget title="Últimas Notícias" />
+                                                
                                                 <div className="col-sm-4 col-md-3">
                                                     <h4>Facebook</h4>
-                                                    <div class="fb-page" data-href="https://www.facebook.com/soumaisniteroi" data-tabs="timeline" data-width="300" data-height="250" data-small-header="true" data-adapt-container-width="true" data-hide-cover="false" data-show-facepile="true">
-                                                        <blockquote cite="https://www.facebook.com/soumaisniteroi" class="fb-xfbml-parse-ignore"><a href="https://www.facebook.com/soumaisniteroi">Cidade de Niterói</a></blockquote>
+                                                    <div className="fb-page" data-href="https://www.facebook.com/soumaisniteroi" data-tabs="timeline" data-width="300" data-height="250" data-small-header="true" data-adapt-container-width="true" data-hide-cover="false" data-show-facepile="true">
+                                                        <blockquote cite="https://www.facebook.com/soumaisniteroi" className="fb-xfbml-parse-ignore"><a href="https://www.facebook.com/soumaisniteroi">Cidade de Niterói</a></blockquote>
                                                     </div>
                                                 </div>
                                             </div>

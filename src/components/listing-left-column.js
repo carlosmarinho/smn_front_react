@@ -89,23 +89,23 @@ class ListingLeftColumn extends Component {
                             <ul>
                                 <li>
                                     <input type="checkbox" id="scf1" />
-                                    <label for="scf1">Hortels & Resorts</label>
+                                    <label htmlFor="scf1">Hortels & Resorts</label>
                                 </li>
                                 <li>
                                     <input type="checkbox" id="scf2" />
-                                    <label for="scf2">Fitness Care</label>
+                                    <label htmlFor="scf2">Fitness Care</label>
                                 </li>
                                 <li>
                                     <input type="checkbox" id="scf3" />
-                                    <label for="scf3">Educations</label>
+                                    <label htmlFor="scf3">Educations</label>
                                 </li>
                                 <li>
                                     <input type="checkbox" id="scf4" />
-                                    <label for="scf4">Property</label>
+                                    <label htmlFor="scf4">Property</label>
                                 </li>
                                 <li>
                                     <input type="checkbox" id="scf5" />
-                                    <label for="scf5">Home Services</label>
+                                    <label htmlFor="scf5">Home Services</label>
                                 </li>
                             </ul>
                         </form> <a href="#!" className="list-view-more-btn">view more</a> </div>
@@ -119,23 +119,23 @@ class ListingLeftColumn extends Component {
                             <ul>
                                 <li>
                                     <input className="with-gap" name="group1" type="radio" id="ldis1" />
-                                    <label for="ldis1">00 to 02km</label>
+                                    <label htmlFor="ldis1">00 to 02km</label>
                                 </li>
                                 <li>
                                     <input className="with-gap" name="group1" type="radio" id="ldis2" />
-                                    <label for="ldis2">02 to 05km</label>
+                                    <label htmlFor="ldis2">02 to 05km</label>
                                 </li>
                                 <li>
                                     <input className="with-gap" name="group1" type="radio" id="ldis3" />
-                                    <label for="ldis3">05 to 10km</label>
+                                    <label htmlFor="ldis3">05 to 10km</label>
                                 </li>
                                 <li>
                                     <input className="with-gap" name="group1" type="radio" id="ldis4" />
-                                    <label for="ldis4">10 to 20km</label>
+                                    <label htmlFor="ldis4">10 to 20km</label>
                                 </li>
                                 <li>
                                     <input className="with-gap" name="group1" type="radio" id="ldis5" />
-                                    <label for="ldis5">20 to 30km</label>
+                                    <label htmlFor="ldis5">20 to 30km</label>
                                 </li>
                             </ul>
                         </form> <a href="#!" className="list-view-more-btn">view more</a> </div>
@@ -149,27 +149,27 @@ class ListingLeftColumn extends Component {
                             <ul>
                                 <li>
                                     <input type="checkbox" className="filled-in" id="lr1" />
-                                    <label for="lr1"> <span className="list-rat-ch"> <span>5.0</span> <i className="fa fa-star" aria-hidden="true"></i> <i className="fa fa-star" aria-hidden="true"></i> <i className="fa fa-star" aria-hidden="true"></i> <i className="fa fa-star" aria-hidden="true"></i> <i className="fa fa-star" aria-hidden="true"></i> </span>
+                                    <label htmlFor="lr1"> <span className="list-rat-ch"> <span>5.0</span> <i className="fa fa-star" aria-hidden="true"></i> <i className="fa fa-star" aria-hidden="true"></i> <i className="fa fa-star" aria-hidden="true"></i> <i className="fa fa-star" aria-hidden="true"></i> <i className="fa fa-star" aria-hidden="true"></i> </span>
                                     </label>
                                 </li>
                                 <li>
                                     <input type="checkbox" className="filled-in" id="lr2" />
-                                    <label for="lr2"> <span className="list-rat-ch"> <span>4.0</span> <i className="fa fa-star" aria-hidden="true"></i> <i className="fa fa-star" aria-hidden="true"></i> <i className="fa fa-star" aria-hidden="true"></i> <i className="fa fa-star" aria-hidden="true"></i> <i className="fa fa-star-o" aria-hidden="true"></i> </span>
+                                    <label htmlFor="lr2"> <span className="list-rat-ch"> <span>4.0</span> <i className="fa fa-star" aria-hidden="true"></i> <i className="fa fa-star" aria-hidden="true"></i> <i className="fa fa-star" aria-hidden="true"></i> <i className="fa fa-star" aria-hidden="true"></i> <i className="fa fa-star-o" aria-hidden="true"></i> </span>
                                     </label>
                                 </li>
                                 <li>
                                     <input type="checkbox" className="filled-in" id="lr3" />
-                                    <label for="lr3"> <span className="list-rat-ch"> <span>3.0</span> <i className="fa fa-star" aria-hidden="true"></i> <i className="fa fa-star" aria-hidden="true"></i> <i className="fa fa-star" aria-hidden="true"></i> <i className="fa fa-star-o" aria-hidden="true"></i> <i className="fa fa-star-o" aria-hidden="true"></i> </span>
+                                    <label htmlFor="lr3"> <span className="list-rat-ch"> <span>3.0</span> <i className="fa fa-star" aria-hidden="true"></i> <i className="fa fa-star" aria-hidden="true"></i> <i className="fa fa-star" aria-hidden="true"></i> <i className="fa fa-star-o" aria-hidden="true"></i> <i className="fa fa-star-o" aria-hidden="true"></i> </span>
                                     </label>
                                 </li>
                                 <li>
                                     <input type="checkbox" className="filled-in" id="lr4" />
-                                    <label for="lr4"> <span className="list-rat-ch"> <span>2.0</span> <i className="fa fa-star" aria-hidden="true"></i> <i className="fa fa-star" aria-hidden="true"></i> <i className="fa fa-star-o" aria-hidden="true"></i> <i className="fa fa-star-o" aria-hidden="true"></i> <i className="fa fa-star-o" aria-hidden="true"></i> </span>
+                                    <label htmlFor="lr4"> <span className="list-rat-ch"> <span>2.0</span> <i className="fa fa-star" aria-hidden="true"></i> <i className="fa fa-star" aria-hidden="true"></i> <i className="fa fa-star-o" aria-hidden="true"></i> <i className="fa fa-star-o" aria-hidden="true"></i> <i className="fa fa-star-o" aria-hidden="true"></i> </span>
                                     </label>
                                 </li>
                                 <li>
                                     <input type="checkbox" className="filled-in" id="lr5" />
-                                    <label for="lr5"> <span className="list-rat-ch"> <span>1.0</span> <i className="fa fa-star" aria-hidden="true"></i> <i className="fa fa-star-o" aria-hidden="true"></i> <i className="fa fa-star-o" aria-hidden="true"></i> <i className="fa fa-star-o" aria-hidden="true"></i> <i className="fa fa-star-o" aria-hidden="true"></i> </span>
+                                    <label htmlFor="lr5"> <span className="list-rat-ch"> <span>1.0</span> <i className="fa fa-star" aria-hidden="true"></i> <i className="fa fa-star-o" aria-hidden="true"></i> <i className="fa fa-star-o" aria-hidden="true"></i> <i className="fa fa-star-o" aria-hidden="true"></i> <i className="fa fa-star-o" aria-hidden="true"></i> </span>
                                     </label>
                                 </li>
                             </ul>
