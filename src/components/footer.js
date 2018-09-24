@@ -12,7 +12,7 @@ class Footer extends Component {
                                     <div data-section="section">
                                         <div className="container">
                                             <div className="row">
-                                                <div className="col-sm-4 col-md-3 foot-logo"> <img src="images/foot-logo.png" alt="logo" />
+                                                <div className="col-sm-4 col-md-3 foot-logo"> <img src="/images/foot-logo.png" alt="logo" />
                                                     <p className="hasimg">Worlds's No. 1 Local Business Directory Website.</p>
                                                     <p className="hasimg">It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. </p>
                                                 </div>
@@ -69,7 +69,7 @@ class Footer extends Component {
                                             <div className="row">
                                                 <div className="col-sm-3">
                                                     <h4>Payment Options</h4>
-                                                    <p className="hasimg"> <img src="images/payment.png" alt="payment" /> </p>
+                                                    <p className="hasimg"> <img src="/images/payment.png" alt="payment" /> </p>
                                                 </div>
                                                 <div className="col-sm-4">
                                                     <h4>Address</h4>

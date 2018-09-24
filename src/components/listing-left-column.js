@@ -12,7 +12,7 @@ class ListingLeftColumn extends Component {
                         {/*<!--==========NEARBY LISTINGS============-->*/}
                         <li>
                             <a href="listing-details.html">
-                                <div className="list-left-near lln1"> <img src="images/services/s1.jpeg" alt="" /> </div>
+                                <div className="list-left-near lln1"> <img src="/images/services/s1.jpeg" alt="" /> </div>
                                 <div className="list-left-near lln2">
                                     <h5>Property Getaways</h5> <span>City: illunois, United States</span> </div>
                                 <div className="list-left-near lln3"> <span>5.0</span> </div>
@@ -22,7 +22,7 @@ class ListingLeftColumn extends Component {
                         {/*<!--==========NEARBY LISTINGS============-->*/}
                         <li>
                             <a href="listing-details.html">
-                                <div className="list-left-near lln1"> <img src="images/services/s2.jpeg" alt="" /> </div>
+                                <div className="list-left-near lln1"> <img src="/images/services/s2.jpeg" alt="" /> </div>
                                 <div className="list-left-near lln2">
                                     <h5>Home Trends</h5> <span>City: illunois, United States</span> </div>
                                 <div className="list-left-near lln3"> <span>4.0</span> </div>
@@ -32,7 +32,7 @@ class ListingLeftColumn extends Component {
                         {/*<!--==========NEARBY LISTINGS============-->*/}
                         <li>
                             <a href="listing-details.html">
-                                <div className="list-left-near lln1"> <img src="images/services/s3.jpeg" alt="" /> </div>
+                                <div className="list-left-near lln1"> <img src="/images/services/s3.jpeg" alt="" /> </div>
                                 <div className="list-left-near lln2">
                                     <h5>Security System</h5> <span>City: illunois, United States</span> </div>
                                 <div className="list-left-near lln3"> <span>4.4</span> </div>
@@ -42,7 +42,7 @@ class ListingLeftColumn extends Component {
                         {/*<!--==========NEARBY LISTINGS============-->*/}
                         <li>
                             <a href="listing-details.html">
-                                <div className="list-left-near lln1"> <img src="images/services/s4.jpeg" alt="" /> </div>
+                                <div className="list-left-near lln1"> <img src="/images/services/s4.jpeg" alt="" /> </div>
                                 <div className="list-left-near lln2">
                                     <h5>Distance Educations</h5> <span>City: illunois, United States</span> </div>
                                 <div className="list-left-near lln3"> <span>3.8</span> </div>
@@ -52,7 +52,7 @@ class ListingLeftColumn extends Component {
                         {/*<!--==========NEARBY LISTINGS============-->*/}
                         <li>
                             <a href="listing-details.html">
-                                <div className="list-left-near lln1"> <img src="images/services/s5.jpeg" alt="" /> </div>
+                                <div className="list-left-near lln1"> <img src="/images/services/s5.jpeg" alt="" /> </div>
                                 <div className="list-left-near lln2">
                                     <h5>Fresh Cake Shops</h5> <span>City: illunois, United States</span> </div>
                                 <div className="list-left-near lln3"> <span>4.8</span> </div>
@@ -62,7 +62,7 @@ class ListingLeftColumn extends Component {
                         {/*<!--==========NEARBY LISTINGS============-->*/}
                         <li>
                             <a href="listing-details.html">
-                                <div className="list-left-near lln1"> <img src="images/services/s6.jpeg" alt="" /> </div>
+                                <div className="list-left-near lln1"> <img src="/images/services/s6.jpeg" alt="" /> </div>
                                 <div className="list-left-near lln2">
                                     <h5>Chicago Automobiles</h5> <span>City: illunois, United States</span> </div>
                                 <div className="list-left-near lln3"> <span>5.0</span> </div>
@@ -72,7 +72,7 @@ class ListingLeftColumn extends Component {
                         {/*<!--==========NEARBY LISTINGS============-->*/}
                         <li>
                             <a href="listing-details.html">
-                                <div className="list-left-near lln1"> <img src="images/services/s7.jpeg" alt="" /> </div>
+                                <div className="list-left-near lln1"> <img src="/images/services/s7.jpeg" alt="" /> </div>
                                 <div className="list-left-near lln2">
                                     <h5>Bike Service Centers</h5> <span>City: illunois, United States</span> </div>
                                 <div className="list-left-near lln3"> <span>5.0</span> </div>

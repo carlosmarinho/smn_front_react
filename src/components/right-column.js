@@ -14,17 +14,17 @@ class RightColumn extends Component {
                                             <div className="list-pg-guar">
                                                 <ul>
                                                     <li>
-                                                        <div className="list-pg-guar-img"> <img src="images/icon/g1.png" alt="" /> </div>
+                                                        <div className="list-pg-guar-img"> <img src="/images/icon/g1.png" alt="" /> </div>
                                                         <h4>Service Guarantee</h4>
                                                         <p>Upto 6 month of service</p>
                                                     </li>
                                                     <li>
-                                                        <div className="list-pg-guar-img"> <img src="images/icon/g2.png" alt="" /> </div>
+                                                        <div className="list-pg-guar-img"> <img src="/images/icon/g2.png" alt="" /> </div>
                                                         <h4>Professionals</h4>
                                                         <p>100% certified professionals</p>
                                                     </li>
                                                     <li>
-                                                        <div className="list-pg-guar-img"> <img src="images/icon/g3.png" alt="" /> </div>
+                                                        <div className="list-pg-guar-img"> <img src="/images/icon/g3.png" alt="" /> </div>
                                                         <h4>Insurance</h4>
                                                         <p>Upto $5,000 against damages</p>
                                                     </li>
@@ -34,7 +34,7 @@ class RightColumn extends Component {
                                     {/*<!--END LISTING DETAILS: LEFT PART 7-->*/}
                                     {/*<!--LISTING DETAILS: LEFT PART 7-->*/}
                                     <div className="pglist-p3 pglist-bg pglist-p-com">
-                                        <div className="pg-list-user-pro"> <img src="images/users/8.png" alt="" /> </div>
+                                        <div className="pg-list-user-pro"> <img src="/images/users/8.png" alt="" /> </div>
                                         <div className="list-pg-inn-sp">
                                             <div className="list-pg-upro">
                                                 <h5>Kevin Jack</h5>
@@ -81,7 +81,7 @@ class RightColumn extends Component {
                                             <h3><span>You might</span> like this</h3> </div>
                                         <a href="#!">
                                             <div className="list-mig-like-com">
-                                                <div className="list-mig-lc-img"> <img src="images/listing/1.jpg" alt="" /> <span className="home-list-pop-rat list-mi-pr">$720</span> </div>
+                                                <div className="list-mig-lc-img"> <img src="/images/listing/1.jpg" alt="" /> <span className="home-list-pop-rat list-mi-pr">$720</span> </div>
                                                 <div className="list-mig-lc-con">
                                                     <div className="list-rat-ch list-room-rati"> <span>4.0</span> <i className="fa fa-star" aria-hidden="true"></i> <i className="fa fa-star" aria-hidden="true"></i> <i className="fa fa-star" aria-hidden="true"></i> <i className="fa fa-star" aria-hidden="true"></i> <i className="fa fa-star-o" aria-hidden="true"></i> </div>
                                                     <h5>Holiday Inn Express</h5>
@@ -91,7 +91,7 @@ class RightColumn extends Component {
                                         </a>
                                         <a href="#!">
                                             <div className="list-mig-like-com">
-                                                <div className="list-mig-lc-img"> <img src="images/listing/2.jpg" alt="" /> <span className="home-list-pop-rat list-mi-pr">$420</span> </div>
+                                                <div className="list-mig-lc-img"> <img src="/images/listing/2.jpg" alt="" /> <span className="home-list-pop-rat list-mi-pr">$420</span> </div>
                                                 <div className="list-mig-lc-con">
                                                     <div className="list-rat-ch list-room-rati"> <span>3.0</span> <i className="fa fa-star" aria-hidden="true"></i> <i className="fa fa-star" aria-hidden="true"></i> <i className="fa fa-star" aria-hidden="true"></i> <i className="fa fa-star-o" aria-hidden="true"></i> <i className="fa fa-star-o" aria-hidden="true"></i> </div>
                                                     <h5>InterContinental</h5>
@@ -101,7 +101,7 @@ class RightColumn extends Component {
                                         </a>
                                         <a href="#!">
                                             <div className="list-mig-like-com">
-                                                <div className="list-mig-lc-img"> <img src="images/listing/3.jpg" alt="" /> <span className="home-list-pop-rat list-mi-pr">$380</span> </div>
+                                                <div className="list-mig-lc-img"> <img src="/images/listing/3.jpg" alt="" /> <span className="home-list-pop-rat list-mi-pr">$380</span> </div>
                                                 <div className="list-mig-lc-con">
                                                     <div className="list-rat-ch list-room-rati"> <span>5.0</span> <i className="fa fa-star" aria-hidden="true"></i> <i className="fa fa-star" aria-hidden="true"></i> <i className="fa fa-star" aria-hidden="true"></i> <i className="fa fa-star" aria-hidden="true"></i> <i className="fa fa-star" aria-hidden="true"></i> </div>
                                                     <h5>Staybridger Suites</h5>

@@ -10,7 +10,7 @@ class MenuMobile extends Component {
                         <div className="row">
                             <div className="v3-mob-menu">
                                 <div className="v3-mob-m-1">
-                                    <a href="index-1.html"><img src="images/logo-soumaisniteroi.png" alt="" /> </a>
+                                    <a href="index-1.html"><img src="/images/logo-soumaisniteroi.png" alt="" /> </a>
                                 </div>
                                 <div className="v3-mob-m-2">
                                     <div className="v3-top-ri">

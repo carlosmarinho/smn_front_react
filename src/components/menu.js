@@ -9,7 +9,7 @@ class Menu extends Component {
                     <div className="row">
                         <div className="v3-menu">
                             <div className="v3-m-1">
-                                <a href="index-1.html"><img src="images/logo-soumaisniteroi.png" alt="" /> </a>
+                                <a href="index-1.html"><img src="/images/logo-soumaisniteroi.png" alt="" /> </a>
                             </div>
                             <div className="v3-m-2">
                                 <ul>
@@ -23,11 +23,14 @@ class Menu extends Component {
                                     <li>
                                         <Link className='dropdown-button ed-sub-menu' data-activates='drop-menu-guia' to="/guia">Guia</Link>
                                     </li>
-                                    <li><a className='dropdown-button ed-sub-menu' href='/eventos' data-activates='drop-mega-dash'>Eventos</a>
+                                    <li>
+                                        <Link className='dropdown-button' to="/eventos">Eventos</Link>
                                     </li>
-                                    <li><a className='dropdown-button ed-sub-menu' href='/noticias' data-activates='drop-menu-page'>Notícias</a>
+                                    <li>
+                                        <Link className='dropdown-button ed-sub-menu' data-activates='drop-menu-noticias' to="/noticias">Noticias</Link>
                                     </li>
-                                    <li><a className='dropdown-button ed-sub-menu' href='/contato' data-activates='drop-menu-admin'>Contato</a>
+                                    <li>
+                                        <Link className='dropdown-button' to="/contato">Contato</Link>
                                     </li>
                                 </ul>
                             </div>
@@ -47,6 +50,10 @@ class Menu extends Component {
                                 <li><a href="index-2.html">Fotos da Cidade</a></li>
                                 <li className="divider"></li>
                                 <li><a href="index-3.html">História da Cidade</a></li>
+                            </ul>
+                            <ul id='drop-menu-guia' className='dropdown-content'>
+                                <li><Link className='dropdown-button' to="/guia/qualquer-um-guia-comercial">Guia Comercial</Link></li>
+                                <li><Link className='dropdown-button' to="/guia/qualquer-um-guia-comercial-outro">Guia Comercial</Link></li>
                             </ul>
                             <ul id='email-temp' className='dropdown-content'>
                                 <li><a href="email-template-register.html" target="_blank">Register</a> </li>
