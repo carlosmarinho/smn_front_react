@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-class HeaderDestaqueHome extends Component {
+class HeaderDestaqueGuia extends Component {
     render(){
         return(
             <div>
@@ -66,4 +66,4 @@ class HeaderDestaqueHome extends Component {
     }
 }
 
-export default HeaderDestaqueHome;
+export default HeaderDestaqueGuia;

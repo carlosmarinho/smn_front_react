@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import HeaderBlog from '../header_destaque_blog';
+import HeaderBlog from '../header-destaque-blog';
 
 import RightColumn from '../right-column';
 

@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 import Menu from './menu';
-import MenuMobile from './menu_mobile';
-import HeaderDestaqueHome from './header_destaque_home';
-import HeaderDestaqueBlog from './header_destaque_blog';
+import MenuMobile from './menu-mobile';
+
 
 class Header extends Component {
 

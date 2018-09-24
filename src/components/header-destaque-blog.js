@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-class HeaderDestaqueHome extends Component {
+class HeaderDestaqueBlog extends Component {
     render(){
         return(
             <section className="inn-page-bg">
@@ -16,4 +16,4 @@ class HeaderDestaqueHome extends Component {
     }
 }
 
-export default HeaderDestaqueHome;
+export default HeaderDestaqueBlog;

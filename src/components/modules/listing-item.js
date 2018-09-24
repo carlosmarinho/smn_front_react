@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import RightColumn from '../right-column';
-import HeaderGuia from '../header_destaque_guia';
+import HeaderGuia from '../header-destaque-guia';
 
 class ListingItem extends Component {
     render(){

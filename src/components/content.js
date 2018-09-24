@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import HeaderHome from './header_destaque_home';
+import HeaderHome from './header-destaque-home';
 
 class Content extends Component {
     render(){
