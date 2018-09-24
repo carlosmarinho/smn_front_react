@@ -12,27 +12,59 @@ class Footer extends Component {
                                     <div data-section="section">
                                         <div className="container">
                                             <div className="row">
-                                                <div className="col-sm-4 col-md-3 foot-logo"> <img src="/images/foot-logo.png" alt="logo" />
-                                                    <p className="hasimg">Worlds's No. 1 Local Business Directory Website.</p>
-                                                    <p className="hasimg">It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. </p>
+                                                <div className="col-sm-4 col-md-3 foot-logo"> <img src="/images/logo-soumaisniteroi-transp-footer.png" alt="logo rodapé" />
+                                                    <p className="hasimg">Somos o maior portal da cidade de Niterói!</p>
+                                                    <p className="hasimg">Aqui você fica por dentro de tudo que acontece na sua cidade. Notícias, eventos, guias e muito Mais! </p>
                                                 </div>
                                                 <div className="col-sm-4 col-md-3">
-                                                    <h4>Support & Help</h4>
-                                                    <ul className="two-columns">
-                                                        <li> <a href="advertise.html">Advertise us</a> </li>
-                                                        <li> <a href="about-us.html">About Us</a> </li>
-                                                        <li> <a href="customer-reviews.html">Review</a> </li>
-                                                        <li> <a href="how-it-work.html">How it works </a> </li>
-                                                        <li> <a href="add-listing.html">Add Business</a> </li>
-                                                        <li> <a href="#!">Register</a> </li>
-                                                        <li> <a href="#!">Login</a> </li>
-                                                        <li> <a href="#!">Quick Enquiry</a> </li>
-                                                        <li> <a href="#!">Ratings </a> </li>
-                                                        <li> <a href="trendings.html">Top Trends</a> </li>
-                                                    </ul>
+                                                    <h4>Guias Recentes</h4>
+                                                    <div class="footer-widget">
+                                                        <ul >
+                                                            <li>
+                                                                <a href="listing-details.html">
+                                                                    <div className="div-footer-img"> 
+                                                                        <img src="/images/services/s1.jpeg" alt="" /> 
+                                                                    </div>
+                                                                    <div className="div-footer-text">
+                                                                        <h5>Property Getaways</h5> <span>City: illunois, United States</span> 
+                                                                    </div>
+                                                                </a>
+                                                            </li>
+                                                            <li>
+                                                                <a href="listing-details.html">
+                                                                    <div className="div-footer-img" > 
+                                                                        <img src="/images/services/s1.jpeg" alt="" /> 
+                                                                    </div>
+                                                                    <div className="div-footer-text">
+                                                                        <h5>Property Getaways</h5> <span>City: illunois, United States</span> 
+                                                                    </div>
+                                                                </a>
+                                                            </li>
+                                                            <li>
+                                                                <a href="listing-details.html">
+                                                                    <div className="div-footer-img"> 
+                                                                        <img src="/images/services/s1.jpeg" alt="" /> 
+                                                                    </div>
+                                                                    <div className="div-footer-text">
+                                                                        <h5>Property Getaways</h5> <span>City: illunois, United States</span> 
+                                                                    </div>
+                                                                </a>
+                                                            </li>
+                                                            <li>
+                                                                <a href="listing-details.html">
+                                                                    <div className="div-footer-img"> 
+                                                                        <img src="/images/services/s1.jpeg" alt="" /> 
+                                                                    </div>
+                                                                    <div className="div-footer-text">
+                                                                        <h5>Property Getaways</h5> <span>City: illunois, United States</span> 
+                                                                    </div>
+                                                                </a>
+                                                            </li>
+                                                        </ul>
+                                                    </div>
                                                 </div>
                                                 <div className="col-sm-4 col-md-3">
-                                                    <h4>Popular Services</h4>
+                                                    <h4>Últimas Notícias</h4>
                                                     <ul className="two-columns">
                                                         <li> <a href="#!">Hotels</a> </li>
                                                         <li> <a href="#!">Hospitals</a> </li>
@@ -47,19 +79,10 @@ class Footer extends Component {
                                                     </ul>
                                                 </div>
                                                 <div className="col-sm-4 col-md-3">
-                                                    <h4>Cities Covered</h4>
-                                                    <ul className="two-columns">
-                                                        <li> <a href="#!">Atlanta</a> </li>
-                                                        <li> <a href="#!">Austin</a> </li>
-                                                        <li> <a href="#!">Baltimore</a> </li>
-                                                        <li> <a href="#!">Boston </a> </li>
-                                                        <li> <a href="#!">Chicago</a> </li>
-                                                        <li> <a href="#!">Indianapolis</a> </li>
-                                                        <li> <a href="#!">Las Vegas</a> </li>
-                                                        <li> <a href="#!">Los Angeles</a> </li>
-                                                        <li> <a href="#!">Louisville </a> </li>
-                                                        <li> <a href="#!">Houston</a> </li>
-                                                    </ul>
+                                                    <h4>Facebook</h4>
+                                                    <div class="fb-page" data-href="https://www.facebook.com/soumaisniteroi" data-tabs="timeline" data-width="300" data-height="250" data-small-header="true" data-adapt-container-width="true" data-hide-cover="false" data-show-facepile="true">
+                                                        <blockquote cite="https://www.facebook.com/soumaisniteroi" class="fb-xfbml-parse-ignore"><a href="https://www.facebook.com/soumaisniteroi">Cidade de Niterói</a></blockquote>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>

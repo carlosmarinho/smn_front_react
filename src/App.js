@@ -15,6 +15,7 @@ import BlogList from './components/modules/blog-list'
 import ListingItem from './components/modules/listing-item'
 import ListingList from './components/modules/listing-list'
 import ListingGrid from './components/modules/listing-grid'
+import Contact from './components/modules/contact'
 
 const createStoreWithMiddleware = applyMiddleware(promise)(createStore);
 
@@ -33,6 +34,7 @@ const App = () => {
                           <Route exact path="/guia" component={ListingList} />
                           <Route exact path="/eventos" component={ListingGrid} />
                           <Route exact path="/guia/:slug" component={ListingItem} />
+                          <Route exact path="/contato" component={Contact} />
                       </div>
                       <Footer />
                   </div>

@@ -6,7 +6,7 @@ import ListingLeftColumn from '../listing-left-column';
 
 class ListingList extends Component {
     render(){
-        let leftColumn = false;
+        let leftColumn = true;
         return(
             <div>
                 

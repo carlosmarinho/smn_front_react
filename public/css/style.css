@@ -1296,7 +1296,7 @@
  .foot-logo {
 }
  .foot-logo img {
-     width: 100%;
+     /* Excluded by carlos width: 100%;*/
      padding-bottom: 20px;
 }
  .foot-sec2 {
@@ -7686,4 +7686,51 @@
      margin-bottom: 30px;
 }
  .quic-book-text1 p{
+}
+
+
+
+/*INCLUDED BY CARLOS*/
+
+.footer-widget a:hover{
+    all: unset !important;
+}
+
+.footer-widget ul li{
+    background: none;
+    padding-left: 0px;
+}
+
+.div-footer-img{
+    float: left;
+    width: 20%;
+    margin-right: 10px;
+
+    background: #777;
+    padding: 3px;
+    border-radius: 50%;
+}
+
+.div-footer-img img{
+    width:100%;
+    height:50px;
+    border-radius: 50%;
+    
+}
+
+.div-footer-text{
+    height: 60px;
+    width: 100%;
+    line-height: 14px;
+    padding-top: 5px;
+}
+
+.div-footer-text h5{
+    font-size: 15px;
+    margin-bottom:5px;
+}
+
+.div-footer-text span{
+    font-size: 12px;
+
 }
