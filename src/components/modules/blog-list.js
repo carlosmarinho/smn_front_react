@@ -3,7 +3,7 @@ import HeaderBlog from '../header_destaque_blog';
 
 import RightColumn from '../right-column';
 
-class Content extends Component {
+class BlogList extends Component {
 
     
 
@@ -234,4 +234,4 @@ class Content extends Component {
     }
 }
 
-export default Content;
+export default BlogList;

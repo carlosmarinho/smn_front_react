@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-
+import {Link} from 'react-router-dom';
 
 class Menu extends Component {
     render(){
@@ -13,11 +13,15 @@ class Menu extends Component {
                             </div>
                             <div className="v3-m-2">
                                 <ul>
-                                    <li><a className='dropdown-button' href='/' data-activates='drop-menu-home'>Home</a>
+                                    <li>
+                                        <Link  data-activates='drop-menu-home' to="/">Home</Link>
                                     </li>
-                                    <li><a className='dropdown-button ed-sub-menu' href='/a-cidade' data-activates='drop-menu-cidade'>A Cidade</a>
+                                    <li>
+                                        {/*<a className='dropdown-button ed-sub-menu' href='/a-cidade' data-activates='drop-menu-cidade'>A Cidade</a>*/}
+                                        <Link className='dropdown-button ed-sub-menu' data-activates='drop-menu-cidade' to="/a-cidade">Cidade</Link>
                                     </li>
-                                    <li><a className='dropdown-button ed-sub-menu' href='/guias' data-activates='drop-mega-dash'>Guias</a>
+                                    <li>
+                                        <Link className='dropdown-button ed-sub-menu' data-activates='drop-menu-guia' to="/guia">Guia</Link>
                                     </li>
                                     <li><a className='dropdown-button ed-sub-menu' href='/eventos' data-activates='drop-mega-dash'>Eventos</a>
                                     </li>

@@ -10,16 +10,10 @@ import reducers from './reducers';
 
 import Header from './components/header'
 import Footer from './components/footer'
-/* import Content from './components/content'
-import Blog from './components/modules/blog'
-import Lista from './components/modules/lista'
-import Grid from './components/modules/grid'
- */
-
- const Content = () => {return "Meu conteudo"}
- const Blog = () => {return "Meu conteudo blog blog blog"}
- const Lista = () => {return "Meu conteudo lista lista lista"}
- const Grid = () => {return "Meu conteudo grid grid grid"}
+import Content from './components/content'
+import BlogList from './components/modules/blog-list'
+import ListingItem from './components/modules/listing-item'
+import BlogListGrid from './components/modules/blog-list-grid'
 
 const createStoreWithMiddleware = applyMiddleware(promise)(createStore);
 
@@ -34,10 +28,9 @@ const App = () => {
                       <Header />
                       <div>
                           <Route exact path="/" component={Content} />
-                          <Route exact path="/a-cidade" component={Blog} />
-                          <Route exact path="/guias" component={Lista} />
-                          <Route exact path="/eventos" component={Grid} />
-                          
+                          <Route exact path="/a-cidade" component={BlogList} />
+                          <Route exact path="/guia" component={ListingItem} />
+                          <Route exact path="/eventos" component={BlogListGrid} />
                       </div>
                       <Footer />
                   </div>

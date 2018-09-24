@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import RightColumn from '../right-column';
 import HeaderGuia from '../header_destaque_guia';
 
-class Lista extends Component {
+class ListingItem extends Component {
     render(){
         return(
             <div>
@@ -461,4 +461,4 @@ class Lista extends Component {
     }
 }
 
-export default Lista;
+export default ListingItem;

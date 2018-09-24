@@ -73,11 +73,11 @@ $(document).ready(function() {
     });
 
     //PRE LOADING
-    /* $('#status').fadeOut();
+    $('#status').fadeOut();
     $('#preloader').delay(350).fadeOut('slow');
     $('body').delay(350).css({
         'overflow': 'visible'
-    }); */
+    });
 
     $('.dropdown-button').dropdown({
         inDuration: 300,
