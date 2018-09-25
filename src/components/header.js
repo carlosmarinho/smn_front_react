@@ -17,7 +17,6 @@ class Header extends Component {
     }
 
     render(){
-        console.log("header render: ", this.props.routes)
 
         return(
             <div>

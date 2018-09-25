@@ -9,7 +9,7 @@ class Menu extends Component {
                     <div className="row">
                         <div className="v3-menu">
                             <div className="v3-m-1">
-                                <a href="index-1.html"><img src="/images/logo-soumaisniteroi.png" alt="" /> </a>
+                                <Link  data-activates='drop-menu-home' to="/"><img src="/images/logo-soumaisniteroi.png" alt="" /></Link>
                             </div>
                             <div className="v3-m-2">
                                 <ul>

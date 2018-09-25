@@ -1244,7 +1244,8 @@
      padding: 90px 0 50px;
 }
  footer h4, footer .strong {
-     color: #636363;
+     /* altered by carlos color: #636363;*/
+     color: #ccc;
      font-weight: 400;
      font-size: 21px;
 }
@@ -7728,9 +7729,24 @@
 .div-footer-text h5{
     font-size: 15px;
     margin-bottom:5px;
+    color: #999;
 }
 
 .div-footer-text span{
     font-size: 12px;
-
+    color: #999;
 }
+
+.foot-logo .footer-contact{
+    font-size: 14px;
+}
+
+.foot-logo p, .foot-logo span, .foot-social p{
+    color: #999;
+}
+
+.foot-social ul{
+    position:relative;left:50%;float:left;margin-right:0;margin-left:0;
+}
+
+.foot-social li{position:relative;right:50%;float:left;margin:0;list-style:none}

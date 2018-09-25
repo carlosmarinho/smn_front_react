@@ -8,6 +8,7 @@ class BlogList extends Component {
     
 
     render(){
+        console.log("PROPS: ", this.props.item)
         let columnRight = true;
 
         if(columnRight) {

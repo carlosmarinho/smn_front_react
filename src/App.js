@@ -19,6 +19,8 @@ import Contact from './components/modules/contact'
 
 const createStoreWithMiddleware = applyMiddleware(promise)(createStore);
 
+const BlogListNew = () => { return (<BlogList item="noticias"/>)}
+
 //class App extends Component {
 const App = () => {
 
@@ -35,6 +37,7 @@ const App = () => {
                           <Route exact path="/eventos" component={ListingGrid} />
                           <Route exact path="/guia/:slug" component={ListingItem} />
                           <Route exact path="/contato" component={Contact} />
+                          <Route exact path="/noticias" component={BlogListNew} />
                       </div>
                       <Footer />
                   </div>

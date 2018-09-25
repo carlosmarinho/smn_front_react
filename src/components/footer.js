@@ -16,13 +16,15 @@ class Footer extends Component {
                                                 <div className="col-sm-4 col-md-3 foot-logo"> <img src="/images/logo-soumaisniteroi-transp-footer.png" alt="logo rodapé" />
                                                     <p className="hasimg">Somos o maior portal da cidade de Niterói!</p>
                                                     <p className="hasimg">Aqui você fica por dentro de tudo que acontece na sua cidade. Notícias, eventos, guias e muito Mais! </p>
+                                                    <p> <span className=""><i className="fa fa-phone" aria-hidden="true"></i> </span> <span className="footer-contact"> (21) 99172-0833</span> </p>
+                                                    <p> <span className=""><i className="fa fa-envelope" aria-hidden="true"></i> </span> <span className="footer-contact">contato@soumaisniteroi.com.br</span> </p>
                                                 </div>
                                                 <FooterWidget title="Guias Recentes" />
                                                 <FooterWidget title="Últimas Notícias" />
                                                 
                                                 <div className="col-sm-4 col-md-3">
                                                     <h4>Facebook</h4>
-                                                    <div className="fb-page" data-href="https://www.facebook.com/soumaisniteroi" data-tabs="timeline" data-width="300" data-height="250" data-small-header="true" data-adapt-container-width="true" data-hide-cover="false" data-show-facepile="true">
+                                                    <div className="fb-page" data-href="https://www.facebook.com/soumaisniteroi" data-tabs="timeline" data-width="300" data-height="220" data-small-header="true" data-adapt-container-width="true" data-hide-cover="false" data-show-facepile="true">
                                                         <blockquote cite="https://www.facebook.com/soumaisniteroi" className="fb-xfbml-parse-ignore"><a href="https://www.facebook.com/soumaisniteroi">Cidade de Niterói</a></blockquote>
                                                     </div>
                                                 </div>
@@ -31,26 +33,16 @@ class Footer extends Component {
                                     </div>
                                     <div data-section="section" className="foot-sec2">
                                         <div className="container">
-                                            <div className="row">
-                                                <div className="col-sm-3">
-                                                    <h4>Payment Options</h4>
-                                                    <p className="hasimg"> <img src="/images/payment.png" alt="payment" /> </p>
-                                                </div>
-                                                <div className="col-sm-4">
-                                                    <h4>Address</h4>
-                                                    <p>28800 Orchard Lake Road, Suite 180 Farmington Hills, U.S.A. Landmark : Next To Airport</p>
-                                                    <p> <span className="strong">Phone: </span> <span className="highlighted">+01 1245 2541</span> </p>
-                                                </div>
-                                                <div className="col-sm-5 foot-social">
-                                                    <h4>Follow with us</h4>
-                                                    <p>Join the thousands of other There are many variations of passages of Lorem Ipsum available</p>
-                                                    <ul>
+                                            <div className="row text-center">
+                                                
+                                                <div className="col-sm-12 foot-social text-center">
+                                                    <h4>Conecte-se conosco</h4>
+                                                    <p>Curta a nossa página no Facebook ou no Google Plus, acompanhe nos no Twitter e no Instagram</p>
+                                                    <ul className="list-inline text-center">
                                                         <li><a href="#!"><i className="fa fa-facebook" aria-hidden="true"></i></a> </li>
                                                         <li><a href="#!"><i className="fa fa-google-plus" aria-hidden="true"></i></a> </li>
                                                         <li><a href="#!"><i className="fa fa-twitter" aria-hidden="true"></i></a> </li>
                                                         <li><a href="#!"><i className="fa fa-linkedin" aria-hidden="true"></i></a> </li>
-                                                        <li><a href="#!"><i className="fa fa-youtube" aria-hidden="true"></i></a> </li>
-                                                        <li><a href="#!"><i className="fa fa-whatsapp" aria-hidden="true"></i></a> </li>
                                                     </ul>
                                                 </div>
                                             </div>
@@ -66,7 +58,7 @@ class Footer extends Component {
                 {/*<!--COPY RIGHTS-->*/}
                 <section className="copy">
                     <div className="container">
-                        <p>copyrights © 2017 RN53Themes.net. &nbsp;&nbsp;All rights reserved. </p>
+                        <p>Copyright © 2018 SOUMAISNITEROI by CLM Soluçoes Web e Publicidade | Todos os Direitos Reservados</p>
                     </div>
                 </section>
 

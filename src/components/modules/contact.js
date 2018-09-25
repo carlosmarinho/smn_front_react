@@ -30,25 +30,25 @@ class Contact extends Component {
                                         <div>
                                             <div className="input-field col s12">
                                                 <input id="gfc_name" type="text" className="validate" required />
-                                                <label for="gfc_name">Name</label>
+                                                <label htmlFor="gfc_name">Name</label>
                                             </div>
                                         </div>
                                         <div>
                                             <div className="input-field col s12">
                                                 <input id="gfc_mob" type="number" className="validate" />
-                                                <label for="gfc_mob">Mobile</label>
+                                                <label htmlFor="gfc_mob">Mobile</label>
                                             </div>
                                         </div>
                                         <div>
                                             <div className="input-field col s12">
                                                 <input id="gfc_mail" type="email" className="validate" />
-                                                <label for="gfc_mail">Email</label>
+                                                <label htmlFor="gfc_mail">Email</label>
                                             </div>
                                         </div>
                                         <div>
                                             <div className="input-field col s12">
                                                 <textarea id="gfc_msg" className="validate" ></textarea>
-                                                <label for="gfc_msg">Message</label>
+                                                <label htmlFor="gfc_msg">Message</label>
                                             </div>
                                         </div>
                                         <div>
