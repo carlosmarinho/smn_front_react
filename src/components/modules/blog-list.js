@@ -5,8 +5,6 @@ import RightColumn from '../right-column';
 
 class BlogList extends Component {
 
-    
-
     render(){
         console.log("PROPS: ", this.props.item)
         let columnRight = true;

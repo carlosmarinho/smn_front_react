@@ -15,7 +15,7 @@ class MenuMobile extends Component {
                                 <div className="v3-mob-m-2">
                                     <div className="v3-top-ri">
                                         <ul>
-                                            <li><a href="login.html" className="v3-menu-sign"><i className="fa fa-sign-in"></i> Sign In</a> </li>
+                                            <li><a href="login.html" className="v3-menu-sign"><i className="fa fa-sign-in"></i> Login</a> </li>
                                             <li><a href="price.html" className="v3-add-bus"><i className="fa fa-plus" aria-hidden="true"></i> Add Listing</a> </li>
                                             <li><a href="#" className="ts-menu-5" id="v3-mob-menu-btn"><i className="fa fa-bars" aria-hidden="true"></i>Menu</a> </li>
                                         </ul>
