@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "axios": "^0.18.0",
+    "node-sass-chokidar": "^1.3.3",
     "react": "^16.5.2",
     "react-dom": "^16.5.2",
     "react-redux": "^5.0.7",
@@ -14,6 +15,8 @@
     "redux-promise": "^0.6.0"
   },
   "scripts": {
+    "build-css": "node-sass-chokidar src/assets/styles/sass -o src/assets/styles/css",
+    "watch-css": "npm run build-css && node-sass-chokidar src/assets/styles/sass -o src/assets/styles/css --watch --recursive  ",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
