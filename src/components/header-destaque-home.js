@@ -8,8 +8,7 @@ class HeaderDestaqueHome extends Component {
                     <div className="row">
                         <div className="dir-hr1">
                             <div className="dir-ho-t-tit dir-ho-t-tit-2">
-                                <h1>Connect with the right Service Experts</h1> 
-                                <p>Find B2B & B2C businesses contact addresses, phone numbers,<br /> user ratings and reviews.</p>
+                                <h1>O melhor da cidade de Niterói!</h1> 
                             </div>
                                 <form className="tourz-search-form">
                                     <div className="input-field">
@@ -18,7 +17,7 @@ class HeaderDestaqueHome extends Component {
                                     </div>
                                     <div className="input-field">
                                         <input type="text" id="select-search" className="autocomplete" />
-                                        <label htmlFor="select-search" className="search-hotel-type">Search your services like hotel, resorts, events and more</label>
+                                        <label htmlFor="select-search" className="search-hotel-type">O melhor da cidade de NiteróiSearch your services like hotel, resorts, events and more</label>
                                     </div>
                                     <div className="input-field">
                                         <input type="submit" value="search" className="waves-effect waves-light tourz-sear-btn" /> 
