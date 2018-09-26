@@ -1,11 +1,13 @@
 import React, { Component } from 'react';
 import HeaderHome from './header-destaque-home';
+import FeaturedTwoColumns from './modules/featured-two-columns';
 
 class Content extends Component {
     render(){
         return(
             <div>
                 <HeaderHome />
+                <FeaturedTwoColumns />
                 {/*<!--FIND YOUR SERVICE-->*/}
                 <section className="cat-v2-hom com-padd mar-bot-red-m30">
                     <div className="container">
