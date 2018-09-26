@@ -6,11 +6,15 @@ class FeaturedListingThreeColumns extends Component {
         return (this.props.customClass)? this.props.customClass : '';
     }
 
+    getBackgroundColor(){
+        return (this.props.backgroundColor)? this.props.backgroundColor : '';
+    }
+
 
     render(){
         return(
             
-            <section className={`com-padd ${this.getCustomClass()} ${this.props.background}`}>
+            <section className={`com-padd ${this.getCustomClass()} ${this.getBackgroundColor()}`}>
                 <div className="container dir-hom-pre-tit">
                     <div className="com-title">
                         <h2>Guia da Cidade de Niterói</h2>

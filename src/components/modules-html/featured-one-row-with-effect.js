@@ -6,9 +6,13 @@ class FeaturedOneRowWithEffect extends Component {
         return (this.props.customClass)? this.props.customClass : '';
     }
 
+    getBackgroundColor(){
+        return (this.props.backgroundColor)? this.props.backgroundColor : '';
+    }
+
     render(){
         return(
-            <section className={`${this.getCustomClass()} ${this.props.background}`}>
+            <section className={`${this.getCustomClass()} ${this.getBackgroundColor()}`}>
                 <div class="land-full land-packages">
                     <div class="container">
                         <div class="com-title">

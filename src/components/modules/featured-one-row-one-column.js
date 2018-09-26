@@ -6,6 +6,10 @@ class FeaturedOneRowOneColumn extends Component {
         return (this.props.customClass)? this.props.customClass : '';
     }
 
+    getBackgroundColor(){
+        return (this.props.backgroundColor)? this.props.backgroundColor : '';
+    }
+
     getText(){
         if(this.props.featureText){
             return (

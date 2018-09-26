@@ -1,16 +1,16 @@
 import React, { Component } from 'react';
 import HeaderHome from './header-destaque-home';
-import FeaturedTwoColumns from './modules/featured-two-columns';
-import FeaturedFourColumns from './modules/featured-four-columns';
-import FeaturedListingThreeColumns from './modules/featured-listing-three-columns';
-import FeaturedCategoriesSmallIcon from './modules/featured-categories-small-icon';
-import FeaturedNews from './modules/featured-news';
-import FeaturedOneRowOneColumn from './modules/featured-one-row-one-column';
-import FeaturedOneRowTwoColumn from './modules/featured-one-row-two-column';
-import FeatureRegister from './modules/feature-register';
-import FeatureGetApp from './modules/feature-get-app';
-import FeaturedOneRowAboveOtherLayer from './modules/featured-one-row-above-other-layer';
-import FeaturedOneRowWithEffect from './modules/featured-one-row-with-effect';
+import FeaturedTwoColumns from './modules-html/featured-two-columns';
+import FeaturedFourColumns from './modules-html/featured-four-columns';
+import FeaturedListingThreeColumns from './modules-html/featured-listing-three-columns';
+import FeaturedCategoriesSmallIcon from './modules-html/featured-categories-small-icon';
+import FeaturedNews from './modules-html/featured-news';
+import FeaturedOneRowOneColumn from './modules-html/featured-one-row-one-column';
+import FeaturedOneRowTwoColumn from './modules-html/featured-one-row-two-column';
+import FeatureRegister from './modules-html/feature-register';
+import FeatureGetApp from './modules-html/feature-get-app';
+import FeaturedOneRowAboveOtherLayer from './modules-html/featured-one-row-above-other-layer';
+import FeaturedOneRowWithEffect from './modules-html/featured-one-row-with-effect';
 class Content extends Component {
     oneRow(){
         return (

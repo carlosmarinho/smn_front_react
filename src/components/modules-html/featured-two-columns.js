@@ -6,9 +6,13 @@ class FeaturedTwoColumns extends Component {
         return (this.props.customClass)? this.props.customClass : '';
     }
 
+    getBackgroundColor(){
+        return (this.props.backgroundColor)? this.props.backgroundColor : '';
+    }
+
     render(){
         return(
-            <section class={`com-padd com-padd-redu-bot ${this.getCustomClass()} ${this.props.background}`}>
+            <section class={`com-padd com-padd-redu-bot ${this.getCustomClass()} ${this.getBackgroundColor()}`}>
                 <div class="container dir-hom-pre-tit">
                     <div class="row">
                         <div class="com-title">

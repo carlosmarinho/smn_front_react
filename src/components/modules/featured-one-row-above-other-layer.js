@@ -6,9 +6,13 @@ class FeaturedOneRowAboveOtherLayer extends Component {
         return (this.props.customClass)? this.props.customClass : '';
     }
 
+    getBackgroundColor(){
+        return (this.props.backgroundColor)? this.props.backgroundColor : '';
+    }
+
     render(){
         return(
-            <section class={`proj mar-bot-red-m30 ${this.getCustomClass()} ${this.props.background}`}>
+            <section class={`proj mar-bot-red-m30 ${this.getCustomClass()} ${this.getBackgroundColor()}`}>
                 <div class="container">
                     <div class="row">
                         <div class="col-md-3 col-sm-6">

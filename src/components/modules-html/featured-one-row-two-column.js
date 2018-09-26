@@ -6,6 +6,10 @@ class FeaturedOneRowOneColumn extends Component {
         return (this.props.customClass)? this.props.customClass : '';
     }
 
+    getBackgroundColor(){
+        return (this.props.backgroundColor)? this.props.backgroundColor : '';
+    }
+
     render(){
         return(
             <section className={`com-padd-min ${this.getCustomClass()} ${(this.props.background)? this.props.background: 'home-dis'}`}>
