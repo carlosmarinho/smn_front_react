@@ -7,10 +7,10 @@ import promise from 'redux-promise';
 
 import reducers from './reducers';
 
-
+import HomeTeste from './components/home-html'
+import Home from './components/home'
 import Header from './components/header'
 import Footer from './components/footer'
-import Home from './components/home'
 import BlogList from './components/modules/blog-list'
 import ListingItem from './components/modules/listing-item'
 import ListingList from './components/modules/listing-list'
@@ -47,6 +47,7 @@ class App extends Component {
                             <Route exact path="/guia/:slug" component={ListingItem} />
                             <Route exact path="/contato" component={Contact} />
                             <Route exact path="/noticias" component={BlogListNew} />
+                            <Route exact path="/home-teste" component={HomeTeste} />
                         </div>
                         <Footer />
                     </div>
