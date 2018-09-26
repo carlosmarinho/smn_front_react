@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import {connect} from 'react-redux';
+
 import HeaderHome from './header-destaque-home';
 import FeaturedTwoColumns from './modules/featured-two-columns';
 import FeaturedFourColumns from './modules/featured-four-columns';
@@ -11,13 +13,26 @@ import FeatureRegister from './modules/feature-register';
 import FeatureGetApp from './modules/feature-get-app';
 import FeaturedOneRowAboveOtherLayer from './modules/featured-one-row-above-other-layer';
 import FeaturedOneRowWithEffect from './modules/featured-one-row-with-effect';
+
+import { fetchFeaturedGuias } from '../actions/guia';
+
 class Home extends Component {
+
+    componentDidMount() {
+     
+        this.props.fetchFeaturedGuias();
+        
+    }
+
     oneRow(){
         return (
             <div><span>30% Off</span> Promote Your Business with us <a href='price.html'>Add My Business</a></div>
         )
     }
     render(){
+        if(this.props.guias){
+            console.log("tenho os guias já: ", this.props.guias)
+        }
         return(
             <div>
                 <HeaderHome background="" />
@@ -40,4 +55,11 @@ class Home extends Component {
     }
 }
 
-export default Home;
+
+function mapStateToProps(state){
+    return {
+        guias: state.guias,
+    }
+}
+
+export default connect(mapStateToProps, { fetchFeaturedGuias })(Home);

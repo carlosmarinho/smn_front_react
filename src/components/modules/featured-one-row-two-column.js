@@ -21,7 +21,7 @@ class FeaturedOneRowOneColumn extends Component {
                             <div className="col-md-7">
                                 <h2>{this.props.title}</h2> 
                                 <p>{this.props.text}</p>
-                                <p><a href={this.props.link} class="btn">{this.props.textLink}</a></p>
+                                <p><a href={this.props.link} className="btn">{this.props.textLink}</a></p>
                             </div>
                         </div>
                     </div>

@@ -1,10 +1,7 @@
-export const CREATE = "CREATE";
 export const CREATE_USER = "CREATE_USER";
 export const EDIT_USER = "EDIT_USER";
-export const REMOVE_USER = "REMOVE_USER";
-export const CREATE_USERS_ERROR = "CREATE_USERS_ERROR";
 export const FETCH_USER = "FETCH_USER";
-export const FETCH_USERS = "FETCH_USERS";
 export const FETCH_USER_FIELDS = "FETCH_USER_FIELDS";
-export const FETCH_LOCATIONS = "FETCH_LOCATIONS";
-export const FETCH_NEIGHBORHOODS = "FETCH_NEIGHBORHOODS";
+
+export const FETCH_GUIA = "FETCH_GUIA";
+export const FETCH_FEATURED_GUIAS = "FETCH_FEATURED_GUIA";
