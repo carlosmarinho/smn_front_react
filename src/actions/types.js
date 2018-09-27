@@ -5,3 +5,5 @@ export const FETCH_USER_FIELDS = "FETCH_USER_FIELDS";
 
 export const FETCH_GUIA = "FETCH_GUIA";
 export const FETCH_FEATURED_GUIAS = "FETCH_FEATURED_GUIA";
+
+export const FETCH_CITY = "FETCH_CITY";

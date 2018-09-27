@@ -14,13 +14,13 @@ export const fetchGuia = (id) => {
     }
 }
 
-export const fetchFeaturedGuias = async() => {
+export const fetchFeaturedGuias = async(id) => {
 
     let ret = await axios.post('http://localhost:1337/auth/local', { identifier: 'adm_manager', password: 'carlos' })
 
     let config = { headers: { 'Authorization': `Bearer ${ret.data.jwt}` } };
 
-    const request = axios.get("http://localhost:1337/guia/", config);
+    const request = axios.get(`http://localhost:1337/guia/?cidade_destaque=${id}`, config);
     console.log("------ vai chamar o fetchUsers -------")
 
     return {
