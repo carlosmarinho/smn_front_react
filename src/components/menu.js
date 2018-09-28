@@ -9,7 +9,8 @@ class Menu extends Component {
                     <div className="row">
                         <div className="v3-menu">
                             <div className="v3-m-1">
-                                <Link  data-activates='drop-menu-home' to="/"><img src="/images/logo-soumaisniteroi.png" alt="" /></Link>
+                                {/*<Link  data-activates='drop-menu-home' to="/"><img src="/images/logo-soumaisniteroi.png" alt="" /></Link>*/}
+                                <a href="/"><img src="http://soumaisniteroi.com.br/wp-content/uploads/2015/08/logo-soumaisniteroi-transp-.png" alt="" /></a>
                             </div>
                             <div className="v3-m-2">
                                 <ul>

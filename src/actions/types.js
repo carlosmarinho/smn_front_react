@@ -7,3 +7,7 @@ export const FETCH_GUIA = "FETCH_GUIA";
 export const FETCH_FEATURED_GUIAS = "FETCH_FEATURED_GUIA";
 
 export const FETCH_CITY = "FETCH_CITY";
+
+export const FETCH_EVENTOS = "FETCH_EVENTOS";
+
+export const FETCH_NOTICIAS = "FETCH_NOTICIAS";
