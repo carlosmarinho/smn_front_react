@@ -29,27 +29,33 @@ class FeaturedTwoColumns extends Component {
     generateEvent(array) {
         const truncate = _.truncate
         return array.map( evento => {
-            return(
-                <div>
-                    <div className="home-list-pop">
-                        {/*<!--POPULAR LISTINGS IMAGE-->*/}
-                        <div className="col-md-3"> <img src={this.getImageSrc(evento)} alt="" /> </div>
-                        {/*<!--POPULAR LISTINGS: CONTENT-->*/}
-                        <div className="col-md-9 home-list-pop-desc"> <a href="automobile-listing-details.html"><h3>{truncate(evento.titulo, { length: 50, separator: /,?\.* +/ })}</h3></a>
-                            <h4>Bairro: {evento.bairros[0].nome}</h4>
-                            <p>{truncate(evento.descricao.replace(/<\/?[^>]+(>|$)/g, ""), { length: 100, separator: /,?\.* +/ })}</p> {/*<span className="home-list-pop-rat">4.2</span>*/}
-                            <div className="hom-list-share">
-                                <ul>
-                                    <li><a href="#!"><i className="fa fa-bar-chart" aria-hidden="true"></i> 52</a> </li>
-                                    <li><a href="#!"><i className="fa fa-heart-o" aria-hidden="true"></i> 32</a> </li>
-                                    <li><a href="#!"><i className="fa fa-eye" aria-hidden="true"></i> 420</a> </li>
-                                    <li><a href="#!"><i className="fa fa-share-alt" aria-hidden="true"></i> 570</a> </li>
-                                </ul>
+            if(evento == undefined){
+                console.log("evento undefined...........")
+                return null;
+            }
+            else{
+                return(
+                    <div>
+                        <div className="home-list-pop">
+                            {/*<!--POPULAR LISTINGS IMAGE-->*/}
+                            <div className="col-md-3"> <img src={this.getImageSrc(evento)} alt="" /> </div>
+                            {/*<!--POPULAR LISTINGS: CONTENT-->*/}
+                            <div className="col-md-9 home-list-pop-desc"> <a href="automobile-listing-details.html"><h3>{truncate(evento.titulo, { length: 50, separator: /,?\.* +/ })}</h3></a>
+                                <h4>Bairro: {evento.bairros[0].nome}</h4>
+                                <p>{truncate(evento.descricao.replace(/<\/?[^>]+(>|$)/g, ""), { length: 100, separator: /,?\.* +/ })}</p> {/*<span className="home-list-pop-rat">4.2</span>*/}
+                                <div className="hom-list-share">
+                                    <ul>
+                                        <li><a href="#!"><i className="fa fa-bar-chart" aria-hidden="true"></i> 52</a> </li>
+                                        <li><a href="#!"><i className="fa fa-heart-o" aria-hidden="true"></i> 32</a> </li>
+                                        <li><a href="#!"><i className="fa fa-eye" aria-hidden="true"></i> 420</a> </li>
+                                        <li><a href="#!"><i className="fa fa-share-alt" aria-hidden="true"></i> 570</a> </li>
+                                    </ul>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-            )
+                )
+            }
         })
     }
 

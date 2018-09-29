@@ -50,6 +50,9 @@ class FeaturedTwoColumns extends Component {
 
         if(this.props.object){
             let noticias = this.props.object.data;
+            if (noticias.length == 0)
+                return null;
+                
             let noticia_destaque = noticias[0];
             noticias = noticias.filter((el,i) => {
                 if(i !== 0)

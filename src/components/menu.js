@@ -38,8 +38,10 @@ class Menu extends Component {
                             <div className="v3-m-3">
                                 <div className="v3-top-ri">
                                     <ul>
-                                        <li><a href="login.html" className="v3-menu-sign"><i className="fa fa-sign-in"></i> Login</a> </li>
-                                        <li><a href="db-listing-add.html" className="v3-add-bus"><i className="fa fa-plus" aria-hidden="true"></i> Cadastro</a> </li>
+                                        {/*até fechar a home<li><a href="login.html" className="v3-menu-sign"><i className="fa fa-sign-in"></i> Login</a> </li>
+                                        <li><a href="db-listing-add.html" className="v3-add-bus"><i className="fa fa-plus" aria-hidden="true"></i> Cadastro</a> </li>*/}
+                                        <li><a href="/wp-admin" className="v3-menu-sign"><i className="fa fa-sign-in"></i> Login</a> </li>
+                                        <li><a href="/wp-admin" className="v3-add-bus"><i className="fa fa-plus" aria-hidden="true"></i> Cadastro</a> </li>
                                     </ul>
                                 </div>
                             </div>

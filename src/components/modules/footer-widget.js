@@ -5,6 +5,10 @@ import RightColumn from '../right-column';
 class FooterWidget extends Component {
 
     render(){
+        if(!this.props.object || this.props.object.length == 0)
+            return null;
+
+        console.log("object: ", this.props.object);
         return (
             <div className="col-sm-4 col-md-3">
                 <h4>{this.props.title}</h4>
