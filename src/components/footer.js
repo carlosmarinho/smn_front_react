@@ -3,7 +3,7 @@ import {connect} from 'react-redux';
 
 import FooterWidget from './modules/footer-widget';
 
-import { fetchGuias } from '../actions/guia';
+import { fetchGuiasRecentes } from '../actions/guia';
 import { fetchNoticias } from '../actions/noticia';
 
 
@@ -11,7 +11,7 @@ class Footer extends Component {
 
     componentDidMount() {
      
-        this.props.fetchGuias('5ba26f813a018f42215a36a0', 4, '-_id');
+        this.props.fetchGuiasRecentes('5ba26f813a018f42215a36a0', 4, '-_id');
         this.props.fetchNoticias('5ba26f813a018f42215a36a0', 4);
         
     }
@@ -139,6 +139,7 @@ class Footer extends Component {
 }
 
 function mapStateToProps(state){
+    console.log("state do footer", state)
     return {
         guias: state.guias,
         noticias: state.noticias,
@@ -146,4 +147,4 @@ function mapStateToProps(state){
 }
 
 //export default Footer;
-export default connect(mapStateToProps, { fetchGuias, fetchNoticias })(Footer);
+export default connect(mapStateToProps, { fetchGuiasRecentes, fetchNoticias })(Footer);

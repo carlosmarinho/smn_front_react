@@ -1,12 +1,16 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import RightColumn from '../right-column';
 import HeaderListing from '../header-destaque-listing';
+import { fetchGuias } from '../../actions/guia';
 
 import ListingLeftColumn from '../listing-left-column';
 
 class ListingList extends Component {
 
-    
+    componentDidMount() {
+        this.props.fetchGuias('5ba26f813a018f42215a36a0');
+    }
 
     getImageSrc(evento){
         if(evento.s3_imagem_destacada){
@@ -55,24 +59,29 @@ class ListingList extends Component {
     render(){
         let leftColumn = true;
         let listName = "Guia Comercial";
+        let preposition = "do ";
 
         if(! this.props.guias && !this.props.category){
             console.log("categoria não encontrada!!!");
             items = <div>Deve retornar o 404</div>
         }
 
-        if(! this.props.guias){
-            items = <div>Nenhum guia encontrado para a categoria {this.props.listName} </div>
-        }
 
         if( this.props.category){
             listName = this.props.category.name;
         }
 
         let items = <div>Nenhum Item listado para está categoria</div>
-        if(this.props.category){
-            items = this.generateGuias(this.props.category.guias)
+
+        if(! this.props.guiasListing){
+            items = <div>Nenhum guia encontrado para a categoria {this.props.listName} </div>
         }
+        else {
+            console.log("this.props.guiasListing: ", this.props.guiasListing)
+            items = this.generateGuias(this.props.guiasListing)
+        }
+
+        console.log("guias no listing: ", this.props.guias)
 
         console.log("nome da lista: ", this.props.listName)
 
@@ -84,7 +93,7 @@ class ListingList extends Component {
                     <div className="container">
                         <div className="row">
                             <div className="dir-alp-tit">
-                                <h1>Listagem de {listName}</h1>
+                                <h1>Listagem {preposition} {listName}</h1>
                                 <ol className="breadcrumb">
                                     <li><a href="#">Home</a> </li>
                                     <li><a href="#">Guia</a> </li>
@@ -162,4 +171,12 @@ class ListingList extends Component {
     }
 }
 
-export default ListingList;
+
+function mapStateToProps(state){
+    console.log("state listing list: ", state)
+    return {
+        guias: state.guias,
+    }
+}
+
+export default connect(mapStateToProps, { fetchGuias })(ListingList);

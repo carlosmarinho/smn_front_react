@@ -1,6 +1,6 @@
 import _ from 'lodash';
 import axios from 'axios';
-import { FETCH_FEATURED_GUIAS, FETCH_GUIA } from "./types";
+import { FETCH_FEATURED_GUIAS, FETCH_GUIA, FETCH_GUIAS, FETCH_GUIAS_RECENTES } from "./types";
 
 
 
@@ -14,6 +14,27 @@ export const fetchGuia = (id) => {
     }
 }
 
+export const fetchGuiasRecentes = async(city_id, limit='', sort=null) => {
+    if(!sort)
+        sort = '-_id';
+    if(limit)
+        limit = `&_limit=${limit}`
+
+
+    let ret = await axios.post('http://localhost:1337/auth/local', { identifier: 'adm_manager', password: 'carlos' })
+
+    let config = { headers: { 'Authorization': `Bearer ${ret.data.jwt}` } };
+
+    console.log(`http://localhost:1337/guia/?_sort=${sort}${limit}&cidade=${city_id}`);
+    const request = axios.get(`http://localhost:1337/guia/?_sort=${sort}${limit}&cidade=${city_id}`, config);
+
+    return {
+        type: FETCH_GUIAS_RECENTES,
+        payload: request
+    }
+
+}
+
 export const fetchGuias = async(city_id, limit='', sort=null) => {
     if(!sort)
         sort = '-_id';
@@ -25,12 +46,11 @@ export const fetchGuias = async(city_id, limit='', sort=null) => {
 
     let config = { headers: { 'Authorization': `Bearer ${ret.data.jwt}` } };
 
-    console.log(`http://localhost:1337/guia/?_sort=${sort}${limit}&cidades=${city_id}`);
-    const request = axios.get(`http://localhost:1337/guia/?_sort=${sort}${limit}&cidades=${city_id}`, config);
-    console.log("------ vai chamar o fetchUsers -------")
+    console.log(`http://localhost:1337/guia/?_sort=${sort}${limit}&cidade=${city_id}`);
+    const request = axios.get(`http://localhost:1337/guia/?_sort=${sort}${limit}&cidade=${city_id}`, config);
 
     return {
-        type: FETCH_FEATURED_GUIAS,
+        type: FETCH_GUIAS,
         payload: request
     }
 }
