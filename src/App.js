@@ -16,6 +16,8 @@ import ListingItem from './components/modules/listing-item'
 import ListingList from './components/modules/listing-list'
 import ListingGrid from './components/modules/listing-grid'
 import Contact from './components/modules/contact'
+import Login from './components/modules/login'
+import Register from './components/modules/register'
 
 /* Importing css */
 import './assets/styles/css/materialize.css';
@@ -41,6 +43,8 @@ class App extends Component {
                         <Header />
                         <div>
                             <Route exact path="/" component={Home} />
+                            <Route exact path="/login" component={Login} />
+                            <Route exact path="/cadastro" component={Register} />
                             <Route exact path="/a-cidade" component={BlogList} />
                             <Route exact path="/guia" component={ListingList} />
                             <Route exact path="/eventos" component={ListingGrid} />
