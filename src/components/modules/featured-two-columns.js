@@ -41,7 +41,7 @@ class FeaturedTwoColumns extends Component {
                             <div className="col-md-3"> <img src={this.getImageSrc(evento)} alt="" /> </div>
                             {/*<!--POPULAR LISTINGS: CONTENT-->*/}
                             <div className="col-md-9 home-list-pop-desc"> <a href="automobile-listing-details.html"><h3>{truncate(evento.titulo, { length: 50, separator: /,?\.* +/ })}</h3></a>
-                                <h4>Bairro: {evento.bairros[0].nome}</h4>
+                                <h4>Bairro: {(evento.bairro)? evento.bairros[0].nome: ''}</h4>
                                 <p>{truncate(evento.descricao.replace(/<\/?[^>]+(>|$)/g, ""), { length: 100, separator: /,?\.* +/ })}</p> {/*<span className="home-list-pop-rat">4.2</span>*/}
                                 <div className="hom-list-share">
                                     <ul>
@@ -63,7 +63,9 @@ class FeaturedTwoColumns extends Component {
         let ar_object = [];
         
         if(this.props.object){
-            ar_object = this.props.object.data;
+            ar_object = this.props.object;
+
+            console.log("aarrr object: ", ar_object)
 
             return(
                 <section className={`com-padd com-padd-redu-bot ${this.getCustomclassName()} ${this.getBackgroundColor()}`}>

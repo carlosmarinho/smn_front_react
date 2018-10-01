@@ -36,7 +36,7 @@ class FeaturedTwoColumns extends Component {
                             <div className="list-mig-lc-img"> <img src={this.getImageSrc(noticia)} alt="" /> </div>
                             <div className="list-mig-lc-con list-mig-lc-con2">
                                 <h5>{truncate(noticia.titulo, { length: 50, separator: /,?\.* +/ })}</h5>
-                                <p>{truncate(noticia.descricao.replace(/<\/?[^>]+(>|$)/g, ""), { length: 70, separator: /,?\.* +/ })}</p>
+                                <p>{truncate(noticia.descricao.replace(/<\/?[^>]+(>|$)/g, ""), { length: 65, separator: /,?\.* +/ })}</p>
                             </div>
                         </div>
                     </a>
@@ -49,10 +49,10 @@ class FeaturedTwoColumns extends Component {
         const truncate = _.truncate
 
         if(this.props.object){
-            let noticias = this.props.object.data;
+            let noticias = this.props.object;
             if (noticias.length == 0)
                 return null;
-                
+
             let noticia_destaque = noticias[0];
             noticias = noticias.filter((el,i) => {
                 if(i !== 0)
@@ -74,7 +74,7 @@ class FeaturedTwoColumns extends Component {
                                         <div className="list-mig-lc-con">
                                             {/*<div className="list-rat-ch list-room-rati"> <span>4.0</span> <i className="fa fa-star" aria-hidden="true"></i> <i className="fa fa-star" aria-hidden="true"></i> <i className="fa fa-star" aria-hidden="true"></i> <i className="fa fa-star" aria-hidden="true"></i> <i className="fa fa-star-o" aria-hidden="true"></i> </div>*/}
                                             <h5>{truncate(noticia_destaque.titulo, { length: 80, separator: /,?\.* +/ })}</h5>
-                                            <p>{truncate(noticia_destaque.descricao.replace(/<\/?[^>]+(>|$)/g, ""), { length: 120, separator: /,?\.* +/ })}</p>
+                                            <p>{truncate(noticia_destaque.descricao.replace(/<\/?[^>]+(>|$)/g, ""), { length: 130, separator: /,?\.* +/ })}</p>
                                         </div>
                                     </div>
                                 </a>

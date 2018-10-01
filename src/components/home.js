@@ -68,7 +68,6 @@ class Home extends Component {
 
 
 function mapStateToProps(state){
-    console.log("state: ", state)
     return {
         guias: state.guias,
         eventos: state.eventos,

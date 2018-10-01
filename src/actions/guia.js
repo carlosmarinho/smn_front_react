@@ -14,13 +14,34 @@ export const fetchGuia = (id) => {
     }
 }
 
-export const fetchFeaturedGuias = async(id) => {
+export const fetchGuias = async(city_id, limit='', sort=null) => {
+    if(!sort)
+        sort = '-_id';
+    if(limit)
+        limit = `&_limit=${limit}`
+
 
     let ret = await axios.post('http://localhost:1337/auth/local', { identifier: 'adm_manager', password: 'carlos' })
 
     let config = { headers: { 'Authorization': `Bearer ${ret.data.jwt}` } };
 
-    const request = axios.get(`http://localhost:1337/guia/?cidade_destaque=${id}`, config);
+    console.log(`http://localhost:1337/guia/?_sort=${sort}${limit}&cidades=${city_id}`);
+    const request = axios.get(`http://localhost:1337/guia/?_sort=${sort}${limit}&cidades=${city_id}`, config);
+    console.log("------ vai chamar o fetchUsers -------")
+
+    return {
+        type: FETCH_FEATURED_GUIAS,
+        payload: request
+    }
+}
+
+export const fetchFeaturedGuias = async(city_id) => {
+
+    let ret = await axios.post('http://localhost:1337/auth/local', { identifier: 'adm_manager', password: 'carlos' })
+
+    let config = { headers: { 'Authorization': `Bearer ${ret.data.jwt}` } };
+
+    const request = axios.get(`http://localhost:1337/guia/?cidade_destaque=${city_id}`, config);
     console.log("------ vai chamar o fetchUsers -------")
 
     return {

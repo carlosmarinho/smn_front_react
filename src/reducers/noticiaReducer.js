@@ -4,7 +4,7 @@ export default function(state = null, action) {
 
     switch (action.type) {
         case FETCH_NOTICIAS:
-            return action.payload;
+            return action.payload.data;
         default: return state;
     }
 }

@@ -30,8 +30,8 @@ class FooterWidget extends Component {
                             <img src={this.getImageSrc(object)} alt="" /> 
                         </div>
                         <div className="div-footer-text">
-                            <h5>{truncate(object.titulo, { length: 50, separator: /,?\.* +/ })}</h5> 
-                            <span>{truncate(object.descricao.replace(/<\/?[^>]+(>|$)/g, ""), { length: 100, separator: /,?\.* +/ })}</span> 
+                            <h5>{truncate(object.titulo, { length: 25, separator: /,?\.* +/ })}</h5> 
+                            <span>{truncate(object.descricao.replace(/<\/?[^>]+(>|$)/g, ""), { length: 40, separator: /,?\.* +/ })}</span> 
                         </div>
                     </a>
                 </li>

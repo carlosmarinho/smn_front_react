@@ -3,7 +3,7 @@ import {connect} from 'react-redux';
 
 import FooterWidget from './modules/footer-widget';
 
-import { fetchFeaturedGuias } from '../actions/guia';
+import { fetchGuias } from '../actions/guia';
 import { fetchNoticias } from '../actions/noticia';
 
 
@@ -11,7 +11,7 @@ class Footer extends Component {
 
     componentDidMount() {
      
-        this.props.fetchFeaturedGuias('5ba26f813a018f42215a36a0');
+        this.props.fetchGuias('5ba26f813a018f42215a36a0', 4, '-_id');
         this.props.fetchNoticias('5ba26f813a018f42215a36a0', 4);
         
     }
@@ -38,8 +38,8 @@ class Footer extends Component {
                                                         <p> <span className=""><i className="fa fa-phone" aria-hidden="true"></i> </span> <span className="footer-contact"> (21) 99172-0833</span> </p>
                                                         <p> <span className=""><i className="fa fa-envelope" aria-hidden="true"></i> </span> <span className="footer-contact">contato@soumaisniteroi.com.br</span> </p>
                                                     </div>
-                                                    <FooterWidget title="Guias Recentes" object={this.props.guias.data}/>
-                                                    <FooterWidget title="Últimas Notícias" object={this.props.noticias.data}/>
+                                                    <FooterWidget title="Guias Recentes" object={this.props.guias}/>
+                                                    <FooterWidget title="Últimas Notícias" object={this.props.noticias}/>
                                                     
                                                     <div className="col-sm-4 col-md-3">
                                                         <h4>Facebook</h4>
@@ -146,4 +146,4 @@ function mapStateToProps(state){
 }
 
 //export default Footer;
-export default connect(mapStateToProps, { fetchFeaturedGuias, fetchNoticias })(Footer);
+export default connect(mapStateToProps, { fetchGuias, fetchNoticias })(Footer);

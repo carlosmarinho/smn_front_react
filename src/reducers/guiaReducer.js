@@ -4,7 +4,7 @@ export default function(state = null, action) {
 
     switch (action.type) {
         case FETCH_GUIA:
-            return action.payload;
+            return action.payload.data;
         case FETCH_FEATURED_GUIAS:
             return action.payload.data;
         default: return state;

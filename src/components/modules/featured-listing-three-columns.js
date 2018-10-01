@@ -63,7 +63,7 @@ class FeaturedListingThreeColumns extends Component {
                                 <div className="list-mig-lc-con">
                                     <div className="list-rat-ch list-room-rati"> <span>4.0</span> <i className="fa fa-star" aria-hidden="true"></i> <i className="fa fa-star" aria-hidden="true"></i> <i className="fa fa-star" aria-hidden="true"></i> <i className="fa fa-star" aria-hidden="true"></i> <i className="fa fa-star-o" aria-hidden="true"></i> </div>
                                     <h5>{guia.titulo}</h5>
-                                    <h6>{guia.bairros[0].nome}</h6>
+                                    <h6>{(guia.bairros && guia.bairros.length > 0)?guia.bairros[0].nome:''}</h6>
                                     {this.getContact(guia)}
                                     
                                 </div>
