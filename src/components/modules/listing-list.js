@@ -5,8 +5,77 @@ import HeaderListing from '../header-destaque-listing';
 import ListingLeftColumn from '../listing-left-column';
 
 class ListingList extends Component {
+
+    
+
+    getImageSrc(evento){
+        if(evento.s3_imagem_destacada){
+            return evento.old_imagem_destacada;
+        }
+        if(evento.old_imagem_destacada) {
+            return evento.old_imagem_destacada;
+        }
+        else if(evento.imagem_destacada){
+            //implementar codigo
+            return "http://soumaisniteroi.com.br/wp-content/uploads/2015/04/no-image.png";
+        }
+        return "http://soumaisniteroi.com.br/wp-content/uploads/2015/04/no-image.png";
+    }
+
+    generateGuias(guias) {
+        return guias.map( guia => {
+            return (
+                <div className="home-list-pop list-spac">
+                    {/*<!--LISTINGS IMAGE-->*/}
+                    <div className="col-md-3 list-ser-img"> <img src="images/services/s10.jpeg" alt="" /> </div>
+                    {/*<!--LISTINGS: CONTENT-->*/}
+                    <div className="col-md-9 home-list-pop-desc inn-list-pop-desc"> <a href="listing-details.html"><h3>Property Luxury Homes</h3></a>
+                        <h4>Express Avenue Mall, Los Angeles</h4>
+                        <p><b>Address:</b> 28800 Orchard Lake Road, Suite 180 Farmington Hills, U.S.A.</p>
+                        <div className="list-number">
+                            <ul>
+                                <li><img src="images/icon/phone.png" alt="" /> +01 1245 2541, +62 6541 6528</li>
+                                <li><img src="images/icon/mail.png" alt="" /> localdir@webdir.com</li>
+                            </ul>
+                        </div> <span className="home-list-pop-rat">4.2</span>
+                        <div className="list-enqu-btn">
+                            <ul>
+                                <li><a href="#!"><i className="fa fa-star-o" aria-hidden="true"></i> Write Review</a> </li>
+                                <li><a href="#!"><i className="fa fa-commenting-o" aria-hidden="true"></i> Send SMS</a> </li>
+                                <li><a href="#!"><i className="fa fa-phone" aria-hidden="true"></i> Call Now</a> </li>
+                                <li><a href="#!" data-dismiss="modal" data-toggle="modal" data-target="#list-quo"><i className="fa fa-usd" aria-hidden="true"></i> Get Quotes</a> </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            )
+        })
+    }
+
     render(){
         let leftColumn = true;
+        let listName = "Guia Comercial";
+
+        if(! this.props.guias && !this.props.category){
+            console.log("categoria não encontrada!!!");
+            items = <div>Deve retornar o 404</div>
+        }
+
+        if(! this.props.guias){
+            items = <div>Nenhum guia encontrado para a categoria {this.props.listName} </div>
+        }
+
+        if( this.props.category){
+            listName = this.props.category.name;
+        }
+
+        let items = <div>Nenhum Item listado para está categoria</div>
+        if(this.props.category){
+            items = this.generateGuias(this.props.category.guias)
+        }
+
+        console.log("nome da lista: ", this.props.listName)
+
         return(
             <div>
                 
@@ -15,11 +84,11 @@ class ListingList extends Component {
                     <div className="container">
                         <div className="row">
                             <div className="dir-alp-tit">
-                                <h1>Listing Grid View</h1>
+                                <h1>Listagem de {listName}</h1>
                                 <ol className="breadcrumb">
                                     <li><a href="#">Home</a> </li>
-                                    <li><a href="#">Listing</a> </li>
-                                    <li className="active">Grid View</li>
+                                    <li><a href="#">Guia</a> </li>
+                                    <li className="active">{listName}</li>
                                 </ol>
                             </div>
                         </div>
@@ -32,454 +101,7 @@ class ListingList extends Component {
                                     <div className="dir-alp-con-right-1">
                                         <div className="row">
                                             {/*<!--LISTINGS-->*/}
-                                            <div className="home-list-pop list-spac">
-                                                {/*<!--LISTINGS IMAGE-->*/}
-                                                <div className="col-md-3 list-ser-img"> <img src="images/services/s10.jpeg" alt="" /> </div>
-                                                {/*<!--LISTINGS: CONTENT-->*/}
-                                                <div className="col-md-9 home-list-pop-desc inn-list-pop-desc"> <a href="listing-details.html"><h3>Property Luxury Homes</h3></a>
-                                                    <h4>Express Avenue Mall, Los Angeles</h4>
-                                                    <p><b>Address:</b> 28800 Orchard Lake Road, Suite 180 Farmington Hills, U.S.A.</p>
-                                                    <div className="list-number">
-                                                        <ul>
-                                                            <li><img src="images/icon/phone.png" alt="" /> +01 1245 2541, +62 6541 6528</li>
-                                                            <li><img src="images/icon/mail.png" alt="" /> localdir@webdir.com</li>
-                                                        </ul>
-                                                    </div> <span className="home-list-pop-rat">4.2</span>
-                                                    <div className="list-enqu-btn">
-                                                        <ul>
-                                                            <li><a href="#!"><i className="fa fa-star-o" aria-hidden="true"></i> Write Review</a> </li>
-                                                            <li><a href="#!"><i className="fa fa-commenting-o" aria-hidden="true"></i> Send SMS</a> </li>
-                                                            <li><a href="#!"><i className="fa fa-phone" aria-hidden="true"></i> Call Now</a> </li>
-                                                            <li><a href="#!" data-dismiss="modal" data-toggle="modal" data-target="#list-quo"><i className="fa fa-usd" aria-hidden="true"></i> Get Quotes</a> </li>
-                                                        </ul>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            {/*<!--LISTINGS END-->*/}
-                                            {/*<!--LISTINGS-->*/}
-                                            <div className="home-list-pop list-spac">
-                                                {/*<!--LISTINGS IMAGE-->*/}
-                                                <div className="col-md-3 list-ser-img"> <img src="images/services/s1.jpeg" alt="" /> </div>
-                                                {/*<!--LISTINGS: CONTENT-->*/}
-                                                <div className="col-md-9 home-list-pop-desc inn-list-pop-desc"> <a href="listing-details.html"><h3>Effi Furniture Dealers</h3></a>
-                                                    <h4>Express Avenue Mall, Los Angeles</h4>
-                                                    <p><b>Address:</b> 28800 Orchard Lake Road, Suite 180 Farmington Hills, U.S.A.</p>
-                                                    <div className="list-number">
-                                                        <ul>
-                                                            <li><img src="images/icon/phone.png" alt="" /> +01 1245 2541, +62 6541 6528</li>
-                                                            <li><img src="images/icon/mail.png" alt="" /> localdir@webdir.com</li>
-                                                        </ul>
-                                                    </div> <span className="home-list-pop-rat">4.2</span>
-                                                    <div className="list-enqu-btn">
-                                                        <ul>
-                                                            <li><a href="#!"><i className="fa fa-star-o" aria-hidden="true"></i> Write Review</a> </li>
-                                                            <li><a href="#!"><i className="fa fa-commenting-o" aria-hidden="true"></i> Send SMS</a> </li>
-                                                            <li><a href="#!"><i className="fa fa-phone" aria-hidden="true"></i> Call Now</a> </li>
-                                                            <li><a href="#!" data-dismiss="modal" data-toggle="modal" data-target="#list-quo"><i className="fa fa-usd" aria-hidden="true"></i> Get Quotes</a> </li>
-                                                        </ul>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            {/*<!--LISTINGS END-->*/}
-                                            {/*<!--LISTINGS-->*/}
-                                            <div className="home-list-pop list-spac">
-                                                {/*<!--LISTINGS IMAGE-->*/}
-                                                <div className="col-md-3 list-ser-img"> <img src="images/services/s2.jpeg" alt="" /> </div>
-                                                {/*<!--LISTINGS: CONTENT-->*/}
-                                                <div className="col-md-9 home-list-pop-desc inn-list-pop-desc"> <a href="listing-details.html"><h3>NIID Job Training</h3></a>
-                                                    <h4>Express Avenue Mall, Los Angeles</h4>
-                                                    <p><b>Address:</b> 28800 Orchard Lake Road, Suite 180 Farmington Hills, U.S.A.</p>
-                                                    <div className="list-number">
-                                                        <ul>
-                                                            <li><img src="images/icon/phone.png" alt="" /> +01 1245 2541, +62 6541 6528</li>
-                                                            <li><img src="images/icon/mail.png" alt="" /> localdir@webdir.com</li>
-                                                        </ul>
-                                                    </div> <span className="home-list-pop-rat">4.2</span>
-                                                    <div className="list-enqu-btn">
-                                                        <ul>
-                                                            <li><a href="#!"><i className="fa fa-star-o" aria-hidden="true"></i> Write Review</a> </li>
-                                                            <li><a href="#!"><i className="fa fa-commenting-o" aria-hidden="true"></i> Send SMS</a> </li>
-                                                            <li><a href="#!"><i className="fa fa-phone" aria-hidden="true"></i> Call Now</a> </li>
-                                                            <li><a href="#!" data-dismiss="modal" data-toggle="modal" data-target="#list-quo"><i className="fa fa-usd" aria-hidden="true"></i> Get Quotes</a> </li>
-                                                        </ul>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            {/*<!--LISTINGS END-->*/}
-                                            {/*<!--LISTINGS-->*/}
-                                            <div className="home-list-pop list-spac">
-                                                {/*<!--LISTINGS IMAGE-->*/}
-                                                <div className="col-md-3 list-ser-img"> <img src="images/services/s3.jpeg" alt="" /> </div>
-                                                {/*<!--LISTINGS: CONTENT-->*/}
-                                                <div className="col-md-9 home-list-pop-desc inn-list-pop-desc"> <a href="listing-details.html"><h3>Computer Repair & Services</h3></a>
-                                                    <h4>Express Avenue Mall, Los Angeles</h4>
-                                                    <p><b>Address:</b> 28800 Orchard Lake Road, Suite 180 Farmington Hills, U.S.A.</p>
-                                                    <div className="list-number">
-                                                        <ul>
-                                                            <li><img src="images/icon/phone.png" alt="" /> +01 1245 2541, +62 6541 6528</li>
-                                                            <li><img src="images/icon/mail.png" alt="" /> localdir@webdir.com</li>
-                                                        </ul>
-                                                    </div> <span className="home-list-pop-rat">4.2</span>
-                                                    <div className="list-enqu-btn">
-                                                        <ul>
-                                                            <li><a href="#!"><i className="fa fa-star-o" aria-hidden="true"></i> Write Review</a> </li>
-                                                            <li><a href="#!"><i className="fa fa-commenting-o" aria-hidden="true"></i> Send SMS</a> </li>
-                                                            <li><a href="#!"><i className="fa fa-phone" aria-hidden="true"></i> Call Now</a> </li>
-                                                            <li><a href="#!" data-dismiss="modal" data-toggle="modal" data-target="#list-quo"><i className="fa fa-usd" aria-hidden="true"></i> Get Quotes</a> </li>
-                                                        </ul>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            {/*<!--LISTINGS END-->*/}
-                                            {/*<!--LISTINGS-->*/}
-                                            <div className="home-list-pop list-spac">
-                                                {/*<!--LISTINGS IMAGE-->*/}
-                                                <div className="col-md-3 list-ser-img"> <img src="images/services/s4.jpeg" alt="" /> </div>
-                                                {/*<!--LISTINGS: CONTENT-->*/}
-                                                <div className="col-md-9 home-list-pop-desc inn-list-pop-desc"> <a href="listing-details.html"><h3>Packers and Movers</h3></a>
-                                                    <h4>Express Avenue Mall, Los Angeles</h4>
-                                                    <p><b>Address:</b> 28800 Orchard Lake Road, Suite 180 Farmington Hills, U.S.A.</p>
-                                                    <div className="list-number">
-                                                        <ul>
-                                                            <li><img src="images/icon/phone.png" alt="" /> +01 1245 2541, +62 6541 6528</li>
-                                                            <li><img src="images/icon/mail.png" alt="" /> localdir@webdir.com</li>
-                                                        </ul>
-                                                    </div> <span className="home-list-pop-rat">4.2</span>
-                                                    <div className="list-enqu-btn">
-                                                        <ul>
-                                                            <li><a href="#!"><i className="fa fa-star-o" aria-hidden="true"></i> Write Review</a> </li>
-                                                            <li><a href="#!"><i className="fa fa-commenting-o" aria-hidden="true"></i> Send SMS</a> </li>
-                                                            <li><a href="#!"><i className="fa fa-phone" aria-hidden="true"></i> Call Now</a> </li>
-                                                            <li><a href="#!" data-dismiss="modal" data-toggle="modal" data-target="#list-quo"><i className="fa fa-usd" aria-hidden="true"></i> Get Quotes</a> </li>
-                                                        </ul>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            {/*<!--LISTINGS END-->*/}
-                                            {/*<!--LISTINGS-->*/}
-                                            <div className="home-list-pop list-spac">
-                                                {/*<!--LISTINGS IMAGE-->*/}
-                                                <div className="col-md-3 list-ser-img"> <img src="images/services/s5.jpeg" alt="" /> </div>
-                                                {/*<!--LISTINGS: CONTENT-->*/}
-                                                <div className="col-md-9 home-list-pop-desc inn-list-pop-desc"> <a href="listing-details.html"><h3>Tour and Travels</h3></a>
-                                                    <h4>Express Avenue Mall, Los Angeles</h4>
-                                                    <p><b>Address:</b> 28800 Orchard Lake Road, Suite 180 Farmington Hills, U.S.A.</p>
-                                                    <div className="list-number">
-                                                        <ul>
-                                                            <li><img src="images/icon/phone.png" alt="" /> +01 1245 2541, +62 6541 6528</li>
-                                                            <li><img src="images/icon/mail.png" alt="" /> localdir@webdir.com</li>
-                                                        </ul>
-                                                    </div> <span className="home-list-pop-rat">4.2</span>
-                                                    <div className="list-enqu-btn">
-                                                        <ul>
-                                                            <li><a href="#!"><i className="fa fa-star-o" aria-hidden="true"></i> Write Review</a> </li>
-                                                            <li><a href="#!"><i className="fa fa-commenting-o" aria-hidden="true"></i> Send SMS</a> </li>
-                                                            <li><a href="#!"><i className="fa fa-phone" aria-hidden="true"></i> Call Now</a> </li>
-                                                            <li><a href="#!" data-dismiss="modal" data-toggle="modal" data-target="#list-quo"><i className="fa fa-usd" aria-hidden="true"></i> Get Quotes</a> </li>
-                                                        </ul>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            {/*<!--LISTINGS END-->*/}
-                                            {/*<!--LISTINGS-->*/}
-                                            <div className="home-list-pop list-spac">
-                                                {/*<!--LISTINGS IMAGE-->*/}
-                                                <div className="col-md-3 list-ser-img"> <img src="images/services/s6.jpeg" alt="" /> </div>
-                                                {/*<!--LISTINGS: CONTENT-->*/}
-                                                <div className="col-md-9 home-list-pop-desc inn-list-pop-desc"> <a href="listing-details.html"><h3>Andru Modular Kitchen</h3></a>
-                                                    <h4>Express Avenue Mall, Los Angeles</h4>
-                                                    <p><b>Address:</b> 28800 Orchard Lake Road, Suite 180 Farmington Hills, U.S.A.</p>
-                                                    <div className="list-number">
-                                                        <ul>
-                                                            <li><img src="images/icon/phone.png" alt="" /> +01 1245 2541, +62 6541 6528</li>
-                                                            <li><img src="images/icon/mail.png" alt="" /> localdir@webdir.com</li>
-                                                        </ul>
-                                                    </div> <span className="home-list-pop-rat">4.2</span>
-                                                    <div className="list-enqu-btn">
-                                                        <ul>
-                                                            <li><a href="#!"><i className="fa fa-star-o" aria-hidden="true"></i> Write Review</a> </li>
-                                                            <li><a href="#!"><i className="fa fa-commenting-o" aria-hidden="true"></i> Send SMS</a> </li>
-                                                            <li><a href="#!"><i className="fa fa-phone" aria-hidden="true"></i> Call Now</a> </li>
-                                                            <li><a href="#!" data-dismiss="modal" data-toggle="modal" data-target="#list-quo"><i className="fa fa-usd" aria-hidden="true"></i> Get Quotes</a> </li>
-                                                        </ul>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            {/*<!--LISTINGS END-->*/}
-                                            {/*<!--LISTINGS-->*/}
-                                            <div className="home-list-pop list-spac">
-                                                {/*<!--LISTINGS IMAGE-->*/}
-                                                <div className="col-md-3 list-ser-img"> <img src="images/services/s7.jpeg" alt="" /> </div>
-                                                {/*<!--LISTINGS: CONTENT-->*/}
-                                                <div className="col-md-9 home-list-pop-desc inn-list-pop-desc"> <a href="listing-details.html"><h3>Rute Skin Care & Treatment</h3></a>
-                                                    <h4>Express Avenue Mall, Los Angeles</h4>
-                                                    <p><b>Address:</b> 28800 Orchard Lake Road, Suite 180 Farmington Hills, U.S.A.</p>
-                                                    <div className="list-number">
-                                                        <ul>
-                                                            <li><img src="images/icon/phone.png" alt="" /> +01 1245 2541, +62 6541 6528</li>
-                                                            <li><img src="images/icon/mail.png" alt="" /> localdir@webdir.com</li>
-                                                        </ul>
-                                                    </div> <span className="home-list-pop-rat">4.2</span>
-                                                    <div className="list-enqu-btn">
-                                                        <ul>
-                                                            <li><a href="#!"><i className="fa fa-star-o" aria-hidden="true"></i> Write Review</a> </li>
-                                                            <li><a href="#!"><i className="fa fa-commenting-o" aria-hidden="true"></i> Send SMS</a> </li>
-                                                            <li><a href="#!"><i className="fa fa-phone" aria-hidden="true"></i> Call Now</a> </li>
-                                                            <li><a href="#!" data-dismiss="modal" data-toggle="modal" data-target="#list-quo"><i className="fa fa-usd" aria-hidden="true"></i> Get Quotes</a> </li>
-                                                        </ul>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            {/*<!--LISTINGS END-->*/}
-                                            {/*<!--LISTINGS-->*/}
-                                            <div className="home-list-pop list-spac">
-                                                {/*<!--LISTINGS IMAGE-->*/}
-                                                <div className="col-md-3 list-ser-img"> <img src="images/services/s6.jpeg" alt="" /> </div>
-                                                {/*<!--LISTINGS: CONTENT-->*/}
-                                                <div className="col-md-9 home-list-pop-desc inn-list-pop-desc"> <a href="listing-details.html"><h3>Health and Fitness</h3></a>
-                                                    <h4>Express Avenue Mall, Los Angeles</h4>
-                                                    <p><b>Address:</b> 28800 Orchard Lake Road, Suite 180 Farmington Hills, U.S.A.</p>
-                                                    <div className="list-number">
-                                                        <ul>
-                                                            <li><img src="images/icon/phone.png" alt="" /> +01 1245 2541, +62 6541 6528</li>
-                                                            <li><img src="images/icon/mail.png" alt="" /> localdir@webdir.com</li>
-                                                        </ul>
-                                                    </div> <span className="home-list-pop-rat">4.2</span>
-                                                    <div className="list-enqu-btn">
-                                                        <ul>
-                                                            <li><a href="#!"><i className="fa fa-star-o" aria-hidden="true"></i> Write Review</a> </li>
-                                                            <li><a href="#!"><i className="fa fa-commenting-o" aria-hidden="true"></i> Send SMS</a> </li>
-                                                            <li><a href="#!"><i className="fa fa-phone" aria-hidden="true"></i> Call Now</a> </li>
-                                                            <li><a href="#!" data-dismiss="modal" data-toggle="modal" data-target="#list-quo"><i className="fa fa-usd" aria-hidden="true"></i> Get Quotes</a> </li>
-                                                        </ul>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            {/*<!--LISTINGS END-->*/}
-                                            {/*<!--LISTINGS-->*/}
-                                            <div className="home-list-pop list-spac">
-                                                {/*<!--LISTINGS IMAGE-->*/}
-                                                <div className="col-md-3 list-ser-img"> <img src="images/services/s10.jpeg" alt="" /> </div>
-                                                {/*<!--LISTINGS: CONTENT-->*/}
-                                                <div className="col-md-9 home-list-pop-desc inn-list-pop-desc"> <a href="listing-details.html"><h3>Property Luxury Homes</h3></a>
-                                                    <h4>Express Avenue Mall, Los Angeles</h4>
-                                                    <p><b>Address:</b> 28800 Orchard Lake Road, Suite 180 Farmington Hills, U.S.A.</p>
-                                                    <div className="list-number">
-                                                        <ul>
-                                                            <li><img src="images/icon/phone.png" alt="" /> +01 1245 2541, +62 6541 6528</li>
-                                                            <li><img src="images/icon/mail.png" alt="" /> localdir@webdir.com</li>
-                                                        </ul>
-                                                    </div> <span className="home-list-pop-rat">4.2</span>
-                                                    <div className="list-enqu-btn">
-                                                        <ul>
-                                                            <li><a href="#!"><i className="fa fa-star-o" aria-hidden="true"></i> Write Review</a> </li>
-                                                            <li><a href="#!"><i className="fa fa-commenting-o" aria-hidden="true"></i> Send SMS</a> </li>
-                                                            <li><a href="#!"><i className="fa fa-phone" aria-hidden="true"></i> Call Now</a> </li>
-                                                            <li><a href="#!" data-dismiss="modal" data-toggle="modal" data-target="#list-quo"><i className="fa fa-usd" aria-hidden="true"></i> Get Quotes</a> </li>
-                                                        </ul>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            {/*<!--LISTINGS END-->*/}
-                                            {/*<!--LISTINGS-->*/}
-                                            <div className="home-list-pop list-spac">
-                                                {/*<!--LISTINGS IMAGE-->*/}
-                                                <div className="col-md-3 list-ser-img"> <img src="images/services/s1.jpeg" alt="" /> </div>
-                                                {/*<!--LISTINGS: CONTENT-->*/}
-                                                <div className="col-md-9 home-list-pop-desc inn-list-pop-desc"> <a href="listing-details.html"><h3>Effi Furniture Dealers</h3></a>
-                                                    <h4>Express Avenue Mall, Los Angeles</h4>
-                                                    <p><b>Address:</b> 28800 Orchard Lake Road, Suite 180 Farmington Hills, U.S.A.</p>
-                                                    <div className="list-number">
-                                                        <ul>
-                                                            <li><img src="images/icon/phone.png" alt="" /> +01 1245 2541, +62 6541 6528</li>
-                                                            <li><img src="images/icon/mail.png" alt="" /> localdir@webdir.com</li>
-                                                        </ul>
-                                                    </div> <span className="home-list-pop-rat">4.2</span>
-                                                    <div className="list-enqu-btn">
-                                                        <ul>
-                                                            <li><a href="#!"><i className="fa fa-star-o" aria-hidden="true"></i> Write Review</a> </li>
-                                                            <li><a href="#!"><i className="fa fa-commenting-o" aria-hidden="true"></i> Send SMS</a> </li>
-                                                            <li><a href="#!"><i className="fa fa-phone" aria-hidden="true"></i> Call Now</a> </li>
-                                                            <li><a href="#!" data-dismiss="modal" data-toggle="modal" data-target="#list-quo"><i className="fa fa-usd" aria-hidden="true"></i> Get Quotes</a> </li>
-                                                        </ul>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            {/*<!--LISTINGS END-->*/}
-                                            {/*<!--LISTINGS-->*/}
-                                            <div className="home-list-pop list-spac">
-                                                {/*<!--LISTINGS IMAGE-->*/}
-                                                <div className="col-md-3 list-ser-img"> <img src="images/services/s2.jpeg" alt="" /> </div>
-                                                {/*<!--LISTINGS: CONTENT-->*/}
-                                                <div className="col-md-9 home-list-pop-desc inn-list-pop-desc"> <a href="listing-details.html"><h3>NIID Job Training</h3></a>
-                                                    <h4>Express Avenue Mall, Los Angeles</h4>
-                                                    <p><b>Address:</b> 28800 Orchard Lake Road, Suite 180 Farmington Hills, U.S.A.</p>
-                                                    <div className="list-number">
-                                                        <ul>
-                                                            <li><img src="images/icon/phone.png" alt="" /> +01 1245 2541, +62 6541 6528</li>
-                                                            <li><img src="images/icon/mail.png" alt="" /> localdir@webdir.com</li>
-                                                        </ul>
-                                                    </div> <span className="home-list-pop-rat">4.2</span>
-                                                    <div className="list-enqu-btn">
-                                                        <ul>
-                                                            <li><a href="#!"><i className="fa fa-star-o" aria-hidden="true"></i> Write Review</a> </li>
-                                                            <li><a href="#!"><i className="fa fa-commenting-o" aria-hidden="true"></i> Send SMS</a> </li>
-                                                            <li><a href="#!"><i className="fa fa-phone" aria-hidden="true"></i> Call Now</a> </li>
-                                                            <li><a href="#!" data-dismiss="modal" data-toggle="modal" data-target="#list-quo"><i className="fa fa-usd" aria-hidden="true"></i> Get Quotes</a> </li>
-                                                        </ul>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            {/*<!--LISTINGS END-->*/}
-                                            {/*<!--LISTINGS-->*/}
-                                            <div className="home-list-pop list-spac">
-                                                {/*<!--LISTINGS IMAGE-->*/}
-                                                <div className="col-md-3 list-ser-img"> <img src="images/services/s3.jpeg" alt="" /> </div>
-                                                {/*<!--LISTINGS: CONTENT-->*/}
-                                                <div className="col-md-9 home-list-pop-desc inn-list-pop-desc"> <a href="listing-details.html"><h3>Computer Repair & Services</h3></a>
-                                                    <h4>Express Avenue Mall, Los Angeles</h4>
-                                                    <p><b>Address:</b> 28800 Orchard Lake Road, Suite 180 Farmington Hills, U.S.A.</p>
-                                                    <div className="list-number">
-                                                        <ul>
-                                                            <li><img src="images/icon/phone.png" alt="" /> +01 1245 2541, +62 6541 6528</li>
-                                                            <li><img src="images/icon/mail.png" alt="" /> localdir@webdir.com</li>
-                                                        </ul>
-                                                    </div> <span className="home-list-pop-rat">4.2</span>
-                                                    <div className="list-enqu-btn">
-                                                        <ul>
-                                                            <li><a href="#!"><i className="fa fa-star-o" aria-hidden="true"></i> Write Review</a> </li>
-                                                            <li><a href="#!"><i className="fa fa-commenting-o" aria-hidden="true"></i> Send SMS</a> </li>
-                                                            <li><a href="#!"><i className="fa fa-phone" aria-hidden="true"></i> Call Now</a> </li>
-                                                            <li><a href="#!" data-dismiss="modal" data-toggle="modal" data-target="#list-quo"><i className="fa fa-usd" aria-hidden="true"></i> Get Quotes</a> </li>
-                                                        </ul>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            {/*<!--LISTINGS END-->*/}
-                                            {/*<!--LISTINGS-->*/}
-                                            <div className="home-list-pop list-spac">
-                                                {/*<!--LISTINGS IMAGE-->*/}
-                                                <div className="col-md-3 list-ser-img"> <img src="images/services/s4.jpeg" alt="" /> </div>
-                                                {/*<!--LISTINGS: CONTENT-->*/}
-                                                <div className="col-md-9 home-list-pop-desc inn-list-pop-desc"> <a href="listing-details.html"><h3>Packers and Movers</h3></a>
-                                                    <h4>Express Avenue Mall, Los Angeles</h4>
-                                                    <p><b>Address:</b> 28800 Orchard Lake Road, Suite 180 Farmington Hills, U.S.A.</p>
-                                                    <div className="list-number">
-                                                        <ul>
-                                                            <li><img src="images/icon/phone.png" alt="" /> +01 1245 2541, +62 6541 6528</li>
-                                                            <li><img src="images/icon/mail.png" alt="" /> localdir@webdir.com</li>
-                                                        </ul>
-                                                    </div> <span className="home-list-pop-rat">4.2</span>
-                                                    <div className="list-enqu-btn">
-                                                        <ul>
-                                                            <li><a href="#!"><i className="fa fa-star-o" aria-hidden="true"></i> Write Review</a> </li>
-                                                            <li><a href="#!"><i className="fa fa-commenting-o" aria-hidden="true"></i> Send SMS</a> </li>
-                                                            <li><a href="#!"><i className="fa fa-phone" aria-hidden="true"></i> Call Now</a> </li>
-                                                            <li><a href="#!" data-dismiss="modal" data-toggle="modal" data-target="#list-quo"><i className="fa fa-usd" aria-hidden="true"></i> Get Quotes</a> </li>
-                                                        </ul>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            {/*<!--LISTINGS END-->*/}
-                                            {/*<!--LISTINGS-->*/}
-                                            <div className="home-list-pop list-spac">
-                                                {/*<!--LISTINGS IMAGE-->*/}
-                                                <div className="col-md-3 list-ser-img"> <img src="images/services/s5.jpeg" alt="" /> </div>
-                                                {/*<!--LISTINGS: CONTENT-->*/}
-                                                <div className="col-md-9 home-list-pop-desc inn-list-pop-desc"> <a href="listing-details.html"><h3>Tour and Travels</h3></a>
-                                                    <h4>Express Avenue Mall, Los Angeles</h4>
-                                                    <p><b>Address:</b> 28800 Orchard Lake Road, Suite 180 Farmington Hills, U.S.A.</p>
-                                                    <div className="list-number">
-                                                        <ul>
-                                                            <li><img src="images/icon/phone.png" alt="" /> +01 1245 2541, +62 6541 6528</li>
-                                                            <li><img src="images/icon/mail.png" alt="" /> localdir@webdir.com</li>
-                                                        </ul>
-                                                    </div> <span className="home-list-pop-rat">4.2</span>
-                                                    <div className="list-enqu-btn">
-                                                        <ul>
-                                                            <li><a href="#!"><i className="fa fa-star-o" aria-hidden="true"></i> Write Review</a> </li>
-                                                            <li><a href="#!"><i className="fa fa-commenting-o" aria-hidden="true"></i> Send SMS</a> </li>
-                                                            <li><a href="#!"><i className="fa fa-phone" aria-hidden="true"></i> Call Now</a> </li>
-                                                            <li><a href="#!" data-dismiss="modal" data-toggle="modal" data-target="#list-quo"><i className="fa fa-usd" aria-hidden="true"></i> Get Quotes</a> </li>
-                                                        </ul>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            {/*<!--LISTINGS END-->*/}
-                                            {/*<!--LISTINGS-->*/}
-                                            <div className="home-list-pop list-spac">
-                                                {/*<!--LISTINGS IMAGE-->*/}
-                                                <div className="col-md-3 list-ser-img"> <img src="images/services/s6.jpeg" alt="" /> </div>
-                                                {/*<!--LISTINGS: CONTENT-->*/}
-                                                <div className="col-md-9 home-list-pop-desc inn-list-pop-desc"> <a href="listing-details.html"><h3>Andru Modular Kitchen</h3></a>
-                                                    <h4>Express Avenue Mall, Los Angeles</h4>
-                                                    <p><b>Address:</b> 28800 Orchard Lake Road, Suite 180 Farmington Hills, U.S.A.</p>
-                                                    <div className="list-number">
-                                                        <ul>
-                                                            <li><img src="images/icon/phone.png" alt="" /> +01 1245 2541, +62 6541 6528</li>
-                                                            <li><img src="images/icon/mail.png" alt="" /> localdir@webdir.com</li>
-                                                        </ul>
-                                                    </div> <span className="home-list-pop-rat">4.2</span>
-                                                    <div className="list-enqu-btn">
-                                                        <ul>
-                                                            <li><a href="#!"><i className="fa fa-star-o" aria-hidden="true"></i> Write Review</a> </li>
-                                                            <li><a href="#!"><i className="fa fa-commenting-o" aria-hidden="true"></i> Send SMS</a> </li>
-                                                            <li><a href="#!"><i className="fa fa-phone" aria-hidden="true"></i> Call Now</a> </li>
-                                                            <li><a href="#!" data-dismiss="modal" data-toggle="modal" data-target="#list-quo"><i className="fa fa-usd" aria-hidden="true"></i> Get Quotes</a> </li>
-                                                        </ul>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            {/*<!--LISTINGS END-->*/}
-                                            {/*<!--LISTINGS-->*/}
-                                            <div className="home-list-pop list-spac">
-                                                {/*<!--LISTINGS IMAGE-->*/}
-                                                <div className="col-md-3 list-ser-img"> <img src="images/services/s7.jpeg" alt="" /> </div>
-                                                {/*<!--LISTINGS: CONTENT-->*/}
-                                                <div className="col-md-9 home-list-pop-desc inn-list-pop-desc"> <a href="listing-details.html"><h3>Rute Skin Care & Treatment</h3></a>
-                                                    <h4>Express Avenue Mall, Los Angeles</h4>
-                                                    <p><b>Address:</b> 28800 Orchard Lake Road, Suite 180 Farmington Hills, U.S.A.</p>
-                                                    <div className="list-number">
-                                                        <ul>
-                                                            <li><img src="images/icon/phone.png" alt="" /> +01 1245 2541, +62 6541 6528</li>
-                                                            <li><img src="images/icon/mail.png" alt="" /> localdir@webdir.com</li>
-                                                        </ul>
-                                                    </div> <span className="home-list-pop-rat">4.2</span>
-                                                    <div className="list-enqu-btn">
-                                                        <ul>
-                                                            <li><a href="#!"><i className="fa fa-star-o" aria-hidden="true"></i> Write Review</a> </li>
-                                                            <li><a href="#!"><i className="fa fa-commenting-o" aria-hidden="true"></i> Send SMS</a> </li>
-                                                            <li><a href="#!"><i className="fa fa-phone" aria-hidden="true"></i> Call Now</a> </li>
-                                                            <li><a href="#!" data-dismiss="modal" data-toggle="modal" data-target="#list-quo"><i className="fa fa-usd" aria-hidden="true"></i> Get Quotes</a> </li>
-                                                        </ul>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            {/*<!--LISTINGS END-->*/}
-                                            {/*<!--LISTINGS-->*/}
-                                            <div className="home-list-pop list-spac">
-                                                {/*<!--LISTINGS IMAGE-->*/}
-                                                <div className="col-md-3 list-ser-img"> <img src="images/services/s6.jpeg" alt="" /> </div>
-                                                {/*<!--LISTINGS: CONTENT-->*/}
-                                                <div className="col-md-9 home-list-pop-desc inn-list-pop-desc"> <a href="listing-details.html"><h3>Health and Fitness</h3></a>
-                                                    <h4>Express Avenue Mall, Los Angeles</h4>
-                                                    <p><b>Address:</b> 28800 Orchard Lake Road, Suite 180 Farmington Hills, U.S.A.</p>
-                                                    <div className="list-number">
-                                                        <ul>
-                                                            <li><img src="images/icon/phone.png" alt="" /> +01 1245 2541, +62 6541 6528</li>
-                                                            <li><img src="images/icon/mail.png" alt="" /> localdir@webdir.com</li>
-                                                        </ul>
-                                                    </div> <span className="home-list-pop-rat">4.2</span>
-                                                    <div className="list-enqu-btn">
-                                                        <ul>
-                                                            <li><a href="#!"><i className="fa fa-star-o" aria-hidden="true"></i> Write Review</a> </li>
-                                                            <li><a href="#!"><i className="fa fa-commenting-o" aria-hidden="true"></i> Send SMS</a> </li>
-                                                            <li><a href="#!"><i className="fa fa-phone" aria-hidden="true"></i> Call Now</a> </li>
-                                                            <li><a href="#!" data-dismiss="modal" data-toggle="modal" data-target="#list-quo"><i className="fa fa-usd" aria-hidden="true"></i> Get Quotes</a> </li>
-                                                        </ul>
-                                                    </div>
-                                                </div>
-                                            </div>
+                                            {items}
                                             {/*<!--LISTINGS END-->*/}
                                         </div>
                                         <div className="row">
