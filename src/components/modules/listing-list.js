@@ -3,13 +3,39 @@ import { connect } from 'react-redux';
 import RightColumn from '../right-column';
 import HeaderListing from '../header-destaque-listing';
 import { fetchGuias } from '../../actions/guia';
+import Pagination from "react-js-pagination";
 
 import ListingLeftColumn from '../listing-left-column';
 
 class ListingList extends Component {
 
+    constructor(){
+        super();
+        
+        this.state = {
+            data: [],
+            activePage: 1
+        }
+
+        this.handlePageChange = this.handlePageChange.bind(this);
+        this.generateGuias = this.generateGuias.bind(this);
+    }
+
     componentDidMount() {
         this.props.fetchGuias('5ba26f813a018f42215a36a0');
+
+        //this.setState({data: this.props.guias.list, pageCount: Math.ceil(  this.props.guias.list.lenght / 10)});
+
+    }
+
+    componentWillReceiveProps(nextProps) {
+        if(nextProps.guias){
+            if(nextProps.guias.list)
+            {
+                this.setState({data: nextProps.guias.list.slice(0,10), pageCount: Math.ceil(  nextProps.guias.list.lenght / 10)});
+
+            }
+        }
     }
 
     getImageSrc(evento){
@@ -26,8 +52,9 @@ class ListingList extends Component {
         return "http://soumaisniteroi.com.br/wp-content/uploads/2015/04/no-image.png";
     }
 
-    generateGuias(guias) {
-        return guias.map( guia => {
+    generateGuias() {
+            
+        let guias = this.state.data.map( guia => {
             return (
                 <div className="home-list-pop list-spac">
                     {/*<!--LISTINGS IMAGE-->*/}
@@ -35,11 +62,11 @@ class ListingList extends Component {
                     {/*<!--LISTINGS: CONTENT-->*/}
                     <div className="col-md-9 home-list-pop-desc inn-list-pop-desc"> <a href="listing-details.html"><h3>{guia.titulo}</h3></a>
                         <h4>Express Avenue Mall, Los Angeles</h4>
-                        <p><b>Address:</b> 28800 Orchard Lake Road, Suite 180 Farmington Hills, U.S.A.</p>
+                        <p>{(guia.endereco)?<b>Endereço:</b>:''} {guia.endereco}</p>
                         <div className="list-number">
                             <ul>
-                                <li><img src="images/icon/phone.png" alt="" /> +01 1245 2541, +62 6541 6528</li>
-                                <li><img src="images/icon/mail.png" alt="" /> localdir@webdir.com</li>
+                                <li>{(guia.telefone)?<i className="fa fa-phone" aria-hidden="true"></i>:''} {guia.telefone}</li>
+                                <li>{(guia.email)?<i className="fa fa-envelope" aria-hidden="true"></i>:''} {guia.email}</li>
                             </ul>
                         </div> <span className="home-list-pop-rat">4.2</span>
                         <div className="list-enqu-btn">
@@ -54,6 +81,38 @@ class ListingList extends Component {
                 </div>
             )
         })
+
+        return(
+            <div>
+                {guias}
+                <Pagination
+                    activePage={this.state.activePage}
+                    itemsCountPerPage={10}
+                    totalItemsCount={this.props.guias.list.length}
+                    pageRangeDisplayed={10}
+                    onChange={this.handlePageChange}
+                    prevPageText={<i className="material-icons">chevron_left</i>}
+                    nextPageText={<i className="material-icons">chevron_right</i>}
+                    firstPageText={<i className="material-icons">first_page</i>}
+                    lastPageText={<i className="material-icons">last_page</i>}
+                    innerClass="pagination list-pagenat"
+                    itemClass="waves-effect"
+                />
+            </div>
+        )
+    }
+
+    handlePageChange(pageNumber) {
+        console.log(`active page is ${pageNumber}`);
+        let data = [];
+        if(pageNumber == 1){
+            data = this.props.guias.list.slice(0, 10)
+        }
+        else{
+            data = this.props.guias.list.slice((pageNumber-1)*10,((pageNumber-1)*10)+10)
+        }
+        this.setState({activePage: pageNumber, data});
+        //{data: nextProps.guias.list.slice(0,10)}
     }
 
     render(){
@@ -78,7 +137,11 @@ class ListingList extends Component {
         }
         else {
             console.log("this.props.guias: ", this.props.guias.list)
-            items = this.generateGuias(this.props.guias.list)
+            if(!this.props.guias.list)
+                items = <div>Nenhum guia encontrado para a categoria {this.props.listName} </div>
+            else
+                items = this.generateGuias();
+            //items = this.generateGuias(this.props.guias.list)
         }
 
         console.log("guias no listing: ", this.props.guias)
@@ -113,23 +176,8 @@ class ListingList extends Component {
                                             {items}
                                             {/*<!--LISTINGS END-->*/}
                                         </div>
-                                        <div className="row">
-                                            <ul className="pagination list-pagenat">
-                                                <li className="disabled"><a href="#!!"><i className="material-icons">chevron_left</i></a> </li>
-                                                <li className="active"><a href="#!">1</a> </li>
-                                                <li className="waves-effect"><a href="#!">2</a> </li>
-                                                <li className="waves-effect"><a href="#!">3</a> </li>
-                                                <li className="waves-effect"><a href="#!">4</a> </li>
-                                                <li className="waves-effect"><a href="#!">5</a> </li>
-                                                <li className="waves-effect"><a href="#!">6</a> </li>
-                                                <li className="waves-effect"><a href="#!">7</a> </li>
-                                                <li className="waves-effect"><a href="#!">8</a> </li>
-                                                <li className="waves-effect"><a href="#!"><i className="material-icons">chevron_right</i></a> </li>
-                                            </ul>
-                                        </div>
                                     </div>
                                 </div>
-
 
 
 
@@ -137,7 +185,7 @@ class ListingList extends Component {
                         </div>
                     </div>
                 </section>
-                {/*{/*<!--MOBILE APP-->*/}*/}
+                {/*{/*<!--MOBILE APP-->*/}
                 <section className="web-app com-padd">
                     <div className="container">
                         <div className="row">

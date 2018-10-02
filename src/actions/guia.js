@@ -39,7 +39,9 @@ export const fetchGuias = async(city_id, limit='', sort=null) => {
     if(!sort)
         sort = '-_id';
     if(limit)
-        limit = `&_limit=${limit}`
+        limit = `&_limit=${limit}`;
+    else
+        limit = `&_limit=200`;
 
 
     let ret = await axios.post('http://localhost:1337/auth/local', { identifier: 'adm_manager', password: 'carlos' })
