@@ -33,7 +33,7 @@ class ListingList extends Component {
                     {/*<!--LISTINGS IMAGE-->*/}
                     <div className="col-md-3 list-ser-img"> <img src="images/services/s10.jpeg" alt="" /> </div>
                     {/*<!--LISTINGS: CONTENT-->*/}
-                    <div className="col-md-9 home-list-pop-desc inn-list-pop-desc"> <a href="listing-details.html"><h3>Property Luxury Homes</h3></a>
+                    <div className="col-md-9 home-list-pop-desc inn-list-pop-desc"> <a href="listing-details.html"><h3>{guia.titulo}</h3></a>
                         <h4>Express Avenue Mall, Los Angeles</h4>
                         <p><b>Address:</b> 28800 Orchard Lake Road, Suite 180 Farmington Hills, U.S.A.</p>
                         <div className="list-number">
@@ -73,12 +73,12 @@ class ListingList extends Component {
 
         let items = <div>Nenhum Item listado para está categoria</div>
 
-        if(! this.props.guiasListing){
+        if(! this.props.guias){
             items = <div>Nenhum guia encontrado para a categoria {this.props.listName} </div>
         }
         else {
-            console.log("this.props.guiasListing: ", this.props.guiasListing)
-            items = this.generateGuias(this.props.guiasListing)
+            console.log("this.props.guias: ", this.props.guias.list)
+            items = this.generateGuias(this.props.guias.list)
         }
 
         console.log("guias no listing: ", this.props.guias)

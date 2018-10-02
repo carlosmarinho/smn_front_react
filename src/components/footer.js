@@ -17,6 +17,7 @@ class Footer extends Component {
     }
 
     render(){
+        console.log("props no footer: ", this.props)
         if(! this.props.guias || !this.props.noticias)
             return null;
         else {
@@ -38,7 +39,7 @@ class Footer extends Component {
                                                         <p> <span className=""><i className="fa fa-phone" aria-hidden="true"></i> </span> <span className="footer-contact"> (21) 99172-0833</span> </p>
                                                         <p> <span className=""><i className="fa fa-envelope" aria-hidden="true"></i> </span> <span className="footer-contact">contato@soumaisniteroi.com.br</span> </p>
                                                     </div>
-                                                    <FooterWidget title="Guias Recentes" object={this.props.guias}/>
+                                                    <FooterWidget title="Guias Recentes" object={this.props.guias.recentes}/>
                                                     <FooterWidget title="Últimas Notícias" object={this.props.noticias}/>
                                                     
                                                     <div className="col-sm-4 col-md-3">
