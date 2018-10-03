@@ -22,20 +22,21 @@ class FooterWidget extends Component {
     generateWidget(objects) {
         const truncate = _.truncate
 
-        return objects.map(object => {
-            return( 
-                <li>
-                    <a href="listing-details.html">
-                        <div className="div-footer-img"> 
-                            <img src={this.getImageSrc(object)} alt="" /> 
-                        </div>
-                        <div className="div-footer-text">
-                            <h5>{truncate(object.titulo, { length: 25, separator: /,?\.* +/ })}</h5> 
-                            <span>{truncate(object.descricao.replace(/<\/?[^>]+(>|$)/g, ""), { length: 40, separator: /,?\.* +/ })}</span> 
-                        </div>
-                    </a>
-                </li>
-            )
+        return objects.map((object,i) => {
+            if(i <= 3)
+                return( 
+                    <li>
+                        <a href="listing-details.html">
+                            <div className="div-footer-img"> 
+                                <img src={this.getImageSrc(object)} alt="" /> 
+                            </div>
+                            <div className="div-footer-text">
+                                <h5>{truncate(object.titulo, { length: 25, separator: /,?\.* +/ })}</h5> 
+                                <span>{truncate(object.descricao.replace(/<\/?[^>]+(>|$)/g, ""), { length: 40, separator: /,?\.* +/ })}</span> 
+                            </div>
+                        </a>
+                    </li>
+                )
         })
         
     }

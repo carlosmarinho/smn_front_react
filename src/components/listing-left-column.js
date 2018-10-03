@@ -1,116 +1,15 @@
 import React, { Component } from 'react';
-
+import LeftWidgetLink from './modules/left-widget-link';
+import WidgetFilterCheckbox from './modules/widget-filter-checkbox';
 
 class ListingLeftColumn extends Component {
     render(){
         return(
             <div className="col-md-3 dir-alp-con-left">
-                <div className="dir-alp-con-left-1">
-                    <h3>Nearby Listings(07)</h3> </div>
-                <div className="dir-hom-pre dir-alp-left-ner-notb">
-                    <ul>
-                        {/*<!--==========NEARBY LISTINGS============-->*/}
-                        <li>
-                            <a href="listing-details.html">
-                                <div className="list-left-near lln1"> <img src="/images/services/s1.jpeg" alt="" /> </div>
-                                <div className="list-left-near lln2">
-                                    <h5>Property Getaways</h5> <span>City: illunois, United States</span> </div>
-                                <div className="list-left-near lln3"> <span>5.0</span> </div>
-                            </a>
-                        </li>
-                        {/*<!--==========END NEARBY LISTINGS============-->*/}
-                        {/*<!--==========NEARBY LISTINGS============-->*/}
-                        <li>
-                            <a href="listing-details.html">
-                                <div className="list-left-near lln1"> <img src="/images/services/s2.jpeg" alt="" /> </div>
-                                <div className="list-left-near lln2">
-                                    <h5>Home Trends</h5> <span>City: illunois, United States</span> </div>
-                                <div className="list-left-near lln3"> <span>4.0</span> </div>
-                            </a>
-                        </li>
-                        {/*<!--==========END NEARBY LISTINGS============-->*/}
-                        {/*<!--==========NEARBY LISTINGS============-->*/}
-                        <li>
-                            <a href="listing-details.html">
-                                <div className="list-left-near lln1"> <img src="/images/services/s3.jpeg" alt="" /> </div>
-                                <div className="list-left-near lln2">
-                                    <h5>Security System</h5> <span>City: illunois, United States</span> </div>
-                                <div className="list-left-near lln3"> <span>4.4</span> </div>
-                            </a>
-                        </li>
-                        {/*<!--==========END NEARBY LISTINGS============-->*/}
-                        {/*<!--==========NEARBY LISTINGS============-->*/}
-                        <li>
-                            <a href="listing-details.html">
-                                <div className="list-left-near lln1"> <img src="/images/services/s4.jpeg" alt="" /> </div>
-                                <div className="list-left-near lln2">
-                                    <h5>Distance Educations</h5> <span>City: illunois, United States</span> </div>
-                                <div className="list-left-near lln3"> <span>3.8</span> </div>
-                            </a>
-                        </li>
-                        {/*<!--==========END NEARBY LISTINGS============-->*/}
-                        {/*<!--==========NEARBY LISTINGS============-->*/}
-                        <li>
-                            <a href="listing-details.html">
-                                <div className="list-left-near lln1"> <img src="/images/services/s5.jpeg" alt="" /> </div>
-                                <div className="list-left-near lln2">
-                                    <h5>Fresh Cake Shops</h5> <span>City: illunois, United States</span> </div>
-                                <div className="list-left-near lln3"> <span>4.8</span> </div>
-                            </a>
-                        </li>
-                        {/*<!--==========END NEARBY LISTINGS============-->*/}
-                        {/*<!--==========NEARBY LISTINGS============-->*/}
-                        <li>
-                            <a href="listing-details.html">
-                                <div className="list-left-near lln1"> <img src="/images/services/s6.jpeg" alt="" /> </div>
-                                <div className="list-left-near lln2">
-                                    <h5>Chicago Automobiles</h5> <span>City: illunois, United States</span> </div>
-                                <div className="list-left-near lln3"> <span>5.0</span> </div>
-                            </a>
-                        </li>
-                        {/*<!--==========END NEARBY LISTINGS============-->*/}
-                        {/*<!--==========NEARBY LISTINGS============-->*/}
-                        <li>
-                            <a href="listing-details.html">
-                                <div className="list-left-near lln1"> <img src="/images/services/s7.jpeg" alt="" /> </div>
-                                <div className="list-left-near lln2">
-                                    <h5>Bike Service Centers</h5> <span>City: illunois, United States</span> </div>
-                                <div className="list-left-near lln3"> <span>5.0</span> </div>
-                            </a>
-                        </li>
-                        {/*<!--==========END NEARBY LISTINGS============-->*/}
-                    </ul>
-                </div>
-                {/*<!--==========Sub Category Filter============-->*/}
-                <div className="dir-alp-l3 dir-alp-l-com">
-                    <h4>Sub Category Filter</h4>
-                    <div className="dir-alp-l-com1 dir-alp-p3">
-                        <form action="#">
-                            <ul>
-                                <li>
-                                    <input type="checkbox" id="scf1" />
-                                    <label htmlFor="scf1">Hortels & Resorts</label>
-                                </li>
-                                <li>
-                                    <input type="checkbox" id="scf2" />
-                                    <label htmlFor="scf2">Fitness Care</label>
-                                </li>
-                                <li>
-                                    <input type="checkbox" id="scf3" />
-                                    <label htmlFor="scf3">Educations</label>
-                                </li>
-                                <li>
-                                    <input type="checkbox" id="scf4" />
-                                    <label htmlFor="scf4">Property</label>
-                                </li>
-                                <li>
-                                    <input type="checkbox" id="scf5" />
-                                    <label htmlFor="scf5">Home Services</label>
-                                </li>
-                            </ul>
-                        </form> <a href="#!" className="list-view-more-btn">view more</a> </div>
-                </div>
-                {/*<!--==========End Sub Category Filter============-->*/}
+                <LeftWidgetLink title="Guias Recentes" objects={this.props.objects} />
+
+                <WidgetFilterCheckbox title="Filtro de Categoria" objects={this.props.objects} />                
+
                 {/*<!--==========Sub Category Filter============-->*/}
                 <div className="dir-alp-l3 dir-alp-l-com">
                     <h4>Distance</h4>

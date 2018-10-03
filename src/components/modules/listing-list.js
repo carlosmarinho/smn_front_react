@@ -25,7 +25,6 @@ class ListingList extends Component {
         this.props.fetchGuias('5ba26f813a018f42215a36a0');
 
         //this.setState({data: this.props.guias.list, pageCount: Math.ceil(  this.props.guias.list.lenght / 10)});
-
     }
 
     componentWillReceiveProps(nextProps) {
@@ -33,19 +32,18 @@ class ListingList extends Component {
             if(nextProps.guias.list)
             {
                 this.setState({data: nextProps.guias.list.slice(0,10), pageCount: Math.ceil(  nextProps.guias.list.lenght / 10)});
-
             }
         }
     }
 
-    getImageSrc(evento){
-        if(evento.s3_imagem_destacada){
-            return evento.old_imagem_destacada;
+    getImageSrc(guia){
+        if(guia.s3_imagem_destacada){
+            return guia.old_imagem_destacada;
         }
-        if(evento.old_imagem_destacada) {
-            return evento.old_imagem_destacada;
+        if(guia.old_imagem_destacada) {
+            return guia.old_imagem_destacada;
         }
-        else if(evento.imagem_destacada){
+        else if(guia.imagem_destacada){
             //implementar codigo
             return "http://soumaisniteroi.com.br/wp-content/uploads/2015/04/no-image.png";
         }
@@ -53,28 +51,33 @@ class ListingList extends Component {
     }
 
     generateGuias() {
-            
+        
         let guias = this.state.data.map( guia => {
+            let avaliacao = '';
+            /*Por enquanto está implementado para não exibir avaliações depois que já tiver avaliação suficiente colocar o texto sem avaliação*/
+            if(guia.mediaAvaliacao)
+                avaliacao = <span className="home-list-pop-rat">{guia.mediaAvaliacao}</span>
             return (
                 <div className="home-list-pop list-spac">
                     {/*<!--LISTINGS IMAGE-->*/}
-                    <div className="col-md-3 list-ser-img"> <img src="images/services/s10.jpeg" alt="" /> </div>
+                    <div className="col-md-3 list-ser-img"> <img src={this.getImageSrc(guia)} alt="" /> </div>
                     {/*<!--LISTINGS: CONTENT-->*/}
                     <div className="col-md-9 home-list-pop-desc inn-list-pop-desc"> <a href="listing-details.html"><h3>{guia.titulo}</h3></a>
-                        <h4>Express Avenue Mall, Los Angeles</h4>
+                        <h4>{guia.cidade[0].nome} {(guia.bairros.length>0)?'- ' + guia.bairros[0].nome:''}</h4>
                         <p>{(guia.endereco)?<b>Endereço:</b>:''} {guia.endereco}</p>
                         <div className="list-number">
                             <ul>
                                 <li>{(guia.telefone)?<i className="fa fa-phone" aria-hidden="true"></i>:''} {guia.telefone}</li>
                                 <li>{(guia.email)?<i className="fa fa-envelope" aria-hidden="true"></i>:''} {guia.email}</li>
                             </ul>
-                        </div> <span className="home-list-pop-rat">4.2</span>
+                        </div> 
+                        {avaliacao}
+                        
                         <div className="list-enqu-btn">
                             <ul>
-                                <li><a href="#!"><i className="fa fa-star-o" aria-hidden="true"></i> Write Review</a> </li>
-                                <li><a href="#!"><i className="fa fa-commenting-o" aria-hidden="true"></i> Send SMS</a> </li>
-                                <li><a href="#!"><i className="fa fa-phone" aria-hidden="true"></i> Call Now</a> </li>
-                                <li><a href="#!" data-dismiss="modal" data-toggle="modal" data-target="#list-quo"><i className="fa fa-usd" aria-hidden="true"></i> Get Quotes</a> </li>
+                                <li><a href="#!"><i className="fa fa-envelope" aria-hidden="true"></i> Enviar Email</a> </li>
+                                <li><a href="#!"><i className="fa fa-star-o" aria-hidden="true"></i> Dê sua Opinião</a> </li>
+                                <li><a href="#!" data-dismiss="modal" data-toggle="modal" data-target="#list-quo"><i className="fa fa-question-circle" aria-hidden="true"></i> Pergunta Direta</a> </li>
                             </ul>
                         </div>
                     </div>
@@ -166,7 +169,7 @@ class ListingList extends Component {
                         </div>
                         <div className="row">
                             <div className="dir-alp-con">
-                                {(leftColumn)?<ListingLeftColumn />:''}
+                                {(leftColumn)?<ListingLeftColumn objects={(this.props.guias)?this.props.guias.recentes:[]} />:''}
                                 
 
                                 <div className={(leftColumn)? 'col-md-9 dir-alp-con-right': 'col-md-12 dir-alp-con-right'}>

@@ -3003,7 +3003,8 @@ footer ul li a:hover {
 .list-enqu-btn ul li {
   display: inline-block;
   float: left;
-  width: 25%;
+  /* altered by carlos width: 25%;*/
+  width: 32%;
   margin: 0px; }
 
 .list-enqu-btn ul li a {
