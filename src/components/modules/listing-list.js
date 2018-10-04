@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import RightColumn from '../right-column';
 import HeaderListing from '../header-destaque-listing';
 import { fetchGuias } from '../../actions/guia';
+import { fetchCategoriesTop } from '../../actions/categoria';
 import Pagination from "react-js-pagination";
 
 import ListingLeftColumn from '../listing-left-column';
+
 
 class ListingList extends Component {
 
@@ -23,6 +24,7 @@ class ListingList extends Component {
 
     componentDidMount() {
         this.props.fetchGuias('5ba26f813a018f42215a36a0');
+        this.props.fetchCategoriesTop('5ba26f813a018f42215a36a0');
 
         //this.setState({data: this.props.guias.list, pageCount: Math.ceil(  this.props.guias.list.lenght / 10)});
     }
@@ -230,4 +232,4 @@ function mapStateToProps(state){
     }
 }
 
-export default connect(mapStateToProps, { fetchGuias })(ListingList);
+export default connect(mapStateToProps, { fetchGuias, fetchCategoriesTop })(ListingList);

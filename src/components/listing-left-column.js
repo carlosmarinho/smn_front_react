@@ -8,7 +8,7 @@ class ListingLeftColumn extends Component {
             <div className="col-md-3 dir-alp-con-left">
                 <LeftWidgetLink title="Guias Recentes" objects={this.props.objects} />
 
-                <WidgetFilterCheckbox title="Filtro de Categoria" objects={this.props.objects} />                
+                <WidgetFilterCheckbox title="Filtro de Categoria" objects={this.props.categories} />                
 
                 {/*<!--==========Sub Category Filter============-->*/}
                 <div className="dir-alp-l3 dir-alp-l-com">
