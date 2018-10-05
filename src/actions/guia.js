@@ -21,9 +21,16 @@ export const fetchGuiasRecentes = async(city_id, limit='', sort=null) => {
         limit = `&_limit=${limit}`
 
 
-    let ret = await axios.post('http://localhost:1337/auth/local', { identifier: 'adm_manager', password: 'carlos' })
+    let jwt = localStorage.getItem('jwt');
+    
 
-    let config = { headers: { 'Authorization': `Bearer ${ret.data.jwt}` } };
+    if(!jwt){
+        let ret = await axios.post('http://localhost:1337/auth/local', { identifier: 'adm_manager', password: 'carlos' })
+        jwt = ret.data.jwt;
+        localStorage.setItem('jwt', jwt);
+    }
+
+    let config = { headers: { 'Authorization': `Bearer ${jwt}` } };
 
     console.log(`http://localhost:1337/guia/?_sort=${sort}${limit}&cidade=${city_id}`);
     const request = axios.get(`http://localhost:1337/guia/?_sort=${sort}${limit}&cidade=${city_id}`, config);

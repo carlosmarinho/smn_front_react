@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { FETCH_CATEGORIES_TOP } from "./types";
+import { FETCH_CATEGORY, FETCH_CATEGORIES, FETCH_CATEGORIES_GUIA_TOP } from "./types";
 
 
 
@@ -13,7 +13,7 @@ export const fetchCategory = (id) => {
     }
 }
 
-export const fetchCategoriesTop = async(limit='', sort=null) => {
+export const fetchCategoriesGuiaTop = async(limit='', sort=null) => {
     if(!sort)
         sort = '-_id';
     if(limit)
@@ -24,10 +24,10 @@ export const fetchCategoriesTop = async(limit='', sort=null) => {
 
     let config = { headers: { 'Authorization': `Bearer ${ret.data.jwt}` } };
 
-    const request = axios.get(`http://localhost:1337/categoria/?_sort=${sort}${limit}&cidade=${city_id}`, config);
+    const request = axios.get(`http://localhost:1337/categoria/?_sort=${sort}${limit}&tipo=guia&parent_id=`, config);
 
     return {
-        type: FETCH_CATEGORYS_RECENTES,
+        type: FETCH_CATEGORIES_GUIA_TOP,
         payload: request
     }
 
@@ -42,15 +42,21 @@ export const fetchCategories = async(limit='', sort=null) => {
         limit = `&_limit=200`;
 
 
-    let ret = await axios.post('http://localhost:1337/auth/local', { identifier: 'adm_manager', password: 'carlos' })
+    let jwt = localStorage.getItem('jwt');
 
-    let config = { headers: { 'Authorization': `Bearer ${ret.data.jwt}` } };
+    if(!jwt){
+        let ret = await axios.post('http://localhost:1337/auth/local', { identifier: 'adm_manager', password: 'carlos' })
+        jwt = ret.data.jwt;
+        localStorage.setItem('jwt', jwt);
+    }
 
-    console.log(`http://localhost:1337/categoria/?_sort=${sort}${limit}&cidade=${city_id}`);
+    let config = { headers: { 'Authorization': `Bearer ${jwt}` } };
+
+    console.log(`http://localhost:1337/categoria/?_sort=${sort}${limit}`);
     const request = axios.get(`http://localhost:1337/categoria/?_sort=${sort}${limit}`, config);
 
     return {
-        type: FETCH_CATEGORYS,
+        type: FETCH_CATEGORIES,
         payload: request
     }
 }

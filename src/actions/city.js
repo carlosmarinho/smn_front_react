@@ -16,9 +16,15 @@ export const fetchCity = (id) => {
 
 export const fetchCityBySlug = async (slug) => {
 
-    let ret = await axios.post('http://localhost:1337/auth/local', { identifier: 'adm_manager', password: 'carlos' })
+    let jwt = localStorage.getItem('jwt');
+    console.log("No fetch bairros: ", jwt);
 
-    let config = { headers: { 'Authorization': `Bearer ${ret.data.jwt}` } };
+    if(!jwt){
+        let ret = await axios.post('http://localhost:1337/auth/local', { identifier: 'adm_manager', password: 'carlos' })
+        jwt = ret.data.jwt;
+        localStorage.setItem('jwt', jwt);
+    }
+    let config = { headers: { 'Authorization': `Bearer ${jwt}` } };
 
     const request = axios.get(`http://localhost:1337/cidade/?slug=${slug}`, config);
 

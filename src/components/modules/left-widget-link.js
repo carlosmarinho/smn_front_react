@@ -25,7 +25,7 @@ class LeftWidgetLink extends Component {
             return objects.map(object => {
                 return (
                     <li>
-                        <a href="listing-details.html">
+                        <a href={'guia-comercial/' + object.slug}>
                             <div className="list-left-near lln1"> <img src={this.getImageSrc(object)} alt="" /> </div>
                             <div className="list-left-near lln2">
                                 <h5>{object.titulo}</h5> 

@@ -2,7 +2,7 @@ import _ from 'lodash'
 import React, { Component } from 'react';
 
 
-class WidgetFilterCheckbox extends Component {
+class WidgetFilterRadio extends Component {
 
     getImageSrc(object){
         if(object.s3_imagem_destacada){
@@ -20,17 +20,18 @@ class WidgetFilterCheckbox extends Component {
 
     generateWidget(objects) {
         const truncate = _.truncate
-        console.log("object no left widget generatewidget cheeeeekkkkkbooooox: ", objects);
+        console.log("object no left widget generatewidget raaaaadiiiiiiiiiiiiiiiioooooooooo: ", objects);
         if(objects.length>0){
             return objects.map(object => {
                 return (
                     <li>
-                        <input type="checkbox" id="scf1" />
-                        <label htmlFor="scf1">{object.nome}</label>
+                        <input className="with-gap" name="group1" type="radio" id="ldis1" />
+                        <label htmlFor="ldis1">{object.nome}</label>
                     </li>
                 )
             })
         }
+        
     }
 
     render(){
@@ -43,17 +44,17 @@ class WidgetFilterCheckbox extends Component {
 
         return (
             <div className="dir-alp-l3 dir-alp-l-com">
-                <h4>{this.props.title}</h4>
-                <div className="dir-hom-pre dir-alp-left-ner-notb">
-                    <form action="#">
+                <h4>Distance</h4>
+                <div className="dir-alp-l-com1 dir-alp-p3">
+                    <form>
                         <ul>
                             {this.generateWidget(objects)}
                         </ul>
-                    </form> 
+                    </form> <a href="#!" className="list-view-more-btn">ver mais</a> 
                 </div>
             </div>
         );
     }
 }
 
-export default WidgetFilterCheckbox;
+export default WidgetFilterRadio;

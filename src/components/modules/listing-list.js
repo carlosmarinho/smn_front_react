@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import HeaderListing from '../header-destaque-listing';
 import { fetchGuias } from '../../actions/guia';
-import { fetchCategoriesTop } from '../../actions/categoria';
+import { fetchBairros } from '../../actions/bairro';
+import { fetchCategoriesGuiaTop } from '../../actions/categoria';
 import Pagination from "react-js-pagination";
 
 import ListingLeftColumn from '../listing-left-column';
@@ -24,7 +25,8 @@ class ListingList extends Component {
 
     componentDidMount() {
         this.props.fetchGuias('5ba26f813a018f42215a36a0');
-        this.props.fetchCategoriesTop('5ba26f813a018f42215a36a0');
+        this.props.fetchCategoriesGuiaTop();
+        this.props.fetchBairros('5ba26f813a018f42215a36a0');
 
         //this.setState({data: this.props.guias.list, pageCount: Math.ceil(  this.props.guias.list.lenght / 10)});
     }
@@ -149,7 +151,8 @@ class ListingList extends Component {
             //items = this.generateGuias(this.props.guias.list)
         }
 
-        console.log("guias no listing: ", this.props.guias)
+        if(this.props.bairros)
+            console.log("bairrossssssssss no listing: ", this.props.bairros)
 
         console.log("nome da lista: ", this.props.listName)
 
@@ -171,7 +174,7 @@ class ListingList extends Component {
                         </div>
                         <div className="row">
                             <div className="dir-alp-con">
-                                {(leftColumn)?<ListingLeftColumn objects={(this.props.guias)?this.props.guias.recentes:[]} />:''}
+                                {(leftColumn)?<ListingLeftColumn objects={(this.props.guias)?this.props.guias.recentes:[]} categories={(this.props.categorias)?this.props.categorias.guia:[]} bairros={(this.props.bairros)?this.props.bairros:[]} />:''}
                                 
 
                                 <div className={(leftColumn)? 'col-md-9 dir-alp-con-right': 'col-md-12 dir-alp-con-right'}>
@@ -229,7 +232,9 @@ function mapStateToProps(state){
     console.log("state listing list: ", state)
     return {
         guias: state.guias,
+        categorias: state.categorias,
+        bairros: state.bairros
     }
 }
 
-export default connect(mapStateToProps, { fetchGuias, fetchCategoriesTop })(ListingList);
+export default connect(mapStateToProps, { fetchGuias, fetchBairros, fetchCategoriesGuiaTop })(ListingList);
