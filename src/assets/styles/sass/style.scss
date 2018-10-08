@@ -4701,7 +4701,7 @@
  .page-blog {
 }
  .page-blog h3 {
-     font-size: 28px;
+     font-size: 24px;
 }
  .page-blog span {
      font-size: 16px;
@@ -4715,6 +4715,12 @@
  .page-blog a {
      width: 200px;
 }
+
+/*included by carlos*/
+ .page-blog a {
+     color: #2a2b33;
+}
+
  .share-pad-bot {
      padding-bottom: 10px;
 }

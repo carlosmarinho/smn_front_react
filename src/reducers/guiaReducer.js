@@ -2,7 +2,6 @@ import { FETCH_USER, CREATE_USER, EDIT_USER, FETCH_GUIAS, FETCH_GUIAS_RECENTES} 
 
 export default function(state = null, action) {
 
-    console.log("guiareducer: ", action);
     let guia =  {recentes: null, list: null};
     switch (action.type) {
         case FETCH_GUIAS:

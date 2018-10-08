@@ -1,85 +1,144 @@
+import _ from 'lodash';
 import React, { Component } from 'react';
+import { connect } from 'react-redux'
 import HeaderBlog from '../header-destaque-blog';
+import { fetchNoticias } from '../../actions/noticia';
+import { fetchFeaturedGuias } from '../../actions/guia';
+import { Link } from 'react-router-dom';
+
+import Pagination from "react-js-pagination";
 
 import RightColumn from '../right-column';
 
 class BlogList extends Component {
 
+    constructor(){
+        super();
+        
+        this.state = {
+            data: [],
+            activePage: 1
+        }
+
+        this.handlePageChange = this.handlePageChange.bind(this);
+        this.generateNoticias = this.generateNoticias.bind(this);
+    }
+
+    componentDidMount() {
+        this.props.fetchNoticias('5ba26f813a018f42215a36a0');
+        this.props.fetchFeaturedGuias('5ba26f813a018f42215a36a0');
+    }
+
+    componentWillReceiveProps(nextProps) {
+        console.log("no nextprops: ", nextProps)
+        if(nextProps.noticias){
+            if(nextProps.noticias.list)
+            {
+                this.setState({data: nextProps.noticias.list.slice(0,10), pageCount: Math.ceil(  nextProps.noticias.list.lenght / 10)});
+            }
+        }
+    }
+
+    getImageSrc(noticia){
+        if(noticia.s3_imagem_destacada){
+            return noticia.old_imagem_destacada;
+        }
+        if(noticia.old_imagem_destacada) {
+            return noticia.old_imagem_destacada;
+        }
+        else if(noticia.imagem_destacada){
+            //implementar codigo
+            return "http://soumaisniteroi.com.br/wp-content/uploads/2015/04/no-image.png";
+        }
+        return "http://soumaisniteroi.com.br/wp-content/uploads/2015/04/no-image.png";
+    }
+
+    datePtBr(date){
+        const options = {year: 'numeric', month: 'long', day: 'numeric' };
+        return date.toLocaleDateString('pt-BR', options)
+    }
+
+    generateNoticias() {
+        const truncate = _.truncate
+        let noticias = this.state.data.map( noticia => {
+            
+            return (
+                <div className="row blog-single">
+                    <div className="col-md-4">
+                        <div className="blog-img"> <img src={this.getImageSrc(noticia)} alt="" /> </div>
+                    </div>
+                    <div className="col-md-8">
+                        <div className="page-blog">
+                            <Link to={'/noticias/' + noticia.slug}  ><h3>{noticia.titulo}</h3></Link>
+                            <span>{this.datePtBr(new Date(noticia.createdAt))} </span>
+                            <p>{truncate(noticia.descricao.replace(/&#13;/g,'').replace(/<\/?[^>]+(>|$)/g, ""), { length: 150, separator: /,?\.* +/ })}</p> 
+                            <Link to={'/noticias/' + noticia.slug} className="waves-effect waves-light btn-large full-btn" >Leia Mais</Link> </div>
+                    </div>
+                </div>
+            )
+        })
+
+        return(
+            <div>
+                {noticias}
+                <Pagination
+                    activePage={this.state.activePage}
+                    itemsCountPerPage={10}
+                    totalItemsCount={this.props.noticias.list.length}
+                    pageRangeDisplayed={10}
+                    onChange={this.handlePageChange}
+                    prevPageText={<i className="material-icons">chevron_left</i>}
+                    nextPageText={<i className="material-icons">chevron_right</i>}
+                    firstPageText={<i className="material-icons">first_page</i>}
+                    lastPageText={<i className="material-icons">last_page</i>}
+                    innerClass="pagination list-pagenat"
+                    itemClass="waves-effect"
+                />
+            </div>
+        )
+    }
+
+    handlePageChange(pageNumber) {
+        console.log(`active page is ${pageNumber}`);
+        let data = [];
+        if(pageNumber == 1){
+            data = this.props.noticias.list.slice(0, 10)
+        }
+        else{
+            data = this.props.noticias.list.slice((pageNumber-1)*10,((pageNumber-1)*10)+10)
+        }
+        this.setState({activePage: pageNumber, data});
+        //{data: nextProps.noticias.list.slice(0,10)}
+    }
+
     render(){
-        console.log("PROPS: ", this.props.item)
         let columnRight = true;
+
+        let items = <div>Nenhuma Notícia encontrada!</div>
+        if(! this.props.noticias){
+            items = <div>Nenhuma Notícia encontrado !! </div>
+        }
+        else {
+            console.log("this.props.noticias: ", this.props.noticias.list)
+            if(!this.props.noticias.list)
+                items = <div>Nenhum noticia encontrado para a categoria {this.props.listName} </div>
+            else
+                items = this.generateNoticias();
+            //items = this.generateGuias(this.props.noticias.list)
+        }
 
         if(columnRight) {
             return(
-                <div>{this.contentWithColumnRight()}</div>
+                <div>{this.contentWithColumnRight(items)}</div>
             )
         }
         else {
             return(
                 <div>
-                    <HeaderBlog />
+                    <HeaderBlog title={this.props.title} subtitle={this.props.subtitle} />
                     <section className="p-about com-padd">
                         <div className="container">
-                            <div className="row blog-single">
-                                <div className="col-md-4">
-                                    <div className="blog-img"> <img src="images/services/20.jpeg" alt="" /> </div>
-                                </div>
-                                <div className="col-md-8">
-                                    <div className="page-blog">
-                                        <h3>Top 10 best resorts in london, england</h3> <span>November 10, 2017</span>
-                                        <p>It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English.</p> <a className="waves-effect waves-light btn-large full-btn" href="blog-content.html">Read More</a> </div>
-                                </div>
-                            </div>
-                            <div className="row blog-single">
-                                <div className="col-md-4">
-                                    <div className="blog-img"> <img src="images/services/7.jpg" alt="" /> </div>
-                                </div>
-                                <div className="col-md-8">
-                                    <div className="page-blog">
-                                        <h3>Building & Construction Service Providers</h3> <span>May 21, 2017</span>
-                                        <p>It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English.</p> <a className="waves-effect waves-light btn-large full-btn" href="blog-content.html">Read More</a> </div>
-                                </div>
-                            </div>
-                            <div className="row blog-single">
-                                <div className="col-md-4">
-                                    <div className="blog-img"> <img src="images/services/9.jpg" alt="" /> </div>
-                                </div>
-                                <div className="col-md-8">
-                                    <div className="page-blog">
-                                        <h3>Top export products from Canada</h3> <span>April 18, 2017</span>
-                                        <p>It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English.</p> <a className="waves-effect waves-light btn-large full-btn" href="blog-content.html">Read More</a> </div>
-                                </div>
-                            </div>
-                            <div className="row blog-single">
-                                <div className="col-md-4">
-                                    <div className="blog-img"> <img src="images/services/10.jpeg" alt="" /> </div>
-                                </div>
-                                <div className="col-md-8">
-                                    <div className="page-blog">
-                                        <h3>Grand opening operation research center</h3> <span>November 10, 2017</span>
-                                        <p>It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English.</p> <a className="waves-effect waves-light btn-large full-btn" href="blog-content.html">Read More</a> </div>
-                                </div>
-                            </div>
-                            <div className="row blog-single">
-                                <div className="col-md-4">
-                                    <div className="blog-img"> <img src="images/services/15.jpg" alt="" /> </div>
-                                </div>
-                                <div className="col-md-8">
-                                    <div className="page-blog">
-                                        <h3>How to make healthy veg salad at home</h3> <span>February 10, 2017</span>
-                                        <p>It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English.</p> <a className="waves-effect waves-light btn-large full-btn" href="blog-content.html">Read More</a> </div>
-                                </div>
-                            </div>
-                            <div className="row blog-single con-com-mar-bot-o">
-                                <div className="col-md-4">
-                                    <div className="blog-img"> <img src="images/services/11.jpg" alt="" /> </div>
-                                </div>
-                                <div className="col-md-8">
-                                    <div className="page-blog">
-                                        <h3>Fast construction techniques</h3> <span>March 08, 2017</span>
-                                        <p>It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English.</p> <a className="waves-effect waves-light btn-large full-btn" href="blog-content.html">Read More</a> </div>
-                                </div>
-                            </div>
+                            {items}
                         
                         {/*<!--MOBILE APP--> */}
                             <section className="web-app com-padd">
@@ -119,10 +178,10 @@ class BlogList extends Component {
         }
     }
 
-    contentWithColumnRight(){
+    contentWithColumnRight(items){
         return(
             <div>
-                <HeaderBlog />
+                <HeaderBlog title={this.props.title} subtitle={this.props.subtitle} />
                 <section className="p-about com-padd">
                     <div className="container">
 
@@ -130,68 +189,10 @@ class BlogList extends Component {
                             <div >
                                 <div className="list-pg-lt list-page-com-p">
 
-                                    <div className="row blog-single">
-                                        <div className="col-md-4">
-                                            <div className="blog-img"> <img src="images/services/20.jpeg" alt="" /> </div>
-                                        </div>
-                                        <div className="col-md-8">
-                                            <div className="page-blog">
-                                                <h3>Top 10 best resorts in london, england</h3> <span>November 10, 2017</span>
-                                                <p>It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English.</p> <a className="waves-effect waves-light btn-large full-btn" href="blog-content.html">Read More</a> </div>
-                                        </div>
-                                    </div>
-                                    <div className="row blog-single">
-                                        <div className="col-md-4">
-                                            <div className="blog-img"> <img src="images/services/7.jpg" alt="" /> </div>
-                                        </div>
-                                        <div className="col-md-8">
-                                            <div className="page-blog">
-                                                <h3>Building & Construction Service Providers</h3> <span>May 21, 2017</span>
-                                                <p>It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English.</p> <a className="waves-effect waves-light btn-large full-btn" href="blog-content.html">Read More</a> </div>
-                                        </div>
-                                    </div>
-                                    <div className="row blog-single">
-                                        <div className="col-md-4">
-                                            <div className="blog-img"> <img src="images/services/9.jpg" alt="" /> </div>
-                                        </div>
-                                        <div className="col-md-8">
-                                            <div className="page-blog">
-                                                <h3>Top export products from Canada</h3> <span>April 18, 2017</span>
-                                                <p>It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English.</p> <a className="waves-effect waves-light btn-large full-btn" href="blog-content.html">Read More</a> </div>
-                                        </div>
-                                    </div>
-                                    <div className="row blog-single">
-                                        <div className="col-md-4">
-                                            <div className="blog-img"> <img src="images/services/10.jpeg" alt="" /> </div>
-                                        </div>
-                                        <div className="col-md-8">
-                                            <div className="page-blog">
-                                                <h3>Grand opening operation research center</h3> <span>November 10, 2017</span>
-                                                <p>It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English.</p> <a className="waves-effect waves-light btn-large full-btn" href="blog-content.html">Read More</a> </div>
-                                        </div>
-                                    </div>
-                                    <div className="row blog-single">
-                                        <div className="col-md-4">
-                                            <div className="blog-img"> <img src="images/services/15.jpg" alt="" /> </div>
-                                        </div>
-                                        <div className="col-md-8">
-                                            <div className="page-blog">
-                                                <h3>How to make healthy veg salad at home</h3> <span>February 10, 2017</span>
-                                                <p>It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English.</p> <a className="waves-effect waves-light btn-large full-btn" href="blog-content.html">Read More</a> </div>
-                                        </div>
-                                    </div>
-                                    <div className="row blog-single con-com-mar-bot-o">
-                                        <div className="col-md-4">
-                                            <div className="blog-img"> <img src="images/services/11.jpg" alt="" /> </div>
-                                        </div>
-                                        <div className="col-md-8">
-                                            <div className="page-blog">
-                                                <h3>Fast construction techniques</h3> <span>March 08, 2017</span>
-                                                <p>It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English.</p> <a className="waves-effect waves-light btn-large full-btn" href="blog-content.html">Read More</a> </div>
-                                        </div>
-                                    </div>
+                                    {items}
+
                                 
-                                {/*<!--MOBILE APP--> */}
+                                    {/*<!--MOBILE APP--> */}
                                     <section className="web-app com-padd">
                                         <div >
                                             <div className="row">
@@ -222,7 +223,7 @@ class BlogList extends Component {
                                     </section>
 
                                 </div>
-                                    <RightColumn />
+                                    <RightColumn guias={(this.props.guias)?this.props.guias.recentes:[]}  />
                             </div>
                         </div>
                     </div>
@@ -233,4 +234,13 @@ class BlogList extends Component {
     }
 }
 
-export default BlogList;
+
+function mapStateToProps(state){
+    //console.log("state BLOG list: ", state)
+    return {
+        noticias: state.noticias,
+        guias: state.guias
+    }
+}
+
+export default connect(mapStateToProps, { fetchNoticias, fetchFeaturedGuias })(BlogList);

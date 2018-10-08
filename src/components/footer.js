@@ -4,7 +4,7 @@ import {connect} from 'react-redux';
 import FooterWidget from './modules/footer-widget';
 
 import { fetchGuiasRecentes } from '../actions/guia';
-import { fetchNoticias } from '../actions/noticia';
+import { fetchNoticiasRecentes } from '../actions/noticia';
 
 
 class Footer extends Component {
@@ -12,12 +12,11 @@ class Footer extends Component {
     componentDidMount() {
      
         this.props.fetchGuiasRecentes('5ba26f813a018f42215a36a0', 7, '-_id');
-        this.props.fetchNoticias('5ba26f813a018f42215a36a0', 4);
+        this.props.fetchNoticiasRecentes('5ba26f813a018f42215a36a0', 5, '-_id');
         
     }
 
     render(){
-        console.log("props no footer: ", this.props)
         if(! this.props.guias || !this.props.noticias)
             return null;
         else {
@@ -40,7 +39,7 @@ class Footer extends Component {
                                                         <p> <span className=""><i className="fa fa-envelope" aria-hidden="true"></i> </span> <span className="footer-contact">contato@soumaisniteroi.com.br</span> </p>
                                                     </div>
                                                     <FooterWidget title="Guias Recentes" object={this.props.guias.recentes}/>
-                                                    <FooterWidget title="Últimas Notícias" object={this.props.noticias}/>
+                                                    <FooterWidget title="Últimas Notícias" object={this.props.noticias.recentes}/>
                                                     
                                                     <div className="col-sm-4 col-md-3">
                                                         <h4>Facebook</h4>
@@ -140,7 +139,6 @@ class Footer extends Component {
 }
 
 function mapStateToProps(state){
-    console.log("state do footer", state)
     return {
         guias: state.guias,
         noticias: state.noticias,
@@ -148,4 +146,4 @@ function mapStateToProps(state){
 }
 
 //export default Footer;
-export default connect(mapStateToProps, { fetchGuiasRecentes, fetchNoticias })(Footer);
+export default connect(mapStateToProps, { fetchGuiasRecentes, fetchNoticiasRecentes })(Footer);

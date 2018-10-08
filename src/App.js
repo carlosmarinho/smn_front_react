@@ -31,7 +31,13 @@ import (`./assets/styles/css/${city_or_neighbor}.css`);
 
 const createStoreWithMiddleware = applyMiddleware(promise)(createStore);
 
-const BlogListNew = () => { return (<BlogList item="noticias"/>)}
+const BlogListNew = () => { return (<BlogList 
+                                        title="Noticías da Cidade de Niterói" 
+                                        subtitle="Noticías atualizadas diariamente de tudo o que acontece em Niterói" 
+                                        item="noticias"
+                                    />
+                                    )
+                            }
 
 class App extends Component {
     render() {

@@ -65,8 +65,6 @@ class FeaturedTwoColumns extends Component {
         if(this.props.object){
             ar_object = this.props.object;
 
-            console.log("aarrr object: ", ar_object)
-
             return(
                 <section className={`com-padd com-padd-redu-bot ${this.getCustomclassName()} ${this.getBackgroundColor()}`}>
                     <div className="container dir-hom-pre-tit">
