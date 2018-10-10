@@ -3,7 +3,8 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux'
 import HeaderBlog from '../header-destaque-blog';
 import { fetchNoticias } from '../../actions/noticia';
-import { fetchFeaturedGuias } from '../../actions/guia';
+import { fetchEventosRecentes } from '../../actions/evento';
+import { fetchGuiasFeatured } from '../../actions/guia';
 import { Link } from 'react-router-dom';
 
 import Pagination from "react-js-pagination";
@@ -25,8 +26,10 @@ class BlogList extends Component {
     }
 
     componentDidMount() {
-        this.props.fetchNoticias('5ba26f813a018f42215a36a0');
-        this.props.fetchFeaturedGuias('5ba26f813a018f42215a36a0');
+        console.log("props no did mount: ", this.props)
+        this.props.fetchNoticias('5ba26f813a018f42215a36a0', this.props.category);
+        this.props.fetchEventosRecentes('5ba26f813a018f42215a36a0');
+        this.props.fetchGuiasFeatured('5ba26f813a018f42215a36a0');
     }
 
     componentWillReceiveProps(nextProps) {
@@ -112,7 +115,7 @@ class BlogList extends Component {
     }
 
     render(){
-        let columnRight = true;
+        let columnRight = this.props.columnRight;
 
         let items = <div>Nenhuma Notícia encontrada!</div>
         if(! this.props.noticias){
@@ -192,38 +195,39 @@ class BlogList extends Component {
                                     {items}
 
                                 
-                                    {/*<!--MOBILE APP--> */}
-                                    <section className="web-app com-padd">
-                                        <div >
-                                            <div className="row">
-                                                <div className="col-md-6 web-app-img"> <img src="images/mobile.png" alt="" /> </div>
-                                                <div className="col-md-6 web-app-con">
-                                                    <h2>Looking for the Best Service Provider? <span>Get the App!</span></h2>
-                                                    <ul>
-                                                        <li><i className="fa fa-check" aria-hidden="true"></i> Find nearby listings</li>
-                                                        <li><i className="fa fa-check" aria-hidden="true"></i> Easy service enquiry</li>
-                                                        <li><i className="fa fa-check" aria-hidden="true"></i> Listing reviews and ratings</li>
-                                                        <li><i className="fa fa-check" aria-hidden="true"></i> Manage your listing, enquiry and reviews</li>
-                                                    </ul> <span>We'll send you a link, open it on your phone to download the app</span>
-                                                    <form>
-                                                        <ul>
-                                                            <li>
-                                                                <input type="text" placeholder="+01" /> </li>
-                                                            <li>
-                                                                <input type="number" placeholder="Enter mobile number" /> </li>
-                                                            <li>
-                                                                <input type="submit" value="Get App Link" /> </li>
-                                                        </ul>
-                                                    </form>
-                                                    <a href="#"><img src="images/android.png" alt="" /> </a>
-                                                    <a href="#"><img src="images/apple.png" alt="" /> </a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </section>
+                                   
 
                                 </div>
-                                    <RightColumn guias={(this.props.guias)?this.props.guias.recentes:[]}  />
+                                    <RightColumn guias={(this.props.guias)?this.props.guias:[]} eventos={(this.props.eventos)?this.props.eventos.recentes:[]}  />
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                 {/*<!--MOBILE APP--> */}
+                 <section class="web-app com-padd">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-md-6 web-app-img"> <img src="images/mobile.png" alt="" /> </div>
+                            <div class="col-md-6 web-app-con">
+                                <h2>Looking for the Best Service Provider? <span>Get the App!</span></h2>
+                                <ul>
+                                    <li><i class="fa fa-check" aria-hidden="true"></i> Find nearby listings</li>
+                                    <li><i class="fa fa-check" aria-hidden="true"></i> Easy service enquiry</li>
+                                    <li><i class="fa fa-check" aria-hidden="true"></i> Listing reviews and ratings</li>
+                                    <li><i class="fa fa-check" aria-hidden="true"></i> Manage your listing, enquiry and reviews</li>
+                                </ul> <span>We'll send you a link, open it on your phone to download the app</span>
+                                <form>
+                                    <ul>
+                                        <li>
+                                            <input type="text" placeholder="+01" /> </li>
+                                        <li>
+                                            <input type="number" placeholder="Enter mobile number" /> </li>
+                                        <li>
+                                            <input type="submit" value="Get App Link" /> </li>
+                                    </ul>
+                                </form>
+                                <a href="#"><img src="images/android.png" alt="" /> </a>
+                                <a href="#"><img src="images/apple.png" alt="" /> </a>
                             </div>
                         </div>
                     </div>
@@ -239,8 +243,9 @@ function mapStateToProps(state){
     //console.log("state BLOG list: ", state)
     return {
         noticias: state.noticias,
-        guias: state.guias
+        guias: state.guias,
+        eventos: state.eventos
     }
 }
 
-export default connect(mapStateToProps, { fetchNoticias, fetchFeaturedGuias })(BlogList);
+export default connect(mapStateToProps, { fetchNoticias, fetchEventosRecentes, fetchGuiasFeatured })(BlogList);

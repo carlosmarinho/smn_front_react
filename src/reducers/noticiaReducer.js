@@ -5,8 +5,6 @@ export default function(state = null, action) {
     let noticia =  {recentes: null, list: null};
     switch (action.type) {
         case FETCH_NOTICIAS:
-            
-
             if(state && state.recentes)
                 noticia.recentes = state.recentes;
             

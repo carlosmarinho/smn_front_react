@@ -35,9 +35,20 @@ const BlogListNew = () => { return (<BlogList
                                         title="Noticías da Cidade de Niterói" 
                                         subtitle="Noticías atualizadas diariamente de tudo o que acontece em Niterói" 
                                         item="noticias"
+                                        columnRight={true}
                                     />
                                     )
                             }
+
+const BlogListCity = () => { return (<BlogList 
+                                title="Noticías da Cidade de Niterói" 
+                                subtitle="Noticías atualizadas diariamente de tudo o que acontece em Niterói" 
+                                item="noticias"
+                                columnRight={false}
+                                category="Bairro"
+                            />
+                            )
+                    }                            
 
 class App extends Component {
     render() {
@@ -51,7 +62,7 @@ class App extends Component {
                             <Route exact path="/" component={Home} />
                             <Route exact path="/login" component={Login} />
                             <Route exact path="/cadastro" component={Register} />
-                            <Route exact path="/a-cidade" component={BlogList} />
+                            <Route exact path="/a-cidade" component={BlogListCity} />
                             <Route exact path="/guia" component={ListingList} />
                             <Route exact path="/eventos" component={ListingGrid} />
                             <Route exact path="/guia-comercial/:slug" component={ListingItem} />
