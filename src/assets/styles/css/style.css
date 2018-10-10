@@ -68,6 +68,11 @@ a:hover {
 .com-padd-min {
   padding: 20px 0px; }
 
+.com-padd-horizon {
+  padding-left: 25px;
+  padding-right: 25px; }
+
+/*end created by carlos */
 .com-padd {
   /* padding-top: 80px;
      */
@@ -4174,7 +4179,7 @@ footer ul li a:hover {
   font-size: 20px; }
 
 .inn-pag-ban h2 {
-  font-size: 50px; }
+  font-size: 40px; }
 
 .inn-pag-ban h5 {
   font-size: 14px; }
@@ -4447,7 +4452,8 @@ footer ul li a:hover {
   color: #2a2b33; }
 
 .share-pad-bot {
-  padding-bottom: 10px; }
+  /*altered by carlos padding-bottom: 10px;*/
+  padding-bottom: 30px; }
 
 .blog-comment h3 {
   color: #333;
@@ -7329,3 +7335,10 @@ footer ul li a:hover {
 
 .mar-left-10 {
   margin-left: 10px; }
+
+/*Ajustar as ancoras por carlos*/
+#ld-ser, #ld-abour, #ld-gal, #ld-view, #ld-rew, #ld-rer {
+  display: block;
+  position: relative;
+  top: -120px;
+  visibility: hidden; }

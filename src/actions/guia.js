@@ -14,6 +14,27 @@ export const fetchGuia = (id) => {
     }
 }
 
+export const fetchGuiaBySlug = async (slug) => {
+
+    let jwt = localStorage.getItem('jwt');
+    
+
+    if(!jwt){
+        let ret = await axios.post('http://localhost:1337/auth/local', { identifier: 'adm_manager', password: 'carlos' })
+        jwt = ret.data.jwt;
+        localStorage.setItem('jwt', jwt);
+    }
+
+    let config = { headers: { 'Authorization': `Bearer ${jwt}` } };
+
+    const request = axios.get(`http://localhost:1337/guia/slug=${slug}`, config);
+
+    return {
+        type: FETCH_GUIA,
+        payload: request
+    }
+}
+
 export const fetchGuiasRecentes = async(city_id, limit='', sort=null) => {
     if(!sort)
         sort = '-_id';

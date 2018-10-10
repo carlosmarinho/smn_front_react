@@ -11,6 +11,7 @@ import HomeTeste from './components/home-html'
 import Home from './components/home'
 import Header from './components/header'
 import Footer from './components/footer'
+import NewsItem from './components/modules/news-item'
 import BlogList from './components/modules/blog-list'
 import ListingItem from './components/modules/listing-item'
 import ListingList from './components/modules/listing-list'
@@ -31,7 +32,7 @@ import (`./assets/styles/css/${city_or_neighbor}.css`);
 
 const createStoreWithMiddleware = applyMiddleware(promise)(createStore);
 
-const BlogListNew = () => { return (<BlogList 
+const BlogListNews = () => { return (<BlogList 
                                         title="Noticías da Cidade de Niterói" 
                                         subtitle="Noticías atualizadas diariamente de tudo o que acontece em Niterói" 
                                         item="noticias"
@@ -67,7 +68,8 @@ class App extends Component {
                             <Route exact path="/eventos" component={ListingGrid} />
                             <Route exact path="/guia-comercial/:slug" component={ListingItem} />
                             <Route exact path="/contato" component={Contact} />
-                            <Route exact path="/noticias" component={BlogListNew} />
+                            <Route exact path="/noticias/:slug" component={NewsItem} />
+                            <Route exact path="/noticias" component={BlogListNews} />
                             <Route exact path="/home-teste" component={HomeTeste} />
                         </div>
                         <Footer />

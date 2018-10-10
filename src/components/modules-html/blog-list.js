@@ -221,7 +221,7 @@ class BlogList extends Component {
                                     </section>
 
                                 </div>
-                                    <RightColumn />
+                                <RightColumn />
                             </div>
                         </div>
                     </div>

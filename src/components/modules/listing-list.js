@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
 import HeaderListing from '../header-destaque-listing';
 import { fetchGuias } from '../../actions/guia';
 import { fetchBairros } from '../../actions/bairro';
@@ -7,6 +8,7 @@ import { fetchCategoriesGuiaTop } from '../../actions/categoria';
 import Pagination from "react-js-pagination";
 
 import ListingLeftColumn from '../listing-left-column';
+import PreFooter from './pre-footer';
 
 
 class ListingList extends Component {
@@ -66,7 +68,7 @@ class ListingList extends Component {
                     {/*<!--LISTINGS IMAGE-->*/}
                     <div className="col-md-3 list-ser-img"> <img src={this.getImageSrc(guia)} alt="" /> </div>
                     {/*<!--LISTINGS: CONTENT-->*/}
-                    <div className="col-md-9 home-list-pop-desc inn-list-pop-desc"> <a href="listing-details.html"><h3>{guia.titulo}</h3></a>
+                    <div className="col-md-9 home-list-pop-desc inn-list-pop-desc"> <Link to={`/guia-comercial/` + guia.slug}><h3>{guia.titulo}</h3></Link>
                         <h4>{guia.cidade[0].nome} {(guia.bairros.length>0)?'- ' + guia.bairros[0].nome:''}</h4>
                         <p>{(guia.endereco)?<b>Endereço:</b>:''} {guia.endereco}</p>
                         <div className="list-number">
@@ -193,35 +195,7 @@ class ListingList extends Component {
                         </div>
                     </div>
                 </section>
-                {/*{/*<!--MOBILE APP-->*/}
-                <section className="web-app com-padd">
-                    <div className="container">
-                        <div className="row">
-                            <div className="col-md-6 web-app-img"> <img src="images/mobile.png" alt="" /> </div>
-                            <div className="col-md-6 web-app-con">
-                                <h2>Looking for the Best Service Provider? <span>Get the App!</span></h2>
-                                <ul>
-                                    <li><i className="fa fa-check" aria-hidden="true"></i> Find nearby listings</li>
-                                    <li><i className="fa fa-check" aria-hidden="true"></i> Easy service enquiry</li>
-                                    <li><i className="fa fa-check" aria-hidden="true"></i> Listing reviews and ratings</li>
-                                    <li><i className="fa fa-check" aria-hidden="true"></i> Manage your listing, enquiry and reviews</li>
-                                </ul> <span>We'll send you a link, open it on your phone to download the app</span>
-                                <form>
-                                    <ul>
-                                        <li>
-                                            <input type="text" placeholder="+01" /> </li>
-                                        <li>
-                                            <input type="number" placeholder="Enter mobile number" /> </li>
-                                        <li>
-                                            <input type="submit" value="Get App Link" /> </li>
-                                    </ul>
-                                </form>
-                                <a href="#"><img src="images/android.png" alt="" /> </a>
-                                <a href="#"><img src="images/apple.png" alt="" /> </a>
-                            </div>
-                        </div>
-                    </div>
-                </section>
+                <PreFooter />
             </div>
         )
     }

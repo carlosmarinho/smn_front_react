@@ -10,19 +10,19 @@ class HeaderDestaqueGuia extends Component {
                             <div className="row">
                                 <div className="v3-list-ql-inn">
                                     <ul>
-                                        <li className="active"><a href="#ld-abour"><i className="fa fa-user"></i> About</a>
+                                        <li className="active"><a href="#ld-abour"><i className="fa fa-user"></i> Sobre</a>
                                         </li>
-                                        <li><a href="#ld-ser"><i className="fa fa-cog"></i> Services</a>
+                                        <li><a href="#ld-ser"><i className="fa fa-cog"></i> Serviços</a>
                                         </li>
-                                        <li><a href="#ld-gal"><i className="fa fa-photo"></i> Gallery</a>
+                                        <li><a href="#ld-gal"><i className="fa fa-photo"></i> Galeria de Fotos</a>
                                         </li>
-                                        <li><a href="#ld-roo"><i className="fa fa-ticket"></i> Room Booking</a>
+                                        {/*<li><a href="#ld-roo"><i className="fa fa-ticket"></i> Room Booking</a>
+                                        </li>*/}
+                                        <li><a href="#ld-vie"><i className="fa fa-street-view"></i> Google Street View</a>
                                         </li>
-                                        <li><a href="#ld-vie"><i className="fa fa-street-view"></i> 360 View</a>
+                                        <li><a href="#ld-rew"><i className="fa fa-edit"></i> Deixe seus comentários</a>
                                         </li>
-                                        <li><a href="#ld-rew"><i className="fa fa-edit"></i> Write Review</a>
-                                        </li>
-                                        <li><a href="#ld-rer"><i className="fa fa-star-half-o"></i> User Review</a>
+                                        <li><a href="#ld-rer"><i className="fa fa-star-half-o"></i> Comentários</a>
                                         </li>
                                     </ul>
                                 </div>

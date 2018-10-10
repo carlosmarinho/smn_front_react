@@ -5,12 +5,22 @@ import WidgetFeatured from './modules/widget-featured';
 
 
 class RightColumn extends Component {
+
+    getWidgetForGuia(){
+        if(this.props.guiaType ){
+            return <WidgetFeatured title="Guias em Destaques" objects={this.props.guias.featured}/>
+        }
+        else{
+            return <RightWidgetLink title="Guias em Destaques" objects={this.props.guias.featured} />
+        }
+    }
+
     render(){
         console.log("no right column: ", this.props.guias)
         return(
 
             <div className="list-pg-rt">
-                <WidgetFeatured title="Guias em Destaques" objects={this.props.guias.featured}/>
+                {this.getWidgetForGuia()}
 
                 <RightWidgetLink title="Eventos Recentes" objects={this.props.eventos}/>
 

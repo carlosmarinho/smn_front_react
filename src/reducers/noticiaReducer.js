@@ -1,19 +1,38 @@
-import { FETCH_NOTICIAS, FETCH_NOTICIAS_RECENTES } from "../actions/types";
+import { FETCH_NOTICIA, FETCH_NOTICIAS, FETCH_NOTICIAS_RECENTES } from "../actions/types";
 
 export default function(state = null, action) {
 
-    let noticia =  {recentes: null, list: null};
+    let noticia =  {noticia: null, recentes: null, list: null};
     switch (action.type) {
+        case FETCH_NOTICIA:
+            if(state){
+                if(state.recentes)
+                    noticia.recentes = state.recentes;
+                if(state.list)
+                    noticia.list = state.list;
+            }
+            
+            
+            noticia.noticia = action.payload.data[0];
+            return noticia;
         case FETCH_NOTICIAS:
-            if(state && state.recentes)
-                noticia.recentes = state.recentes;
+            if(state){
+                if(state.recentes)
+                    noticia.recentes = state.recentes;
+                if(state.noticia)
+                    noticia.noticia = state.noticia;
+            }
+            
             
             noticia.list = action.payload.data;
-            console.log("state no fetch noticias", noticia);
             return noticia;
         case FETCH_NOTICIAS_RECENTES:
-            if(state && state.list)
-                noticia.list = state.list;
+            if(state){
+                if(state.list)
+                    noticia.list = state.list;
+                if(state.noticia)
+                    noticia.noticia = state.noticia;
+            }
 
             noticia.recentes = action.payload.data
             return noticia;
