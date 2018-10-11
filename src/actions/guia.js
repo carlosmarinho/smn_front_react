@@ -27,7 +27,7 @@ export const fetchGuiaBySlug = async (slug) => {
 
     let config = { headers: { 'Authorization': `Bearer ${jwt}` } };
 
-    const request = axios.get(`http://localhost:1337/guia/slug=${slug}`, config);
+    const request = axios.get(`http://localhost:1337/guia/?slug=${slug}`, config);
 
     return {
         type: FETCH_GUIA,

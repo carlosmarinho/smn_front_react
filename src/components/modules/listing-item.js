@@ -12,9 +12,48 @@ import Reviews from './reviews';
 class ListingItem extends Component {
 
     componentDidMount() {
-        this.props.fetchGuiaBySlug(this.props.slug);
+        this.props.fetchGuiaBySlug(this.props.match.params.slug);
         this.props.fetchEventosRecentes('5ba26f813a018f42215a36a0');
         this.props.fetchGuiasFeatured('5ba26f813a018f42215a36a0');
+    }
+
+    render(){
+        let item = {};
+        console.log('this.propsguia: ', this.props)
+        if(this.props.guias)
+            item = this.props.guias.guia
+            
+        return(
+            <div>
+                
+                <HeaderGuia guia={item} />
+
+                <section className="list-pg-bg">
+                    <div className="container">
+                        <div className="row">
+                            <div className="com-padd">
+                                <div className="list-pg-lt list-page-com-p">
+                                    {this.about(item)}
+                                    {this.services(item)}
+                                    {this.gallery(item)}
+                                    {this.streetView(item)}
+                                    <FormComment text="Deixando um comentário adequado a este guia você estará ajudando outros a encontrar exatamente o que estão procurando!" />
+                                    <Reviews />
+                                </div>
+                                
+
+
+                                {/*RIGH COLUMN*/}
+                                <RightColumn guiaType="featured" guias={(this.props.guias)?this.props.guias:[]} eventos={(this.props.eventos)?this.props.eventos.recentes:[]}  />
+
+
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                <PreFooter />
+            </div>
+        )
     }
 
     about(item) {
@@ -129,40 +168,7 @@ class ListingItem extends Component {
         )
     }
 
-    render(){
-        let item = {};
-        return(
-            <div>
-                
-                <HeaderGuia />
-
-                <section className="list-pg-bg">
-                    <div className="container">
-                        <div className="row">
-                            <div className="com-padd">
-                                <div className="list-pg-lt list-page-com-p">
-                                    {this.about(item)}
-                                    {this.services(item)}
-                                    {this.gallery(item)}
-                                    {this.streetView(item)}
-                                    <FormComment text="Deixando um comentário adequado a este guia você estará ajudando outros a encontrar exatamente o que estão procurando!" />
-                                    <Reviews />
-                                </div>
-                                
-
-
-                                {/*RIGH COLUMN*/}
-                                <RightColumn guiaType="featured" guias={(this.props.guias)?this.props.guias:[]} eventos={(this.props.eventos)?this.props.eventos.recentes:[]}  />
-
-
-                            </div>
-                        </div>
-                    </div>
-                </section>
-                <PreFooter />
-            </div>
-        )
-    }
+    
 }
 
 

@@ -14,7 +14,7 @@ export default function(state = null, action) {
                     guia.list = state.list
             }
             
-            guia.guia = action.payload.data;
+            guia.guia = action.payload.data[0];
             return guia;
 
         case FETCH_GUIAS:

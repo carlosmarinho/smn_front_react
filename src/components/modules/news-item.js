@@ -11,7 +11,7 @@ import FormComment from './form-comment';
 class NewsItem extends Component {
 
     componentDidMount() {
-        this.props.fetchNoticiaBySlug(this.props.slug);
+        this.props.fetchNoticiaBySlug(this.props.match.params.slug);
         this.props.fetchEventosRecentes('5ba26f813a018f42215a36a0');
         this.props.fetchGuiasFeatured('5ba26f813a018f42215a36a0');
     }
@@ -98,8 +98,6 @@ class NewsItem extends Component {
     render(){
 
         //let columnRight = this.props.columnRight;
-
-        console.log("props no news items: ", this.props);
 
         let item = {};
         if(this.props.noticias && this.props.noticias.noticia)

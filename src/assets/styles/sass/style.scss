@@ -3691,7 +3691,8 @@
 /*-------------------------------------------------------*/
  .pg-list-1 {
      margin-top: 60px;
-     background: url(../../images/list-deta/bg.jpg) no-repeat;
+     /*commented by carlos background: url(../../images/list-deta/bg.jpg) no-repeat;*/
+     background: url(http://soumaisniteroi.com.br/wp-content/uploads/2015/04/no-image.png) no-repeat;
      background-size: cover;
      position: relative;
      padding: 250px 0px 70px 0px;
@@ -3748,14 +3749,24 @@
 }
  .pag-p1-phone ul {
 }
+
+
  .pag-p1-phone ul li {
      color: #dcdcdc;
      font-size: 14px;
-     width: 33.33%;
+     width: 50%;
      text-overflow: ellipsis;
      white-space: pre;
      overflow: hidden;
 }
+
+/*added by carlos*/
+.pag-p1-phone ul li:first-child{
+    width: 25%;
+
+}
+/*end added by carlos*/
+
  .pag-p1-phone ul li i {
      width: 24px;
      height: 24px;

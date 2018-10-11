@@ -1,7 +1,52 @@
 import React, { Component } from 'react';
 
 class HeaderDestaqueGuia extends Component {
+
+    getBackground(guia) {
+        
+    }
+
+    getAvaliacao(guia){
+        if(guia && guia.avaliacao)
+            return (
+                <div className="list-rat-ch"> <span>5.0</span> 
+                    <i className="fa fa-star" aria-hidden="true"></i> <i className="fa fa-star" aria-hidden="true"></i> <i className="fa fa-star" aria-hidden="true"></i> <i className="fa fa-star" aria-hidden="true"></i> <i className="fa fa-star" aria-hidden="true"></i> 
+                </div>
+            )
+        else 
+            return (
+                <div className="list-rat-ch"> <span>Nenhuma Avaliação</span> 
+                    <i className="fa fa-star-o" aria-hidden="true"></i> <i className="fa fa-star-o" aria-hidden="true"></i> <i className="fa fa-star-o" aria-hidden="true"></i> <i className="fa fa-star-o" aria-hidden="true"></i> <i className="fa fa-star-o" aria-hidden="true"></i> 
+                </div>
+            );
+    }
+
+    getTelefone(guia){
+        if(guia && guia.telefone){
+            return (
+                <li><i className="fa fa-phone" aria-hidden="true"></i> {guia.telefone}</li>
+            )
+        }
+    }
+
+    getEmail(guia){
+        if(guia && guia.email){
+            return (
+                <li><i className="fa fa-envelope" aria-hidden="true"></i> {guia.email}</li>
+            )
+        }
+    }
+
+    getContact(guia){
+        if(guia && guia.contato){
+            return (
+                <li><i className="fa fa-user" aria-hidden="true"></i> {guia.contato}</li>
+            )
+        }
+    }
+
     render(){
+        let guia = this.props.guia;
         return(
             <div>
                 <section>
@@ -32,28 +77,28 @@ class HeaderDestaqueGuia extends Component {
                 </section>
 
                 {/*<!--LISTING DETAILS-->*/}
-                <section className="pg-list-1">
+                <section className="pg-list-1" style={this.getBackground(guia)}>
                     <div className="container">
                         <div className="row">
-                            <div className="pg-list-1-left"> <a href="#"><h3>Taj Luxury Hotel & Resorts</h3></a>
-                                <div className="list-rat-ch"> <span>5.0</span> <i className="fa fa-star" aria-hidden="true"></i> <i className="fa fa-star" aria-hidden="true"></i> <i className="fa fa-star" aria-hidden="true"></i> <i className="fa fa-star" aria-hidden="true"></i> <i className="fa fa-star" aria-hidden="true"></i> </div>
-                                <h4>Express Avenue Mall, Los Angeles</h4>
-                                <p><b>Address:</b> 28800 Orchard Lake Road, Suite 180 Farmington Hills, Los Angeles, USA.</p>
+                            <div className="pg-list-1-left"> <a href="#"><h3>{(guia)?guia.titulo:''}</h3></a>
+                                {this.getAvaliacao(guia)}
+
+                                <h4>{(guia && guia.cidade && guia.cidade.length>0)?guia.cidade[0].nome:''} {(guia && guia.bairros && guia.bairros.length>0)?'- ' + guia.bairros[0].nome:''}</h4>
+                                <p><b>Endereço:</b> {(guia)?guia.endereco:''}</p>
                                 <div className="list-number pag-p1-phone">
                                     <ul>
-                                        <li><i className="fa fa-phone" aria-hidden="true"></i> +01 1245 2541</li>
-                                        <li><i className="fa fa-envelope" aria-hidden="true"></i> localdir@webdir.com</li>
-                                        <li><i className="fa fa-user" aria-hidden="true"></i> johny depp</li>
+                                        {this.getTelefone(guia)}
+                                        {this.getEmail(guia)}
+                                        {this.getContact(guia)}
                                     </ul>
                                 </div>
                             </div>
                             <div className="pg-list-1-right">
                                 <div className="list-enqu-btn pg-list-1-right-p1">
                                     <ul>
-                                        <li><a href="#ld-rew"><i className="fa fa-star-o" aria-hidden="true"></i> Write Review</a> </li>
-                                        <li><a href="#"><i className="fa fa-commenting-o" aria-hidden="true"></i> Send SMS</a> </li>
-                                        <li><a href="#"><i className="fa fa-phone" aria-hidden="true"></i> Call Now</a> </li>
-                                        <li><a href="#" data-dismiss="modal" data-toggle="modal" data-target="#list-quo"><i className="fa fa-usd" aria-hidden="true"></i> Get Quotes</a> </li>
+                                        <li><a href="#ld-rew"><i className="fa fa-star-o" aria-hidden="true"></i> Escreva seu Comentário</a> </li>
+                                        <li><a href="#"><i className="fa fa-phone" aria-hidden="true"></i> Ligue Agora</a> </li>
+                                        <li><a href="#" data-dismiss="modal" data-toggle="modal" data-target="#list-quo"><i className="fa fa-question-circle" aria-hidden="true"></i> Pergunte</a> </li>
                                     </ul>
                                 </div>
                             </div>

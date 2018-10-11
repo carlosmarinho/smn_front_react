@@ -6,7 +6,7 @@ import { FETCH_NOTICIA, FETCH_NOTICIAS, FETCH_NOTICIAS_RECENTES } from "./types"
 export const fetchNoticiaBySlug = async(slug='', limit=1) => {
     
     if(slug){
-        slug = `slug=${slug}`
+        slug = `slug=${slug}&`
     }
 
     let jwt = localStorage.getItem('jwt');
