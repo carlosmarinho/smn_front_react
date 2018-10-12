@@ -2,8 +2,22 @@ import React, { Component } from 'react';
 
 class HeaderDestaqueGuia extends Component {
 
+    getImageSrc(guia){
+        if(guia.s3_imagem_destacada){
+            return guia.old_imagem_destacada;
+        }
+        if(guia.old_imagem_destacada) {
+            return guia.old_imagem_destacada;
+        }
+        else if(guia.imagem_destacada){
+            //implementar codigo
+            return "http://soumaisniteroi.com.br/wp-content/uploads/2015/04/no-image.png";
+        }
+        return "http://soumaisniteroi.com.br/wp-content/uploads/2015/04/no-image.png";
+    }
+
     getBackground(guia) {
-        
+        return {background: `url(${this.getImageSrc(guia)})`}
     }
 
     getAvaliacao(guia){

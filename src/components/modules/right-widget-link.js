@@ -28,7 +28,7 @@ class RightWidgetLink extends Component {
                         <a href={'guia-comercial/' + object.slug}>
                             <div className="list-pg-guar-img"> <img src={this.getImageSrc(object)} alt="" style={{width:32}} /> </div>
                             <h4>{truncate(object.titulo, { length: 50, separator: /,?\.* +/ })}</h4>
-                            <p>{object.cidade[0].nome} {(object.bairros.length>0)?', ' + object.bairros[0].nome: ''}</p>
+                            <p>{(object.cidade && object.cidade.length>0)?object.cidade[0].nome:''} {(object.bairros.length>0)?', ' + object.bairros[0].nome: ''}</p>
                         </a>
                     </li>
                 )
@@ -39,6 +39,7 @@ class RightWidgetLink extends Component {
 
     render(){
         let objects = []
+        console.log("objects no right widget: ", this.props)
         if(this.props.objects && this.props.objects.length > 0)
         {
             objects = this.props.objects;

@@ -61,7 +61,7 @@ class ListingItem extends Component {
             <div className="pglist-p1 pglist-bg pglist-p-com" >
                 <span id="ld-abour"></span>
                 <div className="pglist-p-com-ti">
-                    <h3><span>Sobre</span> Taj Luxury</h3> </div>
+                    <h3><span>Sobre</span> {item.titulo}</h3> </div>
                 <div className="list-pg-inn-sp">
                     <div className="share-btn">
                         <ul>
@@ -70,8 +70,7 @@ class ListingItem extends Component {
                             <li><a href="#"><i className="fa fa-google-plus gp1"></i> Share On Google Plus</a> </li>
                         </ul>
                     </div>
-                    <p>Taj Luxury Hotels & Resorts presents award winning luxury hotels and resorts in India, Indonesia, Mauritius, Egypt and Saudi Arabia.It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution </p>
-                    <p>There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn't anything embarrassing hidden in the middle of text. All the Lorem Ipsum generators on the Internet tend to repeat predefined chunks as necessary, making this the first true generator on the Internet.</p>
+                    <div dangerouslySetInnerHTML={{__html: item.descricao}}></div>
                 </div>
             </div>
         )
