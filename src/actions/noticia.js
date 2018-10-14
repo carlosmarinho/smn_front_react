@@ -65,7 +65,6 @@ export const fetchNoticiasRecentes = async(city_id, limit='', sort=null) => {
     if(limit)
         limit = `&_limit=${limit}`
 
-        console.log("No fetch Noticias RECENTES: ", jwt);
 
     let jwt = localStorage.getItem('jwt');
     

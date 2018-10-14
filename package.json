@@ -13,6 +13,7 @@
     "react-router": "^4.3.1",
     "react-router-dom": "^4.3.1",
     "react-scripts": "1.1.5",
+    "react-streetview": "^1.1.1",
     "redux": "^4.0.0",
     "redux-promise": "^0.6.0"
   },

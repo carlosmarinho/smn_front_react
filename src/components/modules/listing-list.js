@@ -18,7 +18,8 @@ class ListingList extends Component {
         
         this.state = {
             data: [],
-            activePage: 1
+            activePage: 1,
+            perPage: 10
         }
 
         this.handlePageChange = this.handlePageChange.bind(this);
@@ -30,14 +31,14 @@ class ListingList extends Component {
         this.props.fetchCategoriesGuiaTop();
         this.props.fetchBairros('5ba26f813a018f42215a36a0');
 
-        //this.setState({data: this.props.guias.list, pageCount: Math.ceil(  this.props.guias.list.lenght / 10)});
+        //this.setState({data: this.props.guias.list, pageCount: Math.ceil(  this.props.guias.list.lenght / evento)});
     }
 
     componentWillReceiveProps(nextProps) {
         if(nextProps.guias){
             if(nextProps.guias.list)
             {
-                this.setState({data: nextProps.guias.list.slice(0,10), pageCount: Math.ceil(  nextProps.guias.list.lenght / 10)});
+                this.setState({data: nextProps.guias.list.slice(0,this.state.perPage), pageCount: Math.ceil(  nextProps.guias.list.lenght / this.state.perPage)});
             }
         }
     }
@@ -82,7 +83,7 @@ class ListingList extends Component {
                         <div className="list-enqu-btn">
                             <ul>
                                 <li><a href="#!"><i className="fa fa-envelope" aria-hidden="true"></i> Enviar Email</a> </li>
-                                <li><a href="#!"><i className="fa fa-star-o" aria-hidden="true"></i> Dê sua Opinião</a> </li>
+                                <li><a href="#!"><i className="fa fa-star-o" aria-hidden="true"></i> Faça sua Avaliação</a> </li>
                                 <li><a href="#!" data-dismiss="modal" data-toggle="modal" data-target="#list-quo"><i className="fa fa-question-circle" aria-hidden="true"></i> Pergunta Direta</a> </li>
                             </ul>
                         </div>
@@ -91,14 +92,18 @@ class ListingList extends Component {
             )
         })
 
+        let itemCount = 0;
+        if(this.props && this.props.guias)
+            itemCount = this.props.guias.list.length
+
         return(
             <div>
                 {guias}
                 <Pagination
                     activePage={this.state.activePage}
-                    itemsCountPerPage={10}
-                    totalItemsCount={this.props.guias.list.length}
-                    pageRangeDisplayed={10}
+                    itemsCountPerPage={this.state.perPage}
+                    totalItemsCount={itemCount}
+                    pageRangeDisplayed={this.state.perPage}
                     onChange={this.handlePageChange}
                     prevPageText={<i className="material-icons">chevron_left</i>}
                     nextPageText={<i className="material-icons">chevron_right</i>}
@@ -115,13 +120,13 @@ class ListingList extends Component {
         console.log(`active page is ${pageNumber}`);
         let data = [];
         if(pageNumber == 1){
-            data = this.props.guias.list.slice(0, 10)
+            data = this.props.guias.list.slice(0, this.state.perPage)
         }
         else{
-            data = this.props.guias.list.slice((pageNumber-1)*10,((pageNumber-1)*10)+10)
+            data = this.props.guias.list.slice((pageNumber-1)*this.state.perPage,((pageNumber-1)*this.state.perPage)+this.state.perPage)
         }
         this.setState({activePage: pageNumber, data});
-        //{data: nextProps.guias.list.slice(0,10)}
+        //{data: nextProps.guias.list.slice(0,evento)}
     }
 
     render(){

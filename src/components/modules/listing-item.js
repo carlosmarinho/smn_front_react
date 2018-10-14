@@ -8,6 +8,8 @@ import { fetchEventosRecentes } from '../../actions/evento';
 import { fetchGuiasFeatured } from '../../actions/guia';
 import FormComment from './form-comment';
 import Reviews from './reviews';
+import streetView from './street-view';
+import StreetView from './street-view';
 
 class ListingItem extends Component {
 
@@ -34,7 +36,7 @@ class ListingItem extends Component {
                             <div className="com-padd">
                                 <div className="list-pg-lt list-page-com-p">
                                     {this.about(item)}
-                                    {this.services(item)}
+                                    {(item && item.descricao_servicos)?this.services(item):''}
                                     {this.gallery(item)}
                                     {this.streetView(item)}
                                     <FormComment text="Deixando um comentário adequado a este guia você estará ajudando outros a encontrar exatamente o que estão procurando!" />
@@ -61,7 +63,7 @@ class ListingItem extends Component {
             <div className="pglist-p1 pglist-bg pglist-p-com" >
                 <span id="ld-abour"></span>
                 <div className="pglist-p-com-ti">
-                    <h3><span>Sobre</span> {item.titulo}</h3> </div>
+                    <h3><span>Sobre</span> {(item)?item.titulo:'Carregando...'}</h3> </div>
                 <div className="list-pg-inn-sp">
                     <div className="share-btn">
                         <ul>
@@ -70,7 +72,7 @@ class ListingItem extends Component {
                             <li><a href="#"><i className="fa fa-google-plus gp1"></i> Share On Google Plus</a> </li>
                         </ul>
                     </div>
-                    <div dangerouslySetInnerHTML={{__html: item.descricao}}></div>
+                    <div dangerouslySetInnerHTML={{__html: (item)?item.descricao:'carregando...'}}></div>
                 </div>
             </div>
         )
@@ -87,32 +89,32 @@ class ListingItem extends Component {
                     <div className="row pg-list-ser">
                         <ul>
                             <li className="col-md-4">
-                                <div className="pg-list-ser-p1"><img src="images/services/ser1.jpg" alt="" /> </div>
+                                <div className="pg-list-ser-p1"><img src="/images/services/ser1.jpg" alt="" /> </div>
                                 <div className="pg-list-ser-p2">
                                     <h4>Restaurant and Bar</h4> </div>
                             </li>
                             <li className="col-md-4">
-                                <div className="pg-list-ser-p1"><img src="images/services/ser2.jpg" alt="" /> </div>
+                                <div className="pg-list-ser-p1"><img src="/images/services/ser2.jpg" alt="" /> </div>
                                 <div className="pg-list-ser-p2">
                                     <h4>Room Booking</h4> </div>
                             </li>
                             <li className="col-md-4">
-                                <div className="pg-list-ser-p1"><img src="images/services/ser3.jpg" alt="" /> </div>
+                                <div className="pg-list-ser-p1"><img src="/images/services/ser3.jpg" alt="" /> </div>
                                 <div className="pg-list-ser-p2">
                                     <h4>Corporate Events</h4> </div>
                             </li>
                             <li className="col-md-4">
-                                <div className="pg-list-ser-p1"><img src="images/services/ser4.jpg" alt="" /> </div>
+                                <div className="pg-list-ser-p1"><img src="/images/services/ser4.jpg" alt="" /> </div>
                                 <div className="pg-list-ser-p2">
                                     <h4>Wedding Hall</h4> </div>
                             </li>
                             <li className="col-md-4">
-                                <div className="pg-list-ser-p1"><img src="images/services/ser5.jpg" alt="" /> </div>
+                                <div className="pg-list-ser-p1"><img src="/images/services/ser5.jpg" alt="" /> </div>
                                 <div className="pg-list-ser-p2">
                                     <h4>Travel & Transport</h4> </div>
                             </li>
                             <li className="col-md-4">
-                                <div className="pg-list-ser-p1"><img src="images/services/ser6.jpg" alt="" /> </div>
+                                <div className="pg-list-ser-p1"><img src="/images/services/ser6.jpg" alt="" /> </div>
                                 <div className="pg-list-ser-p2">
                                     <h4>All Amenities</h4> </div>
                             </li>
@@ -121,6 +123,42 @@ class ListingItem extends Component {
                 </div>
             </div>
         )
+    }
+
+    generateIndiceFotos(item){
+        if(item && item.galeria_fotos){
+            return item.galeria_fotos.map((foto, i) => {
+                return <li data-target="#myCarousel" data-slide-to={i} className="active"></li> 
+            })
+        }
+        else{
+            return <li data-target="#myCarousel" data-slide-to="0" className="active"></li>
+        }
+    }
+
+    generateFotosForGallery(item){
+        if(item && item.galeria_fotos){
+            return item.galeria_fotos.map((foto, i) => {
+                return <div className={(i=0)?'item active':'item'}> <img src="/images/slider/1.jpg" alt="Los Angeles" /> </div>
+            })
+        }
+        else{
+            return <div className="item active"> <img src={this.getImageSrc(item)} alt="Los Angeles" /> </div>
+        }
+    }
+
+    getImageSrc(guia){
+        if(guia && guia.s3_imagem_destacada){
+            return guia.old_imagem_destacada;
+        }
+        else if(guia && guia.old_imagem_destacada) {
+            return guia.old_imagem_destacada;
+        }
+        else if(guia && guia.imagem_destacada){
+            //implementar codigo
+            return "http://soumaisniteroi.com.br/wp-content/uploads/2015/04/no-image.png";
+        }
+        return "http://soumaisniteroi.com.br/wp-content/uploads/2015/04/no-image.png";
     }
 
     gallery(item){
@@ -133,17 +171,11 @@ class ListingItem extends Component {
                     <div id="myCarousel" className="carousel slide" data-ride="carousel">
                         {/*<!-- Indicators -->*/}
                         <ol className="carousel-indicators">
-                            <li data-target="#myCarousel" data-slide-to="0" className="active"></li>
-                            <li data-target="#myCarousel" data-slide-to="1"></li>
-                            <li data-target="#myCarousel" data-slide-to="2"></li>
-                            <li data-target="#myCarousel" data-slide-to="3"></li>
+                            {this.generateIndiceFotos(item)}
                         </ol>
                         {/*<!-- Wrapper for slides -->*/}
                         <div className="carousel-inner">
-                            <div className="item active"> <img src="images/slider/1.jpg" alt="Los Angeles" /> </div>
-                            <div className="item"> <img src="images/slider/2.jpg" alt="Chicago" /> </div>
-                            <div className="item"> <img src="images/slider/3.jpg" alt="New York" /> </div>
-                            <div className="item"> <img src="images/slider/4.jpg" alt="New York" /> </div>
+                            {this.generateFotosForGallery(item)}
                         </div>
                         {/*<!-- Left and right controls -->*/}
                         <a className="left carousel-control" href="#myCarousel" data-slide="prev"> <i className="fa fa-angle-left list-slider-nav" aria-hidden="true"></i> </a>
@@ -154,6 +186,15 @@ class ListingItem extends Component {
         )
     }
 
+    getStreetView(item){
+        if(item && item.latitude && item.longitude){
+            return <StreetView latitude={item.latitude} longitude={item.longitude} />
+        }
+        else {
+            return "Latitude e Longitude não foi informado!"
+        }
+    }
+
     streetView(item){
         return(
             <div className="pglist-p3 pglist-bg pglist-p-com" id="ld-vie">
@@ -161,7 +202,7 @@ class ListingItem extends Component {
                 <div className="pglist-p-com-ti">
                     <h3><span>360 </span> Google Street View</h3> </div>
                 <div className="list-pg-inn-sp list-360">
-                    <iframe src="https://www.google.com/maps/embed?pb=!1m0!4v1497026654798!6m8!1m7!1sIId_fF3cldIAAAQ7LuSTng!2m2!1d5.553927350344909!2d-0.2005543181775732!3f189.99!4f0!5f0.7820865974627469" allowFullScreen></iframe>
+                    {this.getStreetView(item)}
                 </div>
             </div>
         )

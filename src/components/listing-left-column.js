@@ -17,7 +17,7 @@ class ListingLeftColumn extends Component {
 
                 <WidgetFilterRadio title="Filtro de Bairros" objects={this.props.bairros} />
 
-                <WidgetFilterStars title="Filtro por opinião" />        
+                <WidgetFilterStars title="Filtro por avaliação" />        
 
             </div>
             

@@ -1,12 +1,162 @@
 import React, { Component } from 'react';
 import RightColumn from '../right-column';
 import HeaderListing from '../header-destaque-listing';
+import { fetchEventos } from '../../actions/evento';
+import { fetchBairros } from '../../actions/bairro';
+import { fetchCategoriesGuiaTop } from '../../actions/categoria';
+import { connect } from 'react-redux';
+import Pagination from "react-js-pagination";
 
 import ListingLeftColumn from '../listing-left-column';
+import PreFooter from './pre-footer';
+
 
 class ListingGrid extends Component {
+
+    constructor(){
+        super();
+        
+        this.state = {
+            data: [],
+            activePage: 1,
+            perPage: 21
+        }
+
+        this.handlePageChange = this.handlePageChange.bind(this);
+        this.generateEventos = this.generateEventos.bind(this);
+    }
+
+    componentDidMount() {
+        console.log("no evento componet did mount vai chamar o fetchEventos")
+        this.props.fetchEventos('5ba26f813a018f42215a36a0');
+        this.props.fetchCategoriesGuiaTop();
+        this.props.fetchBairros('5ba26f813a018f42215a36a0');
+
+        //this.setState({data: this.props.eventos.list, pageCount: Math.ceil(  this.props.eventos.list.lenght / 10)});
+    }
+
+    componentWillReceiveProps(nextProps) {
+        if(nextProps.eventos){
+            console.log('nextprops: ', nextProps)
+            if(nextProps.eventos.list)
+            {
+                this.setState({data: nextProps.eventos.list.slice(0,this.state.perPage), pageCount: Math.ceil(  nextProps.eventos.list.lenght / this.state.perPage)});
+            }
+        }
+    }
+
+    getImageSrc(evento){
+        if(evento.s3_imagem_destacada){
+            return evento.old_imagem_destacada;
+        }
+        if(evento.old_imagem_destacada) {
+            return evento.old_imagem_destacada;
+        }
+        else if(evento.imagem_destacada){
+            //implementar codigo
+            return "http://soumaisniteroi.com.br/wp-content/uploads/2015/04/no-image.png";
+        }
+        return "http://soumaisniteroi.com.br/wp-content/uploads/2015/04/no-image.png";
+    }
+
+    dateNumberPtBr(date){
+        return ( "0" +(date.getDate())).slice(-2) + '/' + ("0" + (date.getMonth() + 1)).slice(-2) + '/' + date.getFullYear();
+    }
+
+    generateEventos() {
+        let eventos = this.state.data.map( evento => {
+            let avaliacao = '';
+            /*Por enquanto está implementado para não exibir avaliações depois que já tiver avaliação suficiente colocar o texto sem avaliação*/
+            if(evento.mediaAvaliacao)
+                avaliacao = <span className="home-list-pop-rat">{evento.mediaAvaliacao}</span>
+            return (
+                <div className="col-md-4">
+                    <a href="listing-details.html">
+                        <div className="list-mig-like-com com-mar-bot-30">
+                            <div className="list-mig-lc-img"> <img src="images/listing/1.jpg" alt="" /> <span className="home-list-pop-rat list-mi-pr">$720</span> </div>
+                            <div className="list-mig-lc-con">
+                                <div className="list-rat-ch list-room-rati"> <span>4.0</span> <i className="fa fa-star" aria-hidden="true"></i> <i className="fa fa-star" aria-hidden="true"></i> <i className="fa fa-star" aria-hidden="true"></i> <i className="fa fa-star" aria-hidden="true"></i> <i className="fa fa-star-o" aria-hidden="true"></i> </div>
+                                <h5>{evento.titulo} </h5>
+                                <h6>Data do Evento: {this.dateNumberPtBr(new Date(evento.createdAt))}</h6>
+                                <p>{(evento && evento.cidade && evento.cidade.length>0)?evento.cidade[0].nome:''} {(evento && evento.bairros && evento.bairros.length>0)?'- ' + evento.bairros[0].nome:''}</p>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            )
+        })
+
+        let itemCount = 0;
+        if(this.props && this.props.eventos)
+            itemCount = this.props.eventos.list.length
+
+        return(
+            <div>
+                {eventos}
+                {<Pagination
+                    activePage={this.state.activePage}
+                    itemsCountPerPage={this.state.perPage}
+                    totalItemsCount={itemCount}
+                    pageRangeDisplayed={this.state.perPage}
+                    onChange={this.handlePageChange}
+                    prevPageText={<i className="material-icons">chevron_left</i>}
+                    nextPageText={<i className="material-icons">chevron_right</i>}
+                    firstPageText={<i className="material-icons">first_page</i>}
+                    lastPageText={<i className="material-icons">last_page</i>}
+                    innerClass="pagination list-pagenat"
+                    itemClass="waves-effect"
+                />}
+            </div>
+        )
+    }
+
+    handlePageChange(pageNumber) {
+        console.log(`active page is ${pageNumber}`);
+        let data = [];
+        if(pageNumber == 1){
+            data = this.props.eventos.list.slice(0, 30)
+        }
+        else{
+            data = this.props.eventos.list.slice((pageNumber-1)*this.state.perPage,((pageNumber-1)*this.state.perPage)+this.state.perPage)
+        }
+        this.setState({activePage: pageNumber, data});
+        //{data: nextProps.eventos.list.slice(0,10)}
+    }
+
     render(){
+
+        console.log('Eventos: ', this.props)
         let leftColumn = true;
+
+        let listName = "Evento Comercial";
+        let preposition = "do ";
+
+        if(! this.props.eventos && !this.props.category){
+            console.log("categoria não encontrada!!!");
+            items = <div>Deve retornar o 404</div>
+        }
+
+
+        if( this.props.category){
+            listName = this.props.category.name;
+        }
+
+        let items = <div>Nenhum Item listado para está categoria</div>
+
+        if(! this.props.eventos){
+            items = <div>Nenhum evento encontrado para a categoria {this.props.listName} </div>
+        }
+        else {
+            console.log("this.props.eventos: ", this.props.eventos.list)
+            if(!this.props.eventos.list)
+                items = <div>Nenhum evento encontrado para a categoria {this.props.listName} </div>
+            else
+                items = this.generateEventos();
+            //items = this.generateEventos(this.props.eventos.list)
+        }
+
+
+
         return(
             <div>
                 
@@ -15,426 +165,24 @@ class ListingGrid extends Component {
                     <div className="container">
                         <div className="row">
                             <div className="dir-alp-tit">
-                                <h1>Listing Grid View</h1>
+                                <h1>Listagem {preposition} {listName}</h1>
                                 <ol className="breadcrumb">
                                     <li><a href="#">Home</a> </li>
-                                    <li><a href="#">Listing</a> </li>
-                                    <li className="active">Grid View</li>
+                                    <li><a href="#">Eventos</a> </li>
+                                    <li className="active">{listName}</li>
                                 </ol>
                             </div>
                         </div>
                         <div className="row">
                             <div className="dir-alp-con">
-                                {(leftColumn)?<ListingLeftColumn />:''}
+                                {(leftColumn)?<ListingLeftColumn objects={(this.props.eventos)?this.props.eventos.recentes:[]} categories={(this.props.categorias)?this.props.categorias.evento:[]} bairros={(this.props.bairros)?this.props.bairros:[]} />:''}
                                 <div className={(leftColumn)?'col-md-9 dir-alp-con-right list-grid-rig-pad':'col-md-12 dir-alp-con-right list-grid-rig-pad'}>
                                     <div className="dir-alp-con-right-1">
                                         <div className="row">
                                             {/*<!--LISTINGS-->*/}
                                             <div className="row span-none">
-                                                <div className="col-md-4">
-                                                    <a href="listing-details.html">
-                                                        <div className="list-mig-like-com com-mar-bot-30">
-                                                            <div className="list-mig-lc-img"> <img src="images/listing/1.jpg" alt="" /> <span className="home-list-pop-rat list-mi-pr">$720</span> </div>
-                                                            <div className="list-mig-lc-con">
-                                                                <div className="list-rat-ch list-room-rati"> <span>4.0</span> <i className="fa fa-star" aria-hidden="true"></i> <i className="fa fa-star" aria-hidden="true"></i> <i className="fa fa-star" aria-hidden="true"></i> <i className="fa fa-star" aria-hidden="true"></i> <i className="fa fa-star-o" aria-hidden="true"></i> </div>
-                                                                <h5>Holiday Inn Express</h5>
-                                                                <h6>0.0 km - 1.0km</h6>
-                                                                <p>Illinois City,</p>
-                                                            </div>
-                                                        </div>
-                                                    </a>
-                                                </div>
-                                                <div className="col-md-4">
-                                                    <a href="listing-details.html">
-                                                        <div className="list-mig-like-com com-mar-bot-30">
-                                                            <div className="list-mig-lc-img"> <img src="images/listing/3.jpg" alt="" /> <span className="home-list-pop-rat list-mi-pr">$380</span> </div>
-                                                            <div className="list-mig-lc-con">
-                                                                <div className="list-rat-ch list-room-rati"> <span>5.0</span> <i className="fa fa-star" aria-hidden="true"></i> <i className="fa fa-star" aria-hidden="true"></i> <i className="fa fa-star" aria-hidden="true"></i> <i className="fa fa-star" aria-hidden="true"></i> <i className="fa fa-star" aria-hidden="true"></i> </div>
-                                                                <h5>Staybridger Suites</h5>
-                                                                <h6>2.0 km - 4.0km</h6>
-                                                                <p>Illinois City,</p>
-                                                            </div>
-                                                        </div>
-                                                    </a>
-                                                </div>
-                                                <div className="col-md-4">
-                                                    <a href="listing-details.html">
-                                                        <div className="list-mig-like-com com-mar-bot-30">
-                                                            <div className="list-mig-lc-img"> <img src="images/listing/2.jpg" alt="" /> <span className="home-list-pop-rat list-mi-pr">$420</span> </div>
-                                                            <div className="list-mig-lc-con">
-                                                                <div className="list-rat-ch list-room-rati"> <span>3.0</span> <i className="fa fa-star" aria-hidden="true"></i> <i className="fa fa-star" aria-hidden="true"></i> <i className="fa fa-star" aria-hidden="true"></i> <i className="fa fa-star-o" aria-hidden="true"></i> <i className="fa fa-star-o" aria-hidden="true"></i> </div>
-                                                                <h5>InterContinental</h5>
-                                                                <h6>5.0 km - 8.0km</h6>
-                                                                <p>Illinois City,</p>
-                                                            </div>
-                                                        </div>
-                                                    </a>
-                                                </div>
-                                                <div className="col-md-4">
-                                                    <a href="listing-details.html">
-                                                        <div className="list-mig-like-com com-mar-bot-30">
-                                                            <div className="list-mig-lc-img"> <img src="images/listing/4.jpg" alt="" /> <span className="home-list-pop-rat list-mi-pr">$720</span> </div>
-                                                            <div className="list-mig-lc-con">
-                                                                <div className="list-rat-ch list-room-rati"> <span>4.0</span> <i className="fa fa-star" aria-hidden="true"></i> <i className="fa fa-star" aria-hidden="true"></i> <i className="fa fa-star" aria-hidden="true"></i> <i className="fa fa-star" aria-hidden="true"></i> <i className="fa fa-star-o" aria-hidden="true"></i> </div>
-                                                                <h5>Starboard Red Wines</h5>
-                                                                <h6>8.0 km - 10.0km</h6>
-                                                                <p>Illinois City,</p>
-                                                            </div>
-                                                        </div>
-                                                    </a>
-                                                </div>
-                                                <div className="col-md-4">
-                                                    <a href="listing-details.html">
-                                                        <div className="list-mig-like-com com-mar-bot-30">
-                                                            <div className="list-mig-lc-img"> <img src="images/listing/5.jpg" alt="" /> <span className="home-list-pop-rat list-mi-pr">$380</span> </div>
-                                                            <div className="list-mig-lc-con">
-                                                                <div className="list-rat-ch list-room-rati"> <span>5.0</span> <i className="fa fa-star" aria-hidden="true"></i> <i className="fa fa-star" aria-hidden="true"></i> <i className="fa fa-star" aria-hidden="true"></i> <i className="fa fa-star" aria-hidden="true"></i> <i className="fa fa-star" aria-hidden="true"></i> </div>
-                                                                <h5>Pet Shops</h5>
-                                                                <h6>6.0 km - 8.0km</h6>
-                                                                <p>Illinois City,</p>
-                                                            </div>
-                                                        </div>
-                                                    </a>
-                                                </div>
-                                                <div className="col-md-4">
-                                                    <a href="listing-details.html">
-                                                        <div className="list-mig-like-com com-mar-bot-30">
-                                                            <div className="list-mig-lc-img"> <img src="images/listing/6.jpg" alt="" /> <span className="home-list-pop-rat list-mi-pr">$420</span> </div>
-                                                            <div className="list-mig-lc-con">
-                                                                <div className="list-rat-ch list-room-rati"> <span>3.0</span> <i className="fa fa-star" aria-hidden="true"></i> <i className="fa fa-star" aria-hidden="true"></i> <i className="fa fa-star-o" aria-hidden="true"></i> <i className="fa fa-star-o" aria-hidden="true"></i> <i className="fa fa-star-o" aria-hidden="true"></i> </div>
-                                                                <h5>Philly Honeymoon Packages</h5>
-                                                                <h6>12.0 km - 14.0km</h6>
-                                                                <p>Illinois City,</p>
-                                                            </div>
-                                                        </div>
-                                                    </a>
-                                                </div>
-                                                <div className="col-md-4">
-                                                    <a href="listing-details.html">
-                                                        <div className="list-mig-like-com com-mar-bot-30">
-                                                            <div className="list-mig-lc-img"> <img src="images/listing/7.jpg" alt="" /> <span className="home-list-pop-rat list-mi-pr">$420</span> </div>
-                                                            <div className="list-mig-lc-con">
-                                                                <div className="list-rat-ch list-room-rati"> <span>3.0</span> <i className="fa fa-star" aria-hidden="true"></i> <i className="fa fa-star" aria-hidden="true"></i> <i className="fa fa-star-o" aria-hidden="true"></i> <i className="fa fa-star-o" aria-hidden="true"></i> <i className="fa fa-star-o" aria-hidden="true"></i> </div>
-                                                                <h5>Shake Fashions</h5>
-                                                                <h6>15.0 km - 18.0km</h6>
-                                                                <p>Illinois City,</p>
-                                                            </div>
-                                                        </div>
-                                                    </a>
-                                                </div>
-                                                <div className="col-md-4">
-                                                    <a href="listing-details.html">
-                                                        <div className="list-mig-like-com com-mar-bot-30">
-                                                            <div className="list-mig-lc-img"> <img src="images/listing/8.jpg" alt="" /> <span className="home-list-pop-rat list-mi-pr">$420</span> </div>
-                                                            <div className="list-mig-lc-con">
-                                                                <div className="list-rat-ch list-room-rati"> <span>3.0</span> <i className="fa fa-star" aria-hidden="true"></i> <i className="fa fa-star" aria-hidden="true"></i> <i className="fa fa-star-o" aria-hidden="true"></i> <i className="fa fa-star-o" aria-hidden="true"></i> <i className="fa fa-star-o" aria-hidden="true"></i> </div>
-                                                                <h5>Sparrow Chicken</h5>
-                                                                <h6>18.0 km - 20.0km</h6>
-                                                                <p>Illinois City,</p>
-                                                            </div>
-                                                        </div>
-                                                    </a>
-                                                </div>
-                                                <div className="col-md-4">
-                                                    <a href="listing-details.html">
-                                                        <div className="list-mig-like-com com-mar-bot-30">
-                                                            <div className="list-mig-lc-img"> <img src="images/listing/9.jpg" alt="" /> <span className="home-list-pop-rat list-mi-pr">$420</span> </div>
-                                                            <div className="list-mig-lc-con">
-                                                                <div className="list-rat-ch list-room-rati"> <span>3.0</span> <i className="fa fa-star" aria-hidden="true"></i> <i className="fa fa-star" aria-hidden="true"></i> <i className="fa fa-star-o" aria-hidden="true"></i> <i className="fa fa-star-o" aria-hidden="true"></i> <i className="fa fa-star-o" aria-hidden="true"></i> </div>
-                                                                <h5>Big Jack T-stall</h5>
-                                                                <h6>20.0 km - 25.0km</h6>
-                                                                <p>Illinois City,</p>
-                                                            </div>
-                                                        </div>
-                                                    </a>
-                                                </div>
-                                                <div className="col-md-4">
-                                                    <a href="listing-details.html">
-                                                        <div className="list-mig-like-com com-mar-bot-30">
-                                                            <div className="list-mig-lc-img"> <img src="images/listing/10.jpg" alt="" /> <span className="home-list-pop-rat list-mi-pr">$420</span> </div>
-                                                            <div className="list-mig-lc-con">
-                                                                <div className="list-rat-ch list-room-rati"> <span>3.0</span> <i className="fa fa-star" aria-hidden="true"></i> <i className="fa fa-star" aria-hidden="true"></i> <i className="fa fa-star-o" aria-hidden="true"></i> <i className="fa fa-star-o" aria-hidden="true"></i> <i className="fa fa-star-o" aria-hidden="true"></i> </div>
-                                                                <h5>Continental Shopiing Street</h5>
-                                                                <h6>25.0 km - 30.0km</h6>
-                                                                <p>Illinois City,</p>
-                                                            </div>
-                                                        </div>
-                                                    </a>
-                                                </div>
-                                                <div className="col-md-4">
-                                                    <a href="listing-details.html">
-                                                        <div className="list-mig-like-com com-mar-bot-30">
-                                                            <div className="list-mig-lc-img"> <img src="images/listing/11.jpg" alt="" /> <span className="home-list-pop-rat list-mi-pr">$420</span> </div>
-                                                            <div className="list-mig-lc-con">
-                                                                <div className="list-rat-ch list-room-rati"> <span>3.0</span> <i className="fa fa-star" aria-hidden="true"></i> <i className="fa fa-star" aria-hidden="true"></i> <i className="fa fa-star-o" aria-hidden="true"></i> <i className="fa fa-star-o" aria-hidden="true"></i> <i className="fa fa-star-o" aria-hidden="true"></i> </div>
-                                                                <h5>Flow Flower Shop</h5>
-                                                                <h6>30.0 km - 35.0km</h6>
-                                                                <p>Illinois City,</p>
-                                                            </div>
-                                                        </div>
-                                                    </a>
-                                                </div>
-                                                <div className="col-md-4">
-                                                    <a href="listing-details.html">
-                                                        <div className="list-mig-like-com com-mar-bot-30">
-                                                            <div className="list-mig-lc-img"> <img src="images/listing/12.jpg" alt="" /> <span className="home-list-pop-rat list-mi-pr">$420</span> </div>
-                                                            <div className="list-mig-lc-con">
-                                                                <div className="list-rat-ch list-room-rati"> <span>3.0</span> <i className="fa fa-star" aria-hidden="true"></i> <i className="fa fa-star" aria-hidden="true"></i> <i className="fa fa-star-o" aria-hidden="true"></i> <i className="fa fa-star-o" aria-hidden="true"></i> <i className="fa fa-star-o" aria-hidden="true"></i> </div>
-                                                                <h5>Maths Tuitions Centre</h5>
-                                                                <h6>40.0 km - 45.0km</h6>
-                                                                <p>Illinois City,</p>
-                                                            </div>
-                                                        </div>
-                                                    </a>
-                                                </div>
-                                                <div className="col-md-4">
-                                                    <a href="listing-details.html">
-                                                        <div className="list-mig-like-com com-mar-bot-30">
-                                                            <div className="list-mig-lc-img"> <img src="images/listing/13.jpg" alt="" /> <span className="home-list-pop-rat list-mi-pr">$420</span> </div>
-                                                            <div className="list-mig-lc-con">
-                                                                <div className="list-rat-ch list-room-rati"> <span>3.0</span> <i className="fa fa-star" aria-hidden="true"></i> <i className="fa fa-star" aria-hidden="true"></i> <i className="fa fa-star-o" aria-hidden="true"></i> <i className="fa fa-star-o" aria-hidden="true"></i> <i className="fa fa-star-o" aria-hidden="true"></i> </div>
-                                                                <h5>Indian Grill Chicken</h5>
-                                                                <h6>45.0 km - 50.0km</h6>
-                                                                <p>Illinois City,</p>
-                                                            </div>
-                                                        </div>
-                                                    </a>
-                                                </div>
-                                                <div className="col-md-4">
-                                                    <a href="listing-details.html">
-                                                        <div className="list-mig-like-com com-mar-bot-30">
-                                                            <div className="list-mig-lc-img"> <img src="images/listing/14.jpg" alt="" /> <span className="home-list-pop-rat list-mi-pr">$420</span> </div>
-                                                            <div className="list-mig-lc-con">
-                                                                <div className="list-rat-ch list-room-rati"> <span>3.0</span> <i className="fa fa-star" aria-hidden="true"></i> <i className="fa fa-star" aria-hidden="true"></i> <i className="fa fa-star-o" aria-hidden="true"></i> <i className="fa fa-star-o" aria-hidden="true"></i> <i className="fa fa-star-o" aria-hidden="true"></i> </div>
-                                                                <h5>Suprime Car ShowRoom</h5>
-                                                                <h6>50.0 km - 55.0km</h6>
-                                                                <p>Illinois City,</p>
-                                                            </div>
-                                                        </div>
-                                                    </a>
-                                                </div>
-                                                <div className="col-md-4">
-                                                    <a href="listing-details.html">
-                                                        <div className="list-mig-like-com com-mar-bot-30">
-                                                            <div className="list-mig-lc-img"> <img src="images/listing/15.jpg" alt="" /> <span className="home-list-pop-rat list-mi-pr">$420</span> </div>
-                                                            <div className="list-mig-lc-con">
-                                                                <div className="list-rat-ch list-room-rati"> <span>3.0</span> <i className="fa fa-star" aria-hidden="true"></i> <i className="fa fa-star" aria-hidden="true"></i> <i className="fa fa-star-o" aria-hidden="true"></i> <i className="fa fa-star-o" aria-hidden="true"></i> <i className="fa fa-star-o" aria-hidden="true"></i> </div>
-                                                                <h5>Joney Supermarket</h5>
-                                                                <h6>55.0 km - 60.0km</h6>
-                                                                <p>Illinois City,</p>
-                                                            </div>
-                                                        </div>
-                                                    </a>
-                                                </div>
-                                                <div className="col-md-4">
-                                                    <a href="listing-details.html">
-                                                        <div className="list-mig-like-com com-mar-bot-30">
-                                                            <div className="list-mig-lc-img"> <img src="images/listing/1.jpg" alt="" /> <span className="home-list-pop-rat list-mi-pr">$720</span> </div>
-                                                            <div className="list-mig-lc-con">
-                                                                <div className="list-rat-ch list-room-rati"> <span>4.0</span> <i className="fa fa-star" aria-hidden="true"></i> <i className="fa fa-star" aria-hidden="true"></i> <i className="fa fa-star" aria-hidden="true"></i> <i className="fa fa-star" aria-hidden="true"></i> <i className="fa fa-star-o" aria-hidden="true"></i> </div>
-                                                                <h5>Holiday Inn Express</h5>
-                                                                <h6>0.0 km - 1.0km</h6>
-                                                                <p>Illinois City,</p>
-                                                            </div>
-                                                        </div>
-                                                    </a>
-                                                </div>
-                                                <div className="col-md-4">
-                                                    <a href="listing-details.html">
-                                                        <div className="list-mig-like-com com-mar-bot-30">
-                                                            <div className="list-mig-lc-img"> <img src="images/listing/3.jpg" alt="" /> <span className="home-list-pop-rat list-mi-pr">$380</span> </div>
-                                                            <div className="list-mig-lc-con">
-                                                                <div className="list-rat-ch list-room-rati"> <span>5.0</span> <i className="fa fa-star" aria-hidden="true"></i> <i className="fa fa-star" aria-hidden="true"></i> <i className="fa fa-star" aria-hidden="true"></i> <i className="fa fa-star" aria-hidden="true"></i> <i className="fa fa-star" aria-hidden="true"></i> </div>
-                                                                <h5>Staybridger Suites</h5>
-                                                                <h6>2.0 km - 4.0km</h6>
-                                                                <p>Illinois City,</p>
-                                                            </div>
-                                                        </div>
-                                                    </a>
-                                                </div>
-                                                <div className="col-md-4">
-                                                    <a href="listing-details.html">
-                                                        <div className="list-mig-like-com com-mar-bot-30">
-                                                            <div className="list-mig-lc-img"> <img src="images/listing/2.jpg" alt="" /> <span className="home-list-pop-rat list-mi-pr">$420</span> </div>
-                                                            <div className="list-mig-lc-con">
-                                                                <div className="list-rat-ch list-room-rati"> <span>3.0</span> <i className="fa fa-star" aria-hidden="true"></i> <i className="fa fa-star" aria-hidden="true"></i> <i className="fa fa-star" aria-hidden="true"></i> <i className="fa fa-star-o" aria-hidden="true"></i> <i className="fa fa-star-o" aria-hidden="true"></i> </div>
-                                                                <h5>InterContinental</h5>
-                                                                <h6>5.0 km - 8.0km</h6>
-                                                                <p>Illinois City,</p>
-                                                            </div>
-                                                        </div>
-                                                    </a>
-                                                </div>
-                                                <div className="col-md-4">
-                                                    <a href="listing-details.html">
-                                                        <div className="list-mig-like-com com-mar-bot-30">
-                                                            <div className="list-mig-lc-img"> <img src="images/listing/4.jpg" alt="" /> <span className="home-list-pop-rat list-mi-pr">$720</span> </div>
-                                                            <div className="list-mig-lc-con">
-                                                                <div className="list-rat-ch list-room-rati"> <span>4.0</span> <i className="fa fa-star" aria-hidden="true"></i> <i className="fa fa-star" aria-hidden="true"></i> <i className="fa fa-star" aria-hidden="true"></i> <i className="fa fa-star" aria-hidden="true"></i> <i className="fa fa-star-o" aria-hidden="true"></i> </div>
-                                                                <h5>Starboard Red Wines</h5>
-                                                                <h6>8.0 km - 10.0km</h6>
-                                                                <p>Illinois City,</p>
-                                                            </div>
-                                                        </div>
-                                                    </a>
-                                                </div>
-                                                <div className="col-md-4">
-                                                    <a href="listing-details.html">
-                                                        <div className="list-mig-like-com com-mar-bot-30">
-                                                            <div className="list-mig-lc-img"> <img src="images/listing/5.jpg" alt="" /> <span className="home-list-pop-rat list-mi-pr">$380</span> </div>
-                                                            <div className="list-mig-lc-con">
-                                                                <div className="list-rat-ch list-room-rati"> <span>5.0</span> <i className="fa fa-star" aria-hidden="true"></i> <i className="fa fa-star" aria-hidden="true"></i> <i className="fa fa-star" aria-hidden="true"></i> <i className="fa fa-star" aria-hidden="true"></i> <i className="fa fa-star" aria-hidden="true"></i> </div>
-                                                                <h5>Pet Shops</h5>
-                                                                <h6>6.0 km - 8.0km</h6>
-                                                                <p>Illinois City,</p>
-                                                            </div>
-                                                        </div>
-                                                    </a>
-                                                </div>
-                                                <div className="col-md-4">
-                                                    <a href="listing-details.html">
-                                                        <div className="list-mig-like-com com-mar-bot-30">
-                                                            <div className="list-mig-lc-img"> <img src="images/listing/6.jpg" alt="" /> <span className="home-list-pop-rat list-mi-pr">$420</span> </div>
-                                                            <div className="list-mig-lc-con">
-                                                                <div className="list-rat-ch list-room-rati"> <span>3.0</span> <i className="fa fa-star" aria-hidden="true"></i> <i className="fa fa-star" aria-hidden="true"></i> <i className="fa fa-star-o" aria-hidden="true"></i> <i className="fa fa-star-o" aria-hidden="true"></i> <i className="fa fa-star-o" aria-hidden="true"></i> </div>
-                                                                <h5>Philly Honeymoon Packages</h5>
-                                                                <h6>12.0 km - 14.0km</h6>
-                                                                <p>Illinois City,</p>
-                                                            </div>
-                                                        </div>
-                                                    </a>
-                                                </div>
-                                                <div className="col-md-4">
-                                                    <a href="listing-details.html">
-                                                        <div className="list-mig-like-com com-mar-bot-30">
-                                                            <div className="list-mig-lc-img"> <img src="images/listing/7.jpg" alt="" /> <span className="home-list-pop-rat list-mi-pr">$420</span> </div>
-                                                            <div className="list-mig-lc-con">
-                                                                <div className="list-rat-ch list-room-rati"> <span>3.0</span> <i className="fa fa-star" aria-hidden="true"></i> <i className="fa fa-star" aria-hidden="true"></i> <i className="fa fa-star-o" aria-hidden="true"></i> <i className="fa fa-star-o" aria-hidden="true"></i> <i className="fa fa-star-o" aria-hidden="true"></i> </div>
-                                                                <h5>Shake Fashions</h5>
-                                                                <h6>15.0 km - 18.0km</h6>
-                                                                <p>Illinois City,</p>
-                                                            </div>
-                                                        </div>
-                                                    </a>
-                                                </div>
-                                                <div className="col-md-4">
-                                                    <a href="listing-details.html">
-                                                        <div className="list-mig-like-com com-mar-bot-30">
-                                                            <div className="list-mig-lc-img"> <img src="images/listing/8.jpg" alt="" /> <span className="home-list-pop-rat list-mi-pr">$420</span> </div>
-                                                            <div className="list-mig-lc-con">
-                                                                <div className="list-rat-ch list-room-rati"> <span>3.0</span> <i className="fa fa-star" aria-hidden="true"></i> <i className="fa fa-star" aria-hidden="true"></i> <i className="fa fa-star-o" aria-hidden="true"></i> <i className="fa fa-star-o" aria-hidden="true"></i> <i className="fa fa-star-o" aria-hidden="true"></i> </div>
-                                                                <h5>Sparrow Chicken</h5>
-                                                                <h6>18.0 km - 20.0km</h6>
-                                                                <p>Illinois City,</p>
-                                                            </div>
-                                                        </div>
-                                                    </a>
-                                                </div>
-                                                <div className="col-md-4">
-                                                    <a href="listing-details.html">
-                                                        <div className="list-mig-like-com com-mar-bot-30">
-                                                            <div className="list-mig-lc-img"> <img src="images/listing/9.jpg" alt="" /> <span className="home-list-pop-rat list-mi-pr">$420</span> </div>
-                                                            <div className="list-mig-lc-con">
-                                                                <div className="list-rat-ch list-room-rati"> <span>3.0</span> <i className="fa fa-star" aria-hidden="true"></i> <i className="fa fa-star" aria-hidden="true"></i> <i className="fa fa-star-o" aria-hidden="true"></i> <i className="fa fa-star-o" aria-hidden="true"></i> <i className="fa fa-star-o" aria-hidden="true"></i> </div>
-                                                                <h5>Big Jack T-stall</h5>
-                                                                <h6>20.0 km - 25.0km</h6>
-                                                                <p>Illinois City,</p>
-                                                            </div>
-                                                        </div>
-                                                    </a>
-                                                </div>
-                                                <div className="col-md-4">
-                                                    <a href="listing-details.html">
-                                                        <div className="list-mig-like-com com-mar-bot-30">
-                                                            <div className="list-mig-lc-img"> <img src="images/listing/10.jpg" alt="" /> <span className="home-list-pop-rat list-mi-pr">$420</span> </div>
-                                                            <div className="list-mig-lc-con">
-                                                                <div className="list-rat-ch list-room-rati"> <span>3.0</span> <i className="fa fa-star" aria-hidden="true"></i> <i className="fa fa-star" aria-hidden="true"></i> <i className="fa fa-star-o" aria-hidden="true"></i> <i className="fa fa-star-o" aria-hidden="true"></i> <i className="fa fa-star-o" aria-hidden="true"></i> </div>
-                                                                <h5>Continental Shopiing Street</h5>
-                                                                <h6>25.0 km - 30.0km</h6>
-                                                                <p>Illinois City,</p>
-                                                            </div>
-                                                        </div>
-                                                    </a>
-                                                </div>
-                                                <div className="col-md-4">
-                                                    <a href="listing-details.html">
-                                                        <div className="list-mig-like-com com-mar-bot-30">
-                                                            <div className="list-mig-lc-img"> <img src="images/listing/11.jpg" alt="" /> <span className="home-list-pop-rat list-mi-pr">$420</span> </div>
-                                                            <div className="list-mig-lc-con">
-                                                                <div className="list-rat-ch list-room-rati"> <span>3.0</span> <i className="fa fa-star" aria-hidden="true"></i> <i className="fa fa-star" aria-hidden="true"></i> <i className="fa fa-star-o" aria-hidden="true"></i> <i className="fa fa-star-o" aria-hidden="true"></i> <i className="fa fa-star-o" aria-hidden="true"></i> </div>
-                                                                <h5>Flow Flower Shop</h5>
-                                                                <h6>30.0 km - 35.0km</h6>
-                                                                <p>Illinois City,</p>
-                                                            </div>
-                                                        </div>
-                                                    </a>
-                                                </div>
-                                                <div className="col-md-4">
-                                                    <a href="listing-details.html">
-                                                        <div className="list-mig-like-com com-mar-bot-30">
-                                                            <div className="list-mig-lc-img"> <img src="images/listing/12.jpg" alt="" /> <span className="home-list-pop-rat list-mi-pr">$420</span> </div>
-                                                            <div className="list-mig-lc-con">
-                                                                <div className="list-rat-ch list-room-rati"> <span>3.0</span> <i className="fa fa-star" aria-hidden="true"></i> <i className="fa fa-star" aria-hidden="true"></i> <i className="fa fa-star-o" aria-hidden="true"></i> <i className="fa fa-star-o" aria-hidden="true"></i> <i className="fa fa-star-o" aria-hidden="true"></i> </div>
-                                                                <h5>Maths Tuitions Centre</h5>
-                                                                <h6>40.0 km - 45.0km</h6>
-                                                                <p>Illinois City,</p>
-                                                            </div>
-                                                        </div>
-                                                    </a>
-                                                </div>
-                                                <div className="col-md-4">
-                                                    <a href="listing-details.html">
-                                                        <div className="list-mig-like-com com-mar-bot-30">
-                                                            <div className="list-mig-lc-img"> <img src="images/listing/13.jpg" alt="" /> <span className="home-list-pop-rat list-mi-pr">$420</span> </div>
-                                                            <div className="list-mig-lc-con">
-                                                                <div className="list-rat-ch list-room-rati"> <span>3.0</span> <i className="fa fa-star" aria-hidden="true"></i> <i className="fa fa-star" aria-hidden="true"></i> <i className="fa fa-star-o" aria-hidden="true"></i> <i className="fa fa-star-o" aria-hidden="true"></i> <i className="fa fa-star-o" aria-hidden="true"></i> </div>
-                                                                <h5>Indian Grill Chicken</h5>
-                                                                <h6>45.0 km - 50.0km</h6>
-                                                                <p>Illinois City,</p>
-                                                            </div>
-                                                        </div>
-                                                    </a>
-                                                </div>
-                                                <div className="col-md-4">
-                                                    <a href="listing-details.html">
-                                                        <div className="list-mig-like-com com-mar-bot-30">
-                                                            <div className="list-mig-lc-img"> <img src="images/listing/14.jpg" alt="" /> <span className="home-list-pop-rat list-mi-pr">$420</span> </div>
-                                                            <div className="list-mig-lc-con">
-                                                                <div className="list-rat-ch list-room-rati"> <span>3.0</span> <i className="fa fa-star" aria-hidden="true"></i> <i className="fa fa-star" aria-hidden="true"></i> <i className="fa fa-star-o" aria-hidden="true"></i> <i className="fa fa-star-o" aria-hidden="true"></i> <i className="fa fa-star-o" aria-hidden="true"></i> </div>
-                                                                <h5>Suprime Car ShowRoom</h5>
-                                                                <h6>50.0 km - 55.0km</h6>
-                                                                <p>Illinois City,</p>
-                                                            </div>
-                                                        </div>
-                                                    </a>
-                                                </div>
-                                                <div className="col-md-4">
-                                                    <a href="listing-details.html">
-                                                        <div className="list-mig-like-com com-mar-bot-30">
-                                                            <div className="list-mig-lc-img"> <img src="images/listing/15.jpg" alt="" /> <span className="home-list-pop-rat list-mi-pr">$420</span> </div>
-                                                            <div className="list-mig-lc-con">
-                                                                <div className="list-rat-ch list-room-rati"> <span>3.0</span> <i className="fa fa-star" aria-hidden="true"></i> <i className="fa fa-star" aria-hidden="true"></i> <i className="fa fa-star-o" aria-hidden="true"></i> <i className="fa fa-star-o" aria-hidden="true"></i> <i className="fa fa-star-o" aria-hidden="true"></i> </div>
-                                                                <h5>Joney Supermarket</h5>
-                                                                <h6>55.0 km - 60.0km</h6>
-                                                                <p>Illinois City,</p>
-                                                            </div>
-                                                        </div>
-                                                    </a>
-                                                </div>
-                                                <div className="row">
-                                                    <ul className="pagination list-pagenat">
-                                                        <li className="disabled"><a href="#!"><i className="material-icons">chevron_left</i></a> </li>
-                                                        <li className="active"><a href="#!">1</a> </li>
-                                                        <li className="waves-effect"><a href="#!">2</a> </li>
-                                                        <li className="waves-effect"><a href="#!">3</a> </li>
-                                                        <li className="waves-effect"><a href="#!">4</a> </li>
-                                                        <li className="waves-effect"><a href="#!">5</a> </li>
-                                                        <li className="waves-effect"><a href="#!">6</a> </li>
-                                                        <li className="waves-effect"><a href="#!">7</a> </li>
-                                                        <li className="waves-effect"><a href="#!">8</a> </li>
-                                                        <li className="waves-effect"><a href="#!"><i className="material-icons">chevron_right</i></a> </li>
-                                                    </ul>
-                                                </div>
+                                                {this.generateEventos()}
+                                                
                                             </div>
                                             {/*<!--LISTINGS END-->*/}
                                         </div>
@@ -478,4 +226,13 @@ class ListingGrid extends Component {
     }
 }
 
-export default ListingGrid;
+function mapStateToProps(state){
+    console.log("state listing list: ", state)
+    return {
+        eventos: state.eventos,
+        categorias: state.categorias,
+        bairros: state.bairros
+    }
+}
+
+export default connect(mapStateToProps, { fetchEventos, fetchBairros, fetchCategoriesGuiaTop })(ListingGrid);

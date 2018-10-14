@@ -10,13 +10,14 @@ export default function(state = null, action) {
                 evento.recentes = state.recentes;
             
             evento.list = action.payload.data;
+            console.log("state no fetch eventos", evento);
             return evento;
-            case FETCH_EVENTOS_RECENTES:
+        
+        case FETCH_EVENTOS_RECENTES:
             if(state && state.list)
             evento.list = state.list;
             
             evento.recentes = action.payload.data
-            console.log("state no fetch eventos", evento);
             return evento;
         default: return state;
     }

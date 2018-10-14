@@ -3,13 +3,14 @@ import React, { Component } from 'react';
 class HeaderDestaqueGuia extends Component {
 
     getImageSrc(guia){
-        if(guia.s3_imagem_destacada){
+        
+        if(guia && guia.s3_imagem_destacada){
             return guia.old_imagem_destacada;
         }
-        if(guia.old_imagem_destacada) {
+        else if(guia && guia.old_imagem_destacada) {
             return guia.old_imagem_destacada;
         }
-        else if(guia.imagem_destacada){
+        else if(guia && guia.imagem_destacada){
             //implementar codigo
             return "http://soumaisniteroi.com.br/wp-content/uploads/2015/04/no-image.png";
         }
@@ -17,7 +18,10 @@ class HeaderDestaqueGuia extends Component {
     }
 
     getBackground(guia) {
-        return {background: `url(${this.getImageSrc(guia)})`}
+        return {
+            backgroundImage: `url(${this.getImageSrc(guia)})`,
+            backgroundSize: 'cover'
+        }
     }
 
     getAvaliacao(guia){
@@ -71,8 +75,8 @@ class HeaderDestaqueGuia extends Component {
                                     <ul>
                                         <li className="active"><a href="#ld-abour"><i className="fa fa-user"></i> Sobre</a>
                                         </li>
-                                        <li><a href="#ld-ser"><i className="fa fa-cog"></i> Serviços</a>
-                                        </li>
+                                        {(guia && guia.descricao_servicos)?<li><a href="#ld-ser"><i className="fa fa-cog"></i> Serviços</a>
+                                        </li>:''}
                                         <li><a href="#ld-gal"><i className="fa fa-photo"></i> Galeria de Fotos</a>
                                         </li>
                                         {/*<li><a href="#ld-roo"><i className="fa fa-ticket"></i> Room Booking</a>

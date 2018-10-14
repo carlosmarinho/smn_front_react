@@ -24,7 +24,6 @@ export const fetchBairros = async(city_id, limit='', sort=null) => {
         limit = `&_limit=200`;
 
     let jwt = localStorage.getItem('jwt');
-    console.log("No fetch bairros: ", jwt);
 
     if(!jwt){
         let ret = await axios.post('http://localhost:1337/auth/local', { identifier: 'adm_manager', password: 'carlos' })
