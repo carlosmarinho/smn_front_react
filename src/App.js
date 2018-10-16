@@ -62,7 +62,16 @@ const BairrosGrid = () => {
             columnLeft={false}
         />
     )
-}                    
+}                 
+
+const Photos = () => {
+    return(
+        <Gallery
+            title="Fotos da cidade de Niterói"
+            columnRight={true}
+        />
+    )
+}               
                     
 const GridEvents = () => {
     return(
@@ -94,7 +103,7 @@ class App extends Component {
                             <Route exact path="/contato" component={Contact} />
                             <Route exact path="/noticias/:slug" component={NewsItem} />
                             <Route exact path="/noticias" component={BlogListNews} />
-                            <Route exact path="/fotos-da-cidade-de-niteroi" component={Gallery} />
+                            <Route exact path="/fotos-da-cidade-de-niteroi" component={Photos} />
                         </div>
                         <Footer />
                     </div>
