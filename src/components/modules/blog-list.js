@@ -27,7 +27,6 @@ class BlogList extends Component {
     }
 
     componentDidMount() {
-        console.log("props no did mount: ", this.props)
         this.props.fetchNoticias('5ba26f813a018f42215a36a0', this.props.category);
         this.props.fetchEventosRecentes('5ba26f813a018f42215a36a0');
         this.props.fetchGuiasFeatured('5ba26f813a018f42215a36a0');

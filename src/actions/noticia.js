@@ -45,7 +45,8 @@ export const fetchNoticias = async(id, category='', limit=500) => {
 
         console.log("request no fetchNoticias: ", req.data);
 
-        category=`categorias=${req.data[0]._id}&`
+        if(req.data.lenght > 0)
+            category=`categorias=${req.data[0]._id}&`
     }
 
     let config = { headers: { 'Authorization': `Bearer ${jwt}` } };

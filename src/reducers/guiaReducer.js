@@ -7,7 +7,7 @@ export default function(state = null, action) {
         case FETCH_GUIA:
             if(state){
                 if(state.recentes)
-                    guia.recentes = state.recenes;
+                    guia.recentes = state.recentes;
                 if(state.featured)
                     guia.featured = state.featured;
                 if(state.list)
@@ -20,7 +20,7 @@ export default function(state = null, action) {
         case FETCH_GUIAS:
             if(state){
                 if(state.recentes)
-                    guia.recentes = state.recenes;
+                    guia.recentes = state.recentes;
                 if(state.featured)
                     guia.featured = state.featured;
                 if(state.guia)
@@ -46,7 +46,7 @@ export default function(state = null, action) {
         case FETCH_GUIAS_FEATURED:
             if(state){
                 if(state.recentes)
-                    guia.recentes = state.recenes;
+                    guia.recentes = state.recentes;
                 if(state.list)
                     guia.list = state.list;
                 if(state.guia)

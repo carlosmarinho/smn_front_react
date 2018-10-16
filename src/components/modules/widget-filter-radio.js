@@ -20,7 +20,6 @@ class WidgetFilterRadio extends Component {
 
     generateWidget(objects) {
         const truncate = _.truncate
-        console.log("object no left widget generatewidget raaaaadiiiiiiiiiiiiiiiioooooooooo: ", objects);
         if(objects.length>0){
             return objects.map(object => {
                 return (
@@ -38,13 +37,12 @@ class WidgetFilterRadio extends Component {
         let objects = []
         if(this.props.objects && this.props.objects.length > 0)
         {
-            console.log("object no left widget: ", this.props.objects);
             objects = this.props.objects;
         }
 
         return (
             <div className="dir-alp-l3 dir-alp-l-com">
-                <h4>Distance</h4>
+                <h4>Filtro por Bairros</h4>
                 <div className="dir-alp-l-com1 dir-alp-p3">
                     <form>
                         <ul>

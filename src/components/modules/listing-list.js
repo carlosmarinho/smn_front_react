@@ -93,7 +93,7 @@ class ListingList extends Component {
         })
 
         let itemCount = 0;
-        if(this.props && this.props.guias)
+        if(this.props && this.props.guias && this.props.guias.list)
             itemCount = this.props.guias.list.length
 
         return(
@@ -208,7 +208,6 @@ class ListingList extends Component {
 
 
 function mapStateToProps(state){
-    console.log("state listing list: ", state)
     return {
         guias: state.guias,
         categorias: state.categorias,

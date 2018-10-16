@@ -20,7 +20,6 @@ class WidgetFilterCheckbox extends Component {
 
     generateWidget(objects) {
         const truncate = _.truncate
-        console.log("object no left widget generatewidget cheeeeekkkkkbooooox: ", objects);
         if(objects.length>0){
             return objects.map(object => {
                 return (
@@ -37,7 +36,6 @@ class WidgetFilterCheckbox extends Component {
         let objects = []
         if(this.props.objects && this.props.objects.length > 0)
         {
-            console.log("object no left widget: ", this.props.objects);
             objects = this.props.objects;
         }
 

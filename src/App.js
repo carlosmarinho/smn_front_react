@@ -14,6 +14,7 @@ import Footer from './components/footer'
 import NewsItem from './components/modules/news-item'
 import BlogList from './components/modules/blog-list'
 import ListingItem from './components/modules/listing-item'
+import EventItem from './components/modules/event-item'
 import ListingList from './components/modules/listing-list'
 import ListingGrid from './components/modules/listing-grid'
 import Contact from './components/modules/contact'
@@ -66,6 +67,7 @@ class App extends Component {
                             <Route exact path="/a-cidade" component={BlogListCity} />
                             <Route exact path="/guia" component={ListingList} />
                             <Route exact path="/eventos" component={ListingGrid} />
+                            <Route exact path="/eventos/:slug" component={EventItem} />
                             <Route exact path="/guia-comercial/:slug" component={ListingItem} />
                             <Route exact path="/contato" component={Contact} />
                             <Route exact path="/noticias/:slug" component={NewsItem} />

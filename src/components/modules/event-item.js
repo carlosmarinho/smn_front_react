@@ -1,33 +1,33 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import RightColumn from '../right-column';
-import HeaderGuia from '../header-destaque-guia';
+import HeaderEvent from '../header-destaque-evento';
 import PreFooter from './pre-footer';
-import { fetchGuiaBySlug } from '../../actions/guia';
-import { fetchEventosRecentes } from '../../actions/evento';
+import { fetchEventoBySlug } from '../../actions/evento';
+import { fetchGuiasRecentes } from '../../actions/guia';
 import { fetchGuiasFeatured } from '../../actions/guia';
 import FormComment from './form-comment';
 import Reviews from './reviews';
 import StreetView from './street-view';
 
-class ListingItem extends Component {
+class EventItem extends Component {
 
     componentDidMount() {
-        this.props.fetchGuiaBySlug(this.props.match.params.slug);
+        this.props.fetchEventoBySlug(this.props.match.params.slug);
         this.props.fetchEventosRecentes('5ba26f813a018f42215a36a0');
-        this.props.fetchGuiasFeatured('5ba26f813a018f42215a36a0');
+        this.props.fetchGuiaFeatured('5ba26f813a018f42215a36a0');
     }
 
     render(){
         let item = {};
-        console.log('this.propsguia: ', this.props)
-        if(this.props.guias)
-            item = this.props.guias.guia
+        console.log('this.propsevento: ', this.props)
+        if(this.props.eventos)
+            item = this.props.eventos.evento
             
         return(
             <div>
                 
-                <HeaderGuia guia={item} />
+                <HeaderEvent evento={item} />
 
                 <section className="list-pg-bg">
                     <div className="container">
@@ -38,14 +38,14 @@ class ListingItem extends Component {
                                     {(item && item.descricao_servicos)?this.services(item):''}
                                     {this.gallery(item)}
                                     {this.streetView(item)}
-                                    <FormComment text="Deixando um comentário adequado a este guia você estará ajudando outros a encontrar exatamente o que estão procurando!" />
+                                    <FormComment text="Deixando um comentário adequado a este evento você estará ajudando outros a encontrar exatamente o que estão procurando!" />
                                     <Reviews />
                                 </div>
                                 
 
 
                                 {/*RIGH COLUMN*/}
-                                <RightColumn guiaType="featured" guias={(this.props.guias)?this.props.guias:[]} eventos={(this.props.eventos)?this.props.eventos.recentes:[]}  />
+                                <RightColumn eventoType="featured" eventos={(this.props.eventos)?this.props.eventos:[]} eventos={(this.props.eventos)?this.props.eventos.recentes:[]}  />
 
 
                             </div>
@@ -62,7 +62,7 @@ class ListingItem extends Component {
             <div className="pglist-p1 pglist-bg pglist-p-com" >
                 <span id="ld-abour"></span>
                 <div className="pglist-p-com-ti">
-                    <h3><span>Sobre</span> {(item)?item.titulo:'Carregando...'}</h3> </div>
+                    <h3><span>Descrição do Evento: </span> {(item)?item.titulo:'Carregando...'}</h3> </div>
                 <div className="list-pg-inn-sp">
                     <div className="share-btn">
                         <ul>
@@ -146,14 +146,14 @@ class ListingItem extends Component {
         }
     }
 
-    getImageSrc(guia){
-        if(guia && guia.s3_imagem_destacada){
-            return guia.old_imagem_destacada;
+    getImageSrc(evento){
+        if(evento && evento.s3_imagem_destacada){
+            return evento.old_imagem_destacada;
         }
-        else if(guia && guia.old_imagem_destacada) {
-            return guia.old_imagem_destacada;
+        else if(evento && evento.old_imagem_destacada) {
+            return evento.old_imagem_destacada;
         }
-        else if(guia && guia.imagem_destacada){
+        else if(evento && evento.imagem_destacada){
             //implementar codigo
             return "http://soumaisniteroi.com.br/wp-content/uploads/2015/04/no-image.png";
         }
@@ -220,4 +220,4 @@ function mapStateToProps(state){
     }
 }
 
-export default connect(mapStateToProps, { fetchGuiaBySlug, fetchEventosRecentes, fetchGuiasFeatured })(ListingItem);
+export default connect(mapStateToProps, { fetchEventoBySlug, fetchGuiasRecentes, fetchGuiasFeatured })(EventItem);

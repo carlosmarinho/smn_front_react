@@ -3,9 +3,10 @@ import RightColumn from '../right-column';
 import HeaderListing from '../header-destaque-listing';
 import { fetchEventos } from '../../actions/evento';
 import { fetchBairros } from '../../actions/bairro';
-import { fetchCategoriesGuiaTop } from '../../actions/categoria';
+import { fetchCategoriesEventoTop } from '../../actions/categoria';
 import { connect } from 'react-redux';
 import Pagination from "react-js-pagination";
+import { Link } from 'react-router-dom';
 
 import ListingLeftColumn from '../listing-left-column';
 import PreFooter from './pre-footer';
@@ -19,7 +20,7 @@ class ListingGrid extends Component {
         this.state = {
             data: [],
             activePage: 1,
-            perPage: 21
+            perPage: 24
         }
 
         this.handlePageChange = this.handlePageChange.bind(this);
@@ -29,7 +30,7 @@ class ListingGrid extends Component {
     componentDidMount() {
         console.log("no evento componet did mount vai chamar o fetchEventos")
         this.props.fetchEventos('5ba26f813a018f42215a36a0');
-        this.props.fetchCategoriesGuiaTop();
+        this.props.fetchCategoriesEventoTop();
         this.props.fetchBairros('5ba26f813a018f42215a36a0');
 
         //this.setState({data: this.props.eventos.list, pageCount: Math.ceil(  this.props.eventos.list.lenght / 10)});
@@ -63,31 +64,58 @@ class ListingGrid extends Component {
         return ( "0" +(date.getDate())).slice(-2) + '/' + ("0" + (date.getMonth() + 1)).slice(-2) + '/' + date.getFullYear();
     }
 
+    getImageSrc(evento){
+        
+        if(evento && evento.s3_imagem_destacada){
+            return evento.old_imagem_destacada;
+        }
+        else if(evento && evento.old_imagem_destacada) {
+            return evento.old_imagem_destacada;
+        }
+        else if(evento && evento.imagem_destacada){
+            //implementar codigo
+            return "http://soumaisniteroi.com.br/wp-content/uploads/2015/04/no-image.png";
+        }
+        return "http://soumaisniteroi.com.br/wp-content/uploads/2015/04/no-image.png";
+    }
+
+    getAvaliacao(evento){
+        if(evento && evento.avaliacao)
+            return (
+                <div className="list-rat-ch"> <span>5.0</span> 
+                    <i className="fa fa-star" aria-hidden="true"></i> <i className="fa fa-star" aria-hidden="true"></i> <i className="fa fa-star" aria-hidden="true"></i> <i className="fa fa-star" aria-hidden="true"></i> <i className="fa fa-star" aria-hidden="true"></i> 
+                </div>
+            )
+        else 
+            return (
+                <div className="list-rat-ch list-room-rati"> <span>Nenhuma Avaliação</span> 
+                    <i className="fa fa-star-o" aria-hidden="true"></i> <i className="fa fa-star-o" aria-hidden="true"></i> <i className="fa fa-star-o" aria-hidden="true"></i> <i className="fa fa-star-o" aria-hidden="true"></i> <i className="fa fa-star-o" aria-hidden="true"></i> 
+                </div>
+            );
+    }
+
     generateEventos() {
         let eventos = this.state.data.map( evento => {
-            let avaliacao = '';
-            /*Por enquanto está implementado para não exibir avaliações depois que já tiver avaliação suficiente colocar o texto sem avaliação*/
-            if(evento.mediaAvaliacao)
-                avaliacao = <span className="home-list-pop-rat">{evento.mediaAvaliacao}</span>
+            
             return (
                 <div className="col-md-4">
-                    <a href="listing-details.html">
+                    <Link to={`/evento/${evento.slug}`}>
                         <div className="list-mig-like-com com-mar-bot-30">
-                            <div className="list-mig-lc-img"> <img src="images/listing/1.jpg" alt="" /> <span className="home-list-pop-rat list-mi-pr">$720</span> </div>
+                            <div className="list-mig-lc-img"> <img src={this.getImageSrc()} alt="" /> <span className="home-list-pop-rat list-mi-pr">$720</span> </div>
                             <div className="list-mig-lc-con">
-                                <div className="list-rat-ch list-room-rati"> <span>4.0</span> <i className="fa fa-star" aria-hidden="true"></i> <i className="fa fa-star" aria-hidden="true"></i> <i className="fa fa-star" aria-hidden="true"></i> <i className="fa fa-star" aria-hidden="true"></i> <i className="fa fa-star-o" aria-hidden="true"></i> </div>
+                                {this.getAvaliacao(evento)}
                                 <h5>{evento.titulo} </h5>
                                 <h6>Data do Evento: {this.dateNumberPtBr(new Date(evento.createdAt))}</h6>
                                 <p>{(evento && evento.cidade && evento.cidade.length>0)?evento.cidade[0].nome:''} {(evento && evento.bairros && evento.bairros.length>0)?'- ' + evento.bairros[0].nome:''}</p>
                             </div>
                         </div>
-                    </a>
+                    </Link>
                 </div>
             )
         })
 
         let itemCount = 0;
-        if(this.props && this.props.eventos)
+        if(this.props && this.props.eventos && this.props.eventos.list)
             itemCount = this.props.eventos.list.length
 
         return(
@@ -125,7 +153,7 @@ class ListingGrid extends Component {
 
     render(){
 
-        console.log('Eventos: ', this.props)
+        console.log('Eventosssssssss: ', this.props)
         let leftColumn = true;
 
         let listName = "Evento Comercial";
@@ -147,7 +175,6 @@ class ListingGrid extends Component {
             items = <div>Nenhum evento encontrado para a categoria {this.props.listName} </div>
         }
         else {
-            console.log("this.props.eventos: ", this.props.eventos.list)
             if(!this.props.eventos.list)
                 items = <div>Nenhum evento encontrado para a categoria {this.props.listName} </div>
             else
@@ -175,7 +202,8 @@ class ListingGrid extends Component {
                         </div>
                         <div className="row">
                             <div className="dir-alp-con">
-                                {(leftColumn)?<ListingLeftColumn objects={(this.props.eventos)?this.props.eventos.recentes:[]} categories={(this.props.categorias)?this.props.categorias.evento:[]} bairros={(this.props.bairros)?this.props.bairros:[]} />:''}
+                                {(leftColumn)?<ListingLeftColumn objects={(this.props.guias)?this.props.guias.recentes:[]} categories={(this.props.categorias)?this.props.categorias.evento:[]} bairros={(this.props.bairros)?this.props.bairros:[]} />:''}
+                                
                                 <div className={(leftColumn)?'col-md-9 dir-alp-con-right list-grid-rig-pad':'col-md-12 dir-alp-con-right list-grid-rig-pad'}>
                                     <div className="dir-alp-con-right-1">
                                         <div className="row">
@@ -231,8 +259,9 @@ function mapStateToProps(state){
     return {
         eventos: state.eventos,
         categorias: state.categorias,
-        bairros: state.bairros
+        bairros: state.bairros,
+        guias: state.guias
     }
 }
 
-export default connect(mapStateToProps, { fetchEventos, fetchBairros, fetchCategoriesGuiaTop })(ListingGrid);
+export default connect(mapStateToProps, { fetchEventos, fetchBairros, fetchCategoriesEventoTop })(ListingGrid);

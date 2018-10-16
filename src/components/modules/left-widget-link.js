@@ -42,7 +42,6 @@ class LeftWidgetLink extends Component {
         let objects = []
         if(this.props.objects && this.props.objects.length > 0)
         {
-            console.log("object no left widget: ", this.props.objects);
             objects = this.props.objects;
         }
 
