@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import RightColumn from '../right-column';
 import HeaderListing from '../header-destaque-listing';
 import { fetchEventos } from '../../actions/evento';
 import { fetchBairros } from '../../actions/bairro';
@@ -99,7 +98,7 @@ class ListingGrid extends Component {
             
             return (
                 <div className="col-md-4">
-                    <Link to={`/evento/${evento.slug}`}>
+                    <Link to={`/eventos/${evento.slug}`}>
                         <div className="list-mig-like-com com-mar-bot-30">
                             <div className="list-mig-lc-img"> <img src={this.getImageSrc()} alt="" /> <span className="home-list-pop-rat list-mi-pr">$720</span> </div>
                             <div className="list-mig-lc-con">
@@ -142,7 +141,7 @@ class ListingGrid extends Component {
         console.log(`active page is ${pageNumber}`);
         let data = [];
         if(pageNumber == 1){
-            data = this.props.eventos.list.slice(0, 30)
+            data = this.props.eventos.list.slice(0, this.state.perPage)
         }
         else{
             data = this.props.eventos.list.slice((pageNumber-1)*this.state.perPage,((pageNumber-1)*this.state.perPage)+this.state.perPage)
@@ -152,12 +151,11 @@ class ListingGrid extends Component {
     }
 
     render(){
-
         console.log('Eventosssssssss: ', this.props)
-        let leftColumn = true;
+        let leftColumn = this.props.columnLeft;
 
-        let listName = "Evento Comercial";
-        let preposition = "do ";
+        let listName = this.props.listName;
+        let preposition = "de ";
 
         if(! this.props.eventos && !this.props.category){
             console.log("categoria não encontrada!!!");
@@ -220,35 +218,7 @@ class ListingGrid extends Component {
                         </div>
                     </div>
                 </section>
-                {/*<!--MOBILE APP-->*/}
-                <section className="web-app com-padd">
-                    <div className="container">
-                        <div className="row">
-                            <div className="col-md-6 web-app-img"> <img src="images/mobile.png" alt="" /> </div>
-                            <div className="col-md-6 web-app-con">
-                                <h2>Looking for the Best Service Provider? <span>Get the App!</span></h2>
-                                <ul>
-                                    <li><i className="fa fa-check" aria-hidden="true"></i> Find nearby listings</li>
-                                    <li><i className="fa fa-check" aria-hidden="true"></i> Easy service enquiry</li>
-                                    <li><i className="fa fa-check" aria-hidden="true"></i> Listing reviews and ratings</li>
-                                    <li><i className="fa fa-check" aria-hidden="true"></i> Manage your listing, enquiry and reviews</li>
-                                </ul> <span>We'll send you a link, open it on your phone to download the app</span>
-                                <form>
-                                    <ul>
-                                        <li>
-                                            <input type="text" placeholder="+01" /> </li>
-                                        <li>
-                                            <input type="number" placeholder="Enter mobile number" /> </li>
-                                        <li>
-                                            <input type="submit" value="Get App Link" /> </li>
-                                    </ul>
-                                </form>
-                                <a href="#"><img src="images/android.png" alt="" /> </a>
-                                <a href="#"><img src="images/apple.png" alt="" /> </a>
-                            </div>
-                        </div>
-                    </div>
-                </section>
+                <PreFooter />
             </div>
         )
     }

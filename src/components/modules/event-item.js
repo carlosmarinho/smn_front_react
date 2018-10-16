@@ -4,6 +4,7 @@ import RightColumn from '../right-column';
 import HeaderEvent from '../header-destaque-evento';
 import PreFooter from './pre-footer';
 import { fetchEventoBySlug } from '../../actions/evento';
+import { fetchEventosRecentes } from '../../actions/evento';
 import { fetchGuiasRecentes } from '../../actions/guia';
 import { fetchGuiasFeatured } from '../../actions/guia';
 import FormComment from './form-comment';
@@ -15,12 +16,12 @@ class EventItem extends Component {
     componentDidMount() {
         this.props.fetchEventoBySlug(this.props.match.params.slug);
         this.props.fetchEventosRecentes('5ba26f813a018f42215a36a0');
-        this.props.fetchGuiaFeatured('5ba26f813a018f42215a36a0');
+        this.props.fetchGuiasRecentes('5ba26f813a018f42215a36a0');
+        this.props.fetchGuiasFeatured('5ba26f813a018f42215a36a0');
     }
 
     render(){
         let item = {};
-        console.log('this.propsevento: ', this.props)
         if(this.props.eventos)
             item = this.props.eventos.evento
             
@@ -34,10 +35,10 @@ class EventItem extends Component {
                         <div className="row">
                             <div className="com-padd">
                                 <div className="list-pg-lt list-page-com-p">
-                                    {this.about(item)}
+                                    {(item)?this.about(item):'carregando...'}
                                     {(item && item.descricao_servicos)?this.services(item):''}
-                                    {this.gallery(item)}
-                                    {this.streetView(item)}
+                                    {(item)?this.gallery(item):'carregando...'}
+                                    {(item)?this.streetView(item):'carregando...'}
                                     <FormComment text="Deixando um comentário adequado a este evento você estará ajudando outros a encontrar exatamente o que estão procurando!" />
                                     <Reviews />
                                 </div>
@@ -45,7 +46,7 @@ class EventItem extends Component {
 
 
                                 {/*RIGH COLUMN*/}
-                                <RightColumn eventoType="featured" eventos={(this.props.eventos)?this.props.eventos:[]} eventos={(this.props.eventos)?this.props.eventos.recentes:[]}  />
+                                <RightColumn guiaType="featured" guias={(this.props.guias)?this.props.guias:[]} eventos={(this.props.eventos)?this.props.eventos.recentes:[]}  />
 
 
                             </div>
@@ -62,7 +63,7 @@ class EventItem extends Component {
             <div className="pglist-p1 pglist-bg pglist-p-com" >
                 <span id="ld-abour"></span>
                 <div className="pglist-p-com-ti">
-                    <h3><span>Descrição do Evento: </span> {(item)?item.titulo:'Carregando...'}</h3> </div>
+                    <h3><span>Dados do Evento: </span> {(item)?item.titulo:'Carregando...'}</h3> </div>
                 <div className="list-pg-inn-sp">
                     <div className="share-btn">
                         <ul>
@@ -71,18 +72,124 @@ class EventItem extends Component {
                             <li><a href="#"><i className="fa fa-google-plus gp1"></i> Share On Google Plus</a> </li>
                         </ul>
                     </div>
-                    <div dangerouslySetInnerHTML={{__html: (item)?item.descricao:'carregando...'}}></div>
+                    <div className="row v2-mar-top-40">
+                        <div className="col-md-6 mar-bot-20" >
+                            <h4 className="mar-bot-20">Data e Hora</h4>
+                            {this.getDateTime(item)}
+                            
+                        </div>
+                        <div className="col-md-6" >
+                            <h4 className="mar-bot-20">Preço e Classificação </h4>
+                            {this.getPriceAndClassification(item)}
+                            
+                        </div>
+                    </div>
+                    <div className="row">
+                        <div className="col-md-12" >
+                            <h4 className="mar-bot-20">Descrição do Evento</h4>
+                            <p dangerouslySetInnerHTML={{__html: (item)?item.descricao:'carregando...'}} />
+                        </div>
+                    </div>
                 </div>
             </div>
         )
     }
+    
+    getPrice(item){
+        //Quando eu importo do wordpress e o preço está em string retorna um objeto com erro por isso a verificaçao do .message
+        if(item.preco && ! item.preco.message)
+            return <div><span><strong>Valor da Entrada:</strong> {item.preco}</span><br /></div>
+        else
+            return <div><span><strong>Valor da Entrada:</strong> Não informado!</span><br /></div>
+    }
 
-    services(item){
+    getCouvert(item){
+        if(item.couvert && ! item.couvert.message) {
+            return(
+                <div><span><strong>Couvert:</strong> {item.couvert}</span><br /></div>
+            )
+        }
+        else    
+            return;
+    }
+
+    getClassification(item){
+        if(item.classificacao_indicativa)
+            return(
+                <div><span><strong>Classificação:</strong> {item.classificacao_indicativa} </span><br /></div>
+            )
+    }
+
+    getPriceAndClassification(item){
+        if(! item)
+            return;
+        
+        console.log("item no item e classificao: ", item)
+
+        let price = this.getPrice(item);
+        let couvert = this.getCouvert(item);
+        let classificacao = this.getClassification(item);
+        
+        
+        return <div>{price} {couvert} {classificacao}</div>
+    }
+
+    dateNumberPtBr(date){
+        return ( "0" +(date.getDate())).slice(-2) + '/' + ("0" + (date.getMonth() + 1)).slice(-2) + '/' + date.getFullYear();
+    }
+
+    getDate(item){
+        if(item.fim){
+            return (
+                <div>
+                    <span><strong>Data Inicial do Evento:</strong> {this.dateNumberPtBr(new Date(item.inicio))}</span><br />
+                    <span><strong>Data Final do Evento:</strong> {this.dateNumberPtBr(new Date(item.fim))}</span><br />
+                </div>
+            )
+        }
+        else{
+            return (
+                <div>
+                    <span><strong>Data do Evento:</strong> {this.dateNumberPtBr(new Date(item.inicio))}</span><br />
+                </div>
+
+            )
+        }
+        
+    }
+
+    getHorario(item){
+        if(item.hora_inicio && item.hora_fim){
+            return (
+                <div>
+                    <span><strong>Horário do Evento</strong>: de {item.hora_inicio} até às {item.hora_fim} horas</span><br />
+                </div>
+            )
+        }
+        else if(item.hora_inicio){
+            return (
+                <div>
+                    <span>Horário: O evento tem início às {item.hora_inicio} horas</span><br />
+                </div>
+            )
+        }
+    }
+
+    getDateTime(item){
+        return(
+            <div>
+                {this.getDate(item)}
+                {this.getHorario(item)}
+            </div>
+        )
+    }
+
+    tags(item){
         return(
             <div className="pglist-p2 pglist-bg pglist-p-com" >
                 <span id="ld-ser"></span>
                 <div className="pglist-p-com-ti">
-                    <h3><span>Serviços</span> Oferecidos</h3> </div>
+                    <h3><span>Tags</span> Relacionadas</h3> </div>
                 <div className="list-pg-inn-sp">
                     <p>Taj Luxury Hotels & Resorts provide 24-hour Business Centre, Clinic, Internet Access Centre, Babysitting, Butler Service in Villas and Seaview Suite, House Doctor on Call, Airport Butler Service, Lobby Lounge </p>
                     <div className="row pg-list-ser">
@@ -196,7 +303,7 @@ class EventItem extends Component {
 
     streetView(item){
         return(
-            <div className="pglist-p3 pglist-bg pglist-p-com" id="ld-vie">
+            <div className="pglist-p3 pglist-bg pglist-p-com" >
                 <span id="ld-vie"></span>
                 <div className="pglist-p-com-ti">
                     <h3><span>360 </span> Google Street View</h3> </div>
@@ -220,4 +327,4 @@ function mapStateToProps(state){
     }
 }
 
-export default connect(mapStateToProps, { fetchEventoBySlug, fetchGuiasRecentes, fetchGuiasFeatured })(EventItem);
+export default connect(mapStateToProps, { fetchEventoBySlug, fetchEventosRecentes, fetchGuiasRecentes, fetchGuiasFeatured })(EventItem);

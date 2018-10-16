@@ -17,9 +17,12 @@ import ListingItem from './components/modules/listing-item'
 import EventItem from './components/modules/event-item'
 import ListingList from './components/modules/listing-list'
 import ListingGrid from './components/modules/listing-grid'
+import Gallery from './components/modules/gallery'
 import Contact from './components/modules/contact'
 import Login from './components/modules/login'
 import Register from './components/modules/register'
+
+import BairroGrid from './components/modules/bairro-grid'
 
 /* Importing css */
 import './assets/styles/css/materialize.css';
@@ -50,7 +53,25 @@ const BlogListCity = () => { return (<BlogList
                                 category="Bairro"
                             />
                             )
-                    }                            
+                    }            
+
+const BairrosGrid = () => {
+    return(
+        <BairroGrid
+            title="Bairros da cidade de Niterói"
+            columnLeft={false}
+        />
+    )
+}                    
+                    
+const GridEvents = () => {
+    return(
+        <ListingGrid 
+            listName="Eventos em Niterói"
+            columnLeft={true}
+         />
+    )
+}                    
 
 class App extends Component {
     render() {
@@ -65,14 +86,15 @@ class App extends Component {
                             <Route exact path="/login" component={Login} />
                             <Route exact path="/cadastro" component={Register} />
                             <Route exact path="/a-cidade" component={BlogListCity} />
-                            <Route exact path="/guia" component={ListingList} />
-                            <Route exact path="/eventos" component={ListingGrid} />
+                            <Route exact path="/bairros-de-niteroi" component={BairrosGrid} />
+                            <Route exact path="/guia-comercial" component={ListingList} />
+                            <Route exact path="/eventos" component={GridEvents} />
                             <Route exact path="/eventos/:slug" component={EventItem} />
                             <Route exact path="/guia-comercial/:slug" component={ListingItem} />
                             <Route exact path="/contato" component={Contact} />
                             <Route exact path="/noticias/:slug" component={NewsItem} />
                             <Route exact path="/noticias" component={BlogListNews} />
-                            <Route exact path="/home-teste" component={HomeTeste} />
+                            <Route exact path="/fotos-da-cidade-de-niteroi" component={Gallery} />
                         </div>
                         <Footer />
                     </div>

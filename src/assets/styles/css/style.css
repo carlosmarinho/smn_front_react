@@ -3495,8 +3495,8 @@ footer ul li a:hover {
 .pg-list-1 {
   margin-top: 60px;
   /*commented by carlos background: url(../../images/list-deta/bg.jpg) no-repeat;
-     background: url(http://soumaisniteroi.com.br/wp-content/uploads/2015/04/no-image.png) no-repeat;*/
-  background-size: cover;
+     background: url(http://soumaisniteroi.com.br/wp-content/uploads/2015/04/no-image.png) no-repeat;
+     background-size: cover;*/
   position: relative;
   padding: 250px 0px 70px 0px;
   width: 100%;
@@ -7343,7 +7343,7 @@ footer ul li a:hover {
   margin-left: 10px; }
 
 /*Ajustar as ancoras por carlos*/
-#ld-ser, #ld-abour, #ld-gal, #ld-view, #ld-rew, #ld-rer {
+#ld-ser, #ld-abour, #ld-gal, #ld-vie, #ld-rew, #ld-rer {
   display: block;
   position: relative;
   top: -120px;

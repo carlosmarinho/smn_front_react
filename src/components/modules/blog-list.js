@@ -19,7 +19,8 @@ class BlogList extends Component {
         
         this.state = {
             data: [],
-            activePage: 1
+            activePage: 1,
+            perPage: 10
         }
 
         this.handlePageChange = this.handlePageChange.bind(this);
@@ -37,7 +38,7 @@ class BlogList extends Component {
         if(nextProps.noticias){
             if(nextProps.noticias.list)
             {
-                this.setState({data: nextProps.noticias.list.slice(0,10), pageCount: Math.ceil(  nextProps.noticias.list.lenght / 10)});
+                this.setState({data: nextProps.noticias.list.slice(0,this.state.perPage), pageCount: Math.ceil(  nextProps.noticias.list.lenght / this.state.perPage)});
             }
         }
     }
@@ -86,9 +87,9 @@ class BlogList extends Component {
                 {noticias}
                 <Pagination
                     activePage={this.state.activePage}
-                    itemsCountPerPage={10}
+                    itemsCountPerPage={this.state.perPage}
                     totalItemsCount={this.props.noticias.list.length}
-                    pageRangeDisplayed={10}
+                    pageRangeDisplayed={this.state.perPage}
                     onChange={this.handlePageChange}
                     prevPageText={<i className="material-icons">chevron_left</i>}
                     nextPageText={<i className="material-icons">chevron_right</i>}
@@ -105,13 +106,13 @@ class BlogList extends Component {
         console.log(`active page is ${pageNumber}`);
         let data = [];
         if(pageNumber == 1){
-            data = this.props.noticias.list.slice(0, 10)
+            data = this.props.noticias.list.slice(0, this.state.perPage)
         }
         else{
-            data = this.props.noticias.list.slice((pageNumber-1)*10,((pageNumber-1)*10)+10)
+            data = this.props.noticias.list.slice((pageNumber-1)*this.state.perPage,((pageNumber-1)*this.state.perPage)+this.state.perPage)
         }
         this.setState({activePage: pageNumber, data});
-        //{data: nextProps.noticias.list.slice(0,10)}
+        //{data: nextProps.noticias.list.slice(0,this.state.perPage)}
     }
 
     render(){

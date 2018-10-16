@@ -196,7 +196,7 @@ class ListingItem extends Component {
 
     streetView(item){
         return(
-            <div className="pglist-p3 pglist-bg pglist-p-com" id="ld-vie">
+            <div className="pglist-p3 pglist-bg pglist-p-com" >
                 <span id="ld-vie"></span>
                 <div className="pglist-p-com-ti">
                     <h3><span>360 </span> Google Street View</h3> </div>

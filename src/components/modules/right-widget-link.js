@@ -20,18 +20,23 @@ class RightWidgetLink extends Component {
     }
     
     generateWidget(objects) {
+        let maxPerWidget = 5;
+        if(this.props.maxItem)
+            maxPerWidget = this.props.maxItem;
+
         const truncate = _.truncate
         if(objects.length>0){
-            return objects.map(object => {
-                return (
-                    <li>
-                        <a href={'guia-comercial/' + object.slug}>
-                            <div className="list-pg-guar-img"> <img src={this.getImageSrc(object)} alt="" style={{width:32}} /> </div>
-                            <h4>{truncate(object.titulo, { length: 50, separator: /,?\.* +/ })}</h4>
-                            <p>{(object.cidade && object.cidade.length>0)?object.cidade[0].nome:''} {(object.bairros.length>0)?', ' + object.bairros[0].nome: ''}</p>
-                        </a>
-                    </li>
-                )
+            return objects.map((object,i) => {
+                if(i < maxPerWidget)
+                    return (
+                        <li>
+                            <a href={'guia-comercial/' + object.slug}>
+                                <div className="list-pg-guar-img"> <img src={this.getImageSrc(object)} alt="" style={{width:32}} /> </div>
+                                <h4>{truncate(object.titulo, { length: 50, separator: /,?\.* +/ })}</h4>
+                                <p>{(object.cidade && object.cidade.length>0)?object.cidade[0].nome:''} {(object.bairros.length>0)?', ' + object.bairros[0].nome: ''}</p>
+                            </a>
+                        </li>
+                    )
             })
         }
         

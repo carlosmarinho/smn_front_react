@@ -22,7 +22,7 @@ class Menu extends Component {
                                         <Link className='dropdown-button ed-sub-menu' data-activates='drop-menu-cidade' to="/a-cidade">Cidade</Link>
                                     </li>
                                     <li>
-                                        <Link className='dropdown-button ed-sub-menu' data-activates='drop-menu-guia' to="/guia">Guia</Link>
+                                        <Link className='dropdown-button ed-sub-menu' data-activates='drop-menu-guia' to="/guia-comercial">Guia</Link>
                                     </li>
                                     <li>
                                         <Link className='dropdown-button' to="/eventos">Eventos</Link>
@@ -51,15 +51,17 @@ class Menu extends Component {
                         </div>
                         <div className="all-drop-down-menu">
                             <ul id='drop-menu-cidade' className='dropdown-content'>
-                                <li><a href="index-1.html">Bairros</a></li>
+                                <li><Link to="bairros-de-niteroi">Bairros</Link></li>
                                 <li className="divider"></li>
-                                <li><a href="index-2.html">Fotos da Cidade</a></li>
+                                <li><Link to="fotos-da-cidade-de-niteroi">Fotos da Cidade</Link></li>
                                 <li className="divider"></li>
-                                <li><a href="index-3.html">História da Cidade</a></li>
+                                <li><Link to="historia-da-cidade-de-niteroi">História da Cidade</Link></li>
+                                <li className="divider"></li>
+                                <li><Link to="populacao-da-cidade-de-niteroi">População da Cidade</Link></li>
                             </ul>
                             <ul id='drop-menu-guia' className='dropdown-content'>
-                                <li><Link className='dropdown-button' to="/guia/qualquer-um-guia-comercial">Guia Comercial</Link></li>
-                                <li><Link className='dropdown-button' to="/guia/qualquer-um-guia-comercial-outro">Guia Comercial</Link></li>
+                                <li><Link className='dropdown-button' to="/guia-comercial/type/comercial">Guia Comercial</Link></li>
+                                <li><Link className='dropdown-button' to="/guia-comercial/type/servicos">Guia Servicos</Link></li>
                             </ul>
                             <ul id='email-temp' className='dropdown-content'>
                                 <li><a href="email-template-register.html" target="_blank">Register</a> </li>
