@@ -9,7 +9,8 @@ class HeaderDestaqueBlog extends Component {
                     <div className="row">
                         <div className="inn-pag-ban">
                             <h2>{this.props.title}</h2>
-                            <h5>{this.props.subtitle}</h5> </div>
+                            <h5>{this.props.subtitle}</h5> 
+                        </div>
                     </div>
                 </div>
             </section>

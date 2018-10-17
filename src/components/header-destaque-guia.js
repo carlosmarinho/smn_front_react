@@ -1,4 +1,6 @@
+import _ from 'lodash'
 import React, { Component } from 'react';
+import { Helmet } from 'react-helmet';
 
 class HeaderDestaqueGuia extends Component {
 
@@ -64,9 +66,28 @@ class HeaderDestaqueGuia extends Component {
     }
 
     render(){
+        let title = "Cidade de Niterói";
+        let metadescription = '';
+        if(this.props.guia){
+            title = this.props.guia.titulo + " | " + title;
+            console.log("guiaaaaaaa: ", this.props.guia);
+            if(this.props.guia.metadescription)   
+                metadescription = this.props.guia.metadescription;
+            else if(this.props.guia.descricao){
+                const truncate = _.truncate
+                metadescription = truncate(this.props.guia.descricao.replace(/<\/?[^>]+(>|$)/g, ""), { length: 155 });
+            }
+        }
+
         let guia = this.props.guia;
         return(
             <div>
+                <Helmet>
+                    <meta charSet="utf-8" />
+                    <meta name="description" content={metadescription} />
+                    <title>{title}</title>
+                    <link rel="canonical" href={`http://soumaisniteroi.com.br/guia-comercial/${(guia)?guia.slug:''}`}  />
+                </Helmet>
                 <section>
                     <div className="v3-list-ql">
                         <div className="container">
@@ -114,7 +135,7 @@ class HeaderDestaqueGuia extends Component {
                             <div className="pg-list-1-right">
                                 <div className="list-enqu-btn pg-list-1-right-p1">
                                     <ul>
-                                        <li><a href="#ld-rew"><i className="fa fa-star-o" aria-hidden="true"></i> Escreva seu Comentário</a> </li>
+                                        <li><a href="#ld-rew"><i className="fa fa-star-o" aria-hidden="true"></i> Deixe seu Comentário</a> </li>
                                         <li><a href="#"><i className="fa fa-phone" aria-hidden="true"></i> Ligue Agora</a> </li>
                                         <li><a href="#" data-dismiss="modal" data-toggle="modal" data-target="#list-quo"><i className="fa fa-question-circle" aria-hidden="true"></i> Pergunte</a> </li>
                                     </ul>

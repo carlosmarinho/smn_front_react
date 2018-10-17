@@ -51,13 +51,13 @@ class Menu extends Component {
                         </div>
                         <div className="all-drop-down-menu">
                             <ul id='drop-menu-cidade' className='dropdown-content'>
-                                <li><Link to="bairros-de-niteroi">Bairros</Link></li>
+                                <li><Link to="/a-cidade/bairros-de-niteroi">Bairros</Link></li>
                                 <li className="divider"></li>
-                                <li><Link to="fotos-da-cidade-de-niteroi">Fotos da Cidade</Link></li>
+                                <li><Link to="/a-cidade/fotos-cidade-niteroi">Fotos da Cidade</Link></li>
                                 <li className="divider"></li>
-                                <li><Link to="historia-da-cidade-de-niteroi">História da Cidade</Link></li>
+                                <li><Link to="/a-cidade/historia-da-cidade-de-niteroi">História da Cidade</Link></li>
                                 <li className="divider"></li>
-                                <li><Link to="populacao-da-cidade-de-niteroi">População da Cidade</Link></li>
+                                <li><Link to="/a-cidade/populacao-da-cidade-de-niteroi">População da Cidade</Link></li>
                             </ul>
                             <ul id='drop-menu-guia' className='dropdown-content'>
                                 <li><Link className='dropdown-button' to="/guia-comercial/type/comercial">Guia Comercial</Link></li>

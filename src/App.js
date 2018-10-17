@@ -11,6 +11,7 @@ import HomeTeste from './components/home-html'
 import Home from './components/home'
 import Header from './components/header'
 import Footer from './components/footer'
+import PageItem from './components/modules/page-item'
 import NewsItem from './components/modules/news-item'
 import BlogList from './components/modules/blog-list'
 import ListingItem from './components/modules/listing-item'
@@ -64,6 +65,7 @@ const BairrosGrid = () => {
     )
 }                 
 
+/*Implementar a pagina de fotos */
 const Photos = () => {
     return(
         <Gallery
@@ -95,7 +97,8 @@ class App extends Component {
                             <Route exact path="/login" component={Login} />
                             <Route exact path="/cadastro" component={Register} />
                             <Route exact path="/a-cidade" component={BlogListCity} />
-                            <Route exact path="/bairros-de-niteroi" component={BairrosGrid} />
+                            <Route exact path="/a-cidade/bairros-de-niteroi" component={BairrosGrid} />
+                            <Route exact path="/a-cidade/:slug" component={PageItem} />
                             <Route exact path="/guia-comercial" component={ListingList} />
                             <Route exact path="/eventos" component={GridEvents} />
                             <Route exact path="/eventos/:slug" component={EventItem} />
@@ -103,7 +106,7 @@ class App extends Component {
                             <Route exact path="/contato" component={Contact} />
                             <Route exact path="/noticias/:slug" component={NewsItem} />
                             <Route exact path="/noticias" component={BlogListNews} />
-                            <Route exact path="/fotos-da-cidade-de-niteroi" component={Photos} />
+                            {/*@todo <Route exact path="/fotos-da-cidade-de-niteroi" component={Photos} />*/}
                         </div>
                         <Footer />
                     </div>

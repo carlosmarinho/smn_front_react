@@ -1,4 +1,6 @@
+import _ from 'lodash';
 import React, { Component } from 'react';
+import { Helmet } from 'react-helmet'
 
 class HeaderDestaqueEvento extends Component {
 
@@ -98,9 +100,27 @@ class HeaderDestaqueEvento extends Component {
 
 
     render(){
+        let title = "Cidade de Niterói";
+        let metadescription = '';
+        if(this.props.evento){
+            title = this.props.evento.titulo + " | " + title;
+            if(this.props.evento.metadescription)   
+                metadescription = this.props.evento.metadescription;
+            else if(this.props.evento.descricao){
+                const truncate = _.truncate
+                metadescription = truncate(this.props.evento.descricao.replace(/<\/?[^>]+(>|$)/g, ""), { length: 155 });
+            }
+        }
+
         let evento = this.props.evento;
         return(
             <div>
+                <Helmet>
+                    <meta charSet="utf-8" />
+                    <meta name="description" content={metadescription} />
+                    <title>{title}</title>
+                    <link rel="canonical" href={`http://soumaisniteroi.com.br/eventos/${(evento)?evento.slug:''}`}  />
+                </Helmet>
                 <section>
                     <div className="v3-list-ql">
                         <div className="container">
@@ -148,7 +168,7 @@ class HeaderDestaqueEvento extends Component {
                             <div className="pg-list-1-right">
                                 <div className="list-enqu-btn pg-list-1-right-p1">
                                     <ul>
-                                        <li><a href="#ld-rew"><i className="fa fa-star-o" aria-hidden="true"></i> Escreva seu Comentário</a> </li>
+                                        <li><a href="#ld-rew"><i className="fa fa-star-o" aria-hidden="true"></i> Deixe seu Comentário</a> </li>
                                         {/*carlos tentar incluir ir para o site<li><a href="#"><i className="fa fa-phone" aria-hidden="true"></i> Ligue Agora</a> </li>*/}
                                         <li><a href="#" data-dismiss="modal" data-toggle="modal" data-target="#list-quo"><i className="fa fa-question-circle" aria-hidden="true"></i> Pergunte</a> </li>
                                     </ul>

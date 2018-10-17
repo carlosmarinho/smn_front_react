@@ -21,18 +21,20 @@ class LeftWidgetLink extends Component {
     generateWidget(objects) {
         const truncate = _.truncate
         if(objects.length>0){
-            return objects.map(object => {
-                return (
-                    <li>
-                        <a href={'guia-comercial/' + object.slug}>
-                            <div className="list-left-near lln1"> <img src={this.getImageSrc(object)} alt="" /> </div>
-                            <div className="list-left-near lln2">
-                                <h5>{object.titulo}</h5> 
-                                <span>{object.cidade[0].nome} {(object.bairros.length>0)?', ' + object.bairros[0].nome: ''}</span> </div>
-                            <div className="list-left-near lln3"> <span>5.0</span> </div>
-                        </a>
-                    </li>
-                )
+            return objects.map((object,i) => {
+                if(i<10){
+                    return (
+                        <li>
+                            <a href={'guia-comercial/' + object.slug}>
+                                <div className="list-left-near lln1"> <img src={this.getImageSrc(object)} alt="" /> </div>
+                                <div className="list-left-near lln2">
+                                    <h5>{object.titulo}</h5> 
+                                    <span>{object.cidade[0].nome} {(object.bairros.length>0)?', ' + object.bairros[0].nome: ''}</span> </div>
+                                <div className="list-left-near lln3"> <span>5.0</span> </div>
+                            </a>
+                        </li>
+                    )
+                }
             })
         }
         

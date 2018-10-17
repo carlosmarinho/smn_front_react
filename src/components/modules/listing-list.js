@@ -27,12 +27,16 @@ class ListingList extends Component {
     }
 
     componentDidMount() {
+        
         this.props.fetchGuias('5ba26f813a018f42215a36a0');
         this.props.fetchCategoriesGuiaTop();
         this.props.fetchBairros('5ba26f813a018f42215a36a0');
 
         //this.setState({data: this.props.guias.list, pageCount: Math.ceil(  this.props.guias.list.lenght / evento)});
     }
+
+  
+  
 
     componentWillReceiveProps(nextProps) {
         if(nextProps.guias){
@@ -165,8 +169,8 @@ class ListingList extends Component {
 
         return(
             <div>
-                
-                <HeaderListing />
+
+                <HeaderListing title="Guia Comercial"/>
                 <section className="dir-alp dir-pa-sp-top">
                     <div className="container">
                         <div className="row">

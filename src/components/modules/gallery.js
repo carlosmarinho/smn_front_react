@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import RightColumn from '../right-column';
-import HeaderEvent from '../header-destaque-evento';
+import HeaderGallery from '../header-destaque-gallery';
 import PreFooter from './pre-footer';
 import { fetchEventoBySlug } from '../../actions/evento';
 import { fetchEventosRecentes } from '../../actions/evento';
@@ -14,7 +14,6 @@ import StreetView from './street-view';
 class EventItem extends Component {
 
     componentDidMount() {
-        this.props.fetchEventoBySlug(this.props.match.params.slug);
         this.props.fetchEventosRecentes('5ba26f813a018f42215a36a0');
         this.props.fetchGuiasRecentes('5ba26f813a018f42215a36a0');
         this.props.fetchGuiasFeatured('5ba26f813a018f42215a36a0');
@@ -28,7 +27,7 @@ class EventItem extends Component {
         return(
             <div>
                 
-                <HeaderEvent evento={item} />
+                <HeaderGallery evento={item} title={this.props.title} />
 
                 <section className="list-pg-bg">
                     <div className="container">
@@ -43,8 +42,6 @@ class EventItem extends Component {
                                     <Reviews />
                                 </div>
                                 
-
-
                                 {/*RIGH COLUMN*/}
                                 <RightColumn guiaType="featured" guias={(this.props.guias)?this.props.guias:[]} eventos={(this.props.eventos)?this.props.eventos.recentes:[]}  />
 

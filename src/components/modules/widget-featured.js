@@ -1,6 +1,6 @@
 import _ from 'lodash'
 import React, { Component } from 'react';
-
+import { Link } from 'react-router-dom';
 
 class WidgetFeatured extends Component {
 
@@ -51,7 +51,7 @@ class WidgetFeatured extends Component {
             return objects.map((object,i) => {
                 if(i<=4) {
                     return (
-                        <a href="#!">
+                        <Link to={`/guia-comercial/${object.slug}`}>
                             <div className="list-mig-like-com">
                                 <div className="list-mig-lc-img"> <img src={this.getImageSrc(object)} alt="" style={{height:200}} /> <span className="home-list-pop-rat list-mi-pr">$720</span> </div>
                                 <div className="list-mig-lc-con">
@@ -61,7 +61,7 @@ class WidgetFeatured extends Component {
                                     <p>{this.getContact(object)}</p>
                                 </div>
                             </div>
-                        </a>
+                        </Link>
                     )
                 }
             })
