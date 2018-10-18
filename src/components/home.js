@@ -13,6 +13,7 @@ import FeatureRegister from './modules/feature-register';
 import FeatureGetApp from './modules/feature-get-app';
 import FeaturedOneRowAboveOtherLayer from './modules/featured-one-row-above-other-layer';
 import FeaturedOneRowWithEffect from './modules/featured-one-row-with-effect';
+import { Link } from 'react-router-dom';
 
 import { fetchFeaturedGuias } from '../actions/guia';
 import { fetchCityBySlug } from '../actions/city';
@@ -32,7 +33,7 @@ class Home extends Component {
 
     oneRow(){
         return (
-            <div><span>Guia da Cidade:</span> Veja todos os Guias da cidade <a href='guia_comercial'>Aqui!</a></div>
+            <div><span>Guia da Cidade:</span> Veja todos os Guias da cidade <Link to='/guia-comercial'>Aqui!</Link></div>
         )
     }
     render(){

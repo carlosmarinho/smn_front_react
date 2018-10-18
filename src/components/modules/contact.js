@@ -10,33 +10,35 @@ class Contact extends Component {
                     <div className="con-page">
                         <div className="con-page-ri">
                             <div className="con-com">
-                                <h4 className="con-tit-top-o">Address & Contact Info</h4>
-                                <p>28800 Orchard Lake Road, Suite 180 Farmington Hills, U.S.A. Landmark : Next To Airport</p> <span><img src="images/icon/phone.png" alt="" /> Phone: +01 3214 6581</span> <span><img src="images/icon/mail.png" alt="" /> Email: support@listing.com</span>
-                                <h4>Follow us on</h4>
-                                <p>It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here</p>
+                                <h4 className="con-tit-top-o">Entre em contato conosco</h4>
+                                
+                                <span><img src="images/icon/phone.png" alt="" /> Telefone: (21) 99172-0833</span> 
+                                <span><img src="images/icon/mail.png" alt="" /> Email: contato@soumaisniteroi.com.br</span>
+                                <h4>Acompanhe o Soumaisniteroi nas redes sociais</h4>
+                                <p>Será um prazer enorme compartilhar informações sobre a nossa cidade de Niterói nas redes sociais!</p>
                                 <div className="share-btn">
                                     <ul>
-                                        <li><a href="#"><i className="fa fa-facebook fb1"></i> Share On Facebook</a> </li>
-                                        <li><a href="#"><i className="fa fa-twitter tw1"></i> Share On Twitter</a> </li>
-                                        <li><a href="#"><i className="fa fa-google-plus gp1"></i> Share On Google Plus</a> </li>
+                                        <li><a href="#"><i className="fa fa-facebook fb1"></i> Curtir no Facebook</a> </li>
+                                        <li><a href="#"><i className="fa fa-twitter tw1"></i> Siga nos no Twitter</a> </li>
+                                        <li><a href="#"><i className="fa fa-google-plus gp1"></i> Siga nos no Google Plus</a> </li>
                                     </ul>
                                 </div>
                             </div>
                             <div className="con-com">
                                 <div className="cpn-pag-form">
                                     <form>
-                                        <h3>Support and Contact Enquiry</h3>
-                                        <p>It is a long established fact that a reader will be distracted by the readable.The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here</p>
+                                        <h3>Entre em contato!</h3>
+                                        <p>Envie sua opinião, reclamação, sugestão e elogio através do formulário abaixo e contribua para o crescimento do nosso site e da sua cidade. Esperamos que fique a vontade para falar conosco.</p>
                                         <div>
                                             <div className="input-field col s12">
                                                 <input id="gfc_name" type="text" className="validate" required />
-                                                <label htmlFor="gfc_name">Name</label>
+                                                <label htmlFor="gfc_name">Nome</label>
                                             </div>
                                         </div>
                                         <div>
                                             <div className="input-field col s12">
                                                 <input id="gfc_mob" type="number" className="validate" />
-                                                <label htmlFor="gfc_mob">Mobile</label>
+                                                <label htmlFor="gfc_mob">Celular</label>
                                             </div>
                                         </div>
                                         <div>
@@ -48,21 +50,21 @@ class Contact extends Component {
                                         <div>
                                             <div className="input-field col s12">
                                                 <textarea id="gfc_msg" className="validate" ></textarea>
-                                                <label htmlFor="gfc_msg">Message</label>
+                                                <label htmlFor="gfc_msg">Mensagem</label>
                                             </div>
                                         </div>
                                         <div>
                                             <div className="input-field col s12">
-                                                <input type="submit" value="SUBMIT" className="waves-effect waves-light btn-large full-btn list-red-btn" /> </div>
+                                                <input type="submit" value="Enviar" className="waves-effect waves-light btn-large full-btn list-red-btn" /> </div>
                                         </div>
                                     </form>
                                 </div>
                             </div>
-                            <div className="con-com con-pag-map con-com-mar-bot-o">
+                            {/*@todo qnd tiver um endereço fisico implementar o mapa <div className="con-com con-pag-map con-com-mar-bot-o">
                                 <h4 className="con-tit-top-o">Touch with us</h4>
                                 <p>28800 Orchard Lake Road, Suite 180 Farmington Hills, U.S.A. Landmark : Next To Airport</p>
                                 <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d6290413.804893654!2d-93.99620524741552!3d39.66116578737809!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x880b2d386f6e2619%3A0x7f15825064115956!2sIllinois%2C+USA!5e0!3m2!1sen!2sin!4v1469954001005" allowFullScreen=""></iframe>
-                            </div>
+                            </div>*/}
                         </div>
                     </div>
                 </section>

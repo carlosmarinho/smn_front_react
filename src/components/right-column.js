@@ -16,7 +16,6 @@ class RightColumn extends Component {
     }
 
     render(){
-        console.log("no right column: ", this.props.guias)
         return(
 
             <div className="list-pg-rt">

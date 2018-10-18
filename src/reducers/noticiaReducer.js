@@ -2,7 +2,7 @@ import { FETCH_NOTICIA, FETCH_NOTICIAS, FETCH_NOTICIAS_RECENTES } from "../actio
 
 export default function(state = null, action) {
 
-    let noticia =  {noticia: null, recentes: null, list: null};
+    let noticia =  {noticia: null, recentes: null, list: null, categoria: null};
     switch (action.type) {
         case FETCH_NOTICIA:
             if(state){
@@ -24,6 +24,8 @@ export default function(state = null, action) {
             }
             
             
+            noticia.categoria = action.payload.categoria;
+            console.log('No reducer de noticias payload: ', action.payload)
             noticia.list = action.payload.data;
             return noticia;
         case FETCH_NOTICIAS_RECENTES:

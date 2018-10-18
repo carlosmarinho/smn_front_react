@@ -44,7 +44,6 @@ class RightWidgetLink extends Component {
 
     render(){
         let objects = []
-        console.log("objects no right widget: ", this.props)
         if(this.props.objects && this.props.objects.length > 0)
         {
             objects = this.props.objects;

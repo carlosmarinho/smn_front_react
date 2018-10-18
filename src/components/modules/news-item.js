@@ -11,6 +11,8 @@ import FormComment from './form-comment';
 class NewsItem extends Component {
 
     componentDidMount() {
+        console.log("matchchhhhhhhhh news item: ", this.props);
+
         this.props.fetchNoticiaBySlug(this.props.match.params.slug);
         this.props.fetchEventosRecentes('5ba26f813a018f42215a36a0');
         this.props.fetchGuiasFeatured('5ba26f813a018f42215a36a0');

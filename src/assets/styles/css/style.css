@@ -4303,7 +4303,7 @@ footer ul li a:hover {
 /* CONTACT US 
 /*-------------------------------------------------------*/
 .con-page {
-  background: url(../../images/con-bg.jpg) no-repeat left center;
+  background: url(../../images/cidade/niteroi/entardecer-amaral-peixoto.jpg) no-repeat left center;
   background-attachment: fixed;
   background-size: 40%;
   position: relative;
@@ -7343,7 +7343,7 @@ footer ul li a:hover {
   margin-left: 10px; }
 
 /*Ajustar as ancoras por carlos*/
-#ld-ser, #ld-abour, #ld-gal, #ld-vie, #ld-rew, #ld-rer {
+#ld-ser, #ld-abour, #ld-gal, #ld-view, #ld-rew, #ld-rer {
   display: block;
   position: relative;
   top: -120px;

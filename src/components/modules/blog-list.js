@@ -2,7 +2,7 @@ import _ from 'lodash';
 import React, { Component } from 'react';
 import { connect } from 'react-redux'
 import HeaderBlog from '../header-destaque-blog';
-import { fetchNoticias, fetchNoticiasByCategoryOrSlug } from '../../actions/noticia';
+import { fetchNoticias, fetchNoticiasByCategory } from '../../actions/noticia';
 import { fetchEventosRecentes } from '../../actions/evento';
 import { fetchGuiasFeatured } from '../../actions/guia';
 import { Link } from 'react-router-dom';
@@ -20,7 +20,8 @@ class BlogList extends Component {
         this.state = {
             data: [],
             activePage: 1,
-            perPage: 10
+            perPage: 10,
+            slug: '',
         }
 
         this.handlePageChange = this.handlePageChange.bind(this);
@@ -29,18 +30,32 @@ class BlogList extends Component {
 
     componentDidMount() {
         //let slug = this.props.match.params.slug;
-        if(this.props.match && this.props.match.params.slug)
-            this.props.fetchNoticiasByCategoryOrSlug(this.props.match.params.slug);
-        else
-            this.props.fetchNoticias('5ba26f813a018f42215a36a0', this.props.category);
 
+        if(!(this.props.match && this.props.match.params.slug)) {
+            this.props.fetchNoticias('5ba26f813a018f42215a36a0', this.props.category);
+        }
+        
         this.props.fetchEventosRecentes('5ba26f813a018f42215a36a0');
         this.props.fetchGuiasFeatured('5ba26f813a018f42215a36a0');
     }
 
     componentWillReceiveProps(nextProps) {
-        console.log("no nextprops: ", nextProps)
+
+        if(nextProps.match && nextProps.match.params.slug){
+            let slug = nextProps.match.params.slug
+            if(slug != this.state.slug){
+                this.setState(
+                    {
+                       slug: slug,
+                       noticias: this.props.fetchNoticiasByCategory(slug)
+                    }
+                )
+            }
+        }
+
+
         if(nextProps.noticias){
+            //console.log("no nextprops: ", nextProps)
             if(nextProps.noticias.list)
             {
                 this.setState({data: nextProps.noticias.list.slice(0,this.state.perPage), pageCount: Math.ceil(  nextProps.noticias.list.lenght / this.state.perPage)});
@@ -122,15 +137,24 @@ class BlogList extends Component {
 
     render(){
         let columnRight = this.props.columnRight;
+        let title = '';
+        if(this.props.title)
+            title = this.props.title;
+        else if(this.props.noticias && this.props.noticias.categoria){
+            title = `Notícias da categoria: '${this.props.noticias.categoria.nome}'`;
+            columnRight = true;
+        }
+        else if(this.state.slug){
+            title = `Categoria de Notícias não encontrada: ${this.state.slug}`
+        }
 
         let items = <div>Nenhuma Notícia encontrada!</div>
         if(! this.props.noticias){
-            items = <div>Nenhuma Notícia encontrado !! </div>
+            items = <div>Nenhuma Notícia encontrado !</div>
         }
         else {
-            console.log("this.props.noticias: ", this.props.noticias.list)
-            if(!this.props.noticias.list)
-                items = <div>Nenhum noticia encontrado para a categoria {this.props.listName} </div>
+            if(!this.props.noticias.list || this.props.noticias.list.length == 0)
+                items = <div>Nenhum noticia encontrado para esta categoria {this.props.listName} </div>
             else
                 items = this.generateNoticias();
             //items = this.generateGuias(this.props.noticias.list)
@@ -138,13 +162,13 @@ class BlogList extends Component {
 
         if(columnRight) {
             return(
-                <div>{this.contentWithColumnRight(items)}</div>
+                <div>{this.contentWithColumnRight(items, title, this.props.subtitle)}</div>
             )
         }
         else {
             return(
                 <div>
-                    <HeaderBlog title={this.props.title} subtitle={this.props.subtitle} />
+                    <HeaderBlog title={title} subtitle={this.props.subtitle} />
                     <section className="p-about com-padd">
                         <div className="container">
                             {items}
@@ -160,10 +184,12 @@ class BlogList extends Component {
         }
     }
 
-    contentWithColumnRight(items){
+    contentWithColumnRight(items, title, subtitle){
+        
+
         return(
             <div>
-                <HeaderBlog title={this.props.title} subtitle={this.props.subtitle} />
+                <HeaderBlog title={title} subtitle={subtitle} />
                 <section className="p-about com-padd">
                     <div className="container">
 
@@ -194,4 +220,4 @@ function mapStateToProps(state){
     }
 }
 
-export default connect(mapStateToProps, { fetchNoticias, fetchNoticiasByCategoryOrSlug, fetchEventosRecentes, fetchGuiasFeatured })(BlogList);
+export default connect(mapStateToProps, { fetchNoticias, fetchNoticiasByCategory, fetchEventosRecentes, fetchGuiasFeatured })(BlogList);

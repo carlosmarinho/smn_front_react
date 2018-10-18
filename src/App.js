@@ -50,7 +50,7 @@ const ListingListServicos = () => {
 }
 
 const BlogListNews = () => { return (<BlogList 
-                                        title="Noticías da Cidade de Niterói" 
+                                        title="Noticías da Cidade de Niterói e do Brasil" 
                                         subtitle="Noticías atualizadas diariamente de tudo o que acontece em Niterói" 
                                         item="noticias"
                                         columnRight={true}
@@ -59,8 +59,8 @@ const BlogListNews = () => { return (<BlogList
                             }
 
 const BlogListCity = () => { return (<BlogList 
-                                title="Noticías da Cidade de Niterói" 
-                                subtitle="Noticías atualizadas diariamente de tudo o que acontece em Niterói" 
+                                title="A Cidade de Niterói"
+                                subtitle="Tudo da cidade de Niterói: História, fotos, população e outros!" 
                                 item="noticias"
                                 columnRight={false}
                                 category="Bairro"
@@ -118,6 +118,7 @@ class App extends Component {
                             <Route exact path="/eventos/:slug" component={EventItem} />
                             <Route exact path="/guia-comercial/:slug" component={ListingItem} />
                             <Route exact path="/contato" component={Contact} />
+                            <Route exact path="/noticias/categoria/:slug" component={BlogList} />
                             <Route exact path="/noticias/:slug" component={NewsItem} />
                             <Route exact path="/noticias" component={BlogListNews} />
                             {/*@todo <Route exact path="/fotos-da-cidade-de-niteroi" component={Photos} />*/}

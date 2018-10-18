@@ -29,8 +29,50 @@ export const fetchNoticiaBySlug = async(slug='', limit=1) => {
     }
 }
 
-export const fetchNoticiasByCategoryOrSlug = async(id, slugOrCategory='', limit=500) => {
+export const fetchNoticiasByCategory = async(category='', limit=500) => {
+    let jwt = localStorage.getItem('jwt');
+
+    if(!jwt){
+        let ret = await axios.post('http://localhost:1337/auth/local', { identifier: 'adm_manager', password: 'carlos' })
+        jwt = ret.data.jwt;
+        localStorage.setItem('jwt', jwt);
+    }
+
+    let categoria = ''
+    let req;
+    if(category){
+        let config = { headers: { 'Authorization': `Bearer ${jwt}` } };
+        req = await axios.get(`http://localhost:1337/categoria/?slug=noticias/${category}`, config);
+
+        if(req.data.length > 0){
+            console.log("olha aqui a categoria esportes");
+            categoria=`categorias=${req.data[0]._id}&`
+        }
+    }
+
+    let config = { headers: { 'Authorization': `Bearer ${jwt}` } };
+
     
+    if(categoria != '')
+    {
+        const request = await axios.get(`http://localhost:1337/noticia/?${categoria}_sort=-_id&_limit=${limit}`, config);
+        request.categoria = req.data[0];
+        console.log("request na noticias by category: ", request);
+        return {
+            type: FETCH_NOTICIAS,
+            payload: request
+        }
+    }
+    else{
+        return {
+            type: FETCH_NOTICIAS,
+            payload: []
+        }
+    }
+
+}
+
+export const fetchNoticiasByCategoryOrSlug = async(slugOrCategory='', limit=500) => {
     let jwt = localStorage.getItem('jwt');
 
     if(!jwt){
@@ -43,11 +85,11 @@ export const fetchNoticiasByCategoryOrSlug = async(id, slugOrCategory='', limit=
     let slug = '';
     if(slugOrCategory){
         let config = { headers: { 'Authorization': `Bearer ${jwt}` } };
-        const req = await axios.get(`http://localhost:1337/categoria/?nome=${category}`, config);
+        const req = await axios.get(`http://localhost:1337/categoria/?slug=noticias/${slugOrCategory}`, config);
 
         console.log("request no fetchNoticias: ", req.data);
 
-        if(req.data.lenght > 0)
+        if(req.data.length > 0)
             category=`categorias=${req.data[0]._id}&`
         else
             slug = `slug=${slugOrCategory}&`;
@@ -85,9 +127,8 @@ export const fetchNoticias = async(id, category='', limit=500) => {
         let config = { headers: { 'Authorization': `Bearer ${jwt}` } };
         const req = await axios.get(`http://localhost:1337/categoria/?nome=${category}`, config);
 
-        console.log("request no fetchNoticias: ", req.data);
 
-        if(req.data.lenght > 0)
+        if(req.data.length > 0)
             category=`categorias=${req.data[0]._id}&`
     }
 
