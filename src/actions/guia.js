@@ -63,7 +63,7 @@ export const fetchGuiasRecentes = async(city_id, limit='', sort=null) => {
 
 }
 
-export const fetchGuias = async(city_id, limit='', sort=null) => {
+export const fetchGuias = async(city_id, search='', limit='', sort=null) => {
     if(!sort)
         sort = '-_id';
 
@@ -72,6 +72,8 @@ export const fetchGuias = async(city_id, limit='', sort=null) => {
     else
         limit = `&_limit=200`;
 
+    
+   
 
     let jwt = localStorage.getItem('jwt');
 
@@ -84,7 +86,7 @@ export const fetchGuias = async(city_id, limit='', sort=null) => {
     let config = { headers: { 'Authorization': `Bearer ${jwt}` } };
 
     console.log(`http://localhost:1337/guia/?_sort=${sort}${limit}&cidade=${city_id}`);
-    const request = axios.get(`http://localhost:1337/guia/?_sort=${sort}${limit}&cidade=${city_id}`, config);
+    const request = axios.get(`http://localhost:1337/guia/?${search}&_sort=${sort}${limit}&cidade=${city_id}`, config);
 
     return {
         type: FETCH_GUIAS,

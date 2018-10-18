@@ -7,7 +7,7 @@ import promise from 'redux-promise';
 
 import reducers from './reducers';
 
-import HomeTeste from './components/home-html'
+//import HomeTeste from './components/home-html'
 import Home from './components/home'
 import Header from './components/header'
 import Footer from './components/footer'
@@ -36,6 +36,18 @@ import (`./assets/styles/css/${city_or_neighbor}.css`);
 
 
 const createStoreWithMiddleware = applyMiddleware(promise)(createStore);
+
+const ListingListComercios = () => {
+    return (
+        <ListingList type="guia comercial" />
+    )
+}
+
+const ListingListServicos = () => {
+    return (
+        <ListingList type="guia de serviços" />
+    )
+}
 
 const BlogListNews = () => { return (<BlogList 
                                         title="Noticías da Cidade de Niterói" 
@@ -100,6 +112,8 @@ class App extends Component {
                             <Route exact path="/a-cidade/bairros-de-niteroi" component={BairrosGrid} />
                             <Route exact path="/a-cidade/:slug" component={PageItem} />
                             <Route exact path="/guia-comercial" component={ListingList} />
+                            <Route exact path="/guia-comercial/comercios" component={ListingListComercios} />
+                            <Route exact path="/guia-comercial/servicos" component={ListingListServicos} />
                             <Route exact path="/eventos" component={GridEvents} />
                             <Route exact path="/eventos/:slug" component={EventItem} />
                             <Route exact path="/guia-comercial/:slug" component={ListingItem} />

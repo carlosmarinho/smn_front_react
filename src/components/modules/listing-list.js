@@ -27,8 +27,11 @@ class ListingList extends Component {
     }
 
     componentDidMount() {
-        
-        this.props.fetchGuias('5ba26f813a018f42215a36a0');
+        let search = '';
+        if(this.props.type){
+            search = `tipo=${this.props.type}`
+        }
+        this.props.fetchGuias('5ba26f813a018f42215a36a0', search);
         this.props.fetchCategoriesGuiaTop();
         this.props.fetchBairros('5ba26f813a018f42215a36a0');
 

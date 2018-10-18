@@ -2,7 +2,7 @@ import _ from 'lodash';
 import React, { Component } from 'react';
 import { connect } from 'react-redux'
 import HeaderBlog from '../header-destaque-blog';
-import { fetchNoticias } from '../../actions/noticia';
+import { fetchNoticias, fetchNoticiasByCategoryOrSlug } from '../../actions/noticia';
 import { fetchEventosRecentes } from '../../actions/evento';
 import { fetchGuiasFeatured } from '../../actions/guia';
 import { Link } from 'react-router-dom';
@@ -28,7 +28,12 @@ class BlogList extends Component {
     }
 
     componentDidMount() {
-        this.props.fetchNoticias('5ba26f813a018f42215a36a0', this.props.category);
+        //let slug = this.props.match.params.slug;
+        if(this.props.match && this.props.match.params.slug)
+            this.props.fetchNoticiasByCategoryOrSlug(this.props.match.params.slug);
+        else
+            this.props.fetchNoticias('5ba26f813a018f42215a36a0', this.props.category);
+
         this.props.fetchEventosRecentes('5ba26f813a018f42215a36a0');
         this.props.fetchGuiasFeatured('5ba26f813a018f42215a36a0');
     }
@@ -189,4 +194,4 @@ function mapStateToProps(state){
     }
 }
 
-export default connect(mapStateToProps, { fetchNoticias, fetchEventosRecentes, fetchGuiasFeatured })(BlogList);
+export default connect(mapStateToProps, { fetchNoticias, fetchNoticiasByCategoryOrSlug, fetchEventosRecentes, fetchGuiasFeatured })(BlogList);

@@ -60,8 +60,18 @@ class Menu extends Component {
                                 <li><Link to="/a-cidade/populacao-da-cidade-de-niteroi">População da Cidade</Link></li>
                             </ul>
                             <ul id='drop-menu-guia' className='dropdown-content'>
-                                <li><Link className='dropdown-button' to="/guia-comercial/type/comercial">Guia Comercial</Link></li>
-                                <li><Link className='dropdown-button' to="/guia-comercial/type/servicos">Guia Servicos</Link></li>
+                                <li><Link className='dropdown-button' to="/guia-comercial/comercios">Guia Comercial</Link></li>
+                                <li><Link className='dropdown-button' to="/guia-comercial/servicos">Guia Servicos</Link></li>
+                            </ul>
+                            <ul id='drop-menu-noticias' className='dropdown-content'>
+                                <li><Link className='dropdown-button' to="/noticias/cidade-de-niteroi">Notícias da Cidade de Niterói</Link></li>
+                                <li><Link className='dropdown-button' to="/noticias/estado-do-rio-de-janeiro">Notícias do Estado do Rio de Janeiro</Link></li>
+                                <li><Link className='dropdown-button' to="/noticias/esporte">Notícias de Esportes</Link></li>
+                                <li><Link className='dropdown-button' to="/noticias/cultural">Cultura</Link></li>
+                                <li><Link className='dropdown-button' to="/noticias/economia">Notícias sobre Econômia</Link></li>
+                                <li><Link className='dropdown-button' to="/noticias/educacao">Notícias sobre Educação</Link></li>
+                                <li><Link className='dropdown-button' to="/noticias/entretenimento">Notícias de Entretenimento</Link></li>
+                                <li><Link className='dropdown-button' to="/noticias/gastronomia">Notícias de Gastrônomia</Link></li>
                             </ul>
                             <ul id='email-temp' className='dropdown-content'>
                                 <li><a href="email-template-register.html" target="_blank">Register</a> </li>
