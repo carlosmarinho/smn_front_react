@@ -82,6 +82,21 @@ class BlogList extends Component {
         return date.toLocaleDateString('pt-BR', options)
     }
 
+    getCategorias(categorias){
+        if(categorias.length > 0){
+            return (
+                <p><strong>Categorias: </strong> 
+                    {categorias.map((categoria, i) => {
+                        if(i+1 == categorias.length)
+                            return categoria.nome
+                        else
+                            return categoria.nome + ", "
+                    })}
+                </p>
+            )
+        }
+    }
+
     generateNoticias() {
         const truncate = _.truncate
         let noticias = this.state.data.map( noticia => {
@@ -96,6 +111,7 @@ class BlogList extends Component {
                             <Link to={'/noticias/' + noticia.slug}  ><h3>{noticia.titulo}</h3></Link>
                             <span>{this.datePtBr(new Date(noticia.createdAt))} </span>
                             <p>{truncate(noticia.descricao.replace(/&#13;/g,'').replace(/<\/?[^>]+(>|$)/g, ""), { length: 150, separator: /,?\.* +/ })}</p> 
+                            {this.getCategorias(noticia.categorias)}
                             <Link to={'/noticias/' + noticia.slug} className="waves-effect waves-light btn-large full-btn" >Leia Mais</Link> </div>
                     </div>
                 </div>
@@ -145,7 +161,7 @@ class BlogList extends Component {
             columnRight = true;
         }
         else if(this.state.slug){
-            title = `Categoria de Notícias não encontrada: ${this.state.slug}`
+            title = `Categoria '${this.state.slug}' não encontrada `;
         }
 
         let items = <div>Nenhuma Notícia encontrada!</div>

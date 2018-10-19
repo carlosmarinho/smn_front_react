@@ -151,14 +151,12 @@ class ListingGrid extends Component {
     }
 
     render(){
-        console.log('Eventosssssssss: ', this.props)
         let leftColumn = this.props.columnLeft;
 
         let listName = this.props.listName;
         let preposition = "de ";
 
         if(! this.props.eventos && !this.props.category){
-            console.log("categoria não encontrada!!!");
             items = <div>Deve retornar o 404</div>
         }
 

@@ -911,7 +911,11 @@ a:hover {
   top: 0px;
   bottom: 0px;
   left: 0px;
-  width: 100%; }
+  width: 100%; 
+  /*included opacity and filter by carlos*/
+  opacity: 0.5;
+  filter: alpha(opacity=20);
+}
 
 .dir-ho-t-tit h1 {
   color: #fff;

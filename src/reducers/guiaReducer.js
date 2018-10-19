@@ -1,8 +1,9 @@
 import { FETCH_USER, CREATE_USER, EDIT_USER, FETCH_GUIA, FETCH_GUIAS, FETCH_GUIAS_RECENTES, FETCH_GUIAS_FEATURED} from "../actions/types";
 
 export default function(state = null, action) {
-
-    let guia =  {guia: null, recentes: null, list: null, featured: null};
+    
+    let guia =  {guia: null, recentes: null, list: null, featured: null, categoria: null};
+    console.log('action.payload---------> ', action.payload);
     switch (action.type) {
         case FETCH_GUIA:
             if(state){
@@ -12,6 +13,8 @@ export default function(state = null, action) {
                     guia.featured = state.featured;
                 if(state.list)
                     guia.list = state.list
+                if(state.categoria)
+                    guia.categoria = state.categoria
             }
             
             guia.guia = action.payload.data[0];
@@ -25,8 +28,11 @@ export default function(state = null, action) {
                     guia.featured = state.featured;
                 if(state.guia)
                     guia.guia = state.guia
+                if(state.categoria)
+                    guia.categoria = state.categoria
             }
             
+            guia.categoria = action.payload.categoria;
             guia.list = action.payload.data;
             return guia;
 
@@ -51,6 +57,8 @@ export default function(state = null, action) {
                     guia.list = state.list;
                 if(state.guia)
                     guia.guia = state.guia
+                if(state.categoria)
+                    guia.categoria = state.categoria
             }
 
             guia.featured = action.payload.data

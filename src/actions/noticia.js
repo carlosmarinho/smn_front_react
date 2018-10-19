@@ -37,20 +37,17 @@ export const fetchNoticiasByCategory = async(category='', limit=500) => {
         jwt = ret.data.jwt;
         localStorage.setItem('jwt', jwt);
     }
+    let config = { headers: { 'Authorization': `Bearer ${jwt}` } };
 
     let categoria = ''
     let req;
     if(category){
-        let config = { headers: { 'Authorization': `Bearer ${jwt}` } };
         req = await axios.get(`http://localhost:1337/categoria/?slug=noticias/${category}`, config);
 
         if(req.data.length > 0){
-            console.log("olha aqui a categoria esportes");
             categoria=`categorias=${req.data[0]._id}&`
         }
     }
-
-    let config = { headers: { 'Authorization': `Bearer ${jwt}` } };
 
     
     if(categoria != '')

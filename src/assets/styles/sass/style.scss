@@ -964,6 +964,8 @@
      bottom: 0px;
      left: 0px;
      width: 100%;
+     opacity: 0.5;
+     filter: alpha(opacity=50);
 }
  .dir-ho-t-tit {
 }
@@ -1623,7 +1625,9 @@
      background: #fff;
 }
  .dir-alp {
-     background: url(../../images/list-p-bg.jpeg) no-repeat center top;
+     /*background: url(../../images/list-p-bg.jpeg) no-repeat center top;*/
+     background: url(../../images/cidade/niteroi/praia-de-icarai-e-o-mac.jpg) no-repeat;
+     background-position: left top;
      background-size: cover;
      background-attachment: fixed;
 }
@@ -4506,6 +4510,8 @@
      bottom: 0px;
      left: 0px;
      width: 100%;
+     opacity: 0.6;
+     filter: alpha(opacity=60);
 }
  .how-border {
      background: #fff;

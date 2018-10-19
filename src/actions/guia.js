@@ -53,7 +53,6 @@ export const fetchGuiasRecentes = async(city_id, limit='', sort=null) => {
 
     let config = { headers: { 'Authorization': `Bearer ${jwt}` } };
 
-    console.log(`http://localhost:1337/guia/?_sort=${sort}${limit}&cidade=${city_id}`);
     const request = axios.get(`http://localhost:1337/guia/?_sort=${sort}${limit}&cidade=${city_id}`, config);
 
     return {
@@ -61,6 +60,53 @@ export const fetchGuiasRecentes = async(city_id, limit='', sort=null) => {
         payload: request
     }
 
+}
+
+export const fetchGuiasByCategory = async(category='', limit='', sort=null) => {
+    if(!sort)
+        sort = '-_id';
+
+    if(limit)
+        limit = `&_limit=${limit}`;
+    else
+        limit = `&_limit=200`;
+  
+
+    let jwt = localStorage.getItem('jwt');
+
+    if(!jwt){
+        let ret = await axios.post('http://localhost:1337/auth/local', { identifier: 'adm_manager', password: 'carlos' })
+        jwt = ret.data.jwt;
+        localStorage.setItem('jwt', jwt);
+    }
+
+    let config = { headers: { 'Authorization': `Bearer ${jwt}` } };
+
+    let categoria = ''
+    let req;
+    if(category){
+        req = await axios.get(`http://localhost:1337/categoria/?slug=guia/${category}`, config);
+
+        if(req.data.length > 0){
+            categoria=`categorias=${req.data[0]._id}&`
+        }
+    }
+
+    if(categoria != '')
+    {
+        const request = await axios.get(`http://localhost:1337/guia/?${categoria}&_sort=${sort}${limit}`, config);
+        request.categoria = req.data[0];
+        return {
+            type: FETCH_GUIAS,
+            payload: request
+        }
+    }
+    else{
+        return {
+            type: FETCH_GUIAS,
+            payload: []
+        }
+    }
 }
 
 export const fetchGuias = async(city_id, search='', limit='', sort=null) => {
@@ -71,9 +117,7 @@ export const fetchGuias = async(city_id, search='', limit='', sort=null) => {
         limit = `&_limit=${limit}`;
     else
         limit = `&_limit=200`;
-
-    
-   
+  
 
     let jwt = localStorage.getItem('jwt');
 

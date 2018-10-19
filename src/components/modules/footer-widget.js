@@ -32,7 +32,7 @@ class FooterWidget extends Component {
                             </div>
                             <div className="div-footer-text">
                                 <h5>{truncate(object.titulo, { length: 25, separator: /,?\.* +/ })}</h5> 
-                                <span>{truncate(object.descricao.replace(/<\/?[^>]+(>|$)/g, ""), { length: 40, separator: /,?\.* +/ })}</span> 
+                                <span>{truncate(object.descricao.replace(/&#13;/g,'').replace(/<\/?[^>]+(>|$)/g, ""), { length: 40, separator: /,?\.* +/ })}</span> 
                             </div>
                         </a>
                     </li>

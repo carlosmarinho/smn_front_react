@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import HeaderListing from '../header-destaque-listing';
-import { fetchGuias } from '../../actions/guia';
+import { fetchGuias, fetchGuiasByCategory } from '../../actions/guia';
 import { fetchBairros } from '../../actions/bairro';
 import { fetchCategoriesGuiaTop } from '../../actions/categoria';
 import Pagination from "react-js-pagination";
@@ -19,7 +19,7 @@ class ListingList extends Component {
         this.state = {
             data: [],
             activePage: 1,
-            perPage: 10
+            perPage: 10,
         }
 
         this.handlePageChange = this.handlePageChange.bind(this);
@@ -31,7 +31,14 @@ class ListingList extends Component {
         if(this.props.type){
             search = `tipo=${this.props.type}`
         }
-        this.props.fetchGuias('5ba26f813a018f42215a36a0', search);
+
+        if(this.props.match && this.props.match.params.slug){
+            this.props.fetchGuiasByCategory(this.props.match.params.slug);
+        }
+        else{
+            this.props.fetchGuias('5ba26f813a018f42215a36a0', search);
+        }
+
         this.props.fetchCategoriesGuiaTop();
         this.props.fetchBairros('5ba26f813a018f42215a36a0');
 
@@ -77,7 +84,7 @@ class ListingList extends Component {
                     <div className="col-md-3 list-ser-img"> <img src={this.getImageSrc(guia)} alt="" /> </div>
                     {/*<!--LISTINGS: CONTENT-->*/}
                     <div className="col-md-9 home-list-pop-desc inn-list-pop-desc"> <Link to={`/guia-comercial/` + guia.slug}><h3>{guia.titulo}</h3></Link>
-                        <h4>{guia.cidade[0].nome} {(guia.bairros.length>0)?'- ' + guia.bairros[0].nome:''}</h4>
+                        <h4>{(guia.cidade.length>0)?guia.cidade[0].nome:''} {(guia.bairros.length>0)?'- ' + guia.bairros[0].nome:''}</h4>
                         <p>{(guia.endereco)?<b>Endereço:</b>:''} {guia.endereco}</p>
                         <div className="list-number">
                             <ul>
@@ -136,14 +143,31 @@ class ListingList extends Component {
         //{data: nextProps.guias.list.slice(0,evento)}
     }
 
+    breadcrumbs(listName, categoria){
+        if(categoria)
+            return(
+                <ol className="breadcrumb">
+                    <li><Link to="/">Home</Link> </li>
+                    <li><Link to="/guia-comercial">Guia Comercial</Link> </li>
+                    <li className="active">{categoria.nome}</li>
+                </ol>
+            );
+        else
+            return(
+                <ol className="breadcrumb">
+                    <li><Link to="/">Home</Link> </li>
+                    <li className="active"><Link to="/guia-comercial">Guia Comercial</Link> </li>
+                </ol>
+            );
+    }
+
     render(){
         let leftColumn = true;
         let listName = "Guia Comercial";
         let preposition = "do ";
 
         if(! this.props.guias && !this.props.category){
-            console.log("categoria não encontrada!!!");
-            items = <div>Deve retornar o 404</div>
+            items = <div>Guia não encontrado!</div>
         }
 
 
@@ -157,7 +181,7 @@ class ListingList extends Component {
             items = <div>Nenhum guia encontrado para a categoria {this.props.listName} </div>
         }
         else {
-            console.log("this.props.guias: ", this.props.guias.list)
+            //console.log("this.props.guias: ", this.props.guias)
             if(!this.props.guias.list)
                 items = <div>Nenhum guia encontrado para a categoria {this.props.listName} </div>
             else
@@ -165,25 +189,26 @@ class ListingList extends Component {
             //items = this.generateGuias(this.props.guias.list)
         }
 
-        if(this.props.bairros)
-            console.log("bairrossssssssss no listing: ", this.props.bairros)
+        /* if(this.props.bairros)
+            console.log("bairrossssssssss no listing: ", this.props.bairros) */
 
-        console.log("nome da lista: ", this.props.listName)
+        let title = `Listagem ${preposition} ${listName}`
+        let windowTitle = title;
+        if(this.props.guias && this.props.guias.categoria){
+            windowTitle = `Guia comercial categoria: ${this.props.guias.categoria.nome}`;
+            title += ` - ${this.props.guias.categoria.nome}`;
+        }
 
         return(
             <div>
 
-                <HeaderListing title="Guia Comercial"/>
+                <HeaderListing title={windowTitle}/>
                 <section className="dir-alp dir-pa-sp-top">
                     <div className="container">
                         <div className="row">
                             <div className="dir-alp-tit">
-                                <h1>Listagem {preposition} {listName}</h1>
-                                <ol className="breadcrumb">
-                                    <li><a href="#">Home</a> </li>
-                                    <li><a href="#">Guia</a> </li>
-                                    <li className="active">{listName}</li>
-                                </ol>
+                                <h1>{title}</h1>
+                                {this.breadcrumbs(listName, (this.props.guias)?this.props.guias.categoria:'')}
                             </div>
                         </div>
                         <div className="row">
@@ -222,4 +247,4 @@ function mapStateToProps(state){
     }
 }
 
-export default connect(mapStateToProps, { fetchGuias, fetchBairros, fetchCategoriesGuiaTop })(ListingList);
+export default connect(mapStateToProps, { fetchGuias, fetchGuiasByCategory, fetchBairros, fetchCategoriesGuiaTop })(ListingList);

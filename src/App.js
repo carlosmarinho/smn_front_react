@@ -112,6 +112,7 @@ class App extends Component {
                             <Route exact path="/a-cidade/bairros-de-niteroi" component={BairrosGrid} />
                             <Route exact path="/a-cidade/:slug" component={PageItem} />
                             <Route exact path="/guia-comercial" component={ListingList} />
+                            <Route exact path="/guia-comercial/categoria/:slug" component={ListingList} />
                             <Route exact path="/guia-comercial/comercios" component={ListingListComercios} />
                             <Route exact path="/guia-comercial/servicos" component={ListingListServicos} />
                             <Route exact path="/eventos" component={GridEvents} />

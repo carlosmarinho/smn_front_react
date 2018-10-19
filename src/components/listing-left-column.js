@@ -7,8 +7,6 @@ import WidgetFilterStars from './modules/widget-filter-stars';
 
 class ListingLeftColumn extends Component {
     render(){
-        console.log("categorias no listing left: ", this.props.bairros)
-
         return(
             <div className="col-md-3 dir-alp-con-left">
                 <LeftWidgetLink title="Guias Recentes" objects={this.props.objects} />

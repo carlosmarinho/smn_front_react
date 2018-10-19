@@ -23,9 +23,7 @@ export default function(state = null, action) {
                     noticia.noticia = state.noticia;
             }
             
-            
             noticia.categoria = action.payload.categoria;
-            console.log('No reducer de noticias payload: ', action.payload)
             noticia.list = action.payload.data;
             return noticia;
         case FETCH_NOTICIAS_RECENTES:
