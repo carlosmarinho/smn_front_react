@@ -14,21 +14,22 @@ class PreFooter extends Component {
                     <div className="row">
                         <div className="col-md-6 web-app-img"> <img src="/images/mobile.png" alt="" /> </div>
                         <div className="col-md-6 web-app-con">
-                            <h2>Looking for the Best Service Provider? <span>Get the App!</span></h2>
+                            <h2><strong>Em breve</strong> tenha todos os nossos serviços no seu celular! </h2>
                             <ul>
-                                <li><i className="fa fa-check" aria-hidden="true"></i> Find nearby listings</li>
-                                <li><i className="fa fa-check" aria-hidden="true"></i> Easy service enquiry</li>
-                                <li><i className="fa fa-check" aria-hidden="true"></i> Listing reviews and ratings</li>
-                                <li><i className="fa fa-check" aria-hidden="true"></i> Manage your listing, enquiry and reviews</li>
-                            </ul> <span>We'll send you a link, open it on your phone to download the app</span>
+                                <li><i className="fa fa-check" aria-hidden="true"></i> Guia de Comercial</li>
+                                <li><i className="fa fa-check" aria-hidden="true"></i> Guia de Serviços</li>
+                                <li><i className="fa fa-check" aria-hidden="true"></i> Eventos</li>
+                                <li><i className="fa fa-check" aria-hidden="true"></i> Notícias</li>
+                            </ul> <span>Informe o seu email abaixo e assim que estiver disponível entraremos em contato!</span>
                             <form>
                                 <ul>
+                                    
                                     <li>
-                                        <input type="text" placeholder="+01" /> </li>
+                                        <input type="text" placeholder="Informe o seu Email" />
+                                    </li>
                                     <li>
-                                        <input type="number" placeholder="Enter mobile number" /> </li>
-                                    <li>
-                                        <input type="submit" value="Get App Link" /> </li>
+                                        <input type="submit" value="Enviar" /> 
+                                    </li>
                                 </ul>
                             </form>
                             <a href="#"><img src="images/android.png" alt="" /> </a>

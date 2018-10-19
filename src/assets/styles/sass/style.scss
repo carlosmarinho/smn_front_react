@@ -1232,14 +1232,14 @@
      background: linear-gradient(to bottom, #01a0d8, #0485b3);
 }
  .web-app-con form ul li:nth-child(1) {
-     width: 10%;
-}
- .web-app-con form ul li:nth-child(2) {
      width: 60%;
 }
- .web-app-con form ul li:nth-child(3) {
-     width: 30%;
+ .web-app-con form ul li:nth-child(2) {
+     width: 35%;
 }
+ /* .web-app-con form ul li:nth-child(3) {
+     width: 30%;
+} */
  .web-app-con a img {
      width: 150px;
 }
@@ -4494,7 +4494,7 @@
 }
  .inn-page-bg {
      margin-top: 60px;
-     background: url(../../images/inn-bg.jpg) no-repeat;
+     background: url(../../images/cidade/niteroi/praia-de-boaviage-pao-de-acucar-no-fundo-topo.jpg) no-repeat;
      background-size: cover;
      position: relative;
 }
@@ -4579,7 +4579,7 @@
  .con-page {
      background: url(../../images/cidade/niteroi/entardecer-amaral-peixoto.jpg) no-repeat left center;
      background-attachment: fixed;
-     background-size: 40%;
+     background-size: 40% 100%;
      position: relative;
      overflow: hidden;
 }

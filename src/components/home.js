@@ -19,6 +19,7 @@ import { fetchFeaturedGuias } from '../actions/guia';
 import { fetchCityBySlug } from '../actions/city';
 import { fetchEventos } from '../actions/evento';
 import { fetchNoticias } from '../actions/noticia';
+import PreFooter from './modules/pre-footer';
 
 class Home extends Component {
 
@@ -61,7 +62,7 @@ class Home extends Component {
                     <FeatureRegister customClass="com-padd-incre-top" background="" />
                     <FeatureGetApp customClass="com-padd-incre-top" background="" />*/}
                     
-
+                    <PreFooter />
                 </div>
             )
         }
