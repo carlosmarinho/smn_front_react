@@ -50,7 +50,6 @@ class ListingList extends Component {
 
     componentWillReceiveProps(nextProps) {
         
-        console.log("aquiiiiiiii no will receive GUIA", nextProps);
         if(nextProps.match && nextProps.match.params.slug){
 
             let slug = nextProps.match.params.slug

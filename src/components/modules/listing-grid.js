@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
 import HeaderListing from '../header-destaque-listing';
-import { fetchEventos } from '../../actions/evento';
+import { fetchEventos, fetchEventosByCategory } from '../../actions/evento';
 import { fetchBairros } from '../../actions/bairro';
 import { fetchCategoriesEventoTop } from '../../actions/categoria';
-import { connect } from 'react-redux';
 import Pagination from "react-js-pagination";
-import { Link } from 'react-router-dom';
 
 import ListingLeftColumn from '../listing-left-column';
 import PreFooter from './pre-footer';
@@ -19,7 +19,8 @@ class ListingGrid extends Component {
         this.state = {
             data: [],
             activePage: 1,
-            perPage: 24
+            perPage: 24,
+            slug: ''
         }
 
         this.handlePageChange = this.handlePageChange.bind(this);
@@ -27,7 +28,7 @@ class ListingGrid extends Component {
     }
 
     componentDidMount() {
-        console.log("no evento componet did mount vai chamar o fetchEventos", this.props.match)
+        console.log("no evento componet did mount vai chamar o fetchEventos", this.props.match, this.props.params)
         //this.props.fetchEventos('5ba26f813a018f42215a36a0');
         this.props.fetchCategoriesEventoTop();
         this.props.fetchBairros('5ba26f813a018f42215a36a0');
@@ -118,24 +119,49 @@ class ListingGrid extends Component {
     }
 
     generateEventos() {
+        let mod = this.state.data.length % 3;
+        mod = 3 - mod;
+        console.log("tamanho: ", mod);
+        
         let eventos = this.state.data.map( evento => {
             
             return (
                 <div className="col-md-4">
-                    <Link to={`/eventos/${evento.slug}`}>
                         <div className="list-mig-like-com com-mar-bot-30">
                             <div className="list-mig-lc-img"> <img src={this.getImageSrc()} alt="" /> <span className="home-list-pop-rat list-mi-pr">$720</span> </div>
                             <div className="list-mig-lc-con">
+                            <Link to={`/eventos/${evento.slug}`}>
                                 {this.getAvaliacao(evento)}
                                 <h5>{evento.titulo} </h5>
                                 <h6>Data do Evento: {this.dateNumberPtBr(new Date(evento.createdAt))}</h6>
                                 <p>{(evento && evento.cidade && evento.cidade.length>0)?evento.cidade[0].nome:''} {(evento && evento.bairros && evento.bairros.length>0)?'- ' + evento.bairros[0].nome:''}</p>
+                            </Link>
+                                {this.getCategorias(evento.categorias)}
                             </div>
                         </div>
-                    </Link>
                 </div>
             )
         })
+
+        if(mod > 0)
+            eventos.push(
+            <div className="col-md-4" ><div className="list-mig-like-com com-mar-bot-30">
+                <div className="list-mig-lc-img"> <img src="http://soumaisniteroi.com.br/wp-content/uploads/2015/04/no-image.png" alt="" /> <span className="home-list-pop-rat list-mi-pr">$720</span> </div>
+                    <div className="list-mig-lc-con"></div>
+                </div>
+            </div>
+        )
+
+        if(mod == 2)
+            eventos.push(
+            <div className="col-md-4" ><div className="list-mig-like-com com-mar-bot-30">
+                <div className="list-mig-lc-img"> <img src="http://soumaisniteroi.com.br/wp-content/uploads/2015/04/no-image.png" alt="" /> <span className="home-list-pop-rat list-mi-pr">$720</span> </div>
+                    <div className="list-mig-lc-con"></div>
+                </div>
+            </div>
+        )
+
+        console.log("eventos: ", eventos);
 
         let itemCount = 0;
         if(this.props && this.props.eventos && this.props.eventos.list)
@@ -159,6 +185,21 @@ class ListingGrid extends Component {
                 />}
             </div>
         )
+    }
+
+    getCategorias(categorias){
+        if(categorias.length > 0){
+            return (
+                <div class="grid-category"><strong>Categorias: </strong> 
+                    {categorias.map((categoria, i) => {
+                        if(i+1 == categorias.length)
+                            return <Link to={`/guia/categoria/${categoria.slug.replace('guia/','')}`}>{categoria.nome}</Link>
+                        else
+                            return <Link to={`/guia/categoria/${categoria.slug.replace('guia/','')}`}>{categoria.nome}, </Link>
+                    })}
+                </div>
+            )
+        }
     }
 
     handlePageChange(pageNumber) {
@@ -255,4 +296,4 @@ function mapStateToProps(state){
     }
 }
 
-export default connect(mapStateToProps, { fetchEventos, fetchBairros, fetchCategoriesEventoTop })(ListingGrid);
+export default connect(mapStateToProps, { fetchEventos, fetchEventosByCategory, fetchBairros, fetchCategoriesEventoTop })(ListingGrid);

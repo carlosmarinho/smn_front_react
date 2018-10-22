@@ -87,11 +87,13 @@ const Photos = () => {
     )
 }               
                     
-const GridEvents = () => {
+const GridEvents = (props) => {
+    console.log("meu prop aqui: ", props)
     return(
         <ListingGrid 
             listName="Eventos em Niterói"
             columnLeft={true}
+            match={props.match}
          />
     )
 }                    
@@ -117,7 +119,7 @@ class App extends Component {
                             <Route exact path="/guia/servicos/" component={ListingListServicos} />
                             <Route exact path="/guia/comercial/" component={ListingListComercios} />
                             <Route exact path="/guia/:slug" component={ListingItem} />
-                            <Route exact path="/eventos/categoria/:sluga" component={GridEvents} />
+                            <Route exact path="/eventos/categoria/:slug" component={GridEvents} />
                             <Route exact path="/eventos" component={GridEvents} />
                             <Route exact path="/eventos/:slug" component={EventItem} />
                             <Route exact path="/contato" component={Contact} />
