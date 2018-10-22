@@ -4377,6 +4377,8 @@
  .list-mig-lc-img img {
      width: 100%;
      border-radius: 5px;
+     /*added height by carlos */
+     height: 250px;
 }
  .list-mig-like-com:before {
      content: '';
@@ -4391,7 +4393,8 @@
  .list-mig-lc-con {
      position: absolute;
      width: 100%;
-     margin-top: -125px;
+     /* changed by carlos margin-top: -125px*/;
+     margin-top: -140px;
      padding: 20px 20px 0px 20px;
      display: block;
 }
@@ -4401,7 +4404,7 @@
  .list-mig-lc-con h5 {
      font-size: 18px;
      color: #fff;
-     padding-top: 10px;
+     padding-top: 5px;
      padding-bottom: 5px;
      white-space: nowrap;
      text-overflow: ellipsis;
@@ -4411,7 +4414,8 @@
      font-size: 14px;
      color: #fff;
      position: absolute;
-     top: -20px;
+     /*changed by carlos top: -20px; */
+     top: -45px;
     /* right: 0px;
      */
      border: 1px solid #fff;
@@ -7738,6 +7742,16 @@
 
 .list-category a{
     font-size:11px;
+}
+
+.list-category-blog{
+    margin-bottom:10px;
+    font-size:11px;
+}
+
+.list-category-blog a{
+    font-size:11px;
+    color: #0077b5;
 }
 
 .grid-category{

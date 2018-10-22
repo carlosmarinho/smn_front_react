@@ -120,7 +120,9 @@ class ListingGrid extends Component {
 
     generateEventos() {
         let mod = this.state.data.length % 3;
-        mod = 3 - mod;
+        
+        if(mod != 0)
+            mod = 3 - mod;
         console.log("tamanho: ", mod);
         
         let eventos = this.state.data.map( evento => {
@@ -128,7 +130,7 @@ class ListingGrid extends Component {
             return (
                 <div className="col-md-4">
                         <div className="list-mig-like-com com-mar-bot-30">
-                            <div className="list-mig-lc-img"> <img src={this.getImageSrc()} alt="" /> <span className="home-list-pop-rat list-mi-pr">$720</span> </div>
+                            <div className="list-mig-lc-img"> <img src={this.getImageSrc(evento)} alt="" /> <span className="home-list-pop-rat list-mi-pr">$720</span> </div>
                             <div className="list-mig-lc-con">
                             <Link to={`/eventos/${evento.slug}`}>
                                 {this.getAvaliacao(evento)}
@@ -193,9 +195,9 @@ class ListingGrid extends Component {
                 <div class="grid-category"><strong>Categorias: </strong> 
                     {categorias.map((categoria, i) => {
                         if(i+1 == categorias.length)
-                            return <Link to={`/guia/categoria/${categoria.slug.replace('guia/','')}`}>{categoria.nome}</Link>
+                            return <Link to={`/eventos/categoria/${categoria.slug.replace('evento/','')}`}>{categoria.nome}</Link>
                         else
-                            return <Link to={`/guia/categoria/${categoria.slug.replace('guia/','')}`}>{categoria.nome}, </Link>
+                            return <Link to={`/eventos/categoria/${categoria.slug.replace('evento/','')}`}>{categoria.nome}, </Link>
                     })}
                 </div>
             )

@@ -85,7 +85,7 @@ class BlogList extends Component {
     getCategorias(categorias){
         if(categorias.length > 0){
             return (
-                <div class=" list-category"><strong>Categorias: </strong> 
+                <div class="list-category-blog"><strong>Categorias: </strong> 
                     {categorias.map((categoria, i) => {
                         if(i+1 == categorias.length)
                             return <Link to={`/noticias/categoria/${categoria.slug.replace('noticias/','')}`}>{categoria.nome}</Link>
