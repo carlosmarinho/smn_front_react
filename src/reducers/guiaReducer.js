@@ -3,7 +3,6 @@ import { FETCH_USER, CREATE_USER, EDIT_USER, FETCH_GUIA, FETCH_GUIAS, FETCH_GUIA
 export default function(state = null, action) {
     
     let guia =  {guia: null, recentes: null, list: null, featured: null, categoria: null};
-    console.log('action.payload---------> ', action.payload);
     switch (action.type) {
         case FETCH_GUIA:
             if(state){

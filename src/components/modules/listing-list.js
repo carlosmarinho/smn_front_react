@@ -20,6 +20,7 @@ class ListingList extends Component {
             data: [],
             activePage: 1,
             perPage: 10,
+            slug: ''
         }
 
         this.handlePageChange = this.handlePageChange.bind(this);
@@ -27,7 +28,8 @@ class ListingList extends Component {
     }
 
     componentDidMount() {
-        let search = '';
+        console.log("did mount do listing")
+        /* let search = '';
         if(this.props.type){
             search = `tipo=${this.props.type}`
         }
@@ -38,17 +40,45 @@ class ListingList extends Component {
         else{
             this.props.fetchGuias('5ba26f813a018f42215a36a0', search);
         }
-
+ */
         this.props.fetchCategoriesGuiaTop();
         this.props.fetchBairros('5ba26f813a018f42215a36a0');
 
         //this.setState({data: this.props.guias.list, pageCount: Math.ceil(  this.props.guias.list.lenght / evento)});
     }
-
-  
   
 
     componentWillReceiveProps(nextProps) {
+        
+        console.log("aquiiiiiiii no will receive GUIA", nextProps);
+        if(nextProps.match && nextProps.match.params.slug){
+
+            let slug = nextProps.match.params.slug
+            if(slug != this.state.slug){
+                this.setState(
+                    {
+                       slug: slug,
+                       guias: this.props.fetchGuiasByCategory(slug)
+                    }
+                )
+            }
+        }
+        else{
+            if(this.state.slug != '/'){
+                let search = '';
+                if(nextProps.type){
+                    search = `tipo=${nextProps.type}`
+                }
+
+                this.setState(
+                    {
+                        slug: '/',
+                        guias: this.props.fetchGuias('5ba26f813a018f42215a36a0', search)
+                    }
+                )
+            }
+        }
+
         if(nextProps.guias){
             if(nextProps.guias.list)
             {
@@ -83,7 +113,7 @@ class ListingList extends Component {
                     {/*<!--LISTINGS IMAGE-->*/}
                     <div className="col-md-3 list-ser-img"> <img src={this.getImageSrc(guia)} alt="" /> </div>
                     {/*<!--LISTINGS: CONTENT-->*/}
-                    <div className="col-md-9 home-list-pop-desc inn-list-pop-desc"> <Link to={`/guia-comercial/` + guia.slug}><h3>{guia.titulo}</h3></Link>
+                    <div className="col-md-9 home-list-pop-desc inn-list-pop-desc"> <Link to={`/guia/` + guia.slug}><h3>{guia.titulo}</h3></Link>
                         <h4>{(guia.cidade.length>0)?guia.cidade[0].nome:''} {(guia.bairros.length>0)?'- ' + guia.bairros[0].nome:''}</h4>
                         <p>{(guia.endereco)?<b>Endereço:</b>:''} {guia.endereco}</p>
                         <div className="list-number">
@@ -93,6 +123,7 @@ class ListingList extends Component {
                             </ul>
                         </div> 
                         {avaliacao}
+                        {this.getCategorias(guia.categorias)}
                         
                         <div className="list-enqu-btn">
                             <ul>
@@ -148,7 +179,7 @@ class ListingList extends Component {
             return(
                 <ol className="breadcrumb">
                     <li><Link to="/">Home</Link> </li>
-                    <li><Link to="/guia-comercial">Guia Comercial</Link> </li>
+                    <li><Link to="/guia">Guia Comercial</Link> </li>
                     <li className="active">{categoria.nome}</li>
                 </ol>
             );
@@ -156,14 +187,29 @@ class ListingList extends Component {
             return(
                 <ol className="breadcrumb">
                     <li><Link to="/">Home</Link> </li>
-                    <li className="active"><Link to="/guia-comercial">Guia Comercial</Link> </li>
+                    <li className="active"><Link to="/guia">Guia Comercial</Link> </li>
                 </ol>
             );
     }
 
+    getCategorias(categorias){
+        if(categorias.length > 0){
+            return (
+                <div class=" list-category"><strong>Categorias: </strong> 
+                    {categorias.map((categoria, i) => {
+                        if(i+1 == categorias.length)
+                            return <Link to={`/guia/categoria/${categoria.slug.replace('guia/','')}`}>{categoria.nome}</Link>
+                        else
+                            return <Link to={`/guia/categoria/${categoria.slug.replace('guia/','')}`}>{categoria.nome}, </Link>
+                    })}
+                </div>
+            )
+        }
+    }
+
     render(){
         let leftColumn = true;
-        let listName = "Guia Comercial";
+        let listName = "Guia Comercial/Serviços";
         let preposition = "do ";
 
         if(! this.props.guias && !this.props.category){
@@ -195,7 +241,7 @@ class ListingList extends Component {
         let title = `Listagem ${preposition} ${listName}`
         let windowTitle = title;
         if(this.props.guias && this.props.guias.categoria){
-            windowTitle = `Guia comercial categoria: ${this.props.guias.categoria.nome}`;
+            windowTitle = `Guia comercial/serviços da categoria: ${this.props.guias.categoria.nome}`;
             title += ` - ${this.props.guias.categoria.nome}`;
         }
 
@@ -214,7 +260,6 @@ class ListingList extends Component {
                         <div className="row">
                             <div className="dir-alp-con">
                                 {(leftColumn)?<ListingLeftColumn objects={(this.props.guias)?this.props.guias.recentes:[]} categories={(this.props.categorias)?this.props.categorias.guia:[]} bairros={(this.props.bairros)?this.props.bairros:[]} />:''}
-                                
 
                                 <div className={(leftColumn)? 'col-md-9 dir-alp-con-right': 'col-md-12 dir-alp-con-right'}>
                                     <div className="dir-alp-con-right-1">

@@ -51,7 +51,7 @@ class WidgetFeatured extends Component {
             return objects.map((object,i) => {
                 if(i<=4) {
                     return (
-                        <Link to={`/guia-comercial/${object.slug}`}>
+                        <Link to={`/guia/${object.slug}`}>
                             <div className="list-mig-like-com">
                                 <div className="list-mig-lc-img"> <img src={this.getImageSrc(object)} alt="" style={{height:200}} /> <span className="home-list-pop-rat list-mi-pr">$720</span> </div>
                                 <div className="list-mig-lc-con">

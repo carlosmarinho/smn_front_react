@@ -22,7 +22,7 @@ class Menu extends Component {
                                         <Link className='dropdown-button ed-sub-menu' data-activates='drop-menu-cidade' to="/a-cidade">Cidade</Link>
                                     </li>
                                     <li>
-                                        <Link className='dropdown-button ed-sub-menu' data-activates='drop-menu-guia' to="/guia-comercial">Guia</Link>
+                                        <Link className='dropdown-button ed-sub-menu' data-activates='drop-menu-guia' to="/guia">Guia</Link>
                                     </li>
                                     <li>
                                         <Link className='dropdown-button' to="/eventos">Eventos</Link>
@@ -60,8 +60,8 @@ class Menu extends Component {
                                 <li><Link to="/a-cidade/populacao-da-cidade-de-niteroi">População da Cidade</Link></li>
                             </ul>
                             <ul id='drop-menu-guia' className='dropdown-content'>
-                                <li><Link className='dropdown-button' to="/guia-comercial/comercios">Guia Comercial</Link></li>
-                                <li><Link className='dropdown-button' to="/guia-comercial/servicos">Guia Servicos</Link></li>
+                                <li><Link className='dropdown-button' to="/guia/comercial">Guia Comercial</Link></li>
+                                <li><Link className='dropdown-button' to="/guia/servicos">Guia Servicos</Link></li>
                             </ul>
                             <ul id='drop-menu-noticias' className='dropdown-content'>
                                 <li><Link className='dropdown-button' to="/noticias/categoria/cidade-de-niteroi">Notícias da Cidade de Niterói</Link></li>

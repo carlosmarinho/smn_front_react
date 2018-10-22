@@ -34,7 +34,7 @@ class Home extends Component {
 
     oneRow(){
         return (
-            <div><span>Guia da Cidade:</span> Veja todos os Guias da cidade <Link to='/guia-comercial'>Aqui!</Link></div>
+            <div><span>Guia da Cidade:</span> Veja todos os Guias da cidade <Link to='/guia'>Aqui!</Link></div>
         )
     }
     render(){

@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
 import RightColumn from '../right-column';
 import HeaderEvent from '../header-destaque-evento';
 import PreFooter from './pre-footer';
@@ -39,6 +40,7 @@ class EventItem extends Component {
                                     {(item && item.descricao_servicos)?this.services(item):''}
                                     {(item)?this.gallery(item):'carregando...'}
                                     {(item)?this.streetView(item):'carregando...'}
+                                    {(item)?this.tags(item):'carregando...'}
                                     <FormComment text="Deixando um comentário adequado a este evento você estará ajudando outros a encontrar exatamente o que estão procurando!" />
                                     <Reviews />
                                 </div>
@@ -184,46 +186,33 @@ class EventItem extends Component {
         )
     }
 
+    generateCategories(categories){
+        if(categories && categories.length>0)
+            return categories.map(category => {
+                return(
+                    <Link to={`/eventos/categoria/${category.slug.replace('evento/','')}`}>
+                        <li className="col-md-4">
+                            <div className="pg-list-ser-p1"><img src={this.getImageSrc(category)} alt="" /> </div>
+                            <div className="pg-list-ser-p2">
+                                <h4>{category.nome}</h4> </div>
+                        </li>
+                    </Link>
+                )
+            })
+    }
+
     tags(item){
         return(
             <div className="pglist-p2 pglist-bg pglist-p-com" >
                 <span id="ld-ser"></span>
                 <div className="pglist-p-com-ti">
-                    <h3><span>Tags</span> Relacionadas</h3> </div>
+                    <h3><span>Categorias e Tags</span> Relacionadas</h3> </div>
                 <div className="list-pg-inn-sp">
-                    <p>Taj Luxury Hotels & Resorts provide 24-hour Business Centre, Clinic, Internet Access Centre, Babysitting, Butler Service in Villas and Seaview Suite, House Doctor on Call, Airport Butler Service, Lobby Lounge </p>
+                    <p>Veja as categorias relacionadas ao evento <strong>{item.titulo}</strong>.</p>
                     <div className="row pg-list-ser">
                         <ul>
-                            <li className="col-md-4">
-                                <div className="pg-list-ser-p1"><img src="/images/services/ser1.jpg" alt="" /> </div>
-                                <div className="pg-list-ser-p2">
-                                    <h4>Restaurant and Bar</h4> </div>
-                            </li>
-                            <li className="col-md-4">
-                                <div className="pg-list-ser-p1"><img src="/images/services/ser2.jpg" alt="" /> </div>
-                                <div className="pg-list-ser-p2">
-                                    <h4>Room Booking</h4> </div>
-                            </li>
-                            <li className="col-md-4">
-                                <div className="pg-list-ser-p1"><img src="/images/services/ser3.jpg" alt="" /> </div>
-                                <div className="pg-list-ser-p2">
-                                    <h4>Corporate Events</h4> </div>
-                            </li>
-                            <li className="col-md-4">
-                                <div className="pg-list-ser-p1"><img src="/images/services/ser4.jpg" alt="" /> </div>
-                                <div className="pg-list-ser-p2">
-                                    <h4>Wedding Hall</h4> </div>
-                            </li>
-                            <li className="col-md-4">
-                                <div className="pg-list-ser-p1"><img src="/images/services/ser5.jpg" alt="" /> </div>
-                                <div className="pg-list-ser-p2">
-                                    <h4>Travel & Transport</h4> </div>
-                            </li>
-                            <li className="col-md-4">
-                                <div className="pg-list-ser-p1"><img src="/images/services/ser6.jpg" alt="" /> </div>
-                                <div className="pg-list-ser-p2">
-                                    <h4>All Amenities</h4> </div>
-                            </li>
+                            {this.generateCategories(item.categorias)}
+                            
                         </ul>
                     </div>
                 </div>

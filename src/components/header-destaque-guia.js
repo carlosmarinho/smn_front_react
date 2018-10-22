@@ -86,7 +86,7 @@ class HeaderDestaqueGuia extends Component {
                     <meta charSet="utf-8" />
                     <meta name="description" content={metadescription} />
                     <title>{title}</title>
-                    <link rel="canonical" href={`http://soumaisniteroi.com.br/guia-comercial/${(guia)?guia.slug:''}`}  />
+                    <link rel="canonical" href={`http://soumaisniteroi.com.br/guia/${(guia)?guia.slug:''}`}  />
                 </Helmet>
                 <section>
                     <div className="v3-list-ql">

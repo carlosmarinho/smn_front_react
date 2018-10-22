@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 
 import { Provider } from 'react-redux';
-import { BrowserRouter, Route } from 'react-router-dom';
+import { BrowserRouter, Switch, Route } from 'react-router-dom';
 import { createStore, applyMiddleware } from 'redux';
 import promise from 'redux-promise';
 
@@ -104,26 +104,29 @@ class App extends Component {
                 <Route>
                     <div>
                         <Header />
-                        <div>
+                        
+                            <Switch>
                             <Route exact path="/" component={Home} />
                             <Route exact path="/login" component={Login} />
                             <Route exact path="/cadastro" component={Register} />
                             <Route exact path="/a-cidade" component={BlogListCity} />
                             <Route exact path="/a-cidade/bairros-de-niteroi" component={BairrosGrid} />
                             <Route exact path="/a-cidade/:slug" component={PageItem} />
-                            <Route exact path="/guia-comercial" component={ListingList} />
-                            <Route exact path="/guia-comercial/categoria/:slug" component={ListingList} />
-                            <Route exact path="/guia-comercial/comercios" component={ListingListComercios} />
-                            <Route exact path="/guia-comercial/servicos" component={ListingListServicos} />
+                            <Route exact path="/guia" component={ListingList} />
+                            <Route exact path="/guia/categoria/:slug" component={ListingList} />
+                            <Route exact path="/guia/servicos/" component={ListingListServicos} />
+                            <Route exact path="/guia/comercial/" component={ListingListComercios} />
+                            <Route exact path="/guia/:slug" component={ListingItem} />
+                            <Route exact path="/eventos/categoria/:sluga" component={GridEvents} />
                             <Route exact path="/eventos" component={GridEvents} />
                             <Route exact path="/eventos/:slug" component={EventItem} />
-                            <Route exact path="/guia-comercial/:slug" component={ListingItem} />
                             <Route exact path="/contato" component={Contact} />
                             <Route exact path="/noticias/categoria/:slug" component={BlogList} />
                             <Route exact path="/noticias/:slug" component={NewsItem} />
                             <Route exact path="/noticias" component={BlogListNews} />
                             {/*@todo <Route exact path="/fotos-da-cidade-de-niteroi" component={Photos} />*/}
-                        </div>
+                            </Switch>
+                        
                         <Footer />
                     </div>
                 </Route>

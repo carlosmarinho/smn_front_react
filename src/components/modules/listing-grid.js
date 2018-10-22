@@ -27,8 +27,8 @@ class ListingGrid extends Component {
     }
 
     componentDidMount() {
-        console.log("no evento componet did mount vai chamar o fetchEventos")
-        this.props.fetchEventos('5ba26f813a018f42215a36a0');
+        console.log("no evento componet did mount vai chamar o fetchEventos", this.props.match)
+        //this.props.fetchEventos('5ba26f813a018f42215a36a0');
         this.props.fetchCategoriesEventoTop();
         this.props.fetchBairros('5ba26f813a018f42215a36a0');
 
@@ -36,8 +36,32 @@ class ListingGrid extends Component {
     }
 
     componentWillReceiveProps(nextProps) {
+
+        console.log("aquiiiiiiii no will receive EVENTOS", nextProps);
+        if(nextProps.match && nextProps.match.params.slug){
+            let slug = nextProps.match.params.slug
+            if(slug != this.state.slug){
+                this.setState(
+                    {
+                       slug: slug,
+                       eventos: this.props.fetchEventosByCategory(slug)
+                    }
+                )
+            }
+        }
+        else{
+            if(this.state.slug != '/'){
+         
+                this.setState(
+                    {
+                        slug: '/',
+                        eventos: this.props.fetchEventos('5ba26f813a018f42215a36a0')
+                    }
+                )
+            }
+        }
+
         if(nextProps.eventos){
-            console.log('nextprops: ', nextProps)
             if(nextProps.eventos.list)
             {
                 this.setState({data: nextProps.eventos.list.slice(0,this.state.perPage), pageCount: Math.ceil(  nextProps.eventos.list.lenght / this.state.perPage)});
@@ -223,7 +247,6 @@ class ListingGrid extends Component {
 }
 
 function mapStateToProps(state){
-    console.log("state listing list: ", state)
     return {
         eventos: state.eventos,
         categorias: state.categorias,

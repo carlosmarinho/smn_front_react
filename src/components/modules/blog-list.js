@@ -85,14 +85,14 @@ class BlogList extends Component {
     getCategorias(categorias){
         if(categorias.length > 0){
             return (
-                <p><strong>Categorias: </strong> 
+                <div class=" list-category"><strong>Categorias: </strong> 
                     {categorias.map((categoria, i) => {
                         if(i+1 == categorias.length)
-                            return categoria.nome
+                            return <Link to={`/noticias/categoria/${categoria.slug.replace('noticias/','')}`}>{categoria.nome}</Link>
                         else
-                            return categoria.nome + ", "
+                            return <Link to={`/noticias/categoria/${categoria.slug.replace('noticias/','')}`}>{categoria.nome}, </Link>
                     })}
-                </p>
+                </div>
             )
         }
     }

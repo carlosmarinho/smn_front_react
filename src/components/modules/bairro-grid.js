@@ -192,7 +192,6 @@ class BairroGrid extends Component {
 }
 
 function mapStateToProps(state){
-    console.log("state listing no gridddd do bairrrrooooossss: ", state)
     return {
         bairros: state.bairros,
     }

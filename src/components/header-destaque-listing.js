@@ -11,7 +11,7 @@ class HeaderDestaqueListing extends Component {
                <Helmet>
                     <meta charSet="utf-8" />
                     <title>{title}</title>
-                    <link rel="canonical" href="http://soumaisniteroi.com.br/guia-comercial" />
+                    <link rel="canonical" href="http://soumaisniteroi.com.br/guia/" />
                 </Helmet>
             </div>
             

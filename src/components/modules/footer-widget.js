@@ -1,5 +1,6 @@
 import _ from 'lodash'
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 
 import RightColumn from '../right-column';
 
@@ -26,7 +27,7 @@ class FooterWidget extends Component {
             if(i <= 3)
                 return( 
                     <li>
-                        <a href="listing-details.html">
+                        <Link to={object.slug}>
                             <div className="div-footer-img"> 
                                 <img src={this.getImageSrc(object)} alt="" /> 
                             </div>
@@ -34,7 +35,7 @@ class FooterWidget extends Component {
                                 <h5>{truncate(object.titulo, { length: 25, separator: /,?\.* +/ })}</h5> 
                                 <span>{truncate(object.descricao.replace(/&#13;/g,'').replace(/<\/?[^>]+(>|$)/g, ""), { length: 40, separator: /,?\.* +/ })}</span> 
                             </div>
-                        </a>
+                        </Link>
                     </li>
                 )
         })

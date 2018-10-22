@@ -7275,6 +7275,13 @@ footer ul li a:hover {
   margin-bottom: 30px; }
 
 /*INCLUDED BY CARLOS*/
+.list-category {
+  margin-top: 10px;
+  font-size: 11px; }
+
+.list-category a {
+  font-size: 11px; }
+
 .footer-widget a:hover {
   all: unset !important; }
 
