@@ -22,7 +22,6 @@ export const fetchNoticiaBySlug = async(slug='', limit=1) => {
     let config = { headers: { 'Authorization': `Bearer ${jwt}` } };
 
     const request = axios.get(`http://localhost:1337/noticia/?${slug}_sort=-_id&_limit=${limit}`, config);
-
     return {
         type: FETCH_NOTICIA,
         payload: request

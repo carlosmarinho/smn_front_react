@@ -130,7 +130,7 @@ class ListingGrid extends Component {
             return (
                 <div className="col-md-4">
                         <div className="list-mig-like-com com-mar-bot-30">
-                            <div className="list-mig-lc-img"> <img src={this.getImageSrc(evento)} alt="" /> <span className="home-list-pop-rat list-mi-pr">$720</span> </div>
+                            <div className="list-mig-lc-img list-img-grid"> <img src={this.getImageSrc(evento)} alt="" /> <span className="home-list-pop-rat list-mi-pr">$720</span> </div>
                             <div className="list-mig-lc-con">
                             <Link to={`/eventos/${evento.slug}`}>
                                 {this.getAvaliacao(evento)}

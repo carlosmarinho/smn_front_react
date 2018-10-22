@@ -12,6 +12,7 @@ export default function(state = null, action) {
                     noticia.list = state.list;
             }
             
+            console.log('action payload: ', action.payload);
             
             noticia.noticia = action.payload.data[0];
             return noticia;

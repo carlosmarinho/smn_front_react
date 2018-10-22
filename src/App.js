@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 
 import { Provider } from 'react-redux';
-import { BrowserRouter, Switch, Route } from 'react-router-dom';
+import { BrowserRouter, Switch, Route, Redirect } from 'react-router-dom';
 import { createStore, applyMiddleware } from 'redux';
 import promise from 'redux-promise';
 
@@ -24,6 +24,7 @@ import Login from './components/modules/login'
 import Register from './components/modules/register'
 
 import BairroGrid from './components/modules/bairro-grid'
+import NotFound from './components/not-found'
 
 /* Importing css */
 import './assets/styles/css/materialize.css';
@@ -36,6 +37,8 @@ import (`./assets/styles/css/${city_or_neighbor}.css`);
 
 
 const createStoreWithMiddleware = applyMiddleware(promise)(createStore);
+
+
 
 const ListingListComercios = () => {
     return (
@@ -108,6 +111,7 @@ class App extends Component {
                         <Header />
                         
                             <Switch>
+                            <Redirect from="/guia_comercial_category/:slug/" to="/guia/categoria/:slug/" state={ { status: 301 } } />
                             <Route exact path="/" component={Home} />
                             <Route exact path="/login" component={Login} />
                             <Route exact path="/cadastro" component={Register} />
@@ -126,6 +130,7 @@ class App extends Component {
                             <Route exact path="/noticias/categoria/:slug" component={BlogList} />
                             <Route exact path="/noticias/:slug" component={NewsItem} />
                             <Route exact path="/noticias" component={BlogListNews} />
+                            <Route exact path="/:slug" component={NotFound} />
                             {/*@todo <Route exact path="/fotos-da-cidade-de-niteroi" component={Photos} />*/}
                             </Switch>
                         

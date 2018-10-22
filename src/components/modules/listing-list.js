@@ -240,6 +240,7 @@ class ListingList extends Component {
         let title = `Listagem ${preposition} ${listName}`
         let windowTitle = title;
         if(this.props.guias && this.props.guias.categoria){
+            console.log('Categoriaaaaaaa: ', this.props.guias.categoria)
             windowTitle = `Guia comercial/serviços da categoria: ${this.props.guias.categoria.nome}`;
             title += ` - ${this.props.guias.categoria.nome}`;
         }

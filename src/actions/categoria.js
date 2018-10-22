@@ -41,7 +41,7 @@ export const fetchCategoriesGuiaTop = async(limit='', sort=null) => {
     let config = { headers: { 'Authorization': `Bearer ${jwt}` } };
     
 
-    const request = axios.get(`http://localhost:1337/categoria/?_sort=${sort}${limit}&tipo=guia&parent_id=`, config);
+    const request = axios.get(`http://localhost:1337/categoria/?_sort=${sort}${limit}&tipo=guia comercial&parent_id=`, config);
 
     return {
         type: FETCH_CATEGORIES_GUIA_TOP,
@@ -49,6 +49,59 @@ export const fetchCategoriesGuiaTop = async(limit='', sort=null) => {
     }
 
 }
+
+export const fetchCategoriesGuiaComercialTop = async(limit='', sort=null) => {
+    if(!sort)
+        sort = '-_id';
+    if(limit)
+        limit = `&_limit=${limit}`
+
+    let jwt = localStorage.getItem('jwt');
+
+    if(!jwt){
+        let ret = await axios.post('http://localhost:1337/auth/local', { identifier: 'adm_manager', password: 'carlos' })
+        jwt = ret.data.jwt;
+        localStorage.setItem('jwt', jwt);
+    }
+
+    let config = { headers: { 'Authorization': `Bearer ${jwt}` } };
+    
+
+    const request = axios.get(`http://localhost:1337/categoria/?_sort=${sort}${limit}&tipo=guia comercial&parent_id=`, config);
+
+    return {
+        type: FETCH_CATEGORIES_GUIA_TOP,
+        payload: request
+    }
+
+}
+
+export const fetchCategoriesGuiaServicosTop = async(limit='', sort=null) => {
+    if(!sort)
+        sort = '-_id';
+    if(limit)
+        limit = `&_limit=${limit}`
+
+    let jwt = localStorage.getItem('jwt');
+
+    if(!jwt){
+        let ret = await axios.post('http://localhost:1337/auth/local', { identifier: 'adm_manager', password: 'carlos' })
+        jwt = ret.data.jwt;
+        localStorage.setItem('jwt', jwt);
+    }
+
+    let config = { headers: { 'Authorization': `Bearer ${jwt}` } };
+    
+
+    const request = axios.get(`http://localhost:1337/categoria/?_sort=${sort}${limit}&tipo=guia servicos&parent_id=`, config);
+
+    return {
+        type: FETCH_CATEGORIES_GUIA_TOP,
+        payload: request
+    }
+
+}
+
 
 export const fetchCategoriesEventoTop = async(limit='', sort=null) => {
     if(!sort)
