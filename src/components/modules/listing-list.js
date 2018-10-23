@@ -6,6 +6,8 @@ import { fetchGuias, fetchGuiasByCategory } from '../../actions/guia';
 import { fetchBairros } from '../../actions/bairro';
 import { fetchCategoriesGuiaTop } from '../../actions/categoria';
 import Pagination from "react-js-pagination";
+import Paginate from "../paginate";
+import slugify from 'slugify';
 
 import ListingLeftColumn from '../listing-left-column';
 import PreFooter from './pre-footer';
@@ -20,7 +22,8 @@ class ListingList extends Component {
             data: [],
             activePage: 1,
             perPage: 10,
-            slug: ''
+            slug: '',
+            type: ''
         }
 
         this.handlePageChange = this.handlePageChange.bind(this);
@@ -49,13 +52,22 @@ class ListingList extends Component {
   
 
     componentWillReceiveProps(nextProps) {
-        
-        if(nextProps.match && nextProps.match.params.slug){
 
+        console.log(nextProps);
+
+        if(nextProps.match && nextProps.match.params.slug){
+            let search = '';
+            if(nextProps.type){
+                search = `tipo=${nextProps.type}`
+            }
+            
             let slug = nextProps.match.params.slug
+         
             if(slug != this.state.slug){
+         
                 this.setState(
                     {
+                       search: search,
                        slug: slug,
                        guias: this.props.fetchGuiasByCategory(slug)
                     }
@@ -71,6 +83,7 @@ class ListingList extends Component {
 
                 this.setState(
                     {
+                        type: nextProps.type,
                         slug: '/',
                         guias: this.props.fetchGuias('5ba26f813a018f42215a36a0', search)
                     }
@@ -82,8 +95,16 @@ class ListingList extends Component {
             if(nextProps.guias.list)
             {
                 this.setState({data: nextProps.guias.list.slice(0,this.state.perPage), pageCount: Math.ceil(  nextProps.guias.list.lenght / this.state.perPage)});
+
+                if(nextProps.match && nextProps.match.params.page){
+                    console.log("está setando a página ativa: ", nextProps.guias.list)
+                    this.handlePageChange(nextProps.match.params.page, nextProps.guias.list)
+                    //this.setState({activePage:nextProps.match.params.page})
+                }
             }
         }
+
+        
     }
 
     getImageSrc(guia){
@@ -143,6 +164,24 @@ class ListingList extends Component {
         return(
             <div>
                 {guias}
+                <div class="row">
+                    <Paginate
+                        activePage={this.state.activePage}
+                        itemsCountPerPage={this.state.perPage}
+                        totalItemsCount={itemCount}
+                        pageRangeDisplayed={this.state.perPage}
+                        onChange={this.handlePageChange}
+                        prevPageText={<i className="material-icons">chevron_left</i>}
+                        nextPageText={<i className="material-icons">chevron_right</i>}
+                        firstPageText={<i className="material-icons">first_page</i>}
+                        lastPageText={<i className="material-icons">last_page</i>}
+                        innerClass="pagination list-pagenat"
+                        itemClass="waves-effect"
+                        pathname={this.props.location.pathname}
+                    /> 
+                       
+                    
+                </div>
                 <Pagination
                     activePage={this.state.activePage}
                     itemsCountPerPage={this.state.perPage}
@@ -160,25 +199,43 @@ class ListingList extends Component {
         )
     }
 
-    handlePageChange(pageNumber) {
+
+    handlePageChange(pageNumber, list=[]) {
         console.log(`active page is ${pageNumber}`);
         let data = [];
         if(pageNumber == 1){
-            data = this.props.guias.list.slice(0, this.state.perPage)
+            if(this.props.guias.list)
+                data = this.props.guias.list.slice(0, this.state.perPage)
+            else
+                data = list.slice(0, this.state.perPage)
         }
         else{
-            data = this.props.guias.list.slice((pageNumber-1)*this.state.perPage,((pageNumber-1)*this.state.perPage)+this.state.perPage)
+            console.log("this.props.guias: ", this.props.guias)
+            if(this.props.guias.list)
+                data = this.props.guias.list.slice((pageNumber-1)*this.state.perPage,((pageNumber-1)*this.state.perPage)+this.state.perPage)
+            else
+                data = list.slice((pageNumber-1)*this.state.perPage,((pageNumber-1)*this.state.perPage)+this.state.perPage)
         }
         this.setState({activePage: pageNumber, data});
         //{data: nextProps.guias.list.slice(0,evento)}
     }
 
-    breadcrumbs(listName, categoria){
+    getGuiaSlug(slug){
+        if(slug == 'Guia Comercial/Serviço'){
+            return 'guia';
+        }
+        else{
+            return slugify(slug).replace('-','/').replace('de','/');
+        }
+    }
+
+    breadcrumbs(listName, type, categoria){
+
         if(categoria)
             return(
                 <ol className="breadcrumb">
                     <li><Link to="/">Home</Link> </li>
-                    <li><Link to="/guia">Guia Comercial</Link> </li>
+                    <li><Link to={this.getGuiaSlug(listName)}>{listName}</Link> </li>
                     <li className="active">{categoria.nome}</li>
                 </ol>
             );
@@ -186,7 +243,7 @@ class ListingList extends Component {
             return(
                 <ol className="breadcrumb">
                     <li><Link to="/">Home</Link> </li>
-                    <li className="active"><Link to="/guia">Guia Comercial</Link> </li>
+                    <li className="active">{listName}</li>
                 </ol>
             );
     }
@@ -197,9 +254,9 @@ class ListingList extends Component {
                 <div class=" list-category"><strong>Categorias: </strong> 
                     {categorias.map((categoria, i) => {
                         if(i+1 == categorias.length)
-                            return <Link to={`/guia/categoria/${categoria.slug.replace('guia/','')}`}>{categoria.nome}</Link>
+                            return <Link to={`/${categoria.slug.replace('comercial/','comercial/categoria/').replace('servicos/','servicos/categoria/')}`}>{categoria.nome}</Link>
                         else
-                            return <Link to={`/guia/categoria/${categoria.slug.replace('guia/','')}`}>{categoria.nome}, </Link>
+                            return <Link to={`/${categoria.slug.replace('comercial/','comercial/categoria/').replace('servicos/','servicos/categoria/')}`}>{categoria.nome}, </Link>
                     })}
                 </div>
             )
@@ -208,7 +265,16 @@ class ListingList extends Component {
 
     render(){
         let leftColumn = true;
-        let listName = "Guia Comercial/Serviços";
+        let tipo = 'Comercial/Serviço'
+
+        console.log('type::::: ', this.state.type);
+
+        if(this.state.type && this.state.type.includes('comercial'))
+            tipo = 'Comercial'
+        else if(this.state.type && this.state.type.includes('serviço'))
+            tipo = 'Serviços'
+
+        let listName = `Guia ${(tipo!='Serviços')?tipo: `de ${tipo}`}`;
         let preposition = "do ";
 
         if(! this.props.guias && !this.props.category){
@@ -236,6 +302,8 @@ class ListingList extends Component {
 
         /* if(this.props.bairros)
             console.log("bairrossssssssss no listing: ", this.props.bairros) */
+
+        
 
         let title = `Listagem ${preposition} ${listName}`
         let windowTitle = title;

@@ -40,15 +40,21 @@ const createStoreWithMiddleware = applyMiddleware(promise)(createStore);
 
 
 
-const ListingListComercios = () => {
+const ListingListComercios = (props) => {
     return (
-        <ListingList type="guia comercial" />
+        <ListingList 
+            type="guia comercial" 
+            match={props.match}
+        />
     )
 }
 
-const ListingListServicos = () => {
+const ListingListServicos = (props) => {
     return (
-        <ListingList type="guia de serviços" />
+        <ListingList 
+            type="guia de serviços" 
+            match={props.match}
+        />
     )
 }
 
@@ -111,7 +117,7 @@ class App extends Component {
                         <Header />
                         
                             <Switch>
-                            <Redirect from="/guia_comercial_category/:slug/" to="/guia/categoria/:slug/" state={ { status: 301 } } />
+                            <Redirect from="/guia_comercial_category/:slug/" to="/guia/comercial/categoria/:slug/" state={ { status: 301 } } />
                             <Route exact path="/" component={Home} />
                             <Route exact path="/login" component={Login} />
                             <Route exact path="/cadastro" component={Register} />
@@ -119,7 +125,9 @@ class App extends Component {
                             <Route exact path="/a-cidade/bairros-de-niteroi" component={BairrosGrid} />
                             <Route exact path="/a-cidade/:slug" component={PageItem} />
                             <Route exact path="/guia" component={ListingList} />
-                            <Route exact path="/guia/categoria/:slug" component={ListingList} />
+                            <Route exact path="/guia/page/:page" component={ListingList} />
+                            <Route exact path="/guia/comercial/categoria/:slug" component={ListingList} />
+                            <Route exact path="/guia/servicos/categoria/:slug" component={ListingList} />
                             <Route exact path="/guia/servicos/" component={ListingListServicos} />
                             <Route exact path="/guia/comercial/" component={ListingListComercios} />
                             <Route exact path="/guia/:slug" component={ListingItem} />

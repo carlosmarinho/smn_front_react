@@ -85,10 +85,17 @@ export const fetchGuiasByCategory = async(category='', limit='', sort=null) => {
     let categoria = ''
     let req;
     if(category){
-        req = await axios.get(`http://localhost:1337/categoria/?slug=guia/${category}`, config);
+        req = await axios.get(`http://localhost:1337/categoria/?slug=guia/comercial/${category}`, config);
 
         if(req.data.length > 0){
             categoria=`categorias=${req.data[0]._id}&`
+        }
+        else{
+            req = await axios.get(`http://localhost:1337/categoria/?slug=guia/servicos/${category}`, config);
+
+            if(req.data.length > 0){
+                categoria=`categorias=${req.data[0]._id}&`
+            }
         }
     }
 
