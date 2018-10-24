@@ -5,7 +5,6 @@ import HeaderListing from '../header-destaque-listing';
 import { fetchGuias, fetchGuiasByCategory } from '../../actions/guia';
 import { fetchBairros } from '../../actions/bairro';
 import { fetchCategoriesGuiaTop } from '../../actions/categoria';
-import Pagination from "react-js-pagination";
 import Paginate from "../paginate";
 import slugify from 'slugify';
 
@@ -76,6 +75,7 @@ class ListingList extends Component {
         }
         else{
             if(this.state.slug != '/'){
+                console.log("caiu aqui nesse page:::: ", nextProps)
                 let search = '';
                 if(nextProps.type){
                     search = `tipo=${nextProps.type}`
@@ -182,19 +182,6 @@ class ListingList extends Component {
                        
                     
                 </div>
-                <Pagination
-                    activePage={this.state.activePage}
-                    itemsCountPerPage={this.state.perPage}
-                    totalItemsCount={itemCount}
-                    pageRangeDisplayed={this.state.perPage}
-                    onChange={this.handlePageChange}
-                    prevPageText={<i className="material-icons">chevron_left</i>}
-                    nextPageText={<i className="material-icons">chevron_right</i>}
-                    firstPageText={<i className="material-icons">first_page</i>}
-                    lastPageText={<i className="material-icons">last_page</i>}
-                    innerClass="pagination list-pagenat"
-                    itemClass="waves-effect"
-                />
             </div>
         )
     }
@@ -210,7 +197,6 @@ class ListingList extends Component {
                 data = list.slice(0, this.state.perPage)
         }
         else{
-            console.log("this.props.guias: ", this.props.guias)
             if(this.props.guias.list)
                 data = this.props.guias.list.slice((pageNumber-1)*this.state.perPage,((pageNumber-1)*this.state.perPage)+this.state.perPage)
             else

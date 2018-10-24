@@ -5,6 +5,7 @@ import HeaderBlog from '../header-destaque-blog';
 import { fetchNoticias, fetchNoticiasByCategory } from '../../actions/noticia';
 import { fetchEventosRecentes } from '../../actions/evento';
 import { fetchGuiasFeatured } from '../../actions/guia';
+import Paginate from "../paginate";
 import { Link } from 'react-router-dom';
 import PreFooter from './pre-footer'
 
@@ -59,6 +60,11 @@ class BlogList extends Component {
             if(nextProps.noticias.list)
             {
                 this.setState({data: nextProps.noticias.list.slice(0,this.state.perPage), pageCount: Math.ceil(  nextProps.noticias.list.lenght / this.state.perPage)});
+
+                if(nextProps.match && nextProps.match.params.page){
+                    this.handlePageChange(nextProps.match.params.page, nextProps.noticias.list)
+                    //this.setState({activePage:nextProps.match.params.page})
+                }
             }
         }
     }
@@ -118,34 +124,41 @@ class BlogList extends Component {
             )
         })
 
+        let itemCount = 0;
+        if(this.props && this.props.noticias && this.props.noticias.list)
+            itemCount = this.props.noticias.list.length
+
         return(
             <div>
                 {noticias}
-                <Pagination
-                    activePage={this.state.activePage}
-                    itemsCountPerPage={this.state.perPage}
-                    totalItemsCount={this.props.noticias.list.length}
-                    pageRangeDisplayed={this.state.perPage}
-                    onChange={this.handlePageChange}
-                    prevPageText={<i className="material-icons">chevron_left</i>}
-                    nextPageText={<i className="material-icons">chevron_right</i>}
-                    firstPageText={<i className="material-icons">first_page</i>}
-                    lastPageText={<i className="material-icons">last_page</i>}
-                    innerClass="pagination list-pagenat"
-                    itemClass="waves-effect"
-                />
+                <Paginate
+                        activePage={this.state.activePage}
+                        itemsCountPerPage={this.state.perPage}
+                        totalItemsCount={itemCount}
+                        pageRangeDisplayed={this.state.perPage}
+                        onChange={this.handlePageChange}
+                        innerClass="pagination list-pagenat"
+                        itemClass="waves-effect"
+                        pathname={this.props.location.pathname}
+                /> 
             </div>
         )
     }
 
-    handlePageChange(pageNumber) {
+    handlePageChange(pageNumber, list=[]) {
         console.log(`active page is ${pageNumber}`);
         let data = [];
         if(pageNumber == 1){
-            data = this.props.noticias.list.slice(0, this.state.perPage)
+            if(this.props.guias.list)
+                data = this.props.noticias.list.slice(0, this.state.perPage)
+            else
+                data = list.slice(0, this.state.perPage)
         }
         else{
-            data = this.props.noticias.list.slice((pageNumber-1)*this.state.perPage,((pageNumber-1)*this.state.perPage)+this.state.perPage)
+            if(this.props.guias.list)
+                data = this.props.noticias.list.slice((pageNumber-1)*this.state.perPage,((pageNumber-1)*this.state.perPage)+this.state.perPage)
+            else
+                data = list.slice((pageNumber-1)*this.state.perPage,((pageNumber-1)*this.state.perPage)+this.state.perPage)
         }
         this.setState({activePage: pageNumber, data});
         //{data: nextProps.noticias.list.slice(0,this.state.perPage)}

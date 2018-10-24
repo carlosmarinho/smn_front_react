@@ -5,7 +5,7 @@ import HeaderListing from '../header-destaque-listing';
 import { fetchEventos, fetchEventosByCategory } from '../../actions/evento';
 import { fetchBairros } from '../../actions/bairro';
 import { fetchCategoriesEventoTop } from '../../actions/categoria';
-import Pagination from "react-js-pagination";
+import Paginate from '../paginate';
 
 import ListingLeftColumn from '../listing-left-column';
 import PreFooter from './pre-footer';
@@ -66,6 +66,11 @@ class ListingGrid extends Component {
             if(nextProps.eventos.list)
             {
                 this.setState({data: nextProps.eventos.list.slice(0,this.state.perPage), pageCount: Math.ceil(  nextProps.eventos.list.lenght / this.state.perPage)});
+
+                if(nextProps.match && nextProps.match.params.page){
+                    this.handlePageChange(nextProps.match.params.page, nextProps.eventos.list)
+                    //this.setState({activePage:nextProps.match.params.page})
+                }
             }
         }
     }
@@ -172,7 +177,7 @@ class ListingGrid extends Component {
         return(
             <div>
                 {eventos}
-                {<Pagination
+                <Paginate
                     activePage={this.state.activePage}
                     itemsCountPerPage={this.state.perPage}
                     totalItemsCount={itemCount}
@@ -184,7 +189,8 @@ class ListingGrid extends Component {
                     lastPageText={<i className="material-icons">last_page</i>}
                     innerClass="pagination list-pagenat"
                     itemClass="waves-effect"
-                />}
+                    pathname={this.props.location.pathname}
+                /> 
             </div>
         )
     }
@@ -204,14 +210,20 @@ class ListingGrid extends Component {
         }
     }
 
-    handlePageChange(pageNumber) {
+    handlePageChange(pageNumber, list=[]) {
         console.log(`active page is ${pageNumber}`);
         let data = [];
         if(pageNumber == 1){
-            data = this.props.eventos.list.slice(0, this.state.perPage)
+            if(this.props.guias.list)
+                data = this.props.eventos.list.slice(0, this.state.perPage)
+            else
+                data = list.slice(0, this.state.perPage)
         }
         else{
-            data = this.props.eventos.list.slice((pageNumber-1)*this.state.perPage,((pageNumber-1)*this.state.perPage)+this.state.perPage)
+            if(this.props.guias.list)
+                data = this.props.eventos.list.slice((pageNumber-1)*this.state.perPage,((pageNumber-1)*this.state.perPage)+this.state.perPage)
+            else
+                data = list.slice((pageNumber-1)*this.state.perPage,((pageNumber-1)*this.state.perPage)+this.state.perPage)
         }
         this.setState({activePage: pageNumber, data});
         //{data: nextProps.eventos.list.slice(0,10)}

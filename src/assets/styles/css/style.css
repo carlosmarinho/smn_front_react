@@ -7281,6 +7281,11 @@ footer ul li a:hover {
   margin-bottom: 30px; }
 
 /*INCLUDED BY CARLOS*/
+@media (min-width: 992px) {
+  .blog-img img {
+    min-height: 170px;
+    max-height: 250px; } }
+
 .list-category {
   margin-top: 10px;
   font-size: 11px; }

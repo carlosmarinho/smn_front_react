@@ -79,7 +79,7 @@ class BairroGrid extends Component {
                 <div className="col-md-3">
                     <Link to={`/bairros/${bairro.slug}`}>
                         <div className="list-mig-like-com com-mar-bot-30">
-                            <div className="list-mig-lc-img"> <img src={this.getImageSrc()} alt="" /> <span className="home-list-pop-rat list-mi-pr">$720</span> </div>
+                            <div className="list-mig-lc-img"> <img src={this.getImageSrc()} alt="" /> {/*carlos ver o q vai colocar aqui<span className="home-list-pop-rat list-mi-pr">$720</span>*/} </div>
                             <div className="list-mig-lc-con">
                                 <h5>Bairro {(bairro.preposicao)?bairro.preposicao:'de'} {bairro.nome} </h5>
                                 {(bairro.site)?<h6><a href={`http://` + bairro.site} target="_blank">Ir para o site {bairro.preposicao} {bairro.nome}</a></h6>:''}

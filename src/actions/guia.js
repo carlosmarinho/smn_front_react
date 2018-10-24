@@ -69,7 +69,7 @@ export const fetchGuiasByCategory = async(category='', limit='', sort=null) => {
     if(limit)
         limit = `&_limit=${limit}`;
     else
-        limit = `&_limit=200`;
+        limit = `&_limit=500`;
   
 
     let jwt = localStorage.getItem('jwt');
@@ -123,7 +123,7 @@ export const fetchGuias = async(city_id, search='', limit='', sort=null) => {
     if(limit)
         limit = `&_limit=${limit}`;
     else
-        limit = `&_limit=200`;
+        limit = `&_limit=500`;
   
 
     let jwt = localStorage.getItem('jwt');

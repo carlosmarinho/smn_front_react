@@ -53,7 +53,7 @@ class WidgetFeatured extends Component {
                     return (
                         <Link to={`/guia/${object.slug}`}>
                             <div className="list-mig-like-com">
-                                <div className="list-mig-lc-img"> <img src={this.getImageSrc(object)} alt="" style={{height:200}} /> <span className="home-list-pop-rat list-mi-pr">$720</span> </div>
+                                <div className="list-mig-lc-img"> <img src={this.getImageSrc(object)} alt="" style={{height:200}} /> {/*carlos ver o q vai colocar aqui<span className="home-list-pop-rat list-mi-pr">$720</span>*/} </div>
                                 <div className="list-mig-lc-con">
                                     {/*<div className="list-rat-ch list-room-rati"> <span>4.0</span> <i className="fa fa-star" aria-hidden="true"></i> <i className="fa fa-star" aria-hidden="true"></i> <i className="fa fa-star" aria-hidden="true"></i> <i className="fa fa-star" aria-hidden="true"></i> <i className="fa fa-star-o" aria-hidden="true"></i> </div>*/}
                                     <h5>{object.titulo}</h5>
