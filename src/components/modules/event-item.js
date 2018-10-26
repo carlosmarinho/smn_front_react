@@ -14,11 +14,32 @@ import StreetView from './street-view';
 
 class EventItem extends Component {
 
+    constructor() {
+        super();
+
+        this.state = {
+            slug: ''
+        }
+    }
+
     componentDidMount() {
-        this.props.fetchEventoBySlug(this.props.match.params.slug);
+        //this.props.fetchEventoBySlug(this.props.match.params.slug);
         this.props.fetchEventosRecentes('5ba26f813a018f42215a36a0');
         this.props.fetchGuiasRecentes('5ba26f813a018f42215a36a0');
         this.props.fetchGuiasFeatured('5ba26f813a018f42215a36a0');
+    }
+
+    componentWillReceiveProps(nextProps) {
+        let slug = nextProps.match.params.slug
+        
+        if(slug != this.state.slug){
+            this.setState(
+                {
+                   slug: slug,
+                   eventos: this.props.fetchEventoBySlug(slug)
+                }
+            )
+        }
     }
 
     render(){

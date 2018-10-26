@@ -10,12 +10,31 @@ import FormComment from './form-comment';
 
 class NewsItem extends Component {
 
-    componentDidMount() {
-        console.log("matchchhhhhhhhh news item: ", this.props);
+    constructor() {
+        super();
 
-        this.props.fetchNoticiaBySlug(this.props.match.params.slug);
+        this.state = {
+            slug: ''
+        }
+    }
+
+    componentDidMount() {
+        //this.props.fetchNoticiaBySlug(this.props.match.params.slug);
         this.props.fetchEventosRecentes('5ba26f813a018f42215a36a0');
         this.props.fetchGuiasFeatured('5ba26f813a018f42215a36a0');
+    }
+
+    componentWillReceiveProps(nextProps) {
+        let slug = nextProps.match.params.slug
+        
+        if(slug != this.state.slug){
+            this.setState(
+                {
+                   slug: slug,
+                   noticias: this.props.fetchNoticiaBySlug(slug)
+                }
+            )
+        }
     }
 
     datePtBr(date){
@@ -136,7 +155,7 @@ class NewsItem extends Component {
 }
 
 function mapStateToProps(state){
-    //console.log("state BLOG list: ", state)
+    console.log("state BLOG list: ", state)
     return {
         noticias: state.noticias,
         guias: state.guias,

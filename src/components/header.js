@@ -34,9 +34,6 @@ class Header extends Component {
                 <section>
                     <MenuMobile /> 
                 </section>
-                
-                
-
             </div>
         )
     }

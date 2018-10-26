@@ -7310,7 +7310,8 @@ footer ul li a:hover {
   font-size: 11px; }
 
 .footer-widget a:hover {
-  all: unset !important; }
+  all: unset !important;
+  cursor: pointer !important; }
 
 .footer-widget ul li {
   background: none;
