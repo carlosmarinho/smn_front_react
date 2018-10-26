@@ -1,5 +1,6 @@
 import _ from 'lodash';
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 
 class FeaturedTwoColumns extends Component {
 
@@ -31,7 +32,7 @@ class FeaturedTwoColumns extends Component {
         return array.map( noticia => {
             return (
                 <div className="col-md-3">
-                    <a href="list-lead.html">
+                    <Link to={`/noticias/${noticia.slug}`}>
                         <div className="list-mig-like-com">
                             <div className="list-mig-lc-img"> <img src={this.getImageSrc(noticia)} alt="" /> </div>
                             <div className="list-mig-lc-con list-mig-lc-con2">
@@ -39,7 +40,7 @@ class FeaturedTwoColumns extends Component {
                                 <p>{truncate(noticia.descricao.replace(/<\/?[^>]+(>|$)/g, ""), { length: 65, separator: /,?\.* +/ })}</p>
                             </div>
                         </div>
-                    </a>
+                    </Link>
                 </div>
             )
         })

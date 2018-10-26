@@ -21,9 +21,9 @@ class RightColumn extends Component {
             <div className="list-pg-rt">
                 {this.getWidgetForGuia()}
 
-                <RightWidgetLink title="Eventos Recentes" objects={this.props.eventos}/>
+                <RightWidgetLink title="Eventos Recentes" objects={this.props.eventos} type="eventos"/>
 
-                <RightWidgetLink title="Guias Recentes" objects={this.props.guias.recentes} />
+                <RightWidgetLink title="Guias Recentes" objects={this.props.guias.recentes} type="guia"/>
                
             </div>
         )

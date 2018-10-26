@@ -10,6 +10,10 @@ class Header extends Component {
         this.getHeader = this.getHeader.bind(this);
     }
 
+    componentDidUpdate() {
+        window.scrollTo(0, 0);
+    }
+
     getHeader(){
         console.log("header: ", this.props)
         return(this.props.routes);

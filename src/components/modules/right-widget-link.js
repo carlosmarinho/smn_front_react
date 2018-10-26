@@ -30,11 +30,11 @@ class RightWidgetLink extends Component {
                 if(i < maxPerWidget)
                     return (
                         <li>
-                            <a href={'guia/' + object.slug}>
+                            <Link to={`/${this.props.type}/${object.slug}`}>
                                 <div className="list-pg-guar-img"> <img src={this.getImageSrc(object)} alt="" style={{width:32}} /> </div>
                                 <h4>{truncate(object.titulo, { length: 50, separator: /,?\.* +/ })}</h4>
                                 <p>{(object.cidade && object.cidade.length>0)?object.cidade[0].nome:''} {(object.bairros.length>0)?', ' + object.bairros[0].nome: ''}</p>
-                            </a>
+                            </Link>
                         </li>
                     )
             })

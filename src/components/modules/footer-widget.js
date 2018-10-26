@@ -27,7 +27,7 @@ class FooterWidget extends Component {
             if(i <= 3)
                 return( 
                     <li>
-                        <Link to={object.slug}>
+                        <Link to={`/${this.props.type}/${object.slug}`}>
                             <div className="div-footer-img"> 
                                 <img src={this.getImageSrc(object)} alt="" /> 
                             </div>

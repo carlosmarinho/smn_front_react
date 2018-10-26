@@ -123,7 +123,7 @@ class App extends Component {
     render() {
         return (
         <Provider store={createStoreWithMiddleware(reducers)}>
-            <BrowserRouter>
+            <BrowserRouter onUpdate={() => window.scrollTo(0, 0)}>
                 <Route>
                     <div>
                         <Header />
