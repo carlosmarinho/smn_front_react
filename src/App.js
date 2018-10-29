@@ -17,6 +17,7 @@ import BlogList from './components/modules/blog-list'
 import ListingItem from './components/modules/listing-item'
 import EventItem from './components/modules/event-item'
 import ListingList from './components/modules/listing-list'
+import TagList from './components/modules/tag-list'
 import ListingGrid from './components/modules/listing-grid'
 import Gallery from './components/modules/gallery'
 import Contact from './components/modules/contact'
@@ -162,6 +163,8 @@ class App extends Component {
                             <Route exact path="/noticias/:slug" component={NewsItem} />
                             <Route exact path="/noticias/page/:page" component={BlogListNews} />
                             <Route exact path="/noticias" component={BlogListNews} />
+
+                            <Route exact path="/tags/:slug/" component={TagList} />
 
                             <Route exact path="/contato" component={Contact} />
 

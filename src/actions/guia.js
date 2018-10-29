@@ -116,6 +116,56 @@ export const fetchGuiasByCategory = async(category='', limit='', sort=null) => {
     }
 }
 
+
+export const fetchGuiasByTag = async(tag='', limit='', sort=null) => {
+    if(!sort)
+        sort = '-_id';
+
+    if(limit)
+        limit = `&_limit=${limit}`;
+    else
+        limit = `&_limit=500`;
+  
+
+    let jwt = localStorage.getItem('jwt');
+
+    if(!jwt){
+        let ret = await axios.post('http://localhost:1337/auth/local', { identifier: 'adm_manager', password: 'carlos' })
+        jwt = ret.data.jwt;
+        localStorage.setItem('jwt', jwt);
+    }
+
+    let config = { headers: { 'Authorization': `Bearer ${jwt}` } };
+
+    let tags = '';
+    let req;
+    if(tag){
+        req = await axios.get(`http://localhost:1337/tag/?slug=${tag}`, config);
+
+        if(req.data.length > 0){
+            console.log("request do tag: ", req.data);
+            tags=`tags=${req.data[0]._id}&`
+        }
+        
+    }
+
+    if(tags != '')
+    {
+        const request = await axios.get(`http://localhost:1337/guia/?${tags}&_sort=${sort}${limit}`, config);
+        request.tag = req.data[0];
+        return {
+            type: FETCH_GUIAS,
+            payload: request
+        }
+    }
+    else{
+        return {
+            type: FETCH_GUIAS,
+            payload: []
+        }
+    }
+}
+
 export const fetchGuias = async(city_id, search='', limit='', sort=null) => {
     if(!sort)
         sort = '-_id';
