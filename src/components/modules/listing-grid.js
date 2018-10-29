@@ -201,9 +201,9 @@ class ListingGrid extends Component {
                 <div class="grid-category"><strong>Categorias: </strong> 
                     {categorias.map((categoria, i) => {
                         if(i+1 == categorias.length)
-                            return <Link to={`/eventos/categoria/${categoria.slug.replace('evento/','')}`}>{categoria.nome}</Link>
+                            return <Link to={`/${categoria.slug.replace('/','/categoria/')}`}>{categoria.nome}</Link>
                         else
-                            return <Link to={`/eventos/categoria/${categoria.slug.replace('evento/','')}`}>{categoria.nome}, </Link>
+                            return <Link to={`/${categoria.slug.replace('/','/categoria/')}`}>{categoria.nome}, </Link>
                     })}
                 </div>
             )

@@ -24,6 +24,60 @@ export const fetchCategory = async (id) => {
     }
 }
 
+export const fetchCategoryBySlug = async(slug='', limit=1) => {
+    let slug1 = '';
+    if(slug){
+        slug1 = `slug=guia/comercial/${slug}`
+    }
+    else{
+        return {
+            type: FETCH_CATEGORY,
+            payload: null
+        }
+    }
+
+    let jwt = localStorage.getItem('jwt');
+
+    if(!jwt){
+        let ret = await axios.post('http://localhost:1337/auth/local', { identifier: 'adm_manager', password: 'carlos' })
+        jwt = ret.data.jwt;
+        localStorage.setItem('jwt', jwt);
+    }
+
+    let config = { headers: { 'Authorization': `Bearer ${jwt}` } };
+
+    let request = await axios.get(`http://localhost:1337/categoria/?${slug1}`, config);
+
+    console.log("request catgoria: ", request)
+
+    if(request.data.length == 0){
+        slug1 = `slug=noticias/${slug}`
+
+        request = await axios.get(`http://localhost:1337/categoria/?${slug1}`, config);
+
+        if(request.data.length == 0){
+            slug1 = `slug=guia/servicos/${slug}`
+    
+            request = await axios.get(`http://localhost:1337/categoria/?${slug1}`, config);
+
+
+            if(request.data.length == 0){
+                slug1 = `slug=eventos/${slug}`
+        
+                request = await axios.get(`http://localhost:1337/categoria/?${slug1}`, config);
+            }
+
+        }
+    }
+
+
+    return {
+        type: FETCH_CATEGORY,
+        payload: request
+    }
+}
+
+
 export const fetchCategoriesGuiaTop = async(limit='', sort=null) => {
     if(!sort)
         sort = '-_id';

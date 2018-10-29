@@ -239,6 +239,7 @@ class ListingList extends Component {
             return (
                 <div class=" list-category"><strong>Categorias: </strong> 
                     {categorias.map((categoria, i) => {
+                        console.log("categoria slug: ", categoria.slug);
                         if(i+1 == categorias.length)
                             return <Link to={`/${categoria.slug.replace('comercial/','comercial/categoria/').replace('servicos/','servicos/categoria/')}`}>{categoria.nome}</Link>
                         else

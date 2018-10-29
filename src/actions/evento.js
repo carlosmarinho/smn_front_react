@@ -70,7 +70,7 @@ export const fetchEventosByCategory = async(category='', limit='', sort=null) =>
     let categoria = ''
     let req;
     if(category){
-        req = await axios.get(`http://localhost:1337/categoria/?slug=evento/${category}`, config);
+        req = await axios.get(`http://localhost:1337/categoria/?slug=eventos/${category}`, config);
 
         if(req.data.length > 0){
             categoria=`categorias=${req.data[0]._id}&`

@@ -148,6 +148,7 @@ class App extends Component {
                             <Route exact path="/guia/servicos/categoria/:slug/page/:page" component={ListingList} />
                             <Route exact path="/guia/servicos/" component={ListingListServicos} />
                             <Route exact path="/guia/comercial/" component={ListingListComercios} />
+                            <Route exact path="/guia/categoria/:slug" component={ListingList} />
                             <Route exact path="/guia/:slug" component={ListingItem} />
 
                             <Route exact path="/eventos" component={GridEvents} />
