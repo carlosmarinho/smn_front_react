@@ -1,11 +1,14 @@
+import _ from 'lodash';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import HeaderListing from '../header-destaque-listing';
 import { fetchGuias, fetchGuiasByTag } from '../../actions/guia';
 import { fetchEventosByTag } from '../../actions/evento';
+import { fetchNoticiasByTag } from '../../actions/noticia';
 import { fetchBairros } from '../../actions/bairro';
 import { fetchCategoriesGuiaTop } from '../../actions/categoria';
+import Pagination from "react-js-pagination";
 import Paginate from "../paginate";
 import slugify from 'slugify';
 
@@ -21,13 +24,18 @@ class TagList extends Component {
         this.state = {
             data: [],
             dataEvento: [],
+            dataNoticia: [],
             activePage: 1,
+            activePageEvento: 1,
+            activePageNoticia: 1,
             perPage: 5,
             slug: '',
             type: ''
         }
 
         this.handlePageChange = this.handlePageChange.bind(this);
+        this.handlePageNoticiaChange = this.handlePageNoticiaChange.bind(this);
+        this.handlePageEventoChange = this.handlePageEventoChange.bind(this);
         this.generateGuias = this.generateGuias.bind(this);
     }
 
@@ -70,7 +78,8 @@ class TagList extends Component {
                        search: search,
                        slug: slug,
                        guias: this.props.fetchGuiasByTag(slug),
-                       eventos: this.props.fetchEventosByTag(slug)
+                       eventos: this.props.fetchEventosByTag(slug),
+                       noticias: this.props.fetchNoticiasByTag(slug)
                     }
                 )
             }
@@ -95,7 +104,19 @@ class TagList extends Component {
                 this.setState({dataEvento: nextProps.eventos.list.slice(0,this.state.perPage), pageCount: Math.ceil(  nextProps.eventos.list.lenght / this.state.perPage)});
 
                 if(nextProps.match && nextProps.match.params.page){
-                    this.handlePageChange(nextProps.match.params.page, nextProps.eventos.list)
+                    this.handlePageEventoChange(nextProps.match.params.page, nextProps.eventos.list)
+                    //this.setState({activePage:nextProps.match.params.page})
+                }
+            }
+        }
+
+        if(nextProps.noticias){
+            if(nextProps.noticias.list)
+            {
+                this.setState({dataNoticia: nextProps.noticias.list.slice(0,this.state.perPage), pageCount: Math.ceil(  nextProps.noticias.list.lenght / this.state.perPage)});
+
+                if(nextProps.match && nextProps.match.params.page){
+                    this.handlePageNoticiaChange(nextProps.match.params.page, nextProps.noticias.list)
                     //this.setState({activePage:nextProps.match.params.page})
                 }
             }
@@ -121,6 +142,11 @@ class TagList extends Component {
         return ( "0" +(date.getDate())).slice(-2) + '/' + ("0" + (date.getMonth() + 1)).slice(-2) + '/' + date.getFullYear();
     }
 
+    datePtBr(date){
+        const options = {year: 'numeric', month: 'long', day: 'numeric' };
+        return date.toLocaleDateString('pt-BR', options)
+    }
+
     generateEventos() {
         if(this.state.dataEvento.length > 0){
             let eventos = this.state.dataEvento.map( evento => {
@@ -137,10 +163,11 @@ class TagList extends Component {
                             <h4>{(evento.cidade.length>0)?evento.cidade[0].nome:''} {(evento.bairros.length>0)?'- ' + evento.bairros[0].nome:''}</h4>
                             <p>{(evento.endereco)?<b>Endereço:</b>:''} {evento.endereco}</p>
                             <div className="list-number">
-                                <ul>
-                                    <li>{(evento.inicio)?`Data do Evento: ${this.dateNumberPtBr(new Date(evento.inicio))}`:''}</li>
-                                    <li>{(evento.fim)?`Data do Termino: ${this.dateNumberPtBr(new Date(evento.fim))}`:''}</li>
-                                </ul>
+                                
+                                {(evento.inicio)?<p><strong>Data do Evento:</strong> {this.datePtBr(new Date(evento.inicio))}</p>:''}
+                                {(evento.fim)?<p><strong>Data Fim </strong> {this.datePtBr(new Date(evento.fim))}</p>:''}
+                                {(evento.classificacao_indicativa)?<p><strong>Classificação </strong> {evento.classificacao_indicativa}</p>:''}
+                                
                             </div> 
                             {avaliacao}
                             {this.getCategorias(evento.categorias)}
@@ -164,21 +191,19 @@ class TagList extends Component {
                 <div>
                     {eventos}
                     <div class="row">
-                        <Paginate
-                            activePage={this.state.activePage}
+                        <Pagination
+                            activePage={this.state.activePageEvento}
                             itemsCountPerPage={this.state.perPage}
                             totalItemsCount={itemCount}
                             pageRangeDisplayed={this.state.perPage}
-                            onChange={this.handlePageChange}
+                            onChange={this.handlePageEventoChange}
                             prevPageText={<i className="material-icons">chevron_left</i>}
                             nextPageText={<i className="material-icons">chevron_right</i>}
                             firstPageText={<i className="material-icons">first_page</i>}
                             lastPageText={<i className="material-icons">last_page</i>}
                             innerClass="pagination list-pagenat"
                             itemClass="waves-effect"
-                            pathname={this.props.location.pathname}
-                        /> 
-                        
+                        />
                         
                     </div>
                 </div>
@@ -230,7 +255,7 @@ class TagList extends Component {
             <div>
                 {guias}
                 <div class="row">
-                    <Paginate
+                    <Pagination
                         activePage={this.state.activePage}
                         itemsCountPerPage={this.state.perPage}
                         totalItemsCount={itemCount}
@@ -242,11 +267,57 @@ class TagList extends Component {
                         lastPageText={<i className="material-icons">last_page</i>}
                         innerClass="pagination list-pagenat"
                         itemClass="waves-effect"
-                        pathname={this.props.location.pathname}
-                    /> 
+                    />
                        
                     
                 </div>
+            </div>
+        )
+    }
+
+    generateNoticias() {
+        const truncate = _.truncate
+        console.log("state no noticias: ", this.state);
+        let noticias = this.state.dataNoticia.map( noticia => {
+            
+            return (
+                <div className="home-list-pop list-spac">
+                    <div className="col-md-4">
+                        <div className="blog-img"> <img src={this.getImageSrc(noticia)} alt="" /> </div>
+                    </div>
+                    <div className="col-md-8">
+                        <div className="page-blog">
+                            <Link to={'/noticias/' + noticia.slug}  ><h3>{noticia.titulo}</h3></Link>
+                            <span>{this.datePtBr(new Date(noticia.createdAt))} </span>
+                            <p>{truncate(noticia.descricao.replace(/&#13;/g,'').replace(/<\/?[^>]+(>|$)/g, ""), { length: 150, separator: /,?\.* +/ })}</p> 
+                            {this.getCategorias(noticia.categorias)}
+                            <Link to={'/noticias/' + noticia.slug} className="waves-effect waves-light btn-large full-btn" >Leia Mais</Link> </div>
+                    </div>
+                </div>
+            )
+        })
+
+        let itemCount = 0;
+        if(this.props && this.props.noticias && this.props.noticias.list)
+            itemCount = this.props.noticias.list.length
+
+        return(
+            <div>
+                {noticias}
+                <Pagination
+                    activePage={this.state.activePageNoticia}
+                    itemsCountPerPage={this.state.perPage}
+                    totalItemsCount={itemCount}
+                    pageRangeDisplayed={this.state.perPage}
+                    onChange={this.handlePageNoticiaChange}
+                    prevPageText={<i className="material-icons">chevron_left</i>}
+                    nextPageText={<i className="material-icons">chevron_right</i>}
+                    firstPageText={<i className="material-icons">first_page</i>}
+                    lastPageText={<i className="material-icons">last_page</i>}
+                    innerClass="pagination list-pagenat"
+                    itemClass="waves-effect"
+                />
+                
             </div>
         )
     }
@@ -268,6 +339,48 @@ class TagList extends Component {
                 data = list.slice((pageNumber-1)*this.state.perPage,((pageNumber-1)*this.state.perPage)+this.state.perPage)
         }
         this.setState({activePage: pageNumber, data});
+        //{data: nextProps.guias.list.slice(0,evento)}
+    }
+
+    handlePageEventoChange(pageNumber, list=[]) {
+        console.log(`active page on evento is ${pageNumber}`);
+        let data = [];
+        if(pageNumber == 1){
+            if(this.props.eventos.list)
+                data = this.props.guias.list.slice(0, this.state.perPage)
+            else
+                data = list.slice(0, this.state.perPage)
+        }
+        else{
+            console.log("state no handlePageEvento: ", this.state);
+            if(this.props.eventos.list)
+                data = this.props.eventos.list.slice((pageNumber-1)*this.state.perPage,((pageNumber-1)*this.state.perPage)+this.state.perPage)
+            else
+                data = list.slice((pageNumber-1)*this.state.perPage,((pageNumber-1)*this.state.perPage)+this.state.perPage)
+        }
+
+        this.setState({activePageEvento: pageNumber, dataEvento: data});
+        //{data: nextProps.guias.list.slice(0,evento)}
+    }
+
+    handlePageNoticiaChange(pageNumber, list=[]) {
+        console.log(`active page on noticias is ${pageNumber}`);
+        let data = [];
+        if(pageNumber == 1){
+            if(this.props.noticias.list)
+                data = this.props.noticias.list.slice(0, this.state.perPage)
+            else
+                data = list.slice(0, this.state.perPage)
+        }
+        else{
+            console.log("state no handlePageNoticia: ", this.state);
+            if(this.props.noticias.list)
+                data = this.props.noticias.list.slice((pageNumber-1)*this.state.perPage,((pageNumber-1)*this.state.perPage)+this.state.perPage)
+            else
+                data = list.slice((pageNumber-1)*this.state.perPage,((pageNumber-1)*this.state.perPage)+this.state.perPage)
+        }
+
+        this.setState({activePageNoticia: pageNumber, dataNoticia: data});
         //{data: nextProps.guias.list.slice(0,evento)}
     }
 
@@ -347,6 +460,18 @@ class TagList extends Component {
                 eventos = this.generateEventos();
         }
 
+        let noticias = <div>Nenhuma notícia listado para a Tag</div>
+
+        if(! this.props.noticias){
+            noticias = <div>Nenhuma noticia encontrado para a tag {this.props.listName} </div>
+        }
+        else {
+            if(!this.props.noticias.list)
+                noticias = <div>Nenhuma noticia encontrado para a tag {this.props.listName} </div>
+            else
+                noticias = this.generateNoticias();
+        }
+
         /* if(this.props.bairros)
             console.log("bairrossssssssss no listing: ", this.props.bairros) */
 
@@ -388,6 +513,14 @@ class TagList extends Component {
                                             {/*<!--LISTINGS END-->*/}
                                         </div>
                                     </div>
+                                    <div className="dir-alp-con-right-1" style={{backgroundColor:'#ddd', marginTop:'30px', padding:'30px 10px 20px 10px'}}>
+                                        <h2 style={{ textAlign: 'center'}}>Listagem de Notícias para a Tag {listName}</h2>
+                                        <div className="row">
+                                            {/*<!--LISTINGS-->*/}
+                                            {noticias}
+                                            {/*<!--LISTINGS END-->*/}
+                                        </div>
+                                    </div>
                                 </div>
 
 
@@ -407,9 +540,10 @@ function mapStateToProps(state){
     return {
         guias: state.guias,
         eventos: state.eventos,
+        noticias: state.noticias,
         categorias: state.categorias,
         bairros: state.bairros
     }
 }
 
-export default connect(mapStateToProps, { fetchGuias, fetchGuiasByTag, fetchEventosByTag, fetchBairros, fetchCategoriesGuiaTop })(TagList);
+export default connect(mapStateToProps, { fetchGuias, fetchGuiasByTag, fetchEventosByTag, fetchNoticiasByTag, fetchBairros, fetchCategoriesGuiaTop })(TagList);
