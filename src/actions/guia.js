@@ -62,6 +62,161 @@ export const fetchGuiasRecentes = async(city_id, limit='', sort=null) => {
 
 }
 
+export const fetchGuiasByCategoryBoth = async(category='', limit='', sort=null) => {
+    if(!sort)
+        sort = '-_id';
+
+    if(limit)
+        limit = `&_limit=${limit}`;
+    else
+        limit = `&_limit=500`;
+  
+
+    let jwt = localStorage.getItem('jwt');
+
+    if(!jwt){
+        let ret = await axios.post('http://localhost:1337/auth/local', { identifier: 'adm_manager', password: 'carlos' })
+        jwt = ret.data.jwt;
+        localStorage.setItem('jwt', jwt);
+    }
+
+    let config = { headers: { 'Authorization': `Bearer ${jwt}` } };
+
+    let categoria = ''
+    let categoriaServico = ''
+    let req;
+    if(category){
+        req = await axios.get(`http://localhost:1337/categoria/?slug=guia/comercial/${category}`, config);
+
+        if(req.data.length > 0){
+            categoria=`categorias=${req.data[0]._id}&`
+        }
+
+        req = await axios.get(`http://localhost:1337/categoria/?slug=guia/servicos/${category}`, config);
+    
+        if(req.data.length > 0){
+            categoriaServico=`categorias=${req.data[0]._id}&`
+        }
+    }
+
+
+
+    if(categoria != '')
+    {
+        let request = await axios.get(`http://localhost:1337/guia/?${categoria}&_sort=${sort}${limit}`, config);
+        const request1 = await axios.get(`http://localhost:1337/guia/?${categoriaServico}&_sort=${sort}${limit}`, config);
+        console.log("O request: ", request);
+        request.categoria = req.data[0];
+        request.data = [...request.data, ...request1.data];
+        return {
+            type: FETCH_GUIAS,
+            payload: request
+        }
+    }
+    else{
+        return {
+            type: FETCH_GUIAS,
+            payload: []
+        }
+    }
+}
+
+export const fetchGuiasByCategoryComercial = async(category='', limit='', sort=null) => {
+    if(!sort)
+        sort = '-_id';
+
+    if(limit)
+        limit = `&_limit=${limit}`;
+    else
+        limit = `&_limit=500`;
+  
+
+    let jwt = localStorage.getItem('jwt');
+
+    if(!jwt){
+        let ret = await axios.post('http://localhost:1337/auth/local', { identifier: 'adm_manager', password: 'carlos' })
+        jwt = ret.data.jwt;
+        localStorage.setItem('jwt', jwt);
+    }
+
+    let config = { headers: { 'Authorization': `Bearer ${jwt}` } };
+
+    let categoria = ''
+    let req;
+    if(category){
+        req = await axios.get(`http://localhost:1337/categoria/?slug=guia/comercial/${category}`, config);
+
+        if(req.data.length > 0){
+            categoria=`categorias=${req.data[0]._id}&`
+        }
+       
+    }
+
+    if(categoria != '')
+    {
+        const request = await axios.get(`http://localhost:1337/guia/?${categoria}&_sort=${sort}${limit}`, config);
+        request.categoria = req.data[0];
+        return {
+            type: FETCH_GUIAS,
+            payload: request
+        }
+    }
+    else{
+        return {
+            type: FETCH_GUIAS,
+            payload: []
+        }
+    }
+}
+
+export const fetchGuiasByCategoryServico = async(category='', limit='', sort=null) => {
+    if(!sort)
+        sort = '-_id';
+
+    if(limit)
+        limit = `&_limit=${limit}`;
+    else
+        limit = `&_limit=500`;
+  
+
+    let jwt = localStorage.getItem('jwt');
+
+    if(!jwt){
+        let ret = await axios.post('http://localhost:1337/auth/local', { identifier: 'adm_manager', password: 'carlos' })
+        jwt = ret.data.jwt;
+        localStorage.setItem('jwt', jwt);
+    }
+
+    let config = { headers: { 'Authorization': `Bearer ${jwt}` } };
+
+    let categoria = ''
+    let req;
+    if(category){
+        req = await axios.get(`http://localhost:1337/categoria/?slug=guia/servicos/${category}`, config);
+
+        if(req.data.length > 0){
+            categoria=`categorias=${req.data[0]._id}&`
+        }
+       
+    }
+
+    if(categoria != '')
+    {
+        const request = await axios.get(`http://localhost:1337/guia/?${categoria}&_sort=${sort}${limit}`, config);
+        request.categoria = req.data[0];
+        return {
+            type: FETCH_GUIAS,
+            payload: request
+        }
+    }
+    else{
+        return {
+            type: FETCH_GUIAS,
+            payload: []
+        }
+    }
+}
+
 export const fetchGuiasByCategory = async(category='', limit='', sort=null) => {
     if(!sort)
         sort = '-_id';

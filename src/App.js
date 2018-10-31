@@ -7,14 +7,14 @@ import promise from 'redux-promise';
 
 import reducers from './reducers';
 
-//import HomeTeste from './components/home-html'
 import Home from './components/home'
 import Header from './components/header'
 import Footer from './components/footer'
 import PageItem from './components/modules/page-item'
+import CategoryOrItem from './components/modules/category-or-item'
 import NewsItem from './components/modules/news-item'
 import BlogList from './components/modules/blog-list'
-import ListingItem from './components/modules/listing-item'
+//import ListingItem from './components/modules/listing-item'
 import EventItem from './components/modules/event-item'
 import ListingList from './components/modules/listing-list'
 import TagList from './components/modules/tag-list'
@@ -135,22 +135,23 @@ class App extends Component {
                             <Route exact path="/login" component={Login} />
                             <Route exact path="/cadastro" component={Register} />
 
-                            <Route exact path="/a-cidade" component={BlogListCity} />
-                            <Route exact path="/a-cidade/bairros-de-niteroi" component={BairrosGrid} />
-                            <Route exact path="/a-cidade/:slug" component={PageItem} />
+                            <Route exact path="/cidade" component={BlogListCity} />
+                            <Route exact path="/cidade/bairros-de-niteroi" component={BairrosGrid} />
+                            <Route exact path="/cidade/:slug" component={PageItem} />
+                            <Route exact path="/cidade/:slug/page/:page" component={PageItem} />
                             
                             <Route exact path="/guia" component={ListingList} />
                             <Route exact path="/guia/page/:page" component={ListingList} />
                             <Route exact path="/guia/comercial/page/:page" component={ListingListComercios} />
                             <Route exact path="/guia/servicos/page/:page" component={ListingListServicos} />
-                            <Route exact path="/guia/comercial/categoria/:slug" component={ListingList} />
-                            <Route exact path="/guia/comercial/categoria/:slug/page/:page" component={ListingList} />
-                            <Route exact path="/guia/servicos/categoria/:slug" component={ListingList} />
-                            <Route exact path="/guia/servicos/categoria/:slug/page/:page" component={ListingList} />
+                            <Route exact path="/guia/comercial/:slug" component={ListingList} />
+                            <Route exact path="/guia/comercial/:slug/page/:page" component={ListingList} />
+                            <Route exact path="/guia/servicos/:slug" component={ListingList} />
+                            <Route exact path="/guia/servicos/:slug/page/:page" component={ListingList} />
                             <Route exact path="/guia/servicos/" component={ListingListServicos} />
                             <Route exact path="/guia/comercial/" component={ListingListComercios} />
                             <Route exact path="/guia/categoria/:slug" component={ListingList} />
-                            <Route exact path="/guia/:slug" component={ListingItem} />
+                            <Route exact path="/guia/:slug" component={CategoryOrItem} />
 
                             <Route exact path="/eventos" component={GridEvents} />
                             <Route exact path="/eventos/categoria/:slug/page/:page" component={GridEvents} />

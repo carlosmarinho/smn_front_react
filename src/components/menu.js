@@ -19,7 +19,7 @@ class Menu extends Component {
                                     </li>
                                     <li>
                                         {/*<a className='dropdown-button ed-sub-menu' href='/a-cidade' data-activates='drop-menu-cidade'>A Cidade</a>*/}
-                                        <Link className='dropdown-button ed-sub-menu' data-activates='drop-menu-cidade' to="/a-cidade">Cidade</Link>
+                                        <Link className='dropdown-button ed-sub-menu' data-activates='drop-menu-cidade' to="/cidade">Cidade</Link>
                                     </li>
                                     <li>
                                         <Link className='dropdown-button ed-sub-menu' data-activates='drop-menu-guia' to="/guia">Guia</Link>
@@ -51,13 +51,13 @@ class Menu extends Component {
                         </div>
                         <div className="all-drop-down-menu">
                             <ul id='drop-menu-cidade' className='dropdown-content'>
-                                <li><Link to="/a-cidade/bairros-de-niteroi">Bairros</Link></li>
+                                <li><Link to="/cidade/bairros-de-niteroi">Bairros</Link></li>
                                 <li className="divider"></li>
-                                <li><Link to="/a-cidade/fotos-cidade-niteroi">Fotos da Cidade</Link></li>
+                                <li><Link to="/cidade/fotos-cidade-niteroi">Fotos da Cidade</Link></li>
                                 <li className="divider"></li>
-                                <li><Link to="/a-cidade/historia-da-cidade-de-niteroi">História da Cidade</Link></li>
+                                <li><Link to="/cidade/historia-da-cidade-de-niteroi">História da Cidade</Link></li>
                                 <li className="divider"></li>
-                                <li><Link to="/a-cidade/populacao-da-cidade-de-niteroi">População da Cidade</Link></li>
+                                <li><Link to="/cidade/populacao-da-cidade-de-niteroi">População da Cidade</Link></li>
                             </ul>
                             <ul id='drop-menu-guia' className='dropdown-content'>
                                 <li><Link className='dropdown-button' to="/guia/comercial">Guia Comercial</Link></li>

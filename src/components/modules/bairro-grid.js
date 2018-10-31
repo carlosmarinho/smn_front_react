@@ -152,7 +152,7 @@ class BairroGrid extends Component {
         return(
             <div>
                 
-                <HeaderListing />
+                <HeaderListing title={title} />
                 <section className="dir-alp dir-pa-sp-top">
                     <div className="container">
                         <div className="row">

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import HeaderListing from '../header-destaque-listing';
-import { fetchGuias, fetchGuiasByCategory } from '../../actions/guia';
+import { fetchGuias, fetchGuiasByCategoryComercial, fetchGuiasByCategoryServico, fetchGuiasByCategoryBoth } from '../../actions/guia';
 import { fetchBairros } from '../../actions/bairro';
 import { fetchCategoriesGuiaTop } from '../../actions/categoria';
 import Paginate from "../paginate";
@@ -52,7 +52,7 @@ class ListingList extends Component {
 
     componentWillReceiveProps(nextProps) {
 
-        console.log(nextProps);
+        console.log("next props aqui: ", nextProps);
 
         if(nextProps.match && nextProps.match.params.slug){
             let search = '';
@@ -64,13 +64,35 @@ class ListingList extends Component {
          
             if(slug != this.state.slug){
          
-                this.setState(
-                    {
-                       search: search,
-                       slug: slug,
-                       guias: this.props.fetchGuiasByCategory(slug)
-                    }
-                )
+                if(nextProps.location && nextProps.location.pathname.includes('comercial') ){
+                    this.setState(
+                        {
+                           type: 'guia comercial',
+                           search: search,
+                           slug: slug,
+                           guias: this.props.fetchGuiasByCategoryComercial(slug)
+                        }
+                    )
+                }
+                else if(nextProps.location && nextProps.location.pathname.includes('servicos') ){
+                    this.setState(
+                        {
+                           type: 'guia de serviços',
+                           search: search,
+                           slug: slug,
+                           guias: this.props.fetchGuiasByCategoryServico(slug)
+                        }
+                    )
+                }
+                else {
+                    this.setState(
+                        {
+                           search: search,
+                           slug: slug,
+                           guias: this.props.fetchGuiasByCategoryBoth(slug)
+                        }
+                    )
+                }
             }
         }
         else{
@@ -207,21 +229,28 @@ class ListingList extends Component {
     }
 
     getGuiaSlug(slug){
-        if(slug == 'Guia Comercial/Serviço'){
-            return 'guia';
+        console.log("slug aqui: ", slug)
+        if(slug == 'Guia Comercial/Serviços'){
+            return '/guia';
         }
         else{
-            return slugify(slug).replace('-','/').replace('de','/');
+            return `/guia/${slugify(slug).toLowerCase()}`;
         }
     }
 
     breadcrumbs(listName, type, categoria){
+        let liTipo = '';
+        if(type != "Comercial/Serviços"){
+            liTipo = <li><Link to={'/guia'}>Guia</Link></li>
+        }
 
         if(categoria)
+            
             return(
                 <ol className="breadcrumb">
                     <li><Link to="/">Home</Link> </li>
-                    <li><Link to={this.getGuiaSlug(listName)}>{listName}</Link> </li>
+                    {liTipo}
+                    <li><Link to={this.getGuiaSlug(type)}>{listName}</Link> </li>
                     <li className="active">{categoria.nome}</li>
                 </ol>
             );
@@ -229,6 +258,7 @@ class ListingList extends Component {
             return(
                 <ol className="breadcrumb">
                     <li><Link to="/">Home</Link> </li>
+                    {liTipo}
                     <li className="active">{listName}</li>
                 </ol>
             );
@@ -239,11 +269,10 @@ class ListingList extends Component {
             return (
                 <div class=" list-category"><strong>Categorias: </strong> 
                     {categorias.map((categoria, i) => {
-                        console.log("categoria slug: ", categoria.slug);
                         if(i+1 == categorias.length)
-                            return <Link to={`/${categoria.slug.replace('comercial/','comercial/categoria/').replace('servicos/','servicos/categoria/')}`}>{categoria.nome}</Link>
+                            return <Link to={`/${categoria.slug}`}>{categoria.nome}</Link>
                         else
-                            return <Link to={`/${categoria.slug.replace('comercial/','comercial/categoria/').replace('servicos/','servicos/categoria/')}`}>{categoria.nome}, </Link>
+                            return <Link to={`/${categoria.slug}`}>{categoria.nome}, </Link>
                     })}
                 </div>
             )
@@ -252,7 +281,7 @@ class ListingList extends Component {
 
     render(){
         let leftColumn = true;
-        let tipo = 'Comercial/Serviço'
+        let tipo = 'Comercial/Serviços'
 
         console.log('type::::: ', this.state.type);
 
@@ -292,11 +321,11 @@ class ListingList extends Component {
 
         
 
-        let title = `Listagem ${preposition} ${listName}`
+        let title = `${listName} da cidade de Niterói `
         let windowTitle = title;
         if(this.props.guias && this.props.guias.categoria){
             console.log('Categoriaaaaaaa: ', this.props.guias.categoria)
-            windowTitle = `Guia comercial/serviços da categoria: ${this.props.guias.categoria.nome}`;
+            windowTitle = `${title}: ${this.props.guias.categoria.nome}`;
             title += ` - ${this.props.guias.categoria.nome}`;
         }
 
@@ -309,7 +338,7 @@ class ListingList extends Component {
                         <div className="row">
                             <div className="dir-alp-tit">
                                 <h1>{title}</h1>
-                                {this.breadcrumbs(listName, (this.props.guias)?this.props.guias.categoria:'')}
+                                {this.breadcrumbs(listName, tipo, (this.props.guias)?this.props.guias.categoria:'')}
                             </div>
                         </div>
                         <div className="row">
@@ -347,4 +376,4 @@ function mapStateToProps(state){
     }
 }
 
-export default connect(mapStateToProps, { fetchGuias, fetchGuiasByCategory, fetchBairros, fetchCategoriesGuiaTop })(ListingList);
+export default connect(mapStateToProps, { fetchGuias, fetchGuiasByCategoryComercial, fetchGuiasByCategoryServico, fetchGuiasByCategoryBoth, fetchBairros, fetchCategoriesGuiaTop })(ListingList);

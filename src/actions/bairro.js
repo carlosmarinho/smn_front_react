@@ -33,7 +33,7 @@ export const fetchBairros = async(city_id, limit='', sort=null) => {
 
     let config = { headers: { 'Authorization': `Bearer ${jwt}` } };
 
-    const request = axios.get(`http://localhost:1337/bairro/?_sort=${sort}${limit}&cidade=${city_id}`, config);
+    const request = axios.get(`http://localhost:1337/bairro/?populateAssociation=false&_sort=${sort}${limit}&cidade=${city_id}`, config);
 
     return {
         type: FETCH_BAIRROS,
