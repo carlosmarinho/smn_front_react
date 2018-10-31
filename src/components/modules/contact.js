@@ -1,11 +1,20 @@
 import React, { Component } from 'react';
 import PreFooter from '../modules/pre-footer';
+import Helmet from 'react-helmet';
 
 class Contact extends Component {
 
     render(){
+        let title = "Entre em contato | Soumaisniterói";
+        if(this.props.title)
+            title = this.props.title + " - " + title;
         return(
             <div>
+                <Helmet>
+                    <meta charSet="utf-8" />
+                    <title>{title}</title>
+                    <link rel="canonical" href="http://soumaisniteroi.com.br/contato/" />
+                </Helmet>
                 <section>
                     <div className="con-page">
                         <div className="con-page-ri">

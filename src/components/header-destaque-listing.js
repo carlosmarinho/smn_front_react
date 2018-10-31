@@ -3,9 +3,9 @@ import { Helmet } from 'react-helmet';
 
 class HeaderDestaqueListing extends Component {
     render(){
-        let title = "Cidade de Niterói";
+        let title = "Soumaisniterói";
         if(this.props.title)
-            title = this.props.title + " - " + title;
+            title = this.props.title + " | " + title;
         return(
             <div>
                <Helmet>

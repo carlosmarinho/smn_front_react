@@ -100,7 +100,7 @@ class HeaderDestaqueEvento extends Component {
 
 
     render(){
-        let title = "Cidade de Niterói";
+        let title = "Soumaisniterói";
         let metadescription = '';
         if(this.props.evento){
             title = this.props.evento.titulo + " | " + title;

@@ -33,7 +33,7 @@ class HeaderDestaqueGallery extends Component {
 
 
     render(){
-        let title = "Cidade de Niterói";
+        let title = "Soumaisniterói";
         let metadescription = '';
         let descricao = 'Vejam as melhores fotos da cidade de Niterói! Envie-nos também a sua foto irada para contato@soumaisniteroi.com.br ou marque nos no Instagram @soumaisniteroi.oficial';
         if(this.props.title){

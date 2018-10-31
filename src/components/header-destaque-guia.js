@@ -66,7 +66,7 @@ class HeaderDestaqueGuia extends Component {
     }
 
     render(){
-        let title = "Cidade de Niterói";
+        let title = "Soumaisniterói";
         let metadescription = '';
         if(this.props.guia){
             title = this.props.guia.titulo + " | " + title;

@@ -257,17 +257,19 @@ class ListingGrid extends Component {
             //items = this.generateEventos(this.props.eventos.list)
         }
 
-
+        let title = `Listagem ${preposition} ${listName}`;
+        if(this.props.title)
+            title = this.props.title;
 
         return(
             <div>
                 
-                <HeaderListing />
+                <HeaderListing title={title} />
                 <section className="dir-alp dir-pa-sp-top">
                     <div className="container">
                         <div className="row">
                             <div className="dir-alp-tit">
-                                <h1>Listagem {preposition} {listName}</h1>
+                                <h1>{title}</h1>
                                 <ol className="breadcrumb">
                                     <li><a href="#">Home</a> </li>
                                     <li><a href="#">Eventos</a> </li>
