@@ -1,4 +1,3 @@
-import _ from 'lodash';
 import axios from 'axios';
 import { FETCH_NOTICIA, FETCH_NOTICIAS, FETCH_NOTICIAS_RECENTES } from "./types";
 
@@ -49,7 +48,7 @@ export const fetchNoticiasByCategory = async(category='', limit=500) => {
     }
 
     
-    if(categoria != '')
+    if(categoria !== '')
     {
         const request = await axios.get(`${process.env.REACT_APP_URL_API}noticia/?${categoria}_sort=-_id&_limit=${limit}`, config);
         request.categoria = req.data[0];
@@ -100,7 +99,7 @@ export const fetchNoticiasByTag = async(tag='', limit='', sort=null) => {
         
     }
 
-    if(tags != '')
+    if(tags !== '')
     {
         const request = await axios.get(`${process.env.REACT_APP_URL_API}noticia/?${tags}&_sort=${sort}${limit}`, config);
         request.tag = req.data[0];
@@ -145,7 +144,7 @@ export const fetchNoticiasByCategoryOrSlug = async(slugOrCategory='', limit=500)
 
     const request = axios.get(`${process.env.REACT_APP_URL_API}noticia/?${category}${slug}_sort=-_id&_limit=${limit}`, config);
 
-    if(slug != ''){
+    if(slug !== ''){
         return {
             type: FETCH_NOTICIA,
             payload: request

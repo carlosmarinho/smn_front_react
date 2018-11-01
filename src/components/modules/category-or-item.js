@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux'
 import { fetchGuiaBySlug } from '../../actions/guia';
 import { fetchCategoryBySlug } from '../../actions/categoria';
-import { Route, Redirect } from 'react-router-dom';
+import { Route } from 'react-router-dom';
 import listingList from './listing-list';
 import listingItem from './listing-item';
 
@@ -20,7 +20,7 @@ class CategoryOrItem extends Component {
     componentDidMount() {
         console.log("no did mount do page: ", this.props.match.params)
         this.setState({slug: this.props.match.params.slug})
-        if(this.state.slug == ''){
+        if(this.state.slug === ''){
             this.props.fetchCategoryBySlug(this.props.match.params.slug)
             this.props.fetchGuiaBySlug(this.props.match.params.slug)
 
@@ -32,7 +32,7 @@ class CategoryOrItem extends Component {
     componentWillReceiveProps(nextProps) {
         let slug = nextProps.match.params.slug
         console.log("o slug no will receive: ", slug, ' --- ', this.state.slug);
-        if(slug != this.state.slug){
+        if(slug !== this.state.slug){
             this.setState(
                 {
                    slug: slug,
@@ -50,7 +50,7 @@ class CategoryOrItem extends Component {
         console.log("props: ", this.props)
         if(this.props.categorias && this.props.categorias.categoria){
             console.log("catttt: ", this.props.categorias);
-            if(this.props.categorias.categoria.tipo == 'guia comercial'){
+            if(this.props.categorias.categoria.tipo === 'guia comercial'){
                 return(
                     <Route component={listingList} />
                 )

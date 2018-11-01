@@ -27,9 +27,9 @@ class Contact extends Component {
                                 <p>Será um prazer enorme compartilhar informações sobre a nossa cidade de Niterói nas redes sociais!</p>
                                 <div className="share-btn">
                                     <ul>
-                                        <li><a href="#"><i className="fa fa-facebook fb1"></i> Curtir no Facebook</a> </li>
-                                        <li><a href="#"><i className="fa fa-twitter tw1"></i> Siga nos no Twitter</a> </li>
-                                        <li><a href="#"><i className="fa fa-google-plus gp1"></i> Siga nos no Google Plus</a> </li>
+                                        <li><a href="#@todo"><i className="fa fa-facebook fb1"></i> Curtir no Facebook</a> </li>
+                                        <li><a href="#@todo"><i className="fa fa-twitter tw1"></i> Siga nos no Twitter</a> </li>
+                                        <li><a href="#@todo"><i className="fa fa-google-plus gp1"></i> Siga nos no Google Plus</a> </li>
                                     </ul>
                                 </div>
                             </div>

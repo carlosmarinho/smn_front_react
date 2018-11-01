@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import HeaderBlog from '../header-destaque-blog';
 
 class FormComment extends Component {
 

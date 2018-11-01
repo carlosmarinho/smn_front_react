@@ -56,21 +56,7 @@ class BairroGrid extends Component {
         return ( "0" +(date.getDate())).slice(-2) + '/' + ("0" + (date.getMonth() + 1)).slice(-2) + '/' + date.getFullYear();
     }
 
-    getImageSrc(bairro){
-        
-        if(bairro && bairro.s3_imagem_destacada){
-            return bairro.old_imagem_destacada;
-        }
-        else if(bairro && bairro.old_imagem_destacada) {
-            return bairro.old_imagem_destacada;
-        }
-        else if(bairro && bairro.imagem_destacada){
-            //implementar codigo
-            return "http://soumaisniteroi.com.br/wp-content/uploads/2015/04/no-image.png";
-        }
-        return "http://soumaisniteroi.com.br/wp-content/uploads/2015/04/no-image.png";
-    }
-
+   
 
     generateBairros() {
         let bairros = this.state.data.map( bairro => {
@@ -118,7 +104,7 @@ class BairroGrid extends Component {
     handlePageChange(pageNumber) {
         console.log(`active page is ${pageNumber}`);
         let data = [];
-        if(pageNumber == 1){
+        if(pageNumber === 1){
             data = this.props.bairros.slice(0, this.state.perPage)
         }
         else{
@@ -134,21 +120,7 @@ class BairroGrid extends Component {
         let title = this.props.title;
         
       
-        let items = <div>Nenhum Bairro listado para está categoria</div>
-
-        if(! this.props.bairros){
-            items = <div>Nenhum bairro encontrado para a cidade de Niterói </div>
-        }
-        else {
-            if(!this.props.bairros.list)
-                items = <div>Nenhum bairro encontrado para a cidade de Niterói </div>
-            else
-                items = this.generateBairros();
-            //items = this.generateBairros(this.props.bairros.list)
-        }
-
-
-
+        
         return(
             <div>
                 

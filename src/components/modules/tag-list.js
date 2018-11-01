@@ -9,7 +9,6 @@ import { fetchNoticiasByTag } from '../../actions/noticia';
 import { fetchBairros } from '../../actions/bairro';
 import { fetchCategoriesGuiaTop } from '../../actions/categoria';
 import Pagination from "react-js-pagination";
-import Paginate from "../paginate";
 import slugify from 'slugify';
 
 import ListingLeftColumn from '../listing-left-column';
@@ -71,7 +70,7 @@ class TagList extends Component {
             
             let slug = nextProps.match.params.slug
          
-            if(slug != this.state.slug){
+            if(slug !== this.state.slug){
          
                 this.setState(
                     {
@@ -326,7 +325,7 @@ class TagList extends Component {
     handlePageChange(pageNumber, list=[]) {
         console.log(`active page is ${pageNumber}`);
         let data = [];
-        if(pageNumber == 1){
+        if(pageNumber === 1){
             if(this.props.guias.list)
                 data = this.props.guias.list.slice(0, this.state.perPage)
             else
@@ -345,7 +344,7 @@ class TagList extends Component {
     handlePageEventoChange(pageNumber, list=[]) {
         console.log(`active page on evento is ${pageNumber}`);
         let data = [];
-        if(pageNumber == 1){
+        if(pageNumber === 1){
             if(this.props.eventos.list)
                 data = this.props.guias.list.slice(0, this.state.perPage)
             else
@@ -366,7 +365,7 @@ class TagList extends Component {
     handlePageNoticiaChange(pageNumber, list=[]) {
         console.log(`active page on noticias is ${pageNumber}`);
         let data = [];
-        if(pageNumber == 1){
+        if(pageNumber === 1){
             if(this.props.noticias.list)
                 data = this.props.noticias.list.slice(0, this.state.perPage)
             else
@@ -385,7 +384,7 @@ class TagList extends Component {
     }
 
     getGuiaSlug(slug){
-        if(slug == 'Guia Comercial/Serviço'){
+        if(slug === 'Guia Comercial/Serviço'){
             return 'guia';
         }
         else{
@@ -417,7 +416,7 @@ class TagList extends Component {
             return (
                 <div class=" list-category"><strong>Categorias: </strong> 
                     {categorias.map((categoria, i) => {
-                        if(i+1 == categorias.length)
+                        if(i+1 === categorias.length)
                             return <Link to={`/${categoria.slug.replace('comercial/','comercial/categoria/').replace('servicos/','servicos/categoria/')}`}>{categoria.nome}</Link>
                         else
                             return <Link to={`/${categoria.slug.replace('comercial/','comercial/categoria/').replace('servicos/','servicos/categoria/')}`}>{categoria.nome}, </Link>
@@ -429,7 +428,6 @@ class TagList extends Component {
 
     render(){
         let leftColumn = true;
-        let tipo = 'Tags'
 
 
         let listName = this.props.match.params.slug;

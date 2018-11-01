@@ -41,7 +41,7 @@ class ListingGrid extends Component {
         console.log("aquiiiiiiii no will receive EVENTOS", nextProps);
         if(nextProps.match && nextProps.match.params.slug){
             let slug = nextProps.match.params.slug
-            if(slug != this.state.slug){
+            if(slug !== this.state.slug){
                 this.setState(
                     {
                        slug: slug,
@@ -51,7 +51,7 @@ class ListingGrid extends Component {
             }
         }
         else{
-            if(this.state.slug != '/'){
+            if(this.state.slug !== '/'){
          
                 this.setState(
                     {
@@ -75,19 +75,6 @@ class ListingGrid extends Component {
         }
     }
 
-    getImageSrc(evento){
-        if(evento.s3_imagem_destacada){
-            return evento.old_imagem_destacada;
-        }
-        if(evento.old_imagem_destacada) {
-            return evento.old_imagem_destacada;
-        }
-        else if(evento.imagem_destacada){
-            //implementar codigo
-            return "http://soumaisniteroi.com.br/wp-content/uploads/2015/04/no-image.png";
-        }
-        return "http://soumaisniteroi.com.br/wp-content/uploads/2015/04/no-image.png";
-    }
 
     dateNumberPtBr(date){
         return ( "0" +(date.getDate())).slice(-2) + '/' + ("0" + (date.getMonth() + 1)).slice(-2) + '/' + date.getFullYear();
@@ -126,7 +113,7 @@ class ListingGrid extends Component {
     generateEventos() {
         let mod = this.state.data.length % 3;
         
-        if(mod != 0)
+        if(mod !== 0)
             mod = 3 - mod;
         console.log("tamanho: ", mod);
         
@@ -159,7 +146,7 @@ class ListingGrid extends Component {
             </div>
         )
 
-        if(mod == 2)
+        if(mod === 2)
             eventos.push(
             <div className="col-md-4" ><div className="list-mig-like-com com-mar-bot-30">
                 <div className="list-mig-lc-img"> <img src="http://soumaisniteroi.com.br/wp-content/uploads/2015/04/no-image.png" alt="" /> <span className="home-list-pop-rat list-mi-pr">$720</span> </div>
@@ -200,7 +187,7 @@ class ListingGrid extends Component {
             return (
                 <div class="grid-category"><strong>Categorias: </strong> 
                     {categorias.map((categoria, i) => {
-                        if(i+1 == categorias.length)
+                        if(i+1 === categorias.length)
                             return <Link to={`/${categoria.slug.replace('/','/categoria/')}`}>{categoria.nome}</Link>
                         else
                             return <Link to={`/${categoria.slug.replace('/','/categoria/')}`}>{categoria.nome}, </Link>
@@ -213,7 +200,7 @@ class ListingGrid extends Component {
     handlePageChange(pageNumber, list=[]) {
         console.log(`active page is ${pageNumber}`);
         let data = [];
-        if(pageNumber == 1){
+        if(pageNumber === 1){
             if(this.props.guias.list)
                 data = this.props.eventos.list.slice(0, this.state.perPage)
             else
@@ -235,27 +222,13 @@ class ListingGrid extends Component {
         let listName = this.props.listName;
         let preposition = "de ";
 
-        if(! this.props.eventos && !this.props.category){
-            items = <div>Deve retornar o 404</div>
-        }
-
+        
 
         if( this.props.category){
             listName = this.props.category.name;
         }
 
-        let items = <div>Nenhum Item listado para está categoria</div>
-
-        if(! this.props.eventos){
-            items = <div>Nenhum evento encontrado para a categoria {this.props.listName} </div>
-        }
-        else {
-            if(!this.props.eventos.list)
-                items = <div>Nenhum evento encontrado para a categoria {this.props.listName} </div>
-            else
-                items = this.generateEventos();
-            //items = this.generateEventos(this.props.eventos.list)
-        }
+        
 
         let title = `Listagem ${preposition} ${listName}`;
         if(this.props.title)
@@ -271,8 +244,8 @@ class ListingGrid extends Component {
                             <div className="dir-alp-tit">
                                 <h1>{title}</h1>
                                 <ol className="breadcrumb">
-                                    <li><a href="#">Home</a> </li>
-                                    <li><a href="#">Eventos</a> </li>
+                                    <li><a href="#/home@todo">Home</a> </li>
+                                    <li><a href="#/eventos@todo">Eventos</a> </li>
                                     <li className="active">{listName}</li>
                                 </ol>
                             </div>

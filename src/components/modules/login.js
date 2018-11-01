@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
+//import { connect } from 'react-redux';
 import {Link} from 'react-router-dom';
 //import { Field, reduxForm } from 'redux-form'
 
@@ -16,11 +16,11 @@ class Login extends Component {
                             <p>Ainda não fez seu cadastro? Então faça o seu registro. Leva menos de 1 minuto</p>
                             <h4>Login com media social </h4>
                             <ul>
-                                <li><a href="#"><i className="fa fa-facebook"></i> Facebook</a>
+                                <li><a href="#@todoface"><i className="fa fa-facebook"></i> Facebook</a>
                                 </li>
-                                <li><a href="#"><i className="fa fa-google"></i> Google+</a>
+                                <li><a href="#@todogoogle"><i className="fa fa-google"></i> Google+</a>
                                 </li>
-                                <li><a href="#"><i className="fa fa-twitter"></i> Twitter</a>
+                                <li><a href="#@todotwitter"><i className="fa fa-twitter"></i> Twitter</a>
                                 </li>
                             </ul>
                         </div>
@@ -77,8 +77,8 @@ class Login extends Component {
                                             <input type="submit" value="Get App Link" /> </li>
                                     </ul>
                                 </form>
-                                <a href="#"><img src="images/android.png" alt="" /> </a>
-                                <a href="#"><img src="images/apple.png" alt="" /> </a>
+                                <a href="#@todoandroid"><img src="images/android.png" alt="" /> </a>
+                                <a href="#@todoapple"><img src="images/apple.png" alt="" /> </a>
                             </div>
                         </div>
                     </div>

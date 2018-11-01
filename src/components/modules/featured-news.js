@@ -51,7 +51,7 @@ class FeaturedTwoColumns extends Component {
 
         if(this.props.object){
             let noticias = this.props.object;
-            if (noticias.length == 0)
+            if (noticias.length === 0)
                 return null;
 
             let noticia_destaque = noticias[0];
@@ -59,7 +59,7 @@ class FeaturedTwoColumns extends Component {
                 if(i !== 0)
                     return el
             })
-            console.log("noticias no features: ". noticias)
+            
             return(
                 <section className={`com-padd com-padd-redu-top ${this.getCustomClass()} ${this.getBackgroundColor()}`}>
                     <div className="container">

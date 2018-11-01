@@ -30,10 +30,10 @@ class Reviews extends Component {
                                 <li><a href="#!"><span>Report</span> <i className="fa fa-flag-o" aria-hidden="true"></i></a> </li>
                                 <li><a href="#!"><span>Comments</span> <i className="fa fa-commenting-o" aria-hidden="true"></i></a> </li>
                                 <li><a href="#!"><span>Share Now</span>  <i className="fa fa-facebook" aria-hidden="true"></i></a> </li>
-                                <li><a href="#!"><i className="fa fa-google-plus" aria-hidden="true"></i></a> </li>
-                                <li><a href="#!"><i className="fa fa-twitter" aria-hidden="true"></i></a> </li>
-                                <li><a href="#!"><i className="fa fa-linkedin" aria-hidden="true"></i></a> </li>
-                                <li><a href="#!"><i className="fa fa-youtube" aria-hidden="true"></i></a> </li>
+                                <li><a href="#!@todo"><i className="fa fa-google-plus" aria-hidden="true"></i></a> </li>
+                                <li><a href="#!@todo"><i className="fa fa-twitter" aria-hidden="true"></i></a> </li>
+                                <li><a href="#!@todo"><i className="fa fa-linkedin" aria-hidden="true"></i></a> </li>
+                                <li><a href="#!@todo"><i className="fa fa-youtube" aria-hidden="true"></i></a> </li>
                             </ul>
                         </div>
                     </li>

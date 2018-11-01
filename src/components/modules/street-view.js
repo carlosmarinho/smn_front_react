@@ -1,5 +1,4 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
 import ReactStreetview from 'react-streetview';
  
 class StreetView extends React.Component {

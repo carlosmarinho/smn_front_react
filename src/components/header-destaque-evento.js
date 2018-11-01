@@ -1,6 +1,7 @@
 import _ from 'lodash';
 import React, { Component } from 'react';
 import { Helmet } from 'react-helmet'
+import { Link } from 'react-router-dom';
 
 class HeaderDestaqueEvento extends Component {
 
@@ -67,9 +68,9 @@ class HeaderDestaqueEvento extends Component {
 
     getLocal(evento){
         if(evento && evento.endereco)
-            <p><b>Local:</b> {evento.endereco}</p>
+            return <p><b>Local:</b> {evento.endereco}</p>
         else if(evento && evento.local)
-            <p><b>Local:</b> {evento.local.nome}</p>
+            return <p><b>Local:</b> {evento.local.nome}</p>
     }
 
     getDate(evento){
@@ -152,7 +153,7 @@ class HeaderDestaqueEvento extends Component {
                 <section className="pg-list-1" style={this.getBackground(evento)}>
                     <div className="container">
                         <div className="row">
-                            <div className="pg-list-1-left"> <a href="#"><h3>{(evento)?evento.titulo:''}</h3></a>
+                            <div className="pg-list-1-left"> <Link to={'/'}><h3>{(evento)?evento.titulo:''}</h3></Link>
                                 {this.getAvaliacao(evento)}
                                 <h4>{(evento && evento.cidade)?evento.cidade.nome :'Niterói'} {(evento && evento.bairros && evento.bairros.length>0)?'- ' + evento.bairros[0].nome:''}</h4>
                                 {this.getLocal(evento)}
@@ -170,7 +171,7 @@ class HeaderDestaqueEvento extends Component {
                                     <ul>
                                         <li><a href="#ld-rew"><i className="fa fa-star-o" aria-hidden="true"></i> Deixe seu Comentário</a> </li>
                                         {/*carlos tentar incluir ir para o site<li><a href="#"><i className="fa fa-phone" aria-hidden="true"></i> Ligue Agora</a> </li>*/}
-                                        <li><a href="#" data-dismiss="modal" data-toggle="modal" data-target="#list-quo"><i className="fa fa-question-circle" aria-hidden="true"></i> Pergunte</a> </li>
+                                        <li><a href="#a" data-dismiss="modal" data-toggle="modal" data-target="#list-quo"><i className="fa fa-question-circle" aria-hidden="true"></i> Pergunte</a> </li>
                                     </ul>
                                 </div>
                             </div>

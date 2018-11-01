@@ -9,6 +9,8 @@ import { fetchGuiasFeatured } from '../../actions/guia';
 import FormComment from './form-comment';
 import Reviews from './reviews';
 import StreetView from './street-view';
+import { Link } from 'react-router-dom';
+
 
 class ListingItem extends Component {
 
@@ -28,7 +30,7 @@ class ListingItem extends Component {
 
     componentWillReceiveProps(nextProps) {
         let slug = nextProps.match.params.slug
-        if(slug != this.state.slug){
+        if(slug !== this.state.slug){
             this.setState(
                 {
                    slug: slug,
@@ -86,9 +88,9 @@ class ListingItem extends Component {
                 <div className="list-pg-inn-sp">
                     <div className="share-btn">
                         <ul>
-                            <li><a href="#"><i className="fa fa-facebook fb1"></i> Share On Facebook</a> </li>
-                            <li><a href="#"><i className="fa fa-twitter tw1"></i> Share On Twitter</a> </li>
-                            <li><a href="#"><i className="fa fa-google-plus gp1"></i> Share On Google Plus</a> </li>
+                            <li><Link to={'/'}><i className="fa fa-facebook fb1"></i> Share On Facebook</Link> </li>
+                            <li><Link to={'/'}><i className="fa fa-twitter tw1"></i> Share On Twitter</Link> </li>
+                            <li><Link to={'/'}><i className="fa fa-google-plus gp1"></i> Share On Google Plus</Link> </li>
                         </ul>
                     </div>
                     <div dangerouslySetInnerHTML={{__html: (item)?item.descricao:'carregando...'}}></div>

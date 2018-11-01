@@ -29,7 +29,7 @@ class FeaturedTwoColumns extends Component {
     generateEvent(array) {
         const truncate = _.truncate
         return array.map( evento => {
-            if(evento == undefined){
+            if(evento === undefined){
                 console.log("evento undefined...........")
                 return null;
             }

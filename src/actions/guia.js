@@ -1,4 +1,3 @@
-import _ from 'lodash';
 import axios from 'axios';
 import { FETCH_FEATURED_GUIAS, FETCH_GUIA, FETCH_GUIAS, FETCH_GUIAS_RECENTES, FETCH_GUIAS_FEATURED } from "./types";
 
@@ -101,7 +100,7 @@ export const fetchGuiasByCategoryBoth = async(category='', limit='', sort=null) 
 
 
 
-    if(categoria != '')
+    if(categoria !== '')
     {
         let request = await axios.get(`${process.env.REACT_APP_URL_API}guia/?${categoria}&_sort=${sort}${limit}`, config);
         const request1 = await axios.get(`${process.env.REACT_APP_URL_API}guia/?${categoriaServico}&_sort=${sort}${limit}`, config);
@@ -152,7 +151,7 @@ export const fetchGuiasByCategoryComercial = async(category='', limit='', sort=n
        
     }
 
-    if(categoria != '')
+    if(categoria !== '')
     {
         const request = await axios.get(`${process.env.REACT_APP_URL_API}guia/?${categoria}&_sort=${sort}${limit}`, config);
         request.categoria = req.data[0];
@@ -200,7 +199,7 @@ export const fetchGuiasByCategoryServico = async(category='', limit='', sort=nul
        
     }
 
-    if(categoria != '')
+    if(categoria !== '')
     {
         const request = await axios.get(`${process.env.REACT_APP_URL_API}guia/?${categoria}&_sort=${sort}${limit}`, config);
         request.categoria = req.data[0];
@@ -254,7 +253,7 @@ export const fetchGuiasByCategory = async(category='', limit='', sort=null) => {
         }
     }
 
-    if(categoria != '')
+    if(categoria !== '')
     {
         const request = await axios.get(`${process.env.REACT_APP_URL_API}guia/?${categoria}&_sort=${sort}${limit}`, config);
         request.categoria = req.data[0];
@@ -304,7 +303,7 @@ export const fetchGuiasByTag = async(tag='', limit='', sort=null) => {
         
     }
 
-    if(tags != '')
+    if(tags !== '')
     {
         const request = await axios.get(`${process.env.REACT_APP_URL_API}guia/?${tags}&_sort=${sort}${limit}`, config);
         request.tag = req.data[0];

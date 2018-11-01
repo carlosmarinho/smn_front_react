@@ -15,7 +15,7 @@ class FeaturedOneRowOneColumn extends Component {
             return (
                 <div>
                 <span>{this.props.featureText} </span> 
-                {this.props.text} <a href="${this.props.link}">{this.props.textLink}</a>
+                {this.props.text} <a href={this.props.link}>{this.props.textLink}</a>
                 </div>
             );
         }

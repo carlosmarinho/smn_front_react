@@ -50,18 +50,18 @@ export const fetchCategoryBySlug = async(slug='', limit=1) => {
 
     console.log("request catgoria: ", request)
 
-    if(request.data.length == 0){
+    if(request.data.length === 0){
         slug1 = `slug=noticias/${slug}`
 
         request = await axios.get(`${process.env.REACT_APP_URL_API}categoria/?${slug1}`, config);
 
-        if(request.data.length == 0){
+        if(request.data.length === 0){
             slug1 = `slug=guia/servicos/${slug}`
     
             request = await axios.get(`${process.env.REACT_APP_URL_API}categoria/?${slug1}`, config);
 
 
-            if(request.data.length == 0){
+            if(request.data.length === 0){
                 slug1 = `slug=eventos/${slug}`
         
                 request = await axios.get(`${process.env.REACT_APP_URL_API}categoria/?${slug1}`, config);

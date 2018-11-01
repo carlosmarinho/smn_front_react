@@ -9,8 +9,6 @@ import Paginate from "../paginate";
 import { Link } from 'react-router-dom';
 import PreFooter from './pre-footer'
 
-import Pagination from "react-js-pagination";
-
 import RightColumn from '../right-column';
 
 class BlogList extends Component {
@@ -44,7 +42,7 @@ class BlogList extends Component {
 
         if(nextProps.match && nextProps.match.params.slug){
             let slug = nextProps.match.params.slug
-            if(slug != this.state.slug){
+            if(slug !== this.state.slug){
                 this.setState(
                     {
                        slug: slug,
@@ -93,7 +91,7 @@ class BlogList extends Component {
             return (
                 <div class="list-category-blog"><strong>Categorias: </strong> 
                     {categorias.map((categoria, i) => {
-                        if(i+1 == categorias.length)
+                        if(i+1 === categorias.length)
                             return <Link to={`/noticias/categoria/${categoria.slug.replace('noticias/','')}`}>{categoria.nome}</Link>
                         else
                             return <Link to={`/noticias/categoria/${categoria.slug.replace('noticias/','')}`}>{categoria.nome}, </Link>
@@ -148,7 +146,7 @@ class BlogList extends Component {
     handlePageChange(pageNumber, list=[]) {
         console.log(`active page is ${pageNumber}`);
         let data = [];
-        if(pageNumber == 1){
+        if(pageNumber === 1){
             if(this.props.guias.list)
                 data = this.props.noticias.list.slice(0, this.state.perPage)
             else
@@ -182,7 +180,7 @@ class BlogList extends Component {
             items = <div>Nenhuma Notícia encontrado !</div>
         }
         else {
-            if(!this.props.noticias.list || this.props.noticias.list.length == 0)
+            if(!this.props.noticias.list || this.props.noticias.list.length === 0)
                 items = <div>Nenhum noticia encontrado para esta categoria {this.props.listName} </div>
             else
                 items = this.generateNoticias();

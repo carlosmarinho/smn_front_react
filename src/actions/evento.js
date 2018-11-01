@@ -1,4 +1,3 @@
-import _ from 'lodash';
 import axios from 'axios';
 import { FETCH_EVENTO, FETCH_EVENTOS, FETCH_EVENTOS_RECENTES } from "./types";
 
@@ -78,7 +77,7 @@ export const fetchEventosByTag = async(tag='', limit='', sort=null) => {
         
     }
 
-    if(tags != '')
+    if(tags !== '')
     {
         const request = await axios.get(`${process.env.REACT_APP_URL_API}evento/?${tags}&_sort=${sort}${limit}`, config);
         request.tag = req.data[0];
@@ -126,7 +125,7 @@ export const fetchEventosByCategory = async(category='', limit='', sort=null) =>
         }
     }
 
-    if(categoria != '')
+    if(categoria !== '')
     {
         const request = await axios.get(`${process.env.REACT_APP_URL_API}evento/?${categoria}&_sort=${sort}${limit}`, config);
         request.categoria = req.data[0];

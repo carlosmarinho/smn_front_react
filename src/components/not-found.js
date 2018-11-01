@@ -5,7 +5,6 @@ import { fetchNoticiaBySlug } from '../actions/noticia';
 import { fetchCategoryBySlug } from '../actions/categoria';
 
 
-import { Link } from 'react-router-dom';
 
 
 class NotFound extends Component {
@@ -25,22 +24,22 @@ class NotFound extends Component {
                 )
         }
         else if(this.props.categoria_item && this.props.categoria_item.categoria){
-            if(this.props.categoria_item.categoria.tipo == 'guia comercial'){
+            if(this.props.categoria_item.categoria.tipo === 'guia comercial'){
                 return(
                     <Redirect from={`${this.props.location.pathname}`} to={`/${this.props.categoria_item.categoria.slug.replace('comercial/','comercial/categoria/')}`} state={ { status: 301 } } />
                 )
             }
-            else if(this.props.categoria_item.categoria.tipo == 'guia serviço'){
+            else if(this.props.categoria_item.categoria.tipo === 'guia serviço'){
                 return(
                     <Redirect from={`${this.props.location.pathname}`} to={`/${this.props.categoria_item.categoria.slug.replace('servicos/','servicos/categoria/')}`} state={ { status: 301 } } />
                 )
             }
-            else if(this.props.categoria_item.categoria.tipo == 'notícia'){
+            else if(this.props.categoria_item.categoria.tipo === 'notícia'){
                 return(
                     <Redirect from={`${this.props.location.pathname}`} to={`/${this.props.categoria_item.categoria.slug.replace('noticias/','noticias/categoria/')}`} state={ { status: 301 } } />
                 )
             }
-            else if(this.props.categoria_item.categoria.tipo == 'evento'){
+            else if(this.props.categoria_item.categoria.tipo === 'evento'){
                 return(
                     <Redirect from={`${this.props.location.pathname}`} to={`/${this.props.categoria_item.categoria.slug.replace('eventos/','eventos/categoria/')}`} state={ { status: 301 } } />
                 )

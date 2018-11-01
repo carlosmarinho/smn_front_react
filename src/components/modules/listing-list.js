@@ -62,7 +62,7 @@ class ListingList extends Component {
             
             let slug = nextProps.match.params.slug
          
-            if(slug != this.state.slug){
+            if(slug !== this.state.slug){
          
                 if(nextProps.location && nextProps.location.pathname.includes('comercial') ){
                     this.setState(
@@ -96,7 +96,7 @@ class ListingList extends Component {
             }
         }
         else{
-            if(this.state.slug != '/'){
+            if(this.state.slug !== '/'){
                 console.log("caiu aqui nesse page:::: ", nextProps)
                 let search = '';
                 if(nextProps.type){
@@ -212,7 +212,7 @@ class ListingList extends Component {
     handlePageChange(pageNumber, list=[]) {
         console.log(`active page is ${pageNumber}`);
         let data = [];
-        if(pageNumber == 1){
+        if(pageNumber === 1){
             if(this.props.guias.list)
                 data = this.props.guias.list.slice(0, this.state.perPage)
             else
@@ -230,7 +230,7 @@ class ListingList extends Component {
 
     getGuiaSlug(slug){
         console.log("slug aqui: ", slug)
-        if(slug == 'Guia Comercial/Serviços'){
+        if(slug === 'Guia Comercial/Serviços'){
             return '/guia';
         }
         else{
@@ -240,7 +240,7 @@ class ListingList extends Component {
 
     breadcrumbs(listName, type, categoria){
         let liTipo = '';
-        if(type != "Comercial/Serviços"){
+        if(type !== "Comercial/Serviços"){
             liTipo = <li><Link to={'/guia'}>Guia</Link></li>
         }
 
@@ -269,7 +269,7 @@ class ListingList extends Component {
             return (
                 <div class=" list-category"><strong>Categorias: </strong> 
                     {categorias.map((categoria, i) => {
-                        if(i+1 == categorias.length)
+                        if(i+1 === categorias.length)
                             return <Link to={`/${categoria.slug}`}>{categoria.nome}</Link>
                         else
                             return <Link to={`/${categoria.slug}`}>{categoria.nome}, </Link>
@@ -290,9 +290,9 @@ class ListingList extends Component {
         else if(this.state.type && this.state.type.includes('serviço'))
             tipo = 'Serviços'
 
-        let listName = `Guia ${(tipo!='Serviços')?tipo: `de ${tipo}`}`;
-        let preposition = "do ";
+        let listName = `Guia ${(tipo !== 'Serviços')?tipo: `de ${tipo}`}`;
 
+        let items = <div>Nenhum Item listado para está categoria</div>
         if(! this.props.guias && !this.props.category){
             items = <div>Guia não encontrado!</div>
         }
@@ -302,7 +302,6 @@ class ListingList extends Component {
             listName = this.props.category.name;
         }
 
-        let items = <div>Nenhum Item listado para está categoria</div>
 
         if(! this.props.guias){
             items = <div>Nenhum guia encontrado para a categoria {this.props.listName} </div>

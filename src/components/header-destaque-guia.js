@@ -119,7 +119,7 @@ class HeaderDestaqueGuia extends Component {
                 <section className="pg-list-1" style={this.getBackground(guia)}>
                     <div className="container">
                         <div className="row">
-                            <div className="pg-list-1-left"> <a href="#"><h3>{(guia)?guia.titulo:''}</h3></a>
+                            <div className="pg-list-1-left"> <a href="#a"><h3>{(guia)?guia.titulo:''}</h3></a>
                                 {this.getAvaliacao(guia)}
 
                                 <h4>{(guia && guia.cidade && guia.cidade.length>0)?guia.cidade[0].nome:''} {(guia && guia.bairros && guia.bairros.length>0)?'- ' + guia.bairros[0].nome:''}</h4>
@@ -136,8 +136,8 @@ class HeaderDestaqueGuia extends Component {
                                 <div className="list-enqu-btn pg-list-1-right-p1">
                                     <ul>
                                         <li><a href="#ld-rew"><i className="fa fa-star-o" aria-hidden="true"></i> Deixe seu Comentário</a> </li>
-                                        <li><a href="#"><i className="fa fa-phone" aria-hidden="true"></i> Ligue Agora</a> </li>
-                                        <li><a href="#" data-dismiss="modal" data-toggle="modal" data-target="#list-quo"><i className="fa fa-question-circle" aria-hidden="true"></i> Pergunte</a> </li>
+                                        <li><a href="#ligue-agora@todo"><i className="fa fa-phone" aria-hidden="true"></i> Ligue Agora</a> </li>
+                                        <li><a href="#pergunte@todo" data-dismiss="modal" data-toggle="modal" data-target="#list-quo"><i className="fa fa-question-circle" aria-hidden="true"></i> Pergunte</a> </li>
                                     </ul>
                                 </div>
                             </div>

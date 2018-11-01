@@ -1,4 +1,4 @@
-import { FETCH_USER, CREATE_USER, EDIT_USER, FETCH_GUIA, FETCH_GUIAS, FETCH_GUIAS_RECENTES, FETCH_GUIAS_FEATURED} from "../actions/types";
+import { FETCH_GUIA, FETCH_GUIAS, FETCH_GUIAS_RECENTES, FETCH_GUIAS_FEATURED} from "../actions/types";
 
 export default function(state = null, action) {
     

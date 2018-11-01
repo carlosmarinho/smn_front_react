@@ -1,4 +1,3 @@
-import _ from 'lodash'
 import React, { Component } from 'react';
 
 
@@ -19,7 +18,6 @@ class WidgetFilterRadio extends Component {
     }
 
     generateWidget(objects) {
-        const truncate = _.truncate
         if(objects.length>0){
             return objects.map(object => {
                 return (

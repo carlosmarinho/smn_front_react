@@ -46,7 +46,6 @@ class WidgetFeatured extends Component {
     }
 
     generateWidget(objects) {
-        const truncate = _.truncate
         if(objects && objects.length>0){
             return objects.map((object,i) => {
                 if(i<=4) {

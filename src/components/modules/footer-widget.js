@@ -2,7 +2,6 @@ import _ from 'lodash'
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 
-import RightColumn from '../right-column';
 
 class FooterWidget extends Component {
 
@@ -43,7 +42,7 @@ class FooterWidget extends Component {
     }
 
     render(){
-        if(!this.props.object || this.props.object.length == 0)
+        if(!this.props.object || this.props.object.length === 0)
             return null;
 
         return (

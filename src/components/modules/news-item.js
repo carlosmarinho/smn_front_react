@@ -7,6 +7,8 @@ import { fetchNoticiaBySlug } from '../../actions/noticia';
 import { fetchEventosRecentes } from '../../actions/evento';
 import { fetchGuiasFeatured } from '../../actions/guia';
 import FormComment from './form-comment';
+import { Link } from 'react-router-dom';
+
 
 class NewsItem extends Component {
 
@@ -27,7 +29,7 @@ class NewsItem extends Component {
     componentWillReceiveProps(nextProps) {
         let slug = nextProps.match.params.slug
         
-        if(slug != this.state.slug){
+        if(slug !== this.state.slug){
             this.setState(
                 {
                    slug: slug,
@@ -75,9 +77,9 @@ class NewsItem extends Component {
                     <span>{this.datePtBr(new Date(item.createdAt))}</span>
                     <div className="share-btn share-pad-bot ">
                         <ul>
-                            <li><a href="#"><i className="fa fa-facebook fb1"></i> Share On Facebook</a> </li>
-                            <li><a href="#"><i className="fa fa-twitter tw1"></i> Share On Twitter</a> </li>
-                            <li><a href="#"><i className="fa fa-google-plus gp1"></i> Share On Google Plus</a> </li>
+                            <li><Link to={'/'}><i className="fa fa-facebook fb1"></i> Share On Facebook</Link> </li>
+                            <li><Link to={'/'}><i className="fa fa-twitter tw1"></i> Share On Twitter</Link> </li>
+                            <li><Link to={'/'}><i className="fa fa-google-plus gp1"></i> Share On Google Plus</Link> </li>
                         </ul>
                     </div>
                     

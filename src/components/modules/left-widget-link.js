@@ -1,4 +1,3 @@
-import _ from 'lodash'
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 
@@ -20,7 +19,6 @@ class LeftWidgetLink extends Component {
     }
 
     generateWidget(objects) {
-        const truncate = _.truncate
         if(objects.length>0){
             return objects.map((object,i) => {
                 if(i<10){

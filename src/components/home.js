@@ -3,16 +3,10 @@ import {connect} from 'react-redux';
 
 import HeaderHome from './header-destaque-home';
 import FeaturedTwoColumns from './modules/featured-two-columns';
-import FeaturedFourColumns from './modules/featured-four-columns';
 import FeaturedListingThreeColumns from './modules/featured-listing-three-columns';
-import FeaturedCategoriesSmallIcon from './modules/featured-categories-small-icon';
 import FeaturedNews from './modules/featured-news';
 import FeaturedOneRowOneColumn from './modules/featured-one-row-one-column';
 import FeaturedOneRowTwoColumn from './modules/featured-one-row-two-column';
-import FeatureRegister from './modules/feature-register';
-import FeatureGetApp from './modules/feature-get-app';
-import FeaturedOneRowAboveOtherLayer from './modules/featured-one-row-above-other-layer';
-import FeaturedOneRowWithEffect from './modules/featured-one-row-with-effect';
 import { Link } from 'react-router-dom';
 
 import { fetchFeaturedGuias } from '../actions/guia';

@@ -32,8 +32,8 @@ class PreFooter extends Component {
                                     </li>
                                 </ul>
                             </form>
-                            <a href="#"><img src="images/android.png" alt="" /> </a>
-                            <a href="#"><img src="images/apple.png" alt="" /> </a>
+                            <a href="#@todo"><img src="images/android.png" alt="" /> </a>
+                            <a href="#@todo"><img src="images/apple.png" alt="" /> </a>
                         </div>
                     </div>
                 </div>

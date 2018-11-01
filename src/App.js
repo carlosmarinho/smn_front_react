@@ -19,7 +19,7 @@ import EventItem from './components/modules/event-item'
 import ListingList from './components/modules/listing-list'
 import TagList from './components/modules/tag-list'
 import ListingGrid from './components/modules/listing-grid'
-import Gallery from './components/modules/gallery'
+//import Gallery from './components/modules/gallery'
 import Contact from './components/modules/contact'
 import Login from './components/modules/login'
 import Register from './components/modules/register'
@@ -97,15 +97,15 @@ const BairrosGrid = (props) => {
     )
 }                 
 
-/*Implementar a pagina de fotos */
-const Photos = () => {
+/*@todo Implementar a pagina de fotos */
+/*const Photos = () => {
     return(
         <Gallery
             title="Fotos da cidade de Niterói"
             columnRight={true}
         />
     )
-}               
+}*/               
                     
 const GridEvents = (props) => {
     console.log("meu prop aqui: ", props)
@@ -115,7 +115,6 @@ const GridEvents = (props) => {
             columnLeft={true}
             match={props.match}
             location={props.location}
-            match={props.match}
          />
     )
 }                    
