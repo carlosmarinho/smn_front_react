@@ -6,7 +6,7 @@ import { FETCH_CITY } from "./types";
 
 export const fetchCity = (id) => {
 
-    const request = axios.get(`http://localhost:1337/cidade/${id}`);
+    const request = axios.get(`${process.env.REACT_APP_URL_API}cidade/${id}`);
 
     return {
         type: FETCH_CITY,
@@ -20,13 +20,13 @@ export const fetchCityBySlug = async (slug) => {
     console.log("No fetch bairros: ", jwt);
 
     if(!jwt){
-        let ret = await axios.post('http://localhost:1337/auth/local', { identifier: 'adm_manager', password: 'carlos' })
+        let ret = await axios.post(`${process.env.REACT_APP_URL_API}auth/local`, { identifier: process.env.REACT_APP_USER_API, password: process.env.REACT_APP_PASSWORD_API })
         jwt = ret.data.jwt;
         localStorage.setItem('jwt', jwt);
     }
     let config = { headers: { 'Authorization': `Bearer ${jwt}` } };
 
-    const request = axios.get(`http://localhost:1337/cidade/?slug=${slug}`, config);
+    const request = axios.get(`${process.env.REACT_APP_URL_API}cidade/?slug=${slug}`, config);
 
     return {
         type: FETCH_CITY,

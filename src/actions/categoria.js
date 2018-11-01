@@ -8,7 +8,7 @@ export const fetchCategory = async (id) => {
     let jwt = localStorage.getItem('jwt');
 
     if(!jwt){
-        let ret = await axios.post('http://localhost:1337/auth/local', { identifier: 'adm_manager', password: 'carlos' })
+        let ret = await axios.post(`${process.env.REACT_APP_URL_API}auth/local`, { identifier: process.env.REACT_APP_USER_API, password: process.env.REACT_APP_PASSWORD_API })
         jwt = ret.data.jwt;
         localStorage.setItem('jwt', jwt);
     }
@@ -16,7 +16,7 @@ export const fetchCategory = async (id) => {
     let config = { headers: { 'Authorization': `Bearer ${jwt}` } };
 
 
-    const request = axios.get(`http://localhost:1337/categoria/${id}`, config);
+    const request = axios.get(`${process.env.REACT_APP_URL_API}categoria/${id}`, config);
 
     return {
         type: FETCH_CATEGORY,
@@ -39,32 +39,32 @@ export const fetchCategoryBySlug = async(slug='', limit=1) => {
     let jwt = localStorage.getItem('jwt');
 
     if(!jwt){
-        let ret = await axios.post('http://localhost:1337/auth/local', { identifier: 'adm_manager', password: 'carlos' })
+        let ret = await axios.post(`${process.env.REACT_APP_URL_API}auth/local`, { identifier: process.env.REACT_APP_USER_API, password: process.env.REACT_APP_PASSWORD_API })
         jwt = ret.data.jwt;
         localStorage.setItem('jwt', jwt);
     }
 
     let config = { headers: { 'Authorization': `Bearer ${jwt}` } };
 
-    let request = await axios.get(`http://localhost:1337/categoria/?${slug1}`, config);
+    let request = await axios.get(`${process.env.REACT_APP_URL_API}categoria/?${slug1}`, config);
 
     console.log("request catgoria: ", request)
 
     if(request.data.length == 0){
         slug1 = `slug=noticias/${slug}`
 
-        request = await axios.get(`http://localhost:1337/categoria/?${slug1}`, config);
+        request = await axios.get(`${process.env.REACT_APP_URL_API}categoria/?${slug1}`, config);
 
         if(request.data.length == 0){
             slug1 = `slug=guia/servicos/${slug}`
     
-            request = await axios.get(`http://localhost:1337/categoria/?${slug1}`, config);
+            request = await axios.get(`${process.env.REACT_APP_URL_API}categoria/?${slug1}`, config);
 
 
             if(request.data.length == 0){
                 slug1 = `slug=eventos/${slug}`
         
-                request = await axios.get(`http://localhost:1337/categoria/?${slug1}`, config);
+                request = await axios.get(`${process.env.REACT_APP_URL_API}categoria/?${slug1}`, config);
             }
 
         }
@@ -87,7 +87,7 @@ export const fetchCategoriesGuiaTop = async(limit='', sort=null) => {
     let jwt = localStorage.getItem('jwt');
 
     if(!jwt){
-        let ret = await axios.post('http://localhost:1337/auth/local', { identifier: 'adm_manager', password: 'carlos' })
+        let ret = await axios.post(`${process.env.REACT_APP_URL_API}auth/local`, { identifier: process.env.REACT_APP_USER_API, password: process.env.REACT_APP_PASSWORD_API })
         jwt = ret.data.jwt;
         localStorage.setItem('jwt', jwt);
     }
@@ -95,7 +95,7 @@ export const fetchCategoriesGuiaTop = async(limit='', sort=null) => {
     let config = { headers: { 'Authorization': `Bearer ${jwt}` } };
     
 
-    const request = axios.get(`http://localhost:1337/categoria/?_sort=${sort}${limit}&tipo=guia comercial&parent_id=`, config);
+    const request = axios.get(`${process.env.REACT_APP_URL_API}categoria/?_sort=${sort}${limit}&tipo=guia comercial&parent_id=`, config);
 
     return {
         type: FETCH_CATEGORIES_GUIA_TOP,
@@ -113,7 +113,7 @@ export const fetchCategoriesGuiaComercialTop = async(limit='', sort=null) => {
     let jwt = localStorage.getItem('jwt');
 
     if(!jwt){
-        let ret = await axios.post('http://localhost:1337/auth/local', { identifier: 'adm_manager', password: 'carlos' })
+        let ret = await axios.post(`${process.env.REACT_APP_URL_API}auth/local`, { identifier: process.env.REACT_APP_USER_API, password: process.env.REACT_APP_PASSWORD_API })
         jwt = ret.data.jwt;
         localStorage.setItem('jwt', jwt);
     }
@@ -121,7 +121,7 @@ export const fetchCategoriesGuiaComercialTop = async(limit='', sort=null) => {
     let config = { headers: { 'Authorization': `Bearer ${jwt}` } };
     
 
-    const request = axios.get(`http://localhost:1337/categoria/?_sort=${sort}${limit}&tipo=guia comercial&parent_id=`, config);
+    const request = axios.get(`${process.env.REACT_APP_URL_API}categoria/?_sort=${sort}${limit}&tipo=guia comercial&parent_id=`, config);
 
     return {
         type: FETCH_CATEGORIES_GUIA_TOP,
@@ -139,7 +139,7 @@ export const fetchCategoriesGuiaServicosTop = async(limit='', sort=null) => {
     let jwt = localStorage.getItem('jwt');
 
     if(!jwt){
-        let ret = await axios.post('http://localhost:1337/auth/local', { identifier: 'adm_manager', password: 'carlos' })
+        let ret = await axios.post(`${process.env.REACT_APP_URL_API}auth/local`, { identifier: process.env.REACT_APP_USER_API, password: process.env.REACT_APP_PASSWORD_API })
         jwt = ret.data.jwt;
         localStorage.setItem('jwt', jwt);
     }
@@ -147,7 +147,7 @@ export const fetchCategoriesGuiaServicosTop = async(limit='', sort=null) => {
     let config = { headers: { 'Authorization': `Bearer ${jwt}` } };
     
 
-    const request = axios.get(`http://localhost:1337/categoria/?_sort=${sort}${limit}&tipo=guia servicos&parent_id=`, config);
+    const request = axios.get(`${process.env.REACT_APP_URL_API}categoria/?_sort=${sort}${limit}&tipo=guia servicos&parent_id=`, config);
 
     return {
         type: FETCH_CATEGORIES_GUIA_TOP,
@@ -166,7 +166,7 @@ export const fetchCategoriesEventoTop = async(limit='', sort=null) => {
     let jwt = localStorage.getItem('jwt');
 
     if(!jwt){
-        let ret = await axios.post('http://localhost:1337/auth/local', { identifier: 'adm_manager', password: 'carlos' })
+        let ret = await axios.post(`${process.env.REACT_APP_URL_API}auth/local`, { identifier: process.env.REACT_APP_USER_API, password: process.env.REACT_APP_PASSWORD_API })
         jwt = ret.data.jwt;
         localStorage.setItem('jwt', jwt);
     }
@@ -174,7 +174,7 @@ export const fetchCategoriesEventoTop = async(limit='', sort=null) => {
     let config = { headers: { 'Authorization': `Bearer ${jwt}` } };
     
 
-    const request = axios.get(`http://localhost:1337/categoria/?_sort=${sort}${limit}&tipo=evento&parent_id=`, config);
+    const request = axios.get(`${process.env.REACT_APP_URL_API}categoria/?_sort=${sort}${limit}&tipo=evento&parent_id=`, config);
 
     return {
         type: FETCH_CATEGORIES_EVENTO_TOP,
@@ -195,15 +195,15 @@ export const fetchCategories = async(limit='', sort=null) => {
     let jwt = localStorage.getItem('jwt');
 
     if(!jwt){
-        let ret = await axios.post('http://localhost:1337/auth/local', { identifier: 'adm_manager', password: 'carlos' })
+        let ret = await axios.post(`${process.env.REACT_APP_URL_API}auth/local`, { identifier: process.env.REACT_APP_USER_API, password: process.env.REACT_APP_PASSWORD_API })
         jwt = ret.data.jwt;
         localStorage.setItem('jwt', jwt);
     }
 
     let config = { headers: { 'Authorization': `Bearer ${jwt}` } };
 
-    console.log(`http://localhost:1337/categoria/?_sort=${sort}${limit}`);
-    const request = axios.get(`http://localhost:1337/categoria/?_sort=${sort}${limit}`, config);
+    console.log(`${process.env.REACT_APP_URL_API}categoria/?_sort=${sort}${limit}`);
+    const request = axios.get(`${process.env.REACT_APP_URL_API}categoria/?_sort=${sort}${limit}`, config);
 
     return {
         type: FETCH_CATEGORIES,

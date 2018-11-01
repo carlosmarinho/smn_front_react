@@ -12,7 +12,7 @@ export const fetchPaginaBySlug = async(slug='', limit=1) => {
     let jwt = localStorage.getItem('jwt');
 
     if(!jwt){
-        let ret = await axios.post('http://localhost:1337/auth/local', { identifier: 'adm_manager', password: 'carlos' })
+        let ret = await axios.post(`${process.env.REACT_APP_URL_API}auth/local`, { identifier: process.env.REACT_APP_USER_API, password: process.env.REACT_APP_PASSWORD_API })
         jwt = ret.data.jwt;
         localStorage.setItem('jwt', jwt);
     }
@@ -21,7 +21,7 @@ export const fetchPaginaBySlug = async(slug='', limit=1) => {
 
     let config = { headers: { 'Authorization': `Bearer ${jwt}` } };
 
-    const request = axios.get(`http://localhost:1337/pagina/?${slug}_sort=-_id&_limit=${limit}`, config);
+    const request = axios.get(`${process.env.REACT_APP_URL_API}pagina/?${slug}_sort=-_id&_limit=${limit}`, config);
 
     return {
         type: FETCH_PAGINA,
@@ -34,14 +34,14 @@ export const fetchPaginas = async(id, category='', limit=500) => {
     let jwt = localStorage.getItem('jwt');
 
     if(!jwt){
-        let ret = await axios.post('http://localhost:1337/auth/local', { identifier: 'adm_manager', password: 'carlos' })
+        let ret = await axios.post(`${process.env.REACT_APP_URL_API}auth/local`, { identifier: process.env.REACT_APP_USER_API, password: process.env.REACT_APP_PASSWORD_API })
         jwt = ret.data.jwt;
         localStorage.setItem('jwt', jwt);
     }
 
     if(category){
         let config = { headers: { 'Authorization': `Bearer ${jwt}` } };
-        const req = await axios.get(`http://localhost:1337/categoria/?nome=${category}`, config);
+        const req = await axios.get(`${process.env.REACT_APP_URL_API}categoria/?nome=${category}`, config);
 
         console.log("request no fetchPaginas: ", req.data);
 
@@ -51,7 +51,7 @@ export const fetchPaginas = async(id, category='', limit=500) => {
 
     let config = { headers: { 'Authorization': `Bearer ${jwt}` } };
 
-    const request = axios.get(`http://localhost:1337/pagina/?${category}_sort=-_id&_limit=${limit}`, config);
+    const request = axios.get(`${process.env.REACT_APP_URL_API}pagina/?${category}_sort=-_id&_limit=${limit}`, config);
 
     return {
         type: FETCH_PAGINAS,

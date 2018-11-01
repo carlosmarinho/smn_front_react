@@ -6,7 +6,7 @@ import { FETCH_BAIRRO, FETCH_BAIRROS } from "./types";
 
 export const fetchBairro = (id) => {
 
-    const request = axios.get(`http://localhost:1337/bairro/${id}`);
+    const request = axios.get(`${process.env.REACT_APP_URL_API}bairro/${id}`);
 
     return {
         type: FETCH_BAIRRO,
@@ -26,14 +26,14 @@ export const fetchBairros = async(city_id, limit='', sort=null) => {
     let jwt = localStorage.getItem('jwt');
 
     if(!jwt){
-        let ret = await axios.post('http://localhost:1337/auth/local', { identifier: 'adm_manager', password: 'carlos' })
+        let ret = await axios.post(`${process.env.REACT_APP_URL_API}auth/local`, { identifier: process.env.REACT_APP_USER_API, password: process.env.REACT_APP_PASSWORD_API })
         jwt = ret.data.jwt;
         localStorage.setItem('jwt', jwt);
     }
 
     let config = { headers: { 'Authorization': `Bearer ${jwt}` } };
 
-    const request = axios.get(`http://localhost:1337/bairro/?populateAssociation=false&_sort=${sort}${limit}&cidade=${city_id}`, config);
+    const request = axios.get(`${process.env.REACT_APP_URL_API}bairro/?populateAssociation=false&_sort=${sort}${limit}&cidade=${city_id}`, config);
 
     return {
         type: FETCH_BAIRROS,

@@ -12,7 +12,7 @@ export const fetchNoticiaBySlug = async(slug='', limit=1) => {
     let jwt = localStorage.getItem('jwt');
 
     if(!jwt){
-        let ret = await axios.post('http://localhost:1337/auth/local', { identifier: 'adm_manager', password: 'carlos' })
+        let ret = await axios.post(`${process.env.REACT_APP_URL_API}auth/local`, { identifier: process.env.REACT_APP_USER_API, password: process.env.REACT_APP_PASSWORD_API })
         jwt = ret.data.jwt;
         localStorage.setItem('jwt', jwt);
     }
@@ -21,7 +21,7 @@ export const fetchNoticiaBySlug = async(slug='', limit=1) => {
 
     let config = { headers: { 'Authorization': `Bearer ${jwt}` } };
 
-    const request = axios.get(`http://localhost:1337/noticia/?${slug}_sort=-_id&_limit=${limit}`, config);
+    const request = axios.get(`${process.env.REACT_APP_URL_API}noticia/?${slug}_sort=-_id&_limit=${limit}`, config);
     return {
         type: FETCH_NOTICIA,
         payload: request
@@ -32,7 +32,7 @@ export const fetchNoticiasByCategory = async(category='', limit=500) => {
     let jwt = localStorage.getItem('jwt');
 
     if(!jwt){
-        let ret = await axios.post('http://localhost:1337/auth/local', { identifier: 'adm_manager', password: 'carlos' })
+        let ret = await axios.post(`${process.env.REACT_APP_URL_API}auth/local`, { identifier: process.env.REACT_APP_USER_API, password: process.env.REACT_APP_PASSWORD_API })
         jwt = ret.data.jwt;
         localStorage.setItem('jwt', jwt);
     }
@@ -41,7 +41,7 @@ export const fetchNoticiasByCategory = async(category='', limit=500) => {
     let categoria = ''
     let req;
     if(category){
-        req = await axios.get(`http://localhost:1337/categoria/?slug=noticias/${category}`, config);
+        req = await axios.get(`${process.env.REACT_APP_URL_API}categoria/?slug=noticias/${category}`, config);
 
         if(req.data.length > 0){
             categoria=`categorias=${req.data[0]._id}&`
@@ -51,7 +51,7 @@ export const fetchNoticiasByCategory = async(category='', limit=500) => {
     
     if(categoria != '')
     {
-        const request = await axios.get(`http://localhost:1337/noticia/?${categoria}_sort=-_id&_limit=${limit}`, config);
+        const request = await axios.get(`${process.env.REACT_APP_URL_API}noticia/?${categoria}_sort=-_id&_limit=${limit}`, config);
         request.categoria = req.data[0];
         console.log("request na noticias by category: ", request);
         return {
@@ -81,7 +81,7 @@ export const fetchNoticiasByTag = async(tag='', limit='', sort=null) => {
     let jwt = localStorage.getItem('jwt');
 
     if(!jwt){
-        let ret = await axios.post('http://localhost:1337/auth/local', { identifier: 'adm_manager', password: 'carlos' })
+        let ret = await axios.post(`${process.env.REACT_APP_URL_API}auth/local`, { identifier: process.env.REACT_APP_USER_API, password: process.env.REACT_APP_PASSWORD_API })
         jwt = ret.data.jwt;
         localStorage.setItem('jwt', jwt);
     }
@@ -91,7 +91,7 @@ export const fetchNoticiasByTag = async(tag='', limit='', sort=null) => {
     let tags = '';
     let req;
     if(tag){
-        req = await axios.get(`http://localhost:1337/tag/?slug=${tag}`, config);
+        req = await axios.get(`${process.env.REACT_APP_URL_API}tag/?slug=${tag}`, config);
 
         if(req.data.length > 0){
             console.log("request do tag: ", req.data);
@@ -102,7 +102,7 @@ export const fetchNoticiasByTag = async(tag='', limit='', sort=null) => {
 
     if(tags != '')
     {
-        const request = await axios.get(`http://localhost:1337/noticia/?${tags}&_sort=${sort}${limit}`, config);
+        const request = await axios.get(`${process.env.REACT_APP_URL_API}noticia/?${tags}&_sort=${sort}${limit}`, config);
         request.tag = req.data[0];
         console.log("request no noticias action: ", request);
         return {
@@ -122,7 +122,7 @@ export const fetchNoticiasByCategoryOrSlug = async(slugOrCategory='', limit=500)
     let jwt = localStorage.getItem('jwt');
 
     if(!jwt){
-        let ret = await axios.post('http://localhost:1337/auth/local', { identifier: 'adm_manager', password: 'carlos' })
+        let ret = await axios.post(`${process.env.REACT_APP_URL_API}auth/local`, { identifier: process.env.REACT_APP_USER_API, password: process.env.REACT_APP_PASSWORD_API })
         jwt = ret.data.jwt;
         localStorage.setItem('jwt', jwt);
     }
@@ -131,7 +131,7 @@ export const fetchNoticiasByCategoryOrSlug = async(slugOrCategory='', limit=500)
     let slug = '';
     if(slugOrCategory){
         let config = { headers: { 'Authorization': `Bearer ${jwt}` } };
-        const req = await axios.get(`http://localhost:1337/categoria/?slug=noticias/${slugOrCategory}`, config);
+        const req = await axios.get(`${process.env.REACT_APP_URL_API}categoria/?slug=noticias/${slugOrCategory}`, config);
 
         console.log("request no fetchNoticias: ", req.data);
 
@@ -143,7 +143,7 @@ export const fetchNoticiasByCategoryOrSlug = async(slugOrCategory='', limit=500)
 
     let config = { headers: { 'Authorization': `Bearer ${jwt}` } };
 
-    const request = axios.get(`http://localhost:1337/noticia/?${category}${slug}_sort=-_id&_limit=${limit}`, config);
+    const request = axios.get(`${process.env.REACT_APP_URL_API}noticia/?${category}${slug}_sort=-_id&_limit=${limit}`, config);
 
     if(slug != ''){
         return {
@@ -164,14 +164,14 @@ export const fetchNoticias = async(id, category='', limit=500) => {
     let jwt = localStorage.getItem('jwt');
 
     if(!jwt){
-        let ret = await axios.post('http://localhost:1337/auth/local', { identifier: 'adm_manager', password: 'carlos' })
+        let ret = await axios.post(`${process.env.REACT_APP_URL_API}auth/local`, { identifier: process.env.REACT_APP_USER_API, password: process.env.REACT_APP_PASSWORD_API })
         jwt = ret.data.jwt;
         localStorage.setItem('jwt', jwt);
     }
 
     if(category){
         let config = { headers: { 'Authorization': `Bearer ${jwt}` } };
-        const req = await axios.get(`http://localhost:1337/categoria/?nome=${category}`, config);
+        const req = await axios.get(`${process.env.REACT_APP_URL_API}categoria/?nome=${category}`, config);
 
 
         if(req.data.length > 0)
@@ -180,7 +180,7 @@ export const fetchNoticias = async(id, category='', limit=500) => {
 
     let config = { headers: { 'Authorization': `Bearer ${jwt}` } };
 
-    const request = axios.get(`http://localhost:1337/noticia/?${category}_sort=-_id&_limit=${limit}`, config);
+    const request = axios.get(`${process.env.REACT_APP_URL_API}noticia/?${category}_sort=-_id&_limit=${limit}`, config);
 
     return {
         type: FETCH_NOTICIAS,
@@ -200,7 +200,7 @@ export const fetchNoticiasRecentes = async(city_id, limit='', sort=null) => {
     
 
     if(!jwt){
-        let ret = await axios.post('http://localhost:1337/auth/local', { identifier: 'adm_manager', password: 'carlos' })
+        let ret = await axios.post(`${process.env.REACT_APP_URL_API}auth/local`, { identifier: process.env.REACT_APP_USER_API, password: process.env.REACT_APP_PASSWORD_API })
         jwt = ret.data.jwt;
         localStorage.setItem('jwt', jwt);
     }
@@ -208,8 +208,8 @@ export const fetchNoticiasRecentes = async(city_id, limit='', sort=null) => {
     let config = { headers: { 'Authorization': `Bearer ${jwt}` } };
 
     
-    //const request = axios.get(`http://localhost:1337/noticia/?_sort=${sort}${limit}&cidade=${city_id}`, config);
-    const request = axios.get(`http://localhost:1337/noticia/?_sort=${sort}${limit}`, config);
+    //const request = axios.get(`${process.env.REACT_APP_URL_API}noticia/?_sort=${sort}${limit}&cidade=${city_id}`, config);
+    const request = axios.get(`${process.env.REACT_APP_URL_API}noticia/?_sort=${sort}${limit}`, config);
 
     return {
         type: FETCH_NOTICIAS_RECENTES,
