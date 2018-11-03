@@ -352,7 +352,7 @@ export const fetchGuias = async(city_id, search='', limit='', sort=null) => {
 export const fetchFeaturedGuias = async(city_id) => {
 
     let jwt = localStorage.getItem('jwt');
-
+console.log("aquiiiiii: JWWWWTTT: ", localStorage);
     if(!jwt){
         let ret = await axios.post(`${process.env.REACT_APP_URL_API}auth/local`, { identifier: process.env.REACT_APP_USER_API, password: process.env.REACT_APP_PASSWORD_API })
         jwt = ret.data.jwt;
@@ -360,9 +360,22 @@ export const fetchFeaturedGuias = async(city_id) => {
     }
 
     let config = { headers: { 'Authorization': `Bearer ${jwt}` } };
+    let request;
+    try{
 
-    const request = axios.get(`${process.env.REACT_APP_URL_API}guia/?cidade_destaque=${city_id}`, config);
-    console.log("------ vai chamar o fetchUsers -------")
+        request = await axios.get(`${process.env.REACT_APP_URL_API}guia/?cidade_destaque=${city_id}`, config);
+        console.log("------ vai chamar o fetchUsers -------", request)
+    }
+    catch(e){
+        let ret = await axios.post(`${process.env.REACT_APP_URL_API}auth/local`, { identifier: process.env.REACT_APP_USER_API, password: process.env.REACT_APP_PASSWORD_API })
+        jwt = ret.data.jwt;
+        localStorage.setItem('jwt', jwt);
+        return {
+            type: FETCH_FEATURED_GUIAS,
+            payload: []
+        }
+    }
+
 
     return {
         type: FETCH_FEATURED_GUIAS,
