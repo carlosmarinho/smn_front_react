@@ -34,6 +34,8 @@ class LeftWidgetLink extends Component {
                         </li>
                     )
                 }
+                else
+                    return null;
             })
         }
         

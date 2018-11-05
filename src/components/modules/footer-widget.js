@@ -23,7 +23,7 @@ class FooterWidget extends Component {
         const truncate = _.truncate
 
         return objects.map((object,i) => {
-            if(i <= 3)
+            if(i <= 3){
                 return( 
                     <li>
                         <Link to={`/${this.props.type}/${object.slug}`}>
@@ -37,6 +37,9 @@ class FooterWidget extends Component {
                         </Link>
                     </li>
                 )
+            }
+            else
+                return null;
         })
         
     }

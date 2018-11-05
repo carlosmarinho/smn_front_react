@@ -27,7 +27,7 @@ class RightWidgetLink extends Component {
         const truncate = _.truncate
         if(objects.length>0){
             return objects.map((object,i) => {
-                if(i < maxPerWidget)
+                if(i < maxPerWidget){ 
                     return (
                         <li>
                             <Link to={`/${this.props.type}/${object.slug}`}>
@@ -37,6 +37,9 @@ class RightWidgetLink extends Component {
                             </Link>
                         </li>
                     )
+                }
+                else
+                    return null;
             })
         }
         

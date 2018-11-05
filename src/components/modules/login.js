@@ -25,7 +25,7 @@ class Login extends Component {
                             </ul>
                         </div>
                         <div className="log-in-pop-right">
-                            <a href="#" className="pop-close" data-dismiss="modal"><img src="images/cancel.png" alt="" />
+                            <a href="#@todoclose" className="pop-close" data-dismiss="modal"><img src="images/cancel.png" alt="" />
                             </a>
                             <h4>Login</h4>
                             <p>Informe seu usuario ou email e sua senha para logar no site!</p>
