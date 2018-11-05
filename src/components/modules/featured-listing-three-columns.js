@@ -55,9 +55,9 @@ class FeaturedListingThreeColumns extends Component {
     generateListing(){
         if(this.props.object){
             console.log("no generate listing: ", this.props.object)
-            return this.props.object.map(guia => {
+            return this.props.object.map((guia, ind) => {
                 return(
-                    <div className="col-md-4">
+                    <div className="col-md-4" key={ind}>
                         <Link to={`/guia/${guia.slug}`}>
                             <div className="list-mig-like-com com-mar-bot-30">
                                 <div className="list-mig-lc-img"> <img src={this.getImageSrc(guia)} style={{width:355, height: 250}} alt="" /> <span className="home-list-pop-rat list-mi-pr">$720</span> </div>

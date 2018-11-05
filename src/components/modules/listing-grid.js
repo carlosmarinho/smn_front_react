@@ -117,10 +117,10 @@ class ListingGrid extends Component {
             mod = 3 - mod;
         console.log("tamanho: ", mod);
         
-        let eventos = this.state.data.map( evento => {
+        let eventos = this.state.data.map( (evento, ind) => {
             
             return (
-                <div className="col-md-4">
+                <div className="col-md-4" key={ind}>
                         <div className="list-mig-like-com com-mar-bot-30">
                             <div className="list-mig-lc-img list-img-grid"> <img src={this.getImageSrc(evento)} alt="" /> <span className="home-list-pop-rat list-mi-pr">$720</span> </div>
                             <div className="list-mig-lc-con">
@@ -185,12 +185,12 @@ class ListingGrid extends Component {
     getCategorias(categorias){
         if(categorias.length > 0){
             return (
-                <div class="grid-category"><strong>Categorias: </strong> 
+                <div className="grid-category"><strong>Categorias: </strong> 
                     {categorias.map((categoria, i) => {
                         if(i+1 === categorias.length)
-                            return <Link to={`/${categoria.slug.replace('/','/categoria/')}`}>{categoria.nome}</Link>
+                            return <Link to={`/${categoria.slug.replace('/','/categoria/')}`} key={i}>{categoria.nome}</Link>
                         else
-                            return <Link to={`/${categoria.slug.replace('/','/categoria/')}`}>{categoria.nome}, </Link>
+                            return <Link to={`/${categoria.slug.replace('/','/categoria/')}`} key={i}>{categoria.nome}, </Link>
                     })}
                 </div>
             )

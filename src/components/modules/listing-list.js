@@ -145,13 +145,13 @@ class ListingList extends Component {
 
     generateGuias() {
         
-        let guias = this.state.data.map( guia => {
+        let guias = this.state.data.map( (guia, ind) => {
             let avaliacao = '';
             /*Por enquanto está implementado para não exibir avaliações depois que já tiver avaliação suficiente colocar o texto sem avaliação*/
             if(guia.mediaAvaliacao)
                 avaliacao = <span className="home-list-pop-rat">{guia.mediaAvaliacao}</span>
             return (
-                <div className="home-list-pop list-spac">
+                <div className="home-list-pop list-spac" key={ind}>
                     {/*<!--LISTINGS IMAGE-->*/}
                     <div className="col-md-3 list-ser-img"> <img src={this.getImageSrc(guia)} alt="" /> </div>
                     {/*<!--LISTINGS: CONTENT-->*/}
@@ -186,7 +186,7 @@ class ListingList extends Component {
         return(
             <div>
                 {guias}
-                <div class="row">
+                <div className="row">
                     <Paginate
                         activePage={this.state.activePage}
                         itemsCountPerPage={this.state.perPage}
@@ -267,12 +267,12 @@ class ListingList extends Component {
     getCategorias(categorias){
         if(categorias.length > 0){
             return (
-                <div class=" list-category"><strong>Categorias: </strong> 
+                <div className=" list-category"><strong>Categorias: </strong> 
                     {categorias.map((categoria, i) => {
                         if(i+1 === categorias.length)
-                            return <Link to={`/${categoria.slug}`}>{categoria.nome}</Link>
+                            return <Link to={`/${categoria.slug}`} key={i}>{categoria.nome}</Link>
                         else
-                            return <Link to={`/${categoria.slug}`}>{categoria.nome}, </Link>
+                            return <Link to={`/${categoria.slug}`} key={i}>{categoria.nome}, </Link>
                     })}
                 </div>
             )

@@ -29,9 +29,9 @@ class FeaturedTwoColumns extends Component {
     generateNews(array) {
         const truncate = _.truncate
 
-        return array.map( noticia => {
+        return array.map( (noticia, ind) => {
             return (
-                <div className="col-md-3">
+                <div className="col-md-3" key={ind}>
                     <Link to={`/noticias/${noticia.slug}`}>
                         <div className="list-mig-like-com">
                             <div className="list-mig-lc-img"> <img src={this.getImageSrc(noticia)} alt="" /> </div>

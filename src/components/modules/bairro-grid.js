@@ -59,11 +59,11 @@ class BairroGrid extends Component {
    
 
     generateBairros() {
-        let bairros = this.state.data.map( bairro => {
+        let bairros = this.state.data.map( (bairro, ind) => {
             
             return (
-                <div className="col-md-3">
-                    <Link to={`/bairros/${bairro.slug}`}>
+                <div className="col-md-3" key={ind}>
+                    <Link to={`/bairros/${bairro.slug}`} >
                         <div className="list-mig-like-com com-mar-bot-30">
                             <div className="list-mig-lc-img"> <img src={this.getImageSrc(bairro)} alt="" /> {/*carlos ver o q vai colocar aqui<span className="home-list-pop-rat list-mi-pr">$720</span>*/} </div>
                             <div className="list-mig-lc-con">

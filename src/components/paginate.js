@@ -55,18 +55,18 @@ class Paginate extends Component {
         if(this.props.nextPageText)
             next = this.props.nextPageText
             
-        pages.push(<li class={(activePage===1)?'disabled':''}><Link to={`${path}page/1`}>{firstPage}</Link> </li>)
-        pages.push(<li class={(activePage===1)?'disabled':''}><Link to={(activePage>1)?`${path}page/${activePage-1}`:'#'}>{previous}</Link> </li>)
+        pages.push(<li className={(activePage===1)?'disabled':''} key="firstpage"><Link to={`${path}page/1`}>{firstPage}</Link> </li>)
+        pages.push(<li className={(activePage===1)?'disabled':''} key="previouspage"><Link to={(activePage>1)?`${path}page/${activePage-1}`:'#'}>{previous}</Link> </li>)
         
         for(i; i<= finalRange; i++){
-            pages.push(<li class={(i===activePage)?'active':''}><Link to={path + 'page/' + i}>{i}</Link></li>)
+            pages.push(<li className={(i===activePage)?'active':''} key={`page${i}`}><Link to={path + 'page/' + i}>{i}</Link></li>)
         }
 
-        pages.push(<li class={(activePage===totalPage)?'disabled waves-effect':'waves-effect'}><Link to={(activePage<totalPage)?`${path}page/${(parseInt(activePage)+1)}`:'#'}>{next}</Link> </li>)
-        pages.push(<li class={(activePage===totalPage)?'disabled waves-effect':'waves-effect'}><Link to={`${path}page/${totalPage}`}>{lastPage}</Link> </li>)
+        pages.push(<li className={(activePage===totalPage)?'disabled waves-effect':'waves-effect'} key="nextpage"><Link to={(activePage<totalPage)?`${path}page/${(parseInt(activePage)+1)}`:'#'}>{next}</Link> </li>)
+        pages.push(<li className={(activePage===totalPage)?'disabled waves-effect':'waves-effect'} key="lastpage"><Link to={`${path}page/${totalPage}`}>{lastPage}</Link> </li>)
 
         return(
-            <ul class="pagination list-pagenat">
+            <ul className="pagination list-pagenat">
                 {pages}
             </ul>
         )
