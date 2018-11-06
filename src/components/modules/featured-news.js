@@ -37,7 +37,7 @@ class FeaturedTwoColumns extends Component {
                             <div className="list-mig-lc-img"> <img src={this.getImageSrc(noticia)} alt="" /> </div>
                             <div className="list-mig-lc-con list-mig-lc-con2">
                                 <h5>{truncate(noticia.titulo, { length: 50, separator: /,?\.* +/ })}</h5>
-                                <p>{truncate(noticia.descricao.replace(/<\/?[^>]+(>|$)/g, ""), { length: 65, separator: /,?\.* +/ })}</p>
+                                <p>{truncate(noticia.descricao.replace(/<\/?[^>]+(>|$)/g, ""), { length: 75, separator: /,?\.* +/ })}</p>
                             </div>
                         </div>
                     </Link>

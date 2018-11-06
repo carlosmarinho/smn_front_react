@@ -4129,7 +4129,7 @@ footer ul li a:hover {
   display: block; }
 
 .list-mig-lc-con2 {
-  margin-top: -90px; }
+  margin-top: -105px; }
 
 .list-mig-lc-con h5 {
   font-size: 18px;
@@ -7284,6 +7284,9 @@ footer ul li a:hover {
   /*added class with height by carlos */
   .col-md-3 .list-img-grid img {
     height: 250px; }
+  .col-md-6 .list-mig-lc-img {
+    min-height: 420px;
+    max-height: 470px; }
   .col-md-3 .list-mig-lc-img {
     min-height: 200px;
     max-height: 230px; }

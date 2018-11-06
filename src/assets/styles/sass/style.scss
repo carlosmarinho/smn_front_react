@@ -4399,7 +4399,7 @@
      display: block;
 }
  .list-mig-lc-con2 {
-     margin-top: -90px;
+     margin-top: -105px;
 }
  .list-mig-lc-con h5 {
      font-size: 18px;
@@ -7750,10 +7750,16 @@
         //height: 180px;
     }
 
+    .col-md-6 .list-mig-lc-img{
+        min-height: 420px;
+        max-height: 470px;
+    }
+
     .col-md-3 .list-mig-lc-img{
         min-height: 200px;
         max-height: 230px;
     }
+
 
     .col-md-3 .list-mig-like-com:before{
         height: 200px;
