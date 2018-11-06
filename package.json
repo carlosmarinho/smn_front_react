@@ -23,6 +23,7 @@
     "build-css": "node-sass-chokidar src/assets/styles/sass -o src/assets/styles/css",
     "watch-css": "npm run build-css && node-sass-chokidar src/assets/styles/sass -o src/assets/styles/css --watch --recursive  ",
     "start": "react-scripts start",
+    "startprod": "NODE_ENV=production PORT=21040 react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject"

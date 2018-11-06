@@ -19,9 +19,9 @@ class WidgetFilterRadio extends Component {
 
     generateWidget(objects) {
         if(objects.length>0){
-            return objects.map(object => {
+            return objects.map((object, ind) => {
                 return (
-                    <li>
+                    <li key={ind}>
                         <input className="with-gap" name="group1" type="radio" id="ldis1" />
                         <label htmlFor="ldis1">{object.nome}</label>
                     </li>

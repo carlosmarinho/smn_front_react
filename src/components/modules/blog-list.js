@@ -89,12 +89,12 @@ class BlogList extends Component {
     getCategorias(categorias){
         if(categorias.length > 0){
             return (
-                <div class="list-category-blog"><strong>Categorias: </strong> 
+                <div className="list-category-blog"><strong>Categorias: </strong> 
                     {categorias.map((categoria, i) => {
                         if(i+1 === categorias.length)
-                            return <Link to={`/noticias/categoria/${categoria.slug.replace('noticias/','')}`}>{categoria.nome}</Link>
+                            return <Link to={`/noticias/categoria/${categoria.slug.replace('noticias/','')}`} key={i}>{categoria.nome}</Link>
                         else
-                            return <Link to={`/noticias/categoria/${categoria.slug.replace('noticias/','')}`}>{categoria.nome}, </Link>
+                            return <Link to={`/noticias/categoria/${categoria.slug.replace('noticias/','')}`} key={i}>{categoria.nome}, </Link>
                     })}
                 </div>
             )
@@ -103,10 +103,10 @@ class BlogList extends Component {
 
     generateNoticias() {
         const truncate = _.truncate
-        let noticias = this.state.data.map( noticia => {
+        let noticias = this.state.data.map( (noticia, ind) => {
             
             return (
-                <div className="row blog-single">
+                <div className="row blog-single" key={ind}>
                     <div className="col-md-4">
                         <div className="blog-img"> <img src={this.getImageSrc(noticia)} alt="" /> </div>
                     </div>

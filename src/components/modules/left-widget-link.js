@@ -23,7 +23,7 @@ class LeftWidgetLink extends Component {
             return objects.map((object,i) => {
                 if(i<10){
                     return (
-                        <li>
+                        <li key={i}>
                             <Link to={'/guia/' + object.slug}>
                                 <div className="list-left-near lln1"> <img src={this.getImageSrc(object)} alt="" /> </div>
                                 <div className="list-left-near lln2">
@@ -34,6 +34,8 @@ class LeftWidgetLink extends Component {
                         </li>
                     )
                 }
+                else
+                    return null;
             })
         }
         

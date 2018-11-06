@@ -27,9 +27,9 @@ class RightWidgetLink extends Component {
         const truncate = _.truncate
         if(objects.length>0){
             return objects.map((object,i) => {
-                if(i < maxPerWidget)
+                if(i < maxPerWidget){ 
                     return (
-                        <li>
+                        <li key={i}>
                             <Link to={`/${this.props.type}/${object.slug}`}>
                                 <div className="list-pg-guar-img"> <img src={this.getImageSrc(object)} alt="" style={{width:32}} /> </div>
                                 <h4>{truncate(object.titulo, { length: 50, separator: /,?\.* +/ })}</h4>
@@ -37,6 +37,9 @@ class RightWidgetLink extends Component {
                             </Link>
                         </li>
                     )
+                }
+                else
+                    return null;
             })
         }
         

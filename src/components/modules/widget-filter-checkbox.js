@@ -19,9 +19,9 @@ class WidgetFilterCheckbox extends Component {
 
     generateWidget(objects) {
         if(objects.length>0){
-            return objects.map(object => {
+            return objects.map((object, ind) => {
                 return (
-                    <li>
+                    <li key={ind}>
                         <input type="checkbox" id="scf1" />
                         <label htmlFor="scf1">{object.nome}</label>
                     </li>

@@ -209,9 +209,9 @@ class EventItem extends Component {
 
     generateCategories(categories){
         if(categories && categories.length>0)
-            return categories.map(category => {
+            return categories.map((category, ind) => {
                 return(
-                    <Link to={`/eventos/categoria/${category.slug.replace('evento/','')}`}>
+                    <Link to={`/eventos/categoria/${category.slug.replace('evento/','')}`} key={ind} >
                         <li className="col-md-4">
                             <div className="pg-list-ser-p1"><img src={this.getImageSrc(category)} alt="" /> </div>
                             <div className="pg-list-ser-p2">

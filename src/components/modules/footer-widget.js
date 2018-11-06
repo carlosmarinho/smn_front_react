@@ -23,9 +23,9 @@ class FooterWidget extends Component {
         const truncate = _.truncate
 
         return objects.map((object,i) => {
-            if(i <= 3)
+            if(i <= 3){
                 return( 
-                    <li>
+                    <li key={i}>
                         <Link to={`/${this.props.type}/${object.slug}`}>
                             <div className="div-footer-img"> 
                                 <img src={this.getImageSrc(object)} alt="" /> 
@@ -37,6 +37,9 @@ class FooterWidget extends Component {
                         </Link>
                     </li>
                 )
+            }
+            else
+                return null;
         })
         
     }
