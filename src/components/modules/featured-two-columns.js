@@ -28,7 +28,7 @@ class FeaturedTwoColumns extends Component {
 
     generateEvent(array) {
         const truncate = _.truncate
-        return array.map( evento => {
+        return array.map( (evento, ind) => {
             if(evento === undefined){
                 console.log("evento undefined...........")
                 return null;
@@ -36,7 +36,7 @@ class FeaturedTwoColumns extends Component {
             else{
                 return(
                     <div>
-                        <div className="home-list-pop">
+                        <div className="home-list-pop" key={ind}>
                             {/*<!--POPULAR LISTINGS IMAGE-->*/}
                             <div className="col-md-3"> <img src={this.getImageSrc(evento)} alt="" /> </div>
                             {/*<!--POPULAR LISTINGS: CONTENT-->*/}

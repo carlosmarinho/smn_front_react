@@ -4110,10 +4110,6 @@ footer ul li a:hover {
   width: 100%;
   border-radius: 5px; }
 
-/*added class with height by carlos */
-.list-img-grid img {
-  height: 250px; }
-
 .list-mig-like-com:before {
   content: '';
   position: absolute;
@@ -7284,7 +7280,15 @@ footer ul li a:hover {
 @media (min-width: 992px) {
   .blog-img img {
     min-height: 170px;
-    max-height: 250px; } }
+    max-height: 250px; }
+  /*added class with height by carlos */
+  .col-md-3 .list-img-grid img {
+    height: 250px; }
+  .col-md-3 .list-mig-lc-img {
+    min-height: 200px;
+    max-height: 230px; }
+  .col-md-3 .list-mig-like-com:before {
+    height: 200px; } }
 
 .list-category {
   margin-top: 10px;

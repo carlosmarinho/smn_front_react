@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-
+import { Link } from 'react-router-dom';
 
 class MenuMobile extends Component {
     render(){
@@ -10,14 +10,14 @@ class MenuMobile extends Component {
                         <div className="row">
                             <div className="v3-mob-menu">
                                 <div className="v3-mob-m-1">
-                                    <a href="index-1.html"><img src="/images/logo-soumaisniteroi.png" alt="" /> </a>
+                                    <Link to={'/'}><img src="/images/logo-soumaisniteroi.png" alt="" /> </Link>
                                 </div>
                                 <div className="v3-mob-m-2">
                                     <div className="v3-top-ri">
                                         <ul>
                                             <li><a href="login.html" className="v3-menu-sign"><i className="fa fa-sign-in"></i> Login</a> </li>
-                                            <li><a href="price.html" className="v3-add-bus"><i className="fa fa-plus" aria-hidden="true"></i> Add Listing</a> </li>
-                                            <li><a href="#menu@todo" className="ts-menu-5" id="v3-mob-menu-btn"><i className="fa fa-bars" aria-hidden="true"></i>Menu</a> </li>
+                                            {/*@todo acrescentar <li><a href="price.html" className="v3-add-bus"><i className="fa fa-plus" aria-hidden="true"></i> Cadastrar Guia</a> </li>*/}
+                                            <li><a href="#menu" className="ts-menu-5" id="v3-mob-menu-btn"><i className="fa fa-bars" aria-hidden="true"></i>Menu</a> </li>
                                         </ul>
                                     </div>
                                 </div>
@@ -27,26 +27,21 @@ class MenuMobile extends Component {
                 </div>
                 <div className="mob-right-nav" data-wow-duration="0.5s">
                     <div className="mob-right-nav-close"><i className="fa fa-times" aria-hidden="true"></i> </div>
-                    <h5>Business</h5>
+                    <h5>Cidade</h5>
                     <ul className="mob-menu-icon">
-                        <li><a href="price.html">Add Business</a> </li>
-                        <li><a href="#!" data-toggle="modal" data-target="#register">Register</a> </li>
-                        <li><a href="#!" data-toggle="modal" data-target="#sign-in">Sign In</a> </li>
+                        <li><Link to="/cidade/bairros-de-niteroi"><i className="fa fa-angle-right" aria-hidden="true"></i>Bairros</Link></li>
+                        <li><Link to="/cidade/fotos-cidade-niteroi"><i className="fa fa-angle-right" aria-hidden="true"></i>Fotos da Cidade</Link></li>
+                        <li><Link to="/cidade/historia-da-cidade-de-niteroi"><i className="fa fa-angle-right" aria-hidden="true"></i>História da Cidade</Link></li>
+                        <li><Link to="/cidade/populacao-da-cidade-de-niteroi"><i className="fa fa-angle-right" aria-hidden="true"></i>População da Cidade</Link></li>
                     </ul>
-                    <h5>All Categories</h5>
-                    <ul>
-                        <li><a href="list.html"><i className="fa fa-angle-right" aria-hidden="true"></i> Help Services</a> </li>
-                        <li><a href="list.html"><i className="fa fa-angle-right" aria-hidden="true"></i> Appliances Repair & Services</a> </li>
-                        <li><a href="list.html"><i className="fa fa-angle-right" aria-hidden="true"></i> Furniture Dealers</a> </li>
-                        <li><a href="list.html"><i className="fa fa-angle-right" aria-hidden="true"></i> Packers and Movers</a> </li>
-                        <li><a href="list.html"><i className="fa fa-angle-right" aria-hidden="true"></i> Pest Control </a> </li>
-                        <li><a href="list.html"><i className="fa fa-angle-right" aria-hidden="true"></i> Solar Product Dealers</a> </li>
-                        <li><a href="list.html"><i className="fa fa-angle-right" aria-hidden="true"></i> Interior Designers</a> </li>
-                        <li><a href="list.html"><i className="fa fa-angle-right" aria-hidden="true"></i> Carpenters</a> </li>
-                        <li><a href="list.html"><i className="fa fa-angle-right" aria-hidden="true"></i> Plumbing Contractors</a> </li>
-                        <li><a href="list.html"><i className="fa fa-angle-right" aria-hidden="true"></i> Modular Kitchen</a> </li>
-                        <li><a href="list.html"><i className="fa fa-angle-right" aria-hidden="true"></i> Internet Service Providers</a> </li>
+                    <h5>Guia</h5>
+                    <ul className="mob-menu-icon">
+                        <li><Link className='dropdown-button' to="/guia/comercial"><i className="fa fa-angle-right" aria-hidden="true"></i>Guia Comercial</Link></li>
+                        <li><Link className='dropdown-button' to="/guia/servicos"><i className="fa fa-angle-right" aria-hidden="true"></i>Guia Servicos</Link></li>
                     </ul>
+                    <h5><Link to="/eventos">Eventos</Link></h5>
+                    <h5><Link to="/noticias">Notícias</Link></h5>
+                    <h5><Link to="/contato">Contato</Link></h5>
                 </div>
             </div>
         )
