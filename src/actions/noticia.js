@@ -74,7 +74,7 @@ export const fetchNoticiasByTag = async(tag='', limit='', sort=null) => {
     if(limit)
         limit = `&_limit=${limit}`;
     else
-        limit = `&_limit=500`;
+        limit = `&_limit=150`;
   
 
     let jwt = localStorage.getItem('jwt');
@@ -117,7 +117,7 @@ export const fetchNoticiasByTag = async(tag='', limit='', sort=null) => {
     }
 }
 
-export const fetchNoticiasByCategoryOrSlug = async(slugOrCategory='', limit=500) => {
+export const fetchNoticiasByCategoryOrSlug = async(slugOrCategory='', limit=150) => {
     let jwt = localStorage.getItem('jwt');
 
     if(!jwt){
@@ -158,7 +158,7 @@ export const fetchNoticiasByCategoryOrSlug = async(slugOrCategory='', limit=500)
     }
 }
 
-export const fetchNoticias = async(id, category='', limit=500) => {
+export const fetchNoticias = async(id, category='', limit=150) => {
     
     let jwt = localStorage.getItem('jwt');
 
