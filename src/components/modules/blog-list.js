@@ -76,9 +76,9 @@ class BlogList extends Component {
         }
         else if(noticia.imagem_destacada){
             //implementar codigo
-            return "http://soumaisniteroi.com.br/wp-content/uploads/2015/04/no-image.png";
+            return "http://images.soumaisniteroi.com.br/wp-content/uploads/2015/04/no-image.png";
         }
-        return "http://soumaisniteroi.com.br/wp-content/uploads/2015/04/no-image.png";
+        return "http://images.soumaisniteroi.com.br/wp-content/uploads/2015/04/no-image.png";
     }
 
     datePtBr(date){

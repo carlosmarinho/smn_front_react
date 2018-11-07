@@ -131,9 +131,9 @@ class TagList extends Component {
         }
         else if(item.imagem_destacada){
             //implementar codigo
-            return "http://soumaisniteroi.com.br/wp-content/uploads/2015/04/no-image.png";
+            return "http://images.soumaisniteroi.com.br/wp-content/uploads/2015/04/no-image.png";
         }
-        return "http://soumaisniteroi.com.br/wp-content/uploads/2015/04/no-image.png";
+        return "http://images.soumaisniteroi.com.br/wp-content/uploads/2015/04/no-image.png";
     }
 
     dateNumberPtBr(date){

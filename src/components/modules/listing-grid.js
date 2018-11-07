@@ -90,9 +90,9 @@ class ListingGrid extends Component {
         }
         else if(evento && evento.imagem_destacada){
             //implementar codigo
-            return "http://soumaisniteroi.com.br/wp-content/uploads/2015/04/no-image.png";
+            return "http://images.soumaisniteroi.com.br/wp-content/uploads/2015/04/no-image.png";
         }
-        return "http://soumaisniteroi.com.br/wp-content/uploads/2015/04/no-image.png";
+        return "http://images.soumaisniteroi.com.br/wp-content/uploads/2015/04/no-image.png";
     }
 
     getAvaliacao(evento){
@@ -140,7 +140,7 @@ class ListingGrid extends Component {
         if(mod > 0)
             eventos.push(
             <div className="col-md-4" ><div className="list-mig-like-com com-mar-bot-30">
-                <div className="list-mig-lc-img"> <img src="http://soumaisniteroi.com.br/wp-content/uploads/2015/04/no-image.png" alt="" /> <span className="home-list-pop-rat list-mi-pr">$720</span> </div>
+                <div className="list-mig-lc-img"> <img src="http://images.soumaisniteroi.com.br/wp-content/uploads/2015/04/no-image.png" alt="" /> <span className="home-list-pop-rat list-mi-pr">$720</span> </div>
                     <div className="list-mig-lc-con"></div>
                 </div>
             </div>
@@ -149,7 +149,7 @@ class ListingGrid extends Component {
         if(mod === 2)
             eventos.push(
             <div className="col-md-4" ><div className="list-mig-like-com com-mar-bot-30">
-                <div className="list-mig-lc-img"> <img src="http://soumaisniteroi.com.br/wp-content/uploads/2015/04/no-image.png" alt="" /> <span className="home-list-pop-rat list-mi-pr">$720</span> </div>
+                <div className="list-mig-lc-img"> <img src="http://images.soumaisniteroi.com.br/wp-content/uploads/2015/04/no-image.png" alt="" /> <span className="home-list-pop-rat list-mi-pr">$720</span> </div>
                     <div className="list-mig-lc-con"></div>
                 </div>
             </div>

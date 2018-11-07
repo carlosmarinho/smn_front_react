@@ -55,7 +55,7 @@ class NewsItem extends Component {
             }
             else if(item.imagem_destacada){
                 //implementar codigo
-                imageSrc =  "http://soumaisniteroi.com.br/wp-content/uploads/2015/04/no-image.png";
+                imageSrc =  "http://images.soumaisniteroi.com.br/wp-content/uploads/2015/04/no-image.png";
             }
             else
                 return
