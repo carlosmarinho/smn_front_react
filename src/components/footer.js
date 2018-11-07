@@ -58,10 +58,10 @@ class Footer extends Component {
                                                         <h4>Conecte-se conosco</h4>
                                                         <p>Curta a nossa página no Facebook ou no Google Plus, acompanhe nos no Twitter e no Instagram</p>
                                                         <ul className="list-inline text-center">
-                                                            <li><a href="#!@todo"><i className="fa fa-facebook" aria-hidden="true"></i></a> </li>
-                                                            <li><a href="#!@todo"><i className="fa fa-google-plus" aria-hidden="true"></i></a> </li>
-                                                            <li><a href="#!@todo"><i className="fa fa-twitter" aria-hidden="true"></i></a> </li>
-                                                            <li><a href="#!@todo"><i className="fa fa-linkedin" aria-hidden="true"></i></a> </li>
+                                                            <li><a href="https://facebook.com/soumaisniteroi" target="_blank"><i className="fa fa-facebook" aria-hidden="true"></i></a> </li>
+                                                            <li><a href="https://plus.google.com/u/0/101327012127569875794" target="_blank"><i className="fa fa-google-plus" aria-hidden="true"></i></a> </li>
+                                                            <li><a href="https://twitter.com/soumaisniteroi" target="_blank"><i className="fa fa-twitter" aria-hidden="true"></i></a> </li>
+                                                            <li><a href="https://instagram.com/soumaisniteroi.oficial" target="_blank"><i className="fa fa-instagram" aria-hidden="true"></i></a> </li>
                                                         </ul>
                                                     </div>
                                                 </div>

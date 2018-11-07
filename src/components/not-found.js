@@ -26,12 +26,12 @@ class NotFound extends Component {
         else if(this.props.categoria_item && this.props.categoria_item.categoria){
             if(this.props.categoria_item.categoria.tipo === 'guia comercial'){
                 return(
-                    <Redirect from={`${this.props.location.pathname}`} to={`/${this.props.categoria_item.categoria.slug.replace('comercial/','comercial/categoria/')}`} state={ { status: 301 } } />
+                    <Redirect from={`${this.props.location.pathname}`} to={`/${this.props.categoria_item.categoria.slug.replace('comercial/','comercial/')}`} state={ { status: 301 } } />
                 )
             }
             else if(this.props.categoria_item.categoria.tipo === 'guia serviço'){
                 return(
-                    <Redirect from={`${this.props.location.pathname}`} to={`/${this.props.categoria_item.categoria.slug.replace('servicos/','servicos/categoria/')}`} state={ { status: 301 } } />
+                    <Redirect from={`${this.props.location.pathname}`} to={`/${this.props.categoria_item.categoria.slug.replace('servicos/','servicos/')}`} state={ { status: 301 } } />
                 )
             }
             else if(this.props.categoria_item.categoria.tipo === 'notícia'){
