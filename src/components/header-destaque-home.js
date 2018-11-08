@@ -23,7 +23,7 @@ class HeaderDestaqueHome extends Component {
                                     <form className="tourz-search-form">
                                         <div className="input-field">
                                             <input type="text" id="select-city" className="autocomplete" />
-                                            <label htmlFor="select-city">Digite a cidade</label>
+                                            <label htmlFor="select-city">Digite o bairro</label>
                                         </div>
                                         <div className="input-field">
                                             <input type="text" id="select-search" className="autocomplete" />
