@@ -7277,6 +7277,10 @@ footer ul li a:hover {
   margin-bottom: 30px; }
 
 /*INCLUDED BY CARLOS*/
+@media screen and (max-width: 992px) {
+  .dir-ho-t-tit h1 {
+    padding-top: 10% !important; } }
+
 @media (min-width: 992px) {
   .blog-img img {
     min-height: 170px;
