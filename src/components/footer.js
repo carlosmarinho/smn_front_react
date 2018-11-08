@@ -32,7 +32,7 @@ class Footer extends Component {
                                             <div className="container">
                                                 <div className="row">
                                                     {/*<div className="col-sm-4 col-md-3 foot-logo"> <img src="/images/logo-soumaisniteroi-transp-footer.png" alt="logo rodapé" />*/}
-                                                    <div className="col-sm-4 col-md-3 foot-logo"> <img src="http://soumaisniteroi.com.br/wp-content/uploads/2015/08/logo-soumaisniteroi-transp-footer.png" alt="logo rodapé" />
+                                                    <div className="col-sm-4 col-md-3 foot-logo"> <img src="http://images.soumaisniteroi.com.br/wp-content/uploads/2015/08/logo-soumaisniteroi-transp-footer.png" alt="logo rodapé" />
                                                         <p className="hasimg">Somos o maior portal da cidade de Niterói!</p>
                                                         <p className="hasimg">Aqui você fica por dentro de tudo que acontece na sua cidade. Notícias, eventos, guias e muito Mais! </p>
                                                         <p> <span className=""><i className="fa fa-phone" aria-hidden="true"></i> </span> <span className="footer-contact"> (21) 99172-0833</span> </p>
