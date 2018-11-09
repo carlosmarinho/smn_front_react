@@ -5246,7 +5246,10 @@ footer ul li a:hover {
 /* REGISTER AND LOGIN 
 /*-------------------------------------------------------*/
 .tz-register {
-  background: url(../../images/face.jpg) #e6e6e6;
+  background: url(../../images/cidade/niteroi/praia-de-icarai-e-o-mac.jpg) no-repeat #e6e6e6;
+  background-position: left top;
+  background-size: cover;
+  background-attachment: fixed;
   position: relative;
   overflow: hidden;
   padding-top: 50px; }
