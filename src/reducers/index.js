@@ -1,4 +1,5 @@
 import { combineReducers } from 'redux';
+import { reducer as formReducer } from 'redux-form';
 
 import Users from './userReducer';
 import Guias from './guiaReducer';
@@ -19,5 +20,6 @@ export default combineReducers({
     eventos: Eventos,
     noticias: Noticias,
     paginas: Paginas,
-    city: City
+    city: City,
+    form: formReducer
 })
