@@ -27,7 +27,6 @@ export default function(state = null, action) {
             }
             
             evento.list = action.payload.data;
-            console.log("state no fetch eventos", evento);
             return evento;
         
         case FETCH_EVENTOS_RECENTES:

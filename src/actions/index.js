@@ -102,7 +102,6 @@ export const fetchUser = (id) => {
 
 export const fetchUsers = () => {
     const request = axios.get("http://localhost:3001/users");
-    console.log("------ vai chamar o fetchUsers -------")
 
     return {
         type: FETCH_USERS,

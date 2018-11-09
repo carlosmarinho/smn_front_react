@@ -54,7 +54,6 @@ class FeaturedListingThreeColumns extends Component {
 
     generateListing(){
         if(this.props.object){
-            console.log("no generate listing: ", this.props.object)
 
             return this.props.object.map((guia, ind) => {
                 return(

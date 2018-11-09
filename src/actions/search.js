@@ -1,19 +1,12 @@
 import axios from 'axios';
-import { FETCH_CITY } from "./types";
+import { SEARCH_HOME } from "./types";
 
 
 
-export const fetchCity = (id) => {
+export const searchHome = async(values) => {
 
-    const request = axios.get(`${process.env.REACT_APP_URL_API}cidade/${id}`);
-
-    return {
-        type: FETCH_CITY,
-        payload: request
-    }
-}
-
-export const fetchCityBySlug = async (slug) => {
+    let sort = '-_id';
+    let limit = `&_limit=200`;
 
     let jwt = localStorage.getItem('jwt');
 
@@ -22,12 +15,13 @@ export const fetchCityBySlug = async (slug) => {
         jwt = ret.data.jwt;
         localStorage.setItem('jwt', jwt);
     }
+
     let config = { headers: { 'Authorization': `Bearer ${jwt}` } };
 
-    const request = axios.get(`${process.env.REACT_APP_URL_API}cidade/?slug=${slug}`, config);
+    const request = axios.get(`${process.env.REACT_APP_URL_API}bairro/?populateAssociation=false&_sort=${sort}${limit}`, config);
 
     return {
-        type: FETCH_CITY,
+        type: SEARCH_HOME,
         payload: request
     }
 }

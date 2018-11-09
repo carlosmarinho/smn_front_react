@@ -37,7 +37,6 @@ export const fetchEventos = async(id, limit) => {
     let config = { headers: { 'Authorization': `Bearer ${jwt}` } };
 
     const request = axios.get(`${process.env.REACT_APP_URL_API}evento/?_sort=-_id&_limit=${limit}`, config);
-    console.log("------ vai chamar o fetchEventos -------")
 
     return {
         type: FETCH_EVENTOS,
@@ -155,7 +154,6 @@ export const fetchEventosRecentes = async(id, limit=5) => {
     let config = { headers: { 'Authorization': `Bearer ${jwt}` } };
 
     const request = axios.get(`${process.env.REACT_APP_URL_API}evento/?_sort=-_id&_limit=${limit}`, config);
-    console.log("------ vai chamar o fetchEventos -------")
 
     return {
         type: FETCH_EVENTOS_RECENTES,

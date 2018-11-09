@@ -42,8 +42,6 @@ export const fetchPaginas = async(id, category='', limit=500) => {
         let config = { headers: { 'Authorization': `Bearer ${jwt}` } };
         const req = await axios.get(`${process.env.REACT_APP_URL_API}categoria/?nome=${category}`, config);
 
-        console.log("request no fetchPaginas: ", req.data);
-
         if(req.data.lenght > 0)
             category=`categorias=${req.data[0]._id}&`
     }

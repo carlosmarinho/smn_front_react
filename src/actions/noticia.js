@@ -132,8 +132,6 @@ export const fetchNoticiasByCategoryOrSlug = async(slugOrCategory='', limit=150)
         let config = { headers: { 'Authorization': `Bearer ${jwt}` } };
         const req = await axios.get(`${process.env.REACT_APP_URL_API}categoria/?slug=noticias/${slugOrCategory}`, config);
 
-        console.log("request no fetchNoticias: ", req.data);
-
         if(req.data.length > 0)
             category=`categorias=${req.data[0]._id}&`
         else

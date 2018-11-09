@@ -28,7 +28,6 @@ class ListingGrid extends Component {
     }
 
     componentDidMount() {
-        console.log("no evento componet did mount vai chamar o fetchEventos", this.props.match, this.props.params)
         //this.props.fetchEventos('5ba26f813a018f42215a36a0');
         this.props.fetchCategoriesEventoTop();
         this.props.fetchBairros('5ba26f813a018f42215a36a0');
@@ -38,7 +37,6 @@ class ListingGrid extends Component {
 
     componentWillReceiveProps(nextProps) {
 
-        console.log("aquiiiiiiii no will receive EVENTOS", nextProps);
         if(nextProps.match && nextProps.match.params.slug){
             let slug = nextProps.match.params.slug
             if(slug !== this.state.slug){

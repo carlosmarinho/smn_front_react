@@ -18,7 +18,6 @@ import PreFooter from './modules/pre-footer';
 class Home extends Component {
 
     componentDidMount() {
-        console.log("era para chamar o fetch featured guias");
         this.props.fetchFeaturedGuias('5ba26f813a018f42215a36a0');
         this.props.fetchEventos('5ba26f813a018f42215a36a0', 4);
         //this.props.fetchNoticiasRecentes('5ba26f813a018f42215a36a0', 5, '-_id');
@@ -32,7 +31,6 @@ class Home extends Component {
         )
     }
     render(){
-        console.log('props render do home: ', this.props)
         if(!this.props.guiasFeatured || !this.props.eventos || !this.props.noticias){
             return(<div>
                 <HeaderHome background="" />
