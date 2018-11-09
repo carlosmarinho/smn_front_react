@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom';
 class Register extends Component {
 
     render(){
-        let name1 = "Carlos Luiz";
+        let name1 = "";
         return(
             <div>
                 <section className="tz-register">
@@ -27,7 +27,8 @@ class Register extends Component {
                         <div className="log-in-pop-right">
                             <a href="#@todoclose" className="pop-close" data-dismiss="modal"><img src="images/cancel.png" alt="" />
                             </a>
-                            <h4>Faça o seu Cadastro</h4>
+                            <h4>Faça o seu Cadastro <span>(Em manutenção)</span></h4>
+                            <p>O login do site está em manutenção! Esperamos resolver o mais breve possível.</p>
                             <p>Ainda não fez seu cadastro? Então faça o seu registro. Leva menos de 1 minuto</p>
                             <form className="s12">
                                 <div>

@@ -36,7 +36,8 @@ class Contact extends Component {
                             <div className="con-com">
                                 <div className="cpn-pag-form">
                                     <form>
-                                        <h3>Entre em contato!</h3>
+                                        <h3>Entre em contato! <span>(Formulário em manutenção)</span></h3>
+                                        <p>O Formulário de contato do site está em manutenção! Esperamos resolver o mais breve possível.</p>
                                         <p>Envie sua opinião, reclamação, sugestão e elogio através do formulário abaixo e contribua para o crescimento do nosso site e da sua cidade. Esperamos que fique a vontade para falar conosco.</p>
                                         <div>
                                             <div className="input-field col s12">

@@ -6,13 +6,13 @@ import {Link} from 'react-router-dom';
 class Login extends Component {
 
     render(){
-        let name1 = "Carlos Luiz";
+        let name1 = "";
         return(
             <div>
                 <section className="tz-register">
                     <div className="log-in-pop">
                         <div className="log-in-pop-left">
-                            <h1>Hello... <span>{ name1 }</span></h1>
+                            <h1>Olá... <span>{ name1 }</span></h1>
                             <p>Ainda não fez seu cadastro? Então faça o seu registro. Leva menos de 1 minuto</p>
                             <h4>Login com media social </h4>
                             <ul>
@@ -27,7 +27,8 @@ class Login extends Component {
                         <div className="log-in-pop-right">
                             <a href="#@todoclose" className="pop-close" data-dismiss="modal"><img src="images/cancel.png" alt="" />
                             </a>
-                            <h4>Login</h4>
+                            <h4>Login <span>(Em manutenção)</span></h4>
+                            <p>O login do site está em manutenção! Esperamos resolver o mais breve possível.</p>
                             <p>Informe seu usuario ou email e sua senha para logar no site!</p>
                             <form className="s12">
                                 <div>
