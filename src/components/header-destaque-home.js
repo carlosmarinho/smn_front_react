@@ -2,17 +2,39 @@ import React, { Component } from 'react';
 import Helmet from 'react-helmet';
 import { Field, Input, reduxForm } from 'redux-form';
 import { connect } from 'react-redux';
+import { Redirect } from 'react-router-dom';
 import { searchHome } from '../actions/search';
 
 
 
 class HeaderDestaqueHome extends Component {
 
+    constructor(){
+        super()
+
+        this.state = {
+            searched: false,
+            bairro: ' ',
+            search: ' '
+        }
+    }
 
     onSubmit(values) {
         // this === component (thats the reason we used .bind(this)
         // on onSubmit, because different context of variable)
         console.log("valoresssss: ", values);
+
+        if(values.bairro || values.search ){
+            this.setState({
+                searched:true,
+                bairro: (values.bairro)? values.bairro.toLowerCase():'',
+                search: (values.search)? values.search.toLowerCase():''
+            })
+        }
+        else{
+            alert('Informe ou o bairro ou o que você procura!')
+        }
+        //this.props.history.push('/guia');
         //this.props.createPost(values, () => this.props.history.push('/'));
     }
 
@@ -27,13 +49,19 @@ class HeaderDestaqueHome extends Component {
                     disabled={false}
                     {...field.input}
                 />
-                <label htmlFor={field.id}>{field.label}</label>
+                <label htmlFor={field.id} className={field.labelClass}>{field.label}</label>
                 
             </div>
         )
     }
 
     render(){
+        console.log("state search: ", this.state.search);
+        if(this.state.searched){
+            console.log(`/busca/${this.state.bairro}/${this.state.busca}`);
+            return <Redirect to={`/busca/${this.state.bairro}/${this.state.search}`} />
+        }
+
         let title = "Site da cidade de Niterói - Soumaisniterói";
         if(this.props.title)
             title = this.props.title + " | " + title;
@@ -63,17 +91,28 @@ class HeaderDestaqueHome extends Component {
                                             className="autocomplete"
                                             id="select-city"
                                             type="text"
+                                            name="bairro"
+                                            value=""
+                                            component={this.renderField}
+                                        />
+                                        <Field
+                                            label="O que procura "
+                                            className="autocomplete"
+                                            id="select-search"
+                                            labelClass="search-hotel-type"
+                                            type="text"
+                                            name="search"
                                             value=""
                                             component={this.renderField}
                                         />
                                         {/* <div className="input-field">
-                                            <input type="text" id="select-city" className="autocomplete" name="bairro" />
-                                            <label htmlFor="select-city">Digite o bairro</label>
-                                        </div> */}
-                                        <div className="input-field">
-                                            <input type="text" id="select-search" className="autocomplete" />
-                                            <label htmlFor="select-search" className="search-hotel-type">O que procura</label>
-                                        </div>
+                                                <input type="text" id="select-city" className="autocomplete" name="bairro" />
+                                                <label htmlFor="select-city">Digite o bairro</label>
+                                            </div> *
+                                            <div className="input-field">
+                                                <input type="text" id="select-search" className="autocomplete" />
+                                                <label htmlFor="select-search" className="search-hotel-type">O que procura</label>
+                                            </div>*/}
                                         <div className="input-field">
                                             <input type="submit" value="buscar" className="waves-effect waves-light tourz-sear-btn" /> 
                                         </div>
