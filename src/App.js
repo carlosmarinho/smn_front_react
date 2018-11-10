@@ -168,8 +168,9 @@ class App extends Component {
 
                             <Route exact path="/tags/:slug/" component={TagList} />
 
-                            <Route exact path="/busca/:bairro/:busca/" component={TagList} />
-                            <Route exact path="/busca/:bairro/" component={SearchList} />
+                            <Route exact path="/busca/bairro/:bairro/keyword/:keyword/" component={SearchList} />
+                            <Route exact path="/busca/bairro/:bairro/" component={SearchList} />
+                            <Route exact path="/busca/keyword/:keyword/" component={SearchList} />
 
                             <Route exact path="/contato" component={Contact} />
 

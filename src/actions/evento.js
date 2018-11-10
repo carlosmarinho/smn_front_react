@@ -93,6 +93,61 @@ export const fetchEventosByTag = async(tag='', limit='', sort=null) => {
     }
 }
 
+export const fetchEventosBySearch = async(search='', limit='', sort=null) => {
+    if(!sort)
+        sort = '-_id';
+
+    if(limit)
+        limit = `&_limit=${limit}`;
+    else
+        limit = `&_limit=500`;
+  
+
+    let jwt = localStorage.getItem('jwt');
+
+    if(!jwt){
+        let ret = await axios.post(`${process.env.REACT_APP_URL_API}auth/local`, { identifier: process.env.REACT_APP_USER_API, password: process.env.REACT_APP_PASSWORD_API })
+        jwt = ret.data.jwt;
+        localStorage.setItem('jwt', jwt);
+    }
+
+    let config = { headers: { 'Authorization': `Bearer ${jwt}` } };
+
+    console.log("no busca evento: ", search)
+    let bairros = '';
+    let req;
+    if(search.bairro){
+        req = await axios.get(`${process.env.REACT_APP_URL_API}bairro/?slug=${search.bairro}`, config);
+
+        if(req.data.length > 0){
+            console.log("request do tag: ", req.data);
+            bairros=`bairros=${req.data[0]._id}&`
+        }
+        
+    }
+
+    let keyword = '';
+    if(search.keyword){
+        req = await axios.get(`${process.env.REACT_APP_URL_API}categoria/?slug=${search.keyword}&tipo=evento`, config);
+
+        if(req.data.length > 0){
+            console.log("request do tag: ", req.data);
+            keyword=`&categoria=${req.data[0]._id}&`
+        }
+        
+        keyword=`titulo_contains=${search.keyword}&`
+    }
+
+
+    const request = await axios.get(`${process.env.REACT_APP_URL_API}evento/?${bairros}${keyword}&_sort=${sort}${limit}`, config);
+    
+    return {
+        type: FETCH_EVENTOS,
+        payload: request
+    }
+    
+}
+
 
 export const fetchEventosByCategory = async(category='', limit='', sort=null) => {
     if(!sort)

@@ -189,7 +189,7 @@ class TagList extends Component {
             return(
                 <div>
                     {eventos}
-                    <div class="row">
+                    <div className="row">
                         <Pagination
                             activePage={this.state.activePageEvento}
                             itemsCountPerPage={this.state.perPage}
@@ -253,7 +253,7 @@ class TagList extends Component {
         return(
             <div>
                 {guias}
-                <div class="row">
+                <div className="row">
                     <Pagination
                         activePage={this.state.activePage}
                         itemsCountPerPage={this.state.perPage}
@@ -414,12 +414,12 @@ class TagList extends Component {
     getCategorias(categorias){
         if(categorias.length > 0){
             return (
-                <div class=" list-category"><strong>Categorias: </strong> 
+                <div className=" list-category"><strong>Categorias: </strong> 
                     {categorias.map((categoria, i) => {
                         if(i+1 === categorias.length)
-                            return <Link to={`/${categoria.slug.replace('comercial/','comercial/categoria/').replace('servicos/','servicos/categoria/')}`}>{categoria.nome}</Link>
+                            return <Link key={i} to={`/${categoria.slug.replace('comercial/','comercial/categoria/').replace('servicos/','servicos/categoria/')}`}>{categoria.nome}</Link>
                         else
-                            return <Link to={`/${categoria.slug.replace('comercial/','comercial/categoria/').replace('servicos/','servicos/categoria/')}`}>{categoria.nome}, </Link>
+                            return <Link key={i} to={`/${categoria.slug.replace('comercial/','comercial/categoria/').replace('servicos/','servicos/categoria/')}`}>{categoria.nome}, </Link>
                     })}
                 </div>
             )

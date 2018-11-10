@@ -3,9 +3,9 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import HeaderListing from '../header-destaque-listing';
-import { fetchGuias, fetchGuiasByTag } from '../../actions/guia';
-import { fetchEventosByTag } from '../../actions/evento';
-import { fetchNoticiasByTag } from '../../actions/noticia';
+import { fetchGuias, fetchGuiasBySearch } from '../../actions/guia';
+import { fetchEventosBySearch } from '../../actions/evento';
+import { fetchNoticiasBySearch } from '../../actions/noticia';
 import { fetchBairros } from '../../actions/bairro';
 import { fetchCategoriesGuiaTop } from '../../actions/categoria';
 import Pagination from "react-js-pagination";
@@ -29,6 +29,8 @@ class SearchList extends Component {
             activePageNoticia: 1,
             perPage: 5,
             slug: '',
+            search: '',
+            bairroSearch: '',
             type: ''
         }
 
@@ -61,24 +63,34 @@ class SearchList extends Component {
     componentWillReceiveProps(nextProps) {
 
         console.log(nextProps);
+        
+        if(nextProps.match && nextProps.match.params){
+            console.log("nextprops: ", nextProps)
+            let slug = nextProps.location.pathname;
+            let params = nextProps.match.params
+            let search = {bairro:'', keyword:''};
 
-        if(nextProps.match && nextProps.match.params.slug){
-            let search = '';
             if(nextProps.type){
                 search = `tipo=${nextProps.type}`
             }
             
-            let slug = nextProps.match.params.slug
+            if(params.bairro){
+                search = {bairro: params.bairro};
+            }
+
+            if(params.keyword){
+                search = {keyword: params.keyword};
+            }
          
             if(slug !== this.state.slug){
          
                 this.setState(
                     {
-                       search: search,
                        slug: slug,
-                       guias: this.props.fetchGuiasByTag(slug),
-                       eventos: this.props.fetchEventosByTag(slug),
-                       noticias: this.props.fetchNoticiasByTag(slug)
+                       search: search,
+                       guias: this.props.fetchGuiasBySearch(search),
+                       eventos: this.props.fetchEventosBySearch(search),
+                       noticias: this.props.fetchNoticiasBySearch(search)
                     }
                 )
             }
@@ -153,32 +165,38 @@ class SearchList extends Component {
                 /*Por enquanto está implementado para não exibir avaliações depois que já tiver avaliação suficiente colocar o texto sem avaliação*/
                 if(evento.mediaAvaliacao)
                     avaliacao = <span className="home-list-pop-rat">{evento.mediaAvaliacao}</span>
+                
                 return (
-                    <div className="home-list-pop list-spac">
-                        {/*<!--LISTINGS IMAGE-->*/}
-                        <div className="col-md-3 list-ser-img"> <img src={this.getImageSrc(evento)} alt="" /> </div>
-                        {/*<!--LISTINGS: CONTENT-->*/}
-                        <div className="col-md-9 home-list-pop-desc inn-list-pop-desc"> <Link to={`/evento/` + evento.slug}><h3>{evento.titulo}</h3></Link>
-                            <h4>{(evento.cidade.length>0)?evento.cidade[0].nome:''} {(evento.bairros.length>0)?'- ' + evento.bairros[0].nome:''}</h4>
-                            <p>{(evento.endereco)?<b>Endereço:</b>:''} {evento.endereco}</p>
-                            <div className="list-number">
+                    <div className="row">
+                        {/*<!--EVENTS-->*/}  
+                        <div className="home-list-pop list-spac">
+                            {/*<!--EVENTS IMAGE-->*/}
+                            <div className="col-md-3 list-ser-img"> <img src={this.getImageSrc(evento)} alt="" /> </div>
+                            {/*<!--EVENTS: CONTENT-->*/}
+                            <div className="col-md-9 home-list-pop-desc inn-list-pop-desc"> <Link to={`/evento/` + evento.slug}><h3>{evento.titulo}</h3></Link>
+                                <h4>{(evento.cidade.length>0)?evento.cidade[0].nome:''} {(evento.bairros.length>0)?'- ' + evento.bairros[0].nome:''}</h4>
+                                <p>{(evento.endereco)?<b>Endereço:</b>:''} {evento.endereco}</p>
+                                <div className="list-number">
+                                    
+                                    {(evento.inicio)?<p><strong>Data do Evento:</strong> {this.datePtBr(new Date(evento.inicio))}</p>:''}
+                                    {(evento.fim)?<p><strong>Data Fim </strong> {this.datePtBr(new Date(evento.fim))}</p>:''}
+                                    {(evento.classificacao_indicativa)?<p><strong>Classificação </strong> {evento.classificacao_indicativa}</p>:''}
+                                    
+                                </div> 
+                                {avaliacao}
+                                {this.getCategorias(evento.categorias)}
                                 
-                                {(evento.inicio)?<p><strong>Data do Evento:</strong> {this.datePtBr(new Date(evento.inicio))}</p>:''}
-                                {(evento.fim)?<p><strong>Data Fim </strong> {this.datePtBr(new Date(evento.fim))}</p>:''}
-                                {(evento.classificacao_indicativa)?<p><strong>Classificação </strong> {evento.classificacao_indicativa}</p>:''}
-                                
-                            </div> 
-                            {avaliacao}
-                            {this.getCategorias(evento.categorias)}
-                            
-                            <div className="list-enqu-btn">
-                                <ul>
-                                    <li><a href="#!"><i className="fa fa-star-o" aria-hidden="true"></i> Avalie este evento</a> </li>
-                                    <li><a href="#!" data-dismiss="modal" data-toggle="modal" data-target="#list-quo"><i className="fa fa-question-circle" aria-hidden="true"></i> Mais Informações</a> </li>
-                                </ul>
+                                <div className="list-enqu-btn">
+                                    <ul>
+                                        <li><a href="#!"><i className="fa fa-star-o" aria-hidden="true"></i> Avalie este evento</a> </li>
+                                        <li><a href="#!" data-dismiss="modal" data-toggle="modal" data-target="#list-quo"><i className="fa fa-question-circle" aria-hidden="true"></i> Mais Informações</a> </li>
+                                    </ul>
+                                </div>
                             </div>
                         </div>
+                        {/*<!--EVENTS END-->*/}
                     </div>
+                    
                 )
             })
 
@@ -187,9 +205,10 @@ class SearchList extends Component {
                 itemCount = this.props.eventos.list.length
 
             return(
-                <div>
+                <div className="dir-alp-con-right-1 content_search" >
+                    <h2 style={{ textAlign: 'center'}}>Listagem de Eventos para a busca</h2>
                     {eventos}
-                    <div class="row">
+                    <div className="row">
                         <Pagination
                             activePage={this.state.activePageEvento}
                             itemsCountPerPage={this.state.perPage}
@@ -212,37 +231,41 @@ class SearchList extends Component {
 
     generateGuias() {
         
+
         let guias = this.state.data.map( guia => {
             let avaliacao = '';
             /*Por enquanto está implementado para não exibir avaliações depois que já tiver avaliação suficiente colocar o texto sem avaliação*/
             if(guia.mediaAvaliacao)
                 avaliacao = <span className="home-list-pop-rat">{guia.mediaAvaliacao}</span>
             return (
-                <div className="home-list-pop list-spac">
-                    {/*<!--LISTINGS IMAGE-->*/}
-                    <div className="col-md-3 list-ser-img"> <img src={this.getImageSrc(guia)} alt="" /> </div>
-                    {/*<!--LISTINGS: CONTENT-->*/}
-                    <div className="col-md-9 home-list-pop-desc inn-list-pop-desc"> <Link to={`/guia/` + guia.slug}><h3>{guia.titulo}</h3></Link>
-                        <h4>{(guia.cidade.length>0)?guia.cidade[0].nome:''} {(guia.bairros.length>0)?'- ' + guia.bairros[0].nome:''}</h4>
-                        <p>{(guia.endereco)?<b>Endereço:</b>:''} {guia.endereco}</p>
-                        <div className="list-number">
-                            <ul>
-                                <li>{(guia.telefone)?<i className="fa fa-phone" aria-hidden="true"></i>:''} {guia.telefone}</li>
-                                <li>{(guia.email)?<i className="fa fa-envelope" aria-hidden="true"></i>:''} {guia.email}</li>
-                            </ul>
-                        </div> 
-                        {avaliacao}
-                        {this.getCategorias(guia.categorias)}
-                        
-                        <div className="list-enqu-btn">
-                            <ul>
-                                <li><a href="#!"><i className="fa fa-envelope" aria-hidden="true"></i> Enviar Email</a> </li>
-                                <li><a href="#!"><i className="fa fa-star-o" aria-hidden="true"></i> Faça sua Avaliação</a> </li>
-                                <li><a href="#!" data-dismiss="modal" data-toggle="modal" data-target="#list-quo"><i className="fa fa-question-circle" aria-hidden="true"></i> Pergunta Direta</a> </li>
-                            </ul>
+                
+                    <div className="row">
+                        <div className="home-list-pop list-spac">
+                            {/*<!--LISTINGS IMAGE-->*/}
+                            <div className="col-md-3 list-ser-img"> <img src={this.getImageSrc(guia)} alt="" /> </div>
+                            {/*<!--LISTINGS: CONTENT-->*/}
+                            <div className="col-md-9 home-list-pop-desc inn-list-pop-desc"> <Link to={`/guia/` + guia.slug}><h3>{guia.titulo}</h3></Link>
+                                <h4>{(guia.cidade.length>0)?guia.cidade[0].nome:''} {(guia.bairros.length>0)?'- ' + guia.bairros[0].nome:''}</h4>
+                                <p>{(guia.endereco)?<b>Endereço:</b>:''} {guia.endereco}</p>
+                                <div className="list-number">
+                                    <ul>
+                                        <li>{(guia.telefone)?<i className="fa fa-phone" aria-hidden="true"></i>:''} {guia.telefone}</li>
+                                        <li>{(guia.email)?<i className="fa fa-envelope" aria-hidden="true"></i>:''} {guia.email}</li>
+                                    </ul>
+                                </div> 
+                                {avaliacao}
+                                {this.getCategorias(guia.categorias)}
+                                
+                                <div className="list-enqu-btn">
+                                    <ul>
+                                        <li><a href="#!"><i className="fa fa-envelope" aria-hidden="true"></i> Enviar Email</a> </li>
+                                        <li><a href="#!"><i className="fa fa-star-o" aria-hidden="true"></i> Faça sua Avaliação</a> </li>
+                                        <li><a href="#!" data-dismiss="modal" data-toggle="modal" data-target="#list-quo"><i className="fa fa-question-circle" aria-hidden="true"></i> Pergunta Direta</a> </li>
+                                    </ul>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                </div>
             )
         })
 
@@ -251,9 +274,10 @@ class SearchList extends Component {
             itemCount = this.props.guias.list.length
 
         return(
-            <div>
+            <div className="dir-alp-con-right-1 content_search" >
+                <h2 style={{ textAlign: 'center'}}>Listagem de Guias para a busca </h2>
                 {guias}
-                <div class="row">
+                <div className="row">
                     <Pagination
                         activePage={this.state.activePage}
                         itemsCountPerPage={this.state.perPage}
@@ -279,18 +303,22 @@ class SearchList extends Component {
         let noticias = this.state.dataNoticia.map( noticia => {
             
             return (
-                <div className="home-list-pop list-spac">
-                    <div className="col-md-4">
-                        <div className="blog-img"> <img src={this.getImageSrc(noticia)} alt="" /> </div>
+                <div className="row">
+                    {/*<!--NEWS-->*/}
+                    <div className="home-list-pop list-spac">
+                        <div className="col-md-4">
+                            <div className="blog-img"> <img src={this.getImageSrc(noticia)} alt="" /> </div>
+                        </div>
+                        <div className="col-md-8">
+                            <div className="page-blog">
+                                <Link to={'/noticias/' + noticia.slug}  ><h3>{noticia.titulo}</h3></Link>
+                                <span>{this.datePtBr(new Date(noticia.createdAt))} </span>
+                                <p>{truncate(noticia.descricao.replace(/&#13;/g,'').replace(/<\/?[^>]+(>|$)/g, ""), { length: 150, separator: /,?\.* +/ })}</p> 
+                                {this.getCategorias(noticia.categorias)}
+                                <Link to={'/noticias/' + noticia.slug} className="waves-effect waves-light btn-large full-btn" >Leia Mais</Link> </div>
+                        </div>
                     </div>
-                    <div className="col-md-8">
-                        <div className="page-blog">
-                            <Link to={'/noticias/' + noticia.slug}  ><h3>{noticia.titulo}</h3></Link>
-                            <span>{this.datePtBr(new Date(noticia.createdAt))} </span>
-                            <p>{truncate(noticia.descricao.replace(/&#13;/g,'').replace(/<\/?[^>]+(>|$)/g, ""), { length: 150, separator: /,?\.* +/ })}</p> 
-                            {this.getCategorias(noticia.categorias)}
-                            <Link to={'/noticias/' + noticia.slug} className="waves-effect waves-light btn-large full-btn" >Leia Mais</Link> </div>
-                    </div>
+                    {/*<!--NEWS END-->*/}
                 </div>
             )
         })
@@ -300,7 +328,8 @@ class SearchList extends Component {
             itemCount = this.props.noticias.list.length
 
         return(
-            <div>
+            <div className="dir-alp-con-right-1 content_search" >
+                <h2 style={{ textAlign: 'center'}}>Listagem de Notícias para a busca</h2>
                 {noticias}
                 <Pagination
                     activePage={this.state.activePageNoticia}
@@ -412,12 +441,12 @@ class SearchList extends Component {
     getCategorias(categorias){
         if(categorias.length > 0){
             return (
-                <div class=" list-category"><strong>Categorias: </strong> 
+                <div className=" list-category"><strong>Categorias: </strong> 
                     {categorias.map((categoria, i) => {
                         if(i+1 === categorias.length)
-                            return <Link to={`/${categoria.slug.replace('comercial/','comercial/categoria/').replace('servicos/','servicos/categoria/')}`}>{categoria.nome}</Link>
+                            return <Link key={i} to={`/${categoria.slug.replace('comercial/','comercial/categoria/').replace('servicos/','servicos/categoria/')}`}>{categoria.nome}</Link>
                         else
-                            return <Link to={`/${categoria.slug.replace('comercial/','comercial/categoria/').replace('servicos/','servicos/categoria/')}`}>{categoria.nome}, </Link>
+                            return <Link key={i} to={`/${categoria.slug.replace('comercial/','comercial/categoria/').replace('servicos/','servicos/categoria/')}`}>{categoria.nome}, </Link>
                     })}
                 </div>
             )
@@ -435,37 +464,57 @@ class SearchList extends Component {
         let guias = <div>Nenhum Guia listado para a busca</div>
 
         if(! this.props.guias){
-            guias = <div>Nenhum guia encontrado para a busca {this.props.listName} </div>
+            guias = <div className="dir-alp-con-right-1 content_search" style={{ textAlign: 'center'}}><img src="/images/preloader_smn.gif" />Carregando Guias... </div>
         }
         else {
             if(!this.props.guias.list)
-                guias = <div>Nenhum guia encontrado para a busca {this.props.listName} </div>
-            else
-                guias = this.generateGuias();
+                guias = <div className="dir-alp-con-right-1 content_search" style={{ textAlign: 'center'}}><img src="/images/preloader_smn.gif" />Carregando Guias...</div>
+            else{
+                console.log("aqui no generate guiaaaaaaaaaaaaaaaaaaaaaaaa", this.props.guias.list);
+                if(this.props.guias.list.length>0)
+                    guias = this.generateGuias();
+                else
+                    guias = <div className="dir-alp-con-right-1 content_search">
+                                <h2 style={{ textAlign: 'center'}}>Nenhum guia encontrado para a busca {this.props.listName} </h2>
+                            </div>
+            }
         }
 
         let eventos = <div>Nenhum Evento listado para a busca</div>
 
         if(! this.props.eventos){
-            eventos = <div>Nenhum evento encontrado para a busca {this.props.listName} </div>
+            eventos = <div className="dir-alp-con-right-1 content_search" style={{ textAlign: 'center'}}><img src="/images/preloader_smn.gif" />Carregando eventos... </div>
         }
         else {
             if(!this.props.eventos.list)
-                eventos = <div>Nenhum evento encontrado para a busca {this.props.listName} </div>
-            else
-                eventos = this.generateEventos();
+                eventos = <div className="dir-alp-con-right-1 content_search" style={{ textAlign: 'center'}}><img src="/images/preloader_smn.gif" />Carregando eventos...</div>
+            else{
+                if(this.props.eventos.list.length>0)
+                    eventos = this.generateEventos();
+                else
+                    eventos = <div className="dir-alp-con-right-1 content_search" className="dir-alp-con-right-1 content_search">
+                                    <h2 style={{ textAlign: 'center'}}>Nenhum Evento encontrado para a busca solicitada! </h2>
+                               </div>
+            }
         }
 
-        let noticias = <div>Nenhuma notícia listado para a busca</div>
+        let noticias = <div className="dir-alp-con-right-1 content_search" style={{ textAlign: 'center'}}>Nenhuma notícia listado para a busca</div>
 
         if(! this.props.noticias){
-            noticias = <div>Nenhuma noticia encontrado para a busca {this.props.listName} </div>
+            noticias = <div className="dir-alp-con-right-1 content_search" style={{ textAlign: 'center'}}><img src="/images/preloader_smn.gif" />Carregando Notícias... </div>
         }
         else {
             if(!this.props.noticias.list)
-                noticias = <div>Nenhuma noticia encontrado para a busca {this.props.listName} </div>
-            else
-                noticias = this.generateNoticias();
+                noticias = <div className="dir-alp-con-right-1 content_search" style={{ textAlign: 'center'}}><img src="/images/preloader_smn.gif" />Carregando Notícias... </div>
+            else{
+                if(this.props.noticias.list.length>0)
+                    noticias = this.generateNoticias();
+                else 
+                    noticias = <div className="dir-alp-con-right-1 content_search">
+                                    <h2 style={{ textAlign: 'center'}}>Nenhuma Notícia encontrado para a busca solicitada! </h2>
+                                </div>
+                
+            }
         }
 
         /* if(this.props.bairros)
@@ -503,30 +552,11 @@ class SearchList extends Component {
                             <div className="dir-alp-con">
                                 {(leftColumn)?<ListingLeftColumn objects={(this.props.guias)?this.props.guias.recentes:[]} categories={(this.props.categorias)?this.props.categorias.guia:[]} bairros={(this.props.bairros)?this.props.bairros:[]} />:''}
                                 <div className={(leftColumn)? 'col-md-9 dir-alp-con-right': 'col-md-12 dir-alp-con-right'}>
-                                    <div className="dir-alp-con-right-1" style={{backgroundColor:'#ddd', marginTop:'30px', padding:'30px 10px 20px 10px'}}>
-                                        <h2 style={{ textAlign: 'center'}}>Listagem de Guias para a busca </h2>
-                                        <div className="row">
-                                            {/*<!--LISTINGS-->*/}
-                                            {guias}
-                                            {/*<!--LISTINGS END-->*/}
-                                        </div>
-                                    </div>
-                                    <div className="dir-alp-con-right-1" style={{backgroundColor:'#ddd', marginTop:'30px', padding:'30px 10px 20px 10px'}}>
-                                        <h2 style={{ textAlign: 'center'}}>Listagem de Eventos para a busca</h2>
-                                        <div className="row">
-                                            {/*<!--LISTINGS-->*/}
-                                            {eventos}
-                                            {/*<!--LISTINGS END-->*/}
-                                        </div>
-                                    </div>
-                                    <div className="dir-alp-con-right-1" style={{backgroundColor:'#ddd', marginTop:'30px', padding:'30px 10px 20px 10px'}}>
-                                        <h2 style={{ textAlign: 'center'}}>Listagem de Notícias para a busca</h2>
-                                        <div className="row">
-                                            {/*<!--LISTINGS-->*/}
-                                            {noticias}
-                                            {/*<!--LISTINGS END-->*/}
-                                        </div>
-                                    </div>
+                                        {guias}
+                                    
+                                        {eventos}
+                                    
+                                        {noticias}
                                 </div>
 
 
@@ -552,4 +582,4 @@ function mapStateToProps(state){
     }
 }
 
-export default connect(mapStateToProps, { fetchGuias, fetchGuiasByTag, fetchEventosByTag, fetchNoticiasByTag, fetchBairros, fetchCategoriesGuiaTop })(SearchList);
+export default connect(mapStateToProps, { fetchGuias, fetchGuiasBySearch, fetchEventosBySearch, fetchNoticiasBySearch, fetchBairros, fetchCategoriesGuiaTop })(SearchList);

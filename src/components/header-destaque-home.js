@@ -15,7 +15,7 @@ class HeaderDestaqueHome extends Component {
         this.state = {
             searched: false,
             bairro: ' ',
-            search: ' '
+            keyword: ' '
         }
     }
 
@@ -24,11 +24,11 @@ class HeaderDestaqueHome extends Component {
         // on onSubmit, because different context of variable)
         console.log("valoresssss: ", values);
 
-        if(values.bairro || values.search ){
+        if(values.bairro || values.keyword ){
             this.setState({
                 searched:true,
                 bairro: (values.bairro)? values.bairro.toLowerCase():'',
-                search: (values.search)? values.search.toLowerCase():''
+                keyword: (values.keyword)? values.keyword.toLowerCase():''
             })
         }
         else{
@@ -56,10 +56,17 @@ class HeaderDestaqueHome extends Component {
     }
 
     render(){
-        console.log("state search: ", this.state.search);
+        console.log("state keyword: ", this.state.keyword);
         if(this.state.searched){
-            console.log(`/busca/${this.state.bairro}/${this.state.busca}`);
-            return <Redirect to={`/busca/${this.state.bairro}/${this.state.search}`} />
+            console.log(`/busca/${this.state.bairro}/${this.state.keyword}`);
+            if(this.state.bairro && this.state.keyword)
+                return <Redirect to={`/busca/bairro/${this.state.bairro}/keyword/${this.state.keyword}`} />
+            else{
+                if(this.state.bairro)
+                    return <Redirect to={`/busca/bairro/${this.state.bairro}`} />
+                else if(this.state.keyword)
+                    return <Redirect to={`/busca/keyword/${this.state.keyword}`} />
+            }
         }
 
         let title = "Site da cidade de Niterói - Soumaisniterói";
@@ -101,7 +108,7 @@ class HeaderDestaqueHome extends Component {
                                             id="select-search"
                                             labelClass="search-hotel-type"
                                             type="text"
-                                            name="search"
+                                            name="keyword"
                                             value=""
                                             component={this.renderField}
                                         />
