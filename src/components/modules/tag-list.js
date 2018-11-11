@@ -153,32 +153,38 @@ class TagList extends Component {
                 /*Por enquanto está implementado para não exibir avaliações depois que já tiver avaliação suficiente colocar o texto sem avaliação*/
                 if(evento.mediaAvaliacao)
                     avaliacao = <span className="home-list-pop-rat">{evento.mediaAvaliacao}</span>
+                
                 return (
-                    <div className="home-list-pop list-spac">
-                        {/*<!--LISTINGS IMAGE-->*/}
-                        <div className="col-md-3 list-ser-img"> <img src={this.getImageSrc(evento)} alt="" /> </div>
-                        {/*<!--LISTINGS: CONTENT-->*/}
-                        <div className="col-md-9 home-list-pop-desc inn-list-pop-desc"> <Link to={`/evento/` + evento.slug}><h3>{evento.titulo}</h3></Link>
-                            <h4>{(evento.cidade.length>0)?evento.cidade[0].nome:''} {(evento.bairros.length>0)?'- ' + evento.bairros[0].nome:''}</h4>
-                            <p>{(evento.endereco)?<b>Endereço:</b>:''} {evento.endereco}</p>
-                            <div className="list-number">
+                    <div className="row">
+                        {/*<!--EVENTS-->*/}  
+                        <div className="home-list-pop list-spac">
+                            {/*<!--EVENTS IMAGE-->*/}
+                            <div className="col-md-3 list-ser-img"> <img src={this.getImageSrc(evento)} alt="" /> </div>
+                            {/*<!--EVENTS: CONTENT-->*/}
+                            <div className="col-md-9 home-list-pop-desc inn-list-pop-desc"> <Link to={`/evento/` + evento.slug}><h3>{evento.titulo}</h3></Link>
+                                <h4>{(evento.cidade.length>0)?evento.cidade[0].nome:''} {(evento.bairros.length>0)?'- ' + evento.bairros[0].nome:''}</h4>
+                                <p>{(evento.endereco)?<b>Endereço:</b>:''} {evento.endereco}</p>
+                                <div className="list-number">
+                                    
+                                    {(evento.inicio)?<p><strong>Data do Evento:</strong> {this.datePtBr(new Date(evento.inicio))}</p>:''}
+                                    {(evento.fim)?<p><strong>Data Fim </strong> {this.datePtBr(new Date(evento.fim))}</p>:''}
+                                    {(evento.classificacao_indicativa)?<p><strong>Classificação </strong> {evento.classificacao_indicativa}</p>:''}
+                                    
+                                </div> 
+                                {avaliacao}
+                                {this.getCategorias(evento.categorias)}
                                 
-                                {(evento.inicio)?<p><strong>Data do Evento:</strong> {this.datePtBr(new Date(evento.inicio))}</p>:''}
-                                {(evento.fim)?<p><strong>Data Fim </strong> {this.datePtBr(new Date(evento.fim))}</p>:''}
-                                {(evento.classificacao_indicativa)?<p><strong>Classificação </strong> {evento.classificacao_indicativa}</p>:''}
-                                
-                            </div> 
-                            {avaliacao}
-                            {this.getCategorias(evento.categorias)}
-                            
-                            <div className="list-enqu-btn">
-                                <ul>
-                                    <li><a href="#!"><i className="fa fa-star-o" aria-hidden="true"></i> Avalie este evento</a> </li>
-                                    <li><a href="#!" data-dismiss="modal" data-toggle="modal" data-target="#list-quo"><i className="fa fa-question-circle" aria-hidden="true"></i> Mais Informações</a> </li>
-                                </ul>
+                                <div className="list-enqu-btn">
+                                    <ul>
+                                        <li><a href="#!"><i className="fa fa-star-o" aria-hidden="true"></i> Avalie este evento</a> </li>
+                                        <li><a href="#!" data-dismiss="modal" data-toggle="modal" data-target="#list-quo"><i className="fa fa-question-circle" aria-hidden="true"></i> Mais Informações</a> </li>
+                                    </ul>
+                                </div>
                             </div>
                         </div>
+                        {/*<!--EVENTS END-->*/}
                     </div>
+                    
                 )
             })
 
@@ -187,7 +193,8 @@ class TagList extends Component {
                 itemCount = this.props.eventos.list.length
 
             return(
-                <div>
+                <div className="dir-alp-con-right-1 content_search" >
+                    <h2 style={{ textAlign: 'center'}}>Listagem de Eventos para a tag</h2>
                     {eventos}
                     <div className="row">
                         <Pagination
@@ -212,37 +219,41 @@ class TagList extends Component {
 
     generateGuias() {
         
+
         let guias = this.state.data.map( guia => {
             let avaliacao = '';
             /*Por enquanto está implementado para não exibir avaliações depois que já tiver avaliação suficiente colocar o texto sem avaliação*/
             if(guia.mediaAvaliacao)
                 avaliacao = <span className="home-list-pop-rat">{guia.mediaAvaliacao}</span>
             return (
-                <div className="home-list-pop list-spac">
-                    {/*<!--LISTINGS IMAGE-->*/}
-                    <div className="col-md-3 list-ser-img"> <img src={this.getImageSrc(guia)} alt="" /> </div>
-                    {/*<!--LISTINGS: CONTENT-->*/}
-                    <div className="col-md-9 home-list-pop-desc inn-list-pop-desc"> <Link to={`/guia/` + guia.slug}><h3>{guia.titulo}</h3></Link>
-                        <h4>{(guia.cidade.length>0)?guia.cidade[0].nome:''} {(guia.bairros.length>0)?'- ' + guia.bairros[0].nome:''}</h4>
-                        <p>{(guia.endereco)?<b>Endereço:</b>:''} {guia.endereco}</p>
-                        <div className="list-number">
-                            <ul>
-                                <li>{(guia.telefone)?<i className="fa fa-phone" aria-hidden="true"></i>:''} {guia.telefone}</li>
-                                <li>{(guia.email)?<i className="fa fa-envelope" aria-hidden="true"></i>:''} {guia.email}</li>
-                            </ul>
-                        </div> 
-                        {avaliacao}
-                        {this.getCategorias(guia.categorias)}
-                        
-                        <div className="list-enqu-btn">
-                            <ul>
-                                <li><a href="#!"><i className="fa fa-envelope" aria-hidden="true"></i> Enviar Email</a> </li>
-                                <li><a href="#!"><i className="fa fa-star-o" aria-hidden="true"></i> Faça sua Avaliação</a> </li>
-                                <li><a href="#!" data-dismiss="modal" data-toggle="modal" data-target="#list-quo"><i className="fa fa-question-circle" aria-hidden="true"></i> Pergunta Direta</a> </li>
-                            </ul>
+                
+                    <div className="row">
+                        <div className="home-list-pop list-spac">
+                            {/*<!--LISTINGS IMAGE-->*/}
+                            <div className="col-md-3 list-ser-img"> <img src={this.getImageSrc(guia)} alt="" /> </div>
+                            {/*<!--LISTINGS: CONTENT-->*/}
+                            <div className="col-md-9 home-list-pop-desc inn-list-pop-desc"> <Link to={`/guia/` + guia.slug}><h3>{guia.titulo}</h3></Link>
+                                <h4>{(guia.cidade.length>0)?guia.cidade[0].nome:''} {(guia.bairros.length>0)?'- ' + guia.bairros[0].nome:''}</h4>
+                                <p>{(guia.endereco)?<b>Endereço:</b>:''} {guia.endereco}</p>
+                                <div className="list-number">
+                                    <ul>
+                                        <li>{(guia.telefone)?<i className="fa fa-phone" aria-hidden="true"></i>:''} {guia.telefone}</li>
+                                        <li>{(guia.email)?<i className="fa fa-envelope" aria-hidden="true"></i>:''} {guia.email}</li>
+                                    </ul>
+                                </div> 
+                                {avaliacao}
+                                {this.getCategorias(guia.categorias)}
+                                
+                                <div className="list-enqu-btn">
+                                    <ul>
+                                        <li><a href="#!"><i className="fa fa-envelope" aria-hidden="true"></i> Enviar Email</a> </li>
+                                        <li><a href="#!"><i className="fa fa-star-o" aria-hidden="true"></i> Faça sua Avaliação</a> </li>
+                                        <li><a href="#!" data-dismiss="modal" data-toggle="modal" data-target="#list-quo"><i className="fa fa-question-circle" aria-hidden="true"></i> Pergunta Direta</a> </li>
+                                    </ul>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                </div>
             )
         })
 
@@ -251,7 +262,8 @@ class TagList extends Component {
             itemCount = this.props.guias.list.length
 
         return(
-            <div>
+            <div className="dir-alp-con-right-1 content_search" >
+                <h2 style={{ textAlign: 'center'}}>Listagem de Guias para a tag </h2>
                 {guias}
                 <div className="row">
                     <Pagination
@@ -276,22 +288,25 @@ class TagList extends Component {
 
     generateNoticias() {
         const truncate = _.truncate
-        console.log("state no noticias: ", this.state);
         let noticias = this.state.dataNoticia.map( noticia => {
             
             return (
-                <div className="home-list-pop list-spac">
-                    <div className="col-md-4">
-                        <div className="blog-img"> <img src={this.getImageSrc(noticia)} alt="" /> </div>
+                <div className="row">
+                    {/*<!--NEWS-->*/}
+                    <div className="home-list-pop list-spac">
+                        <div className="col-md-4">
+                            <div className="blog-img"> <img src={this.getImageSrc(noticia)} alt="" /> </div>
+                        </div>
+                        <div className="col-md-8">
+                            <div className="page-blog">
+                                <Link to={'/noticias/' + noticia.slug}  ><h3>{noticia.titulo}</h3></Link>
+                                <span>{this.datePtBr(new Date(noticia.createdAt))} </span>
+                                <p>{truncate(noticia.descricao.replace(/&#13;/g,'').replace(/<\/?[^>]+(>|$)/g, ""), { length: 150, separator: /,?\.* +/ })}</p> 
+                                {this.getCategorias(noticia.categorias)}
+                                <Link to={'/noticias/' + noticia.slug} className="waves-effect waves-light btn-large full-btn" >Leia Mais</Link> </div>
+                        </div>
                     </div>
-                    <div className="col-md-8">
-                        <div className="page-blog">
-                            <Link to={'/noticias/' + noticia.slug}  ><h3>{noticia.titulo}</h3></Link>
-                            <span>{this.datePtBr(new Date(noticia.createdAt))} </span>
-                            <p>{truncate(noticia.descricao.replace(/&#13;/g,'').replace(/<\/?[^>]+(>|$)/g, ""), { length: 150, separator: /,?\.* +/ })}</p> 
-                            {this.getCategorias(noticia.categorias)}
-                            <Link to={'/noticias/' + noticia.slug} className="waves-effect waves-light btn-large full-btn" >Leia Mais</Link> </div>
-                    </div>
+                    {/*<!--NEWS END-->*/}
                 </div>
             )
         })
@@ -301,7 +316,8 @@ class TagList extends Component {
             itemCount = this.props.noticias.list.length
 
         return(
-            <div>
+            <div className="dir-alp-con-right-1 content_search" >
+                <h2 style={{ textAlign: 'center'}}>Listagem de Notícias para a tag</h2>
                 {noticias}
                 <Pagination
                     activePage={this.state.activePageNoticia}
@@ -342,7 +358,6 @@ class TagList extends Component {
     }
 
     handlePageEventoChange(pageNumber, list=[]) {
-        console.log(`active page on evento is ${pageNumber}`);
         let data = [];
         if(pageNumber === 1){
             if(this.props.eventos.list)
@@ -398,7 +413,7 @@ class TagList extends Component {
             return(
                 <ol className="breadcrumb">
                     <li><Link to="/">Home</Link> </li>
-                    <li><Link to={this.getGuiaSlug(listName)}>{listName}</Link> </li>
+                    <li><Link to="/">Busca</Link> </li>
                     <li className="active">{categoria.nome}</li>
                 </ol>
             );
@@ -406,7 +421,7 @@ class TagList extends Component {
             return(
                 <ol className="breadcrumb">
                     <li><Link to="/">Home</Link> </li>
-                    <li className="active">{listName}</li>
+                    <li className="active">Busca</li>
                 </ol>
             );
     }
@@ -430,52 +445,87 @@ class TagList extends Component {
         let leftColumn = true;
 
 
-        let listName = this.props.match.params.slug;
+        let tagSlug = this.props.match.params.slug;
 
         console.log("prroooops: ", this.props);
 
-        let guias = <div>Nenhum Guia listado para a Tag</div>
+        let guias = <div>Nenhum Guia listado para a tag '{tagSlug}'</div>
 
         if(! this.props.guias){
-            guias = <div>Nenhum guia encontrado para a tag {this.props.listName} </div>
+            guias = <div className="dir-alp-con-right-1 content_search" style={{ textAlign: 'center'}}><img src="/images/preloader_smn.gif" />Carregando Guias1... </div>
         }
         else {
             if(!this.props.guias.list)
-                guias = <div>Nenhum guia encontrado para a tag {this.props.listName} </div>
-            else
-                guias = this.generateGuias();
+                guias = <div className="dir-alp-con-right-1 content_search">
+                           <h2 style={{ textAlign: 'center'}}>Nenhum guia encontrado para a tag '{tagSlug}' ! </h2>
+                        </div>
+            else{
+                if(this.props.guias.list.length>0)
+                    guias = this.generateGuias();
+                else
+                    guias = <div className="dir-alp-con-right-1 content_search">
+                                <h2 style={{ textAlign: 'center'}}>Nenhum guia encontrado para a tag '{tagSlug}' ! </h2>
+                            </div>
+            }
         }
 
-        let eventos = <div>Nenhum Evento listado para a Tag</div>
+        let eventos = <div>Nenhum Evento listado para a tag '{tagSlug}'</div>
 
         if(! this.props.eventos){
-            eventos = <div>Nenhum evento encontrado para a tag {this.props.listName} </div>
+            eventos = <div className="dir-alp-con-right-1 content_search" style={{ textAlign: 'center'}}><img src="/images/preloader_smn.gif" />Carregando eventos1... </div>
         }
         else {
             if(!this.props.eventos.list)
-                eventos = <div>Nenhum evento encontrado para a tag {this.props.listName} </div>
-            else
-                eventos = this.generateEventos();
+                eventos = <div className="dir-alp-con-right-1 content_search" className="dir-alp-con-right-1 content_search">
+                                <h2 style={{ textAlign: 'center'}}>Nenhum Evento encontrado para a tag '{tagSlug}'! </h2>
+                          </div>
+            else{
+                if(this.props.eventos.list.length>0)
+                    eventos = this.generateEventos();
+                else
+                    eventos = <div className="dir-alp-con-right-1 content_search" className="dir-alp-con-right-1 content_search">
+                                    <h2 style={{ textAlign: 'center'}}>Nenhum Evento encontrado para a tag '{tagSlug}'! </h2>
+                               </div>
+            }
         }
 
-        let noticias = <div>Nenhuma notícia listado para a Tag</div>
+        let noticias = <div className="dir-alp-con-right-1 content_search" style={{ textAlign: 'center'}}>Nenhuma notícia listado para a tag</div>
 
         if(! this.props.noticias){
-            noticias = <div>Nenhuma noticia encontrado para a tag {this.props.listName} </div>
+            noticias = <div className="dir-alp-con-right-1 content_search" style={{ textAlign: 'center'}}><img src="/images/preloader_smn.gif" />Carregando Notícias... </div>
         }
         else {
             if(!this.props.noticias.list)
-                noticias = <div>Nenhuma noticia encontrado para a tag {this.props.listName} </div>
-            else
-                noticias = this.generateNoticias();
+                noticias = <div className="dir-alp-con-right-1 content_search">
+                                <h2 style={{ textAlign: 'center'}}>Nenhuma Notícia encontrado para a tag '{tagSlug}' ! </h2>
+                            </div>
+            else{
+                if(this.props.noticias.list.length>0)
+                    noticias = this.generateNoticias();
+                else 
+                    noticias = <div className="dir-alp-con-right-1 content_search">
+                                    <h2 style={{ textAlign: 'center'}}>Nenhuma Notícia encontrado para a tag '{tagSlug}' ! </h2>
+                                </div>
+                
+            }
         }
 
         /* if(this.props.bairros)
             console.log("bairrossssssssss no listing: ", this.props.bairros) */
 
-        
+        let title = "Busca "
+        if(this.props.match.params.bairro){
+            title += `para o bairro: '${this.props.match.params.bairro.charAt(0).toUpperCase()+this.props.match.params.bairro.slice(1).toLowerCase()}'`
+            if(this.props.match.params.search){
+                title += ` e palavra chave: '${this.props.match.params.search}'`
+            }
+        }
+        else{
+            if(this.props.match.params.search){
+                title += ` para a palavra chave: '${this.props.match.params.search}'`
+            }
+        }
 
-        let title = `Listagem para a Tag '${listName}'`
         let windowTitle = title;
         
 
@@ -488,37 +538,18 @@ class TagList extends Component {
                         <div className="row">
                             <div className="dir-alp-tit">
                                 <h1>{title}</h1>
-                                {this.breadcrumbs(listName, (this.props.guias)?this.props.guias.categoria:'')}
+                                {this.breadcrumbs(tagSlug, (this.props.guias)?this.props.guias.categoria:'')}
                             </div>
                         </div>
                         <div className="row">
                             <div className="dir-alp-con">
                                 {(leftColumn)?<ListingLeftColumn objects={(this.props.guias)?this.props.guias.recentes:[]} categories={(this.props.categorias)?this.props.categorias.guia:[]} bairros={(this.props.bairros)?this.props.bairros:[]} />:''}
                                 <div className={(leftColumn)? 'col-md-9 dir-alp-con-right': 'col-md-12 dir-alp-con-right'}>
-                                    <div className="dir-alp-con-right-1" style={{backgroundColor:'#ddd', marginTop:'30px', padding:'30px 10px 20px 10px'}}>
-                                        <h2 style={{ textAlign: 'center'}}>Listagem de Guias para a Tag {listName}</h2>
-                                        <div className="row">
-                                            {/*<!--LISTINGS-->*/}
-                                            {guias}
-                                            {/*<!--LISTINGS END-->*/}
-                                        </div>
-                                    </div>
-                                    <div className="dir-alp-con-right-1" style={{backgroundColor:'#ddd', marginTop:'30px', padding:'30px 10px 20px 10px'}}>
-                                        <h2 style={{ textAlign: 'center'}}>Listagem de Eventos para a Tag {listName}</h2>
-                                        <div className="row">
-                                            {/*<!--LISTINGS-->*/}
-                                            {eventos}
-                                            {/*<!--LISTINGS END-->*/}
-                                        </div>
-                                    </div>
-                                    <div className="dir-alp-con-right-1" style={{backgroundColor:'#ddd', marginTop:'30px', padding:'30px 10px 20px 10px'}}>
-                                        <h2 style={{ textAlign: 'center'}}>Listagem de Notícias para a Tag {listName}</h2>
-                                        <div className="row">
-                                            {/*<!--LISTINGS-->*/}
-                                            {noticias}
-                                            {/*<!--LISTINGS END-->*/}
-                                        </div>
-                                    </div>
+                                        {guias}
+                                    
+                                        {eventos}
+                                    
+                                        {noticias}
                                 </div>
 
 
