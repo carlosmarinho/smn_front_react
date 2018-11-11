@@ -69,7 +69,7 @@ class FeaturedTwoColumns extends Component {
                                 {/*<p>Explore some of the best business from around the world from our partners and friends.</p>*/}
                             </div>
                             <div className="col-md-6">
-                                <a href={noticia_destaque.slug}>
+                                <a href={`/noticias/${noticia_destaque.slug}`}>
                                     <div className="list-mig-like-com">
                                         <div className="list-mig-lc-img"> <img src={this.getImageSrc(noticia_destaque)} alt="" /> </div>
                                         <div className="list-mig-lc-con">
