@@ -25,6 +25,7 @@ class BlogList extends Component {
 
         this.handlePageChange = this.handlePageChange.bind(this);
         this.generateNoticias = this.generateNoticias.bind(this);
+        this.handleImageLoaded = this.handleImageLoaded.bind(this);
     }
 
     componentDidMount() {
@@ -67,6 +68,10 @@ class BlogList extends Component {
         }
     }
 
+    handleImageLoaded() {
+        console.log('image loadedddddddddddddddddd: ');
+    } 
+
     getImageSrc(noticia){
         if(noticia.s3_imagem_destacada){
             return noticia.old_imagem_destacada;
@@ -108,7 +113,7 @@ class BlogList extends Component {
             return (
                 <div className="row blog-single" key={ind}>
                     <div className="col-md-4">
-                        <div className="blog-img"> <img src={this.getImageSrc(noticia)} alt="" /> </div>
+                        <div className="blog-img"> <img src={this.getImageSrc(noticia)} alt="" onLoad={this.handleImageLoaded} /> </div>
                     </div>
                     <div className="col-md-8">
                         <div className="page-blog">
@@ -175,13 +180,15 @@ class BlogList extends Component {
             title = `Categoria '${this.state.slug}' não encontrada `;
         }
 
-        let items = <div>Nenhuma Notícia encontrada!</div>
+        let items = <div className="row blog-single"><h2 className="text-center">Nenhuma Notícia encontrada!</h2></div>
         if(! this.props.noticias){
-            items = <div>Nenhuma Notícia encontrado !</div>
+            items = <div className="row blog-single"><h2 className="text-center">Nenhuma Notícia encontrada!</h2></div>
         }
         else {
-            if(!this.props.noticias.list || this.props.noticias.list.length === 0)
-                items = <div>Nenhum noticia encontrado para esta categoria {this.props.listName} </div>
+            if(! this.props.noticias.list)
+                items = <div className="row blog-single"><h2 className="text-center"><img src="/images/preloader_smn.gif" /> Carregando...</h2></div>
+            else if( this.props.noticias.list && this.props.noticias.list.length === 0)
+                items = <div>Nenhuma notícia encontrado para esta categoria {this.props.listName} </div>
             else
                 items = this.generateNoticias();
             //items = this.generateGuias(this.props.noticias.list)

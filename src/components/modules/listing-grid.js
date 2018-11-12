@@ -113,7 +113,6 @@ class ListingGrid extends Component {
         
         if(mod !== 0)
             mod = 3 - mod;
-        console.log("tamanho: ", mod);
         
         let eventos = this.state.data.map( (evento, ind) => {
             
@@ -199,13 +198,13 @@ class ListingGrid extends Component {
         console.log(`active page is ${pageNumber}`);
         let data = [];
         if(pageNumber === 1){
-            if(this.props.guias.list)
+            if(this.props.eventos.list)
                 data = this.props.eventos.list.slice(0, this.state.perPage)
             else
                 data = list.slice(0, this.state.perPage)
         }
         else{
-            if(this.props.guias.list)
+            if(this.props.eventos && this.props.eventos.list)
                 data = this.props.eventos.list.slice((pageNumber-1)*this.state.perPage,((pageNumber-1)*this.state.perPage)+this.state.perPage)
             else
                 data = list.slice((pageNumber-1)*this.state.perPage,((pageNumber-1)*this.state.perPage)+this.state.perPage)
@@ -232,6 +231,23 @@ class ListingGrid extends Component {
         if(this.props.title)
             title = this.props.title;
 
+            
+        let items = <div className="row span-none"><h2 className="text-center"><img src="/images/preloader_smn.gif" /> Carregando...</h2></div>
+        if(! this.props.eventos){
+            items = <div className="row span-none"><h2 className="text-center">Nenhum Evento encontrado !</h2></div>
+        }
+        else {
+            //console.log("this.props.guias: ", this.props.guias)
+            if(! this.props.eventos.list)
+                items = <div className="row span-none"><h2 className="text-center"><img src="/images/preloader_smn.gif" /> Carregando...</h2></div>
+            else if( this.props.eventos.list && this.props.eventos.list.length === 0)
+                items = <div className="row span-none"><h2 className="text-center">Nenhum evento encontrado !</h2></div>
+            else
+                items = this.generateEventos();
+            //items = this.generateGuias(this.props.guias.list)
+        }
+    
+
         return(
             <div>
                 
@@ -257,8 +273,7 @@ class ListingGrid extends Component {
                                         <div className="row">
                                             {/*<!--LISTINGS-->*/}
                                             <div className="row span-none">
-                                                {this.generateEventos()}
-                                                
+                                                {items}
                                             </div>
                                             {/*<!--LISTINGS END-->*/}
                                         </div>

@@ -303,13 +303,16 @@ class ListingList extends Component {
         }
 
 
+        items = <div className="list-spac"><h2 className="text-center"><img src="/images/preloader_smn.gif" /> Carregando...</h2></div>
         if(! this.props.guias){
-            items = <div>Nenhum guia encontrado para a categoria {this.props.listName} </div>
+            items =  <div className="list-spac"><h2 class="text-center">Nenhum guia encontrado para a categoria {this.props.listName} </h2></div>
         }
         else {
             //console.log("this.props.guias: ", this.props.guias)
-            if(!this.props.guias.list)
-                items = <div>Nenhum guia encontrado para a categoria {this.props.listName} </div>
+            if(! this.props.guias.list)
+                items = <div className="list-spac"><h2 className="text-center"><img src="/images/preloader_smn.gif" /> Carregando...</h2></div>
+            else if( this.props.guias.list && this.props.guias.list.length === 0)
+                items = <div className="list-spac"><h2 className="text-center">Nenhum guia encontrado para a categoria {this.props.listName} </h2></div>
             else
                 items = this.generateGuias();
             //items = this.generateGuias(this.props.guias.list)

@@ -34,7 +34,7 @@ class FeaturedTwoColumns extends Component {
             }
             else{
                 return(
-                    <div>
+                    <div key={ind}>
                         <div className="home-list-pop" key={ind}>
                             {/*<!--POPULAR LISTINGS IMAGE-->*/}
                             <div className="col-md-3"> <img src={this.getImageSrc(evento)} alt="" /> </div>
@@ -42,14 +42,14 @@ class FeaturedTwoColumns extends Component {
                             <div className="col-md-9 home-list-pop-desc"> <a href="automobile-listing-details.html"><h3>{truncate(evento.titulo, { length: 50, separator: /,?\.* +/ })}</h3></a>
                                 <h4>Bairro: {(evento.bairro)? evento.bairros[0].nome: ''}</h4>
                                 <p>{truncate(evento.descricao.replace(/<\/?[^>]+(>|$)/g, ""), { length: 100, separator: /,?\.* +/ })}</p> {/*<span className="home-list-pop-rat">4.2</span>*/}
-                                <div className="hom-list-share">
+                                {/*@todo carlos do this toolbar<div className="hom-list-share">
                                     <ul>
                                         <li><a href="#!"><i className="fa fa-bar-chart" aria-hidden="true"></i> 52</a> </li>
                                         <li><a href="#!"><i className="fa fa-heart-o" aria-hidden="true"></i> 32</a> </li>
                                         <li><a href="#!"><i className="fa fa-eye" aria-hidden="true"></i> 420</a> </li>
                                         <li><a href="#!"><i className="fa fa-share-alt" aria-hidden="true"></i> 570</a> </li>
                                     </ul>
-                                </div>
+                                </div>*/}
                             </div>
                         </div>
                     </div>
@@ -61,8 +61,9 @@ class FeaturedTwoColumns extends Component {
     render(){
         let ar_object = [];
         
-        if(this.props.object){
-            ar_object = this.props.object;
+        console.log("carregando o evento: ", this.props.object)
+        if(this.props.object && this.props.object.list){
+            ar_object = this.props.object.list;
 
             return(
                 <section className={`com-padd com-padd-redu-bot ${this.getCustomclassName()} ${this.getBackgroundColor()}`}>
@@ -88,13 +89,6 @@ class FeaturedTwoColumns extends Component {
         else{
             return (
                 <section className={`com-padd com-padd-redu-bot ${this.getCustomclassName()} ${this.getBackgroundColor()}`}>
-                    <div className="container dir-hom-pre-tit">
-                        <div className="row">
-                            <div className="com-title">
-                                <h2>Eventos da <span>Cidade de Niterói</span></h2>
-                            </div>
-                        </div>
-                    </div>
                 </section>
             )
         }
