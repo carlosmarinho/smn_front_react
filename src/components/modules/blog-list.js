@@ -182,7 +182,7 @@ class BlogList extends Component {
         let columnRight = this.props.columnRight;
         let title = '';
         let items = '';
-        columnRight = true;
+        
 
         if(this.state.loading){
             title = `Carregando Notícias para a categoria solicitada ...`;
@@ -191,9 +191,11 @@ class BlogList extends Component {
         else{
             if(this.props.title){
                 title = this.props.title;
+                
 
             }
             else if(this.props.noticias){
+                columnRight = true;
                 if(this.props.match.params.slug ){
                     if(this.props.noticias.categoria && this.props.noticias.categoria.nome){
                         title = `Notícias da categoria: '${this.props.noticias.categoria.nome}'`;

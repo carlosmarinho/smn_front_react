@@ -439,6 +439,8 @@ class SearchList extends Component {
     }
 
     getCategorias(categorias){
+        return null;
+        /*@todo*/
         if(categorias.length > 0){
             return (
                 <div className=" list-category"><strong>Categorias: </strong> 
