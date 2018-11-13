@@ -24,6 +24,7 @@ export default function(state = null, action) {
             
             noticia.categoria = action.payload.categoria;
             noticia.list = action.payload.data;
+            console.log('noticiasaaasssssssss: ', action);
             return noticia;
         case FETCH_NOTICIAS_RECENTES:
             if(state){

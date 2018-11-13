@@ -1,5 +1,7 @@
 import _ from 'lodash'
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
+
 
 class FeaturedTwoColumns extends Component {
 
@@ -39,7 +41,7 @@ class FeaturedTwoColumns extends Component {
                             {/*<!--POPULAR LISTINGS IMAGE-->*/}
                             <div className="col-md-3"> <img src={this.getImageSrc(evento)} alt="" /> </div>
                             {/*<!--POPULAR LISTINGS: CONTENT-->*/}
-                            <div className="col-md-9 home-list-pop-desc"> <a href="automobile-listing-details.html"><h3>{truncate(evento.titulo, { length: 50, separator: /,?\.* +/ })}</h3></a>
+                            <div className="col-md-9 home-list-pop-desc"> <Link to={`eventos/${evento.slug}`}><h3>{truncate(evento.titulo, { length: 50, separator: /,?\.* +/ })}</h3></Link>
                                 <h4>Bairro: {(evento.bairro)? evento.bairros[0].nome: ''}</h4>
                                 <p>{truncate(evento.descricao.replace(/<\/?[^>]+(>|$)/g, ""), { length: 100, separator: /,?\.* +/ })}</p> {/*<span className="home-list-pop-rat">4.2</span>*/}
                                 {/*@todo carlos do this toolbar<div className="hom-list-share">

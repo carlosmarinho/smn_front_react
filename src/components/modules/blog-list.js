@@ -20,6 +20,7 @@ class BlogList extends Component {
             data: [],
             activePage: 1,
             perPage: 10,
+            loading: true,
             slug: '',
         }
 
@@ -32,7 +33,10 @@ class BlogList extends Component {
         //let slug = this.props.match.params.slug;
 
         if(!(this.props.match && this.props.match.params.slug)) {
-            this.props.fetchNoticias('5ba26f813a018f42215a36a0', this.props.category);
+            this.props.fetchNoticias('5ba26f813a018f42215a36a0', this.props.category).then(()=>{
+                this.setState({loading:false})
+                console.log("carramba só agora terminou de executar a promise")
+            });
         }
         
         this.props.fetchEventosRecentes('5ba26f813a018f42215a36a0');
@@ -43,11 +47,16 @@ class BlogList extends Component {
 
         if(nextProps.match && nextProps.match.params.slug){
             let slug = nextProps.match.params.slug
+
             if(slug !== this.state.slug){
                 this.setState(
                     {
+                       loading: true,
                        slug: slug,
-                       noticias: this.props.fetchNoticiasByCategory(slug)
+                       noticias: this.props.fetchNoticiasByCategory(slug).then(()=>{
+                           this.setState({loading:false})
+                           console.log("carramba só agora terminou de executar a promise")
+                        })
                     }
                 )
             }
@@ -69,7 +78,7 @@ class BlogList extends Component {
     }
 
     handleImageLoaded() {
-        console.log('image loadedddddddddddddddddd: ');
+        //console.log('image loadedddddddddddddddddd: ');
     } 
 
     getImageSrc(noticia){
@@ -92,6 +101,8 @@ class BlogList extends Component {
     }
 
     getCategorias(categorias){
+        return null;
+        /*@todo carlos implementar buscar as categorias aqui pois está sem vir */
         if(categorias.length > 0){
             return (
                 <div className="list-category-blog"><strong>Categorias: </strong> 
@@ -170,29 +181,69 @@ class BlogList extends Component {
     render(){
         let columnRight = this.props.columnRight;
         let title = '';
-        if(this.props.title)
-            title = this.props.title;
-        else if(this.props.noticias && this.props.noticias.categoria){
-            title = `Notícias da categoria: '${this.props.noticias.categoria.nome}'`;
-            columnRight = true;
-        }
-        else if(this.state.slug){
-            title = `Categoria '${this.state.slug}' não encontrada `;
-        }
+        let items = '';
+        columnRight = true;
 
-        let items = <div className="row blog-single"><h2 className="text-center">Nenhuma Notícia encontrada!</h2></div>
-        if(! this.props.noticias){
-            items = <div className="row blog-single"><h2 className="text-center">Nenhuma Notícia encontrada!</h2></div>
+        if(this.state.loading){
+            title = `Carregando Notícias para a categoria solicitada ...`;
+            items = <div className="row blog-single"><h2 className="text-center"><img src="/images/preloader_smn.gif" /> Carregando...</h2></div>
         }
-        else {
-            if(! this.props.noticias.list)
-                items = <div className="row blog-single"><h2 className="text-center"><img src="/images/preloader_smn.gif" /> Carregando...</h2></div>
-            else if( this.props.noticias.list && this.props.noticias.list.length === 0)
-                items = <div>Nenhuma notícia encontrado para esta categoria {this.props.listName} </div>
-            else
-                items = this.generateNoticias();
-            //items = this.generateGuias(this.props.noticias.list)
+        else{
+            if(this.props.title){
+                title = this.props.title;
+
+            }
+            else if(this.props.noticias){
+                if(this.props.match.params.slug ){
+                    if(this.props.noticias.categoria && this.props.noticias.categoria.nome){
+                        title = `Notícias da categoria: '${this.props.noticias.categoria.nome}'`;
+                    }
+                    else{
+                            title = `Notícias não encontrada para a categoria: '${this.props.match.params.slug}'`;   
+                    }
+                }
+                else{
+                    title = 'Notícias da cidade de Niterói';
+                }
+                
+            }
+            else if(this.state.slug){
+                title = `Categoria '${this.state.slug}' não encontrada `;
+            }
+
+            if(! this.props.noticias){
+                items = <div className="row blog-single"><h2 className="text-center">Nenhuma Notícia encontrada!</h2></div>
+            }
+            else {
+                if(this.props.match.params && this.props.match.params.slug ) {
+                    console.log("slug: ",  this.state )
+                    if(this.props.noticias.categoria){
+                        if( this.props.noticias.list && this.props.noticias.list.length === 0)                    
+                            items = <div className="row blog-single"><h2 className="text-center">Nenhuma notícia encontrado para esta categoria {this.props.listName} </h2></div>
+                        else
+                            items = this.generateNoticias();
+                    }
+                    else{
+                        items = <div className="row blog-single"><h2 className="text-center">Categoria {this.props.match.params.slug} não foi encontrada </h2></div>
+                    }
+                }
+                else {   
+                    if(this.props.noticias.list && this.props.noticias.list.length > 0){
+                        items = this.generateNoticias();
+                    }
+                    else{
+                        items = <div className="row blog-single"><h2 className="text-center">Nenhuma notícia encontrada! </h2></div>
+
+                    }
+                     
+                }
+                //items = this.generateGuias(this.props.noticias.list)
+            }
+
         }
+        
+
+
 
         if(columnRight) {
             return(

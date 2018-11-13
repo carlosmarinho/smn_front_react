@@ -27,7 +27,7 @@ export const fetchNoticiaBySlug = async(slug='', limit=1) => {
     }
 }
 
-export const fetchNoticiasByCategory = async(category='', limit=500) => {
+export const fetchNoticiasByCategory = async(category='', limit=1000) => {
     let jwt = localStorage.getItem('jwt');
 
     if(!jwt){
@@ -40,7 +40,7 @@ export const fetchNoticiasByCategory = async(category='', limit=500) => {
     let categoria = ''
     let req;
     if(category){
-        req = await axios.get(`${process.env.REACT_APP_URL_API}categoria/?slug=noticias/${category}`, config);
+        req = await axios.get(`${process.env.REACT_APP_URL_API}categoria/?populateAssociation=false&slug=noticias/${category}`, config);
 
         if(req.data.length > 0){
             categoria=`categorias=${req.data[0]._id}&`
@@ -50,7 +50,7 @@ export const fetchNoticiasByCategory = async(category='', limit=500) => {
     
     if(categoria !== '')
     {
-        const request = await axios.get(`${process.env.REACT_APP_URL_API}noticia/?${categoria}_sort=-_id&_limit=${limit}`, config);
+        let request = await axios.get(`${process.env.REACT_APP_URL_API}noticia/?populateAssociation=false&${categoria}_sort=-_id&_limit=${limit}`, config);
         request.categoria = req.data[0];
         console.log("request na noticias by category: ", request);
         return {
@@ -59,9 +59,10 @@ export const fetchNoticiasByCategory = async(category='', limit=500) => {
         }
     }
     else{
+        let request = {data:[], categoria:null}
         return {
             type: FETCH_NOTICIAS,
-            payload: []
+            payload: {data:[], categoria:null}
         }
     }
 
@@ -101,7 +102,7 @@ export const fetchNoticiasByTag = async(tag='', limit='', sort=null) => {
 
     if(tags !== '')
     {
-        const request = await axios.get(`${process.env.REACT_APP_URL_API}noticia/?${tags}&_sort=${sort}${limit}`, config);
+        const request = await axios.get(`${process.env.REACT_APP_URL_API}noticia/populateAssociation=false&?${tags}&_sort=${sort}${limit}`, config);
         request.tag = req.data[0];
         console.log("request no noticias action: ", request);
         return {
@@ -125,7 +126,7 @@ export const fetchNoticiasBySearch = async(search='', limit='', sort=null) => {
     if(limit)
         limit = `&_limit=${limit}`;
     else
-        limit = `&_limit=500`;
+        limit = `&_limit=150`;
   
 
     let jwt = localStorage.getItem('jwt');
@@ -142,7 +143,7 @@ export const fetchNoticiasBySearch = async(search='', limit='', sort=null) => {
     let bairros = '';
     let req;
     if(search.bairro){
-        req = await axios.get(`${process.env.REACT_APP_URL_API}bairro/?slug=${search.bairro}`, config);
+        req = await axios.get(`${process.env.REACT_APP_URL_API}bairro/?populateAssociation=false&slug=${search.bairro}`, config);
 
         if(req.data.length > 0){
             console.log("request do tag: ", req.data);
@@ -153,7 +154,7 @@ export const fetchNoticiasBySearch = async(search='', limit='', sort=null) => {
 
     let keyword = '';
     if(search.keyword){
-        req = await axios.get(`${process.env.REACT_APP_URL_API}categoria/?slug=${search.keyword}&tipo=notícia`, config);
+        req = await axios.get(`${process.env.REACT_APP_URL_API}categoria/?populateAssociation=false&slug=${search.keyword}&tipo=notícia`, config);
 
         if(req.data.length > 0){
             console.log("request do tag: ", req.data);
@@ -163,7 +164,7 @@ export const fetchNoticiasBySearch = async(search='', limit='', sort=null) => {
         keyword = `titulo_contains=${search.keyword}&`
     }
 
-    const request = await axios.get(`${process.env.REACT_APP_URL_API}noticia/?${bairros}${keyword}_sort=${sort}${limit}`, config);
+    const request = await axios.get(`${process.env.REACT_APP_URL_API}noticia/?populateAssociation=false&${bairros}${keyword}_sort=${sort}${limit}`, config);
     
     return {
         type: FETCH_NOTICIAS,
@@ -223,7 +224,7 @@ export const fetchNoticias = async(id, category='', limit=150) => {
 
     if(category){
         let config = { headers: { 'Authorization': `Bearer ${jwt}` } };
-        const req = await axios.get(`${process.env.REACT_APP_URL_API}categoria/?nome=${category}`, config);
+        const req = await axios.get(`${process.env.REACT_APP_URL_API}categoria/?populateAssociation=false&nome=${category}`, config);
 
 
         if(req.data.length > 0)
@@ -232,7 +233,7 @@ export const fetchNoticias = async(id, category='', limit=150) => {
 
     let config = { headers: { 'Authorization': `Bearer ${jwt}` } };
 
-    const request = axios.get(`${process.env.REACT_APP_URL_API}noticia/?${category}_sort=-_id&_limit=${limit}`, config);
+    const request = axios.get(`${process.env.REACT_APP_URL_API}noticia/?populateAssociation=false&${category}_sort=-_id&_limit=${limit}`, config);
 
     return {
         type: FETCH_NOTICIAS,
