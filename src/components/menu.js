@@ -66,8 +66,8 @@ class Menu extends Component {
                             <ul id='drop-menu-noticias' className='dropdown-content'>
                                 <li><Link className='dropdown-button' to="/noticias/categoria/cidade-de-niteroi">Notícias da Cidade de Niterói</Link></li>
                                 <li><Link className='dropdown-button' to="/noticias/categoria/estado-do-rio-de-janeiro">Notícias do Estado do Rio de Janeiro</Link></li>
-                                <li><Link className='dropdown-button' to="/noticias/categoria/esporte">Notícias de Esportes</Link></li>
-                                <li><Link className='dropdown-button' to="/noticias/categoria/cultural">Cultura</Link></li>
+                                <li><Link className='dropdown-button' to="/noticias/categoria/esportes">Notícias de Esportes</Link></li>
+                                <li><Link className='dropdown-button' to="/noticias/categoria/cultura">Cultura</Link></li>
                                 <li><Link className='dropdown-button' to="/noticias/categoria/economia">Notícias sobre Econômia</Link></li>
                                 <li><Link className='dropdown-button' to="/noticias/categoria/educacao">Notícias sobre Educação</Link></li>
                                 <li><Link className='dropdown-button' to="/noticias/categoria/entretenimento">Notícias de Entretenimento</Link></li>
