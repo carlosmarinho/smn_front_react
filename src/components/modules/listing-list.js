@@ -301,10 +301,8 @@ class ListingList extends Component {
 
         let listName = `Guia ${(tipo !== 'Serviços')?tipo: `de ${tipo}`}`;
 
-        let items = <div>Nenhum Item listado para está categoria</div>
-        if(! this.props.guias && !this.props.category){
-            items = <div>Guia não encontrado!</div>
-        }
+        let items = <div className="list-spac"><h2 className="text-center"><img src="/images/preloader_smn.gif" /> Carregando...</h2></div>
+        
 
 
         if( this.props.category){

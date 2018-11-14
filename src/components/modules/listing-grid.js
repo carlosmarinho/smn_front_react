@@ -20,6 +20,7 @@ class ListingGrid extends Component {
             data: [],
             activePage: 1,
             perPage: 24,
+            loading: true,
             slug: ''
         }
 
@@ -43,7 +44,9 @@ class ListingGrid extends Component {
                 this.setState(
                     {
                        slug: slug,
-                       eventos: this.props.fetchEventosByCategory(slug)
+                       eventos: this.props.fetchEventosByCategory(slug).then(()=>{
+                            this.setState({loading:false})
+                        })
                     }
                 )
             }
@@ -54,7 +57,9 @@ class ListingGrid extends Component {
                 this.setState(
                     {
                         slug: '/',
-                        eventos: this.props.fetchEventos('5ba26f813a018f42215a36a0')
+                        eventos: this.props.fetchEventos('5ba26f813a018f42215a36a0').then(()=>{
+                            this.setState({loading:false})
+                        })
                     }
                 )
             }
@@ -231,20 +236,24 @@ class ListingGrid extends Component {
         if(this.props.title)
             title = this.props.title;
 
-            
         let items = <div className="row span-none"><h2 className="text-center"><img src="/images/preloader_smn.gif" /> Carregando...</h2></div>
-        if(! this.props.eventos){
-            items = <div className="row span-none"><h2 className="text-center">Nenhum Evento encontrado !</h2></div>
+        if(this.state.loading){
+            items = <div className="row span-none"><h2 className="text-center"><img src="/images/preloader_smn.gif" /> Carregando...</h2></div>
+            
         }
-        else {
-            //console.log("this.props.guias: ", this.props.guias)
-            if(! this.props.eventos.list)
-                items = <div className="row span-none"><h2 className="text-center"><img src="/images/preloader_smn.gif" /> Carregando...</h2></div>
-            else if( this.props.eventos.list && this.props.eventos.list.length === 0)
-                items = <div className="row span-none"><h2 className="text-center">Nenhum evento encontrado !</h2></div>
-            else
-                items = this.generateEventos();
-            //items = this.generateGuias(this.props.guias.list)
+        else{    
+            if(! this.props.eventos){
+                <div className="row span-none"><h2 className="text-center"><img src="/images/preloader_smn.gif" /> Carregando...</h2></div>
+            }
+            else {
+                if(! this.props.eventos.list)
+                    items = <div className="row span-none"><h2 className="text-center"><img src="/images/preloader_smn.gif" /> Carregando...</h2></div>
+                else if( this.props.eventos.list && this.props.eventos.list.length === 0)
+                    items = <div className="row span-none"><h2 className="text-center">Nenhum evento encontrado !</h2></div>
+                else
+                    items = this.generateEventos();
+                //items = this.generateGuias(this.props.guias.list)
+            }
         }
     
 
