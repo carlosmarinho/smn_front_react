@@ -60,7 +60,7 @@ class FeaturedListingThreeColumns extends Component {
                     <div className="col-md-4" key={ind}>
                         <Link to={`/guia/${guia.slug}`}>
                             <div className="list-mig-like-com com-mar-bot-30">
-                                <div className="list-mig-lc-img"> <img src={this.getImageSrc(guia)} alt="" /> <span className="home-list-pop-rat list-mi-pr">$720</span> </div>
+                                <div className="list-mig-lc-img list-mig-lc-img-fixed"> <img src={this.getImageSrc(guia)} alt="" /> <span className="home-list-pop-rat list-mi-pr">$720</span> </div>
                                 <div className="list-mig-lc-con">
                                     <div className="list-rat-ch list-room-rati"> <span>4.0</span> <i className="fa fa-star" aria-hidden="true"></i> <i className="fa fa-star" aria-hidden="true"></i> <i className="fa fa-star" aria-hidden="true"></i> <i className="fa fa-star" aria-hidden="true"></i> <i className="fa fa-star-o" aria-hidden="true"></i> </div>
                                     <h5>{guia.titulo}</h5>
