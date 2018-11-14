@@ -35,7 +35,6 @@ class BlogList extends Component {
         if(!(this.props.match && this.props.match.params.slug)) {
             this.props.fetchNoticias('5ba26f813a018f42215a36a0', this.props.category).then(()=>{
                 this.setState({loading:false})
-                console.log("carramba só agora terminou de executar a promise")
             });
         }
         
@@ -55,7 +54,6 @@ class BlogList extends Component {
                        slug: slug,
                        noticias: this.props.fetchNoticiasByCategory(slug).then(()=>{
                            this.setState({loading:false})
-                           console.log("carramba só agora terminou de executar a promise")
                         })
                     }
                 )
@@ -191,8 +189,6 @@ class BlogList extends Component {
         else{
             if(this.props.title){
                 title = this.props.title;
-                
-
             }
             else if(this.props.noticias){
                 columnRight = true;

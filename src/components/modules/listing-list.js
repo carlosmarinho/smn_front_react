@@ -21,6 +21,7 @@ class ListingList extends Component {
             data: [],
             activePage: 1,
             perPage: 10,
+            loading: true,
             slug: '',
             type: ''
         }
@@ -70,7 +71,9 @@ class ListingList extends Component {
                            type: 'guia comercial',
                            search: search,
                            slug: slug,
-                           guias: this.props.fetchGuiasByCategoryComercial(slug)
+                           guias: this.props.fetchGuiasByCategoryComercial(slug).then(()=>{
+                                this.setState({loading:false})
+                            })
                         }
                     )
                 }
@@ -80,7 +83,9 @@ class ListingList extends Component {
                            type: 'guia de serviços',
                            search: search,
                            slug: slug,
-                           guias: this.props.fetchGuiasByCategoryServico(slug)
+                           guias: this.props.fetchGuiasByCategoryServico(slug).then(()=>{
+                                this.setState({loading:false})
+                            })
                         }
                     )
                 }
@@ -89,7 +94,9 @@ class ListingList extends Component {
                         {
                            search: search,
                            slug: slug,
-                           guias: this.props.fetchGuiasByCategoryBoth(slug)
+                           guias: this.props.fetchGuiasByCategoryBoth(slug).then(()=>{
+                                this.setState({loading:false})
+                            })
                         }
                     )
                 }
@@ -107,7 +114,9 @@ class ListingList extends Component {
                     {
                         type: nextProps.type,
                         slug: '/',
-                        guias: this.props.fetchGuias('5ba26f813a018f42215a36a0', search)
+                        guias: this.props.fetchGuias('5ba26f813a018f42215a36a0', search).then(()=>{
+                            this.setState({loading:false})
+                        })
                     }
                 )
             }
@@ -302,21 +311,24 @@ class ListingList extends Component {
             listName = this.props.category.name;
         }
 
-
-        items = <div className="list-spac"><h2 className="text-center"><img src="/images/preloader_smn.gif" /> Carregando...</h2></div>
-        if(! this.props.guias){
-            items =  <div className="list-spac"><h2 class="text-center">Nenhum guia encontrado para a categoria {this.props.listName} </h2></div>
+        if(this.state.loading){
+            title = `Carregando Notícias para a categoria solicitada ...`;
+            items = <div className="list-spac"><h2 className="text-center"><img src="/images/preloader_smn.gif" /> Carregando...</h2></div>
         }
-        else {
-            //console.log("this.props.guias: ", this.props.guias)
-            if(! this.props.guias.list)
+        else{
+            if(! this.props.guias){
                 items = <div className="list-spac"><h2 className="text-center"><img src="/images/preloader_smn.gif" /> Carregando...</h2></div>
-            else if( this.props.guias.list && this.props.guias.list.length === 0)
-                items = <div className="list-spac"><h2 className="text-center">Nenhum guia encontrado para a categoria {this.props.listName} </h2></div>
-            else
-                items = this.generateGuias();
-            //items = this.generateGuias(this.props.guias.list)
+            }
+            else {    
+                if(! this.props.guias.list)
+                    items = <div className="list-spac"><h2 className="text-center"><img src="/images/preloader_smn.gif" /> Carregando...</h2></div>
+                else if( this.props.guias.list && this.props.guias.list.length === 0)
+                    items = <div className="list-spac"><h2 className="text-center">Nenhum guia encontrado para a categoria {this.props.listName} </h2></div>
+                else
+                    items = this.generateGuias();
+            }
         }
+        
 
         /* if(this.props.bairros)
             console.log("bairrossssssssss no listing: ", this.props.bairros) */
@@ -326,7 +338,6 @@ class ListingList extends Component {
         let title = `${listName} da cidade de Niterói `
         let windowTitle = title;
         if(this.props.guias && this.props.guias.categoria){
-            console.log('Categoriaaaaaaa: ', this.props.guias.categoria)
             windowTitle = `${title}: ${this.props.guias.categoria.nome}`;
             title += ` - ${this.props.guias.categoria.nome}`;
         }
