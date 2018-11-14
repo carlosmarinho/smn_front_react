@@ -24,7 +24,7 @@ export const fetchEventoBySlug = async (slug) => {
 }
 
 
-export const fetchEventos = async(id, limit) => {
+export const fetchEventos = async(id, limit=200) => {
 
     let jwt = localStorage.getItem('jwt');
 
@@ -51,7 +51,7 @@ export const fetchEventosByTag = async(tag='', limit='', sort=null) => {
     if(limit)
         limit = `&_limit=${limit}`;
     else
-        limit = `&_limit=500`;
+        limit = `&_limit=200`;
   
 
     let jwt = localStorage.getItem('jwt');
