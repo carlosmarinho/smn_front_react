@@ -99,9 +99,8 @@ class BlogList extends Component {
     }
 
     getCategorias(categorias){
-        return null;
-        /*@todo carlos implementar buscar as categorias aqui pois está sem vir */
-        if(categorias.length > 0){
+        
+        if(categorias && categorias.length > 0){
             return (
                 <div className="list-category-blog"><strong>Categorias: </strong> 
                     {categorias.map((categoria, i) => {
@@ -129,7 +128,7 @@ class BlogList extends Component {
                             <Link to={'/noticias/' + noticia.slug}  ><h3>{noticia.titulo}</h3></Link>
                             <span>{this.datePtBr(new Date(noticia.createdAt))} </span>
                             <p>{truncate(noticia.descricao.replace(/&#13;/g,'').replace(/<\/?[^>]+(>|$)/g, ""), { length: 150, separator: /,?\.* +/ })}</p> 
-                            {this.getCategorias(noticia.categorias)}
+                            {this.getCategorias(noticia.array_categorias)}
                             <Link to={'/noticias/' + noticia.slug} className="waves-effect waves-light btn-large full-btn" >Leia Mais</Link> </div>
                     </div>
                 </div>
