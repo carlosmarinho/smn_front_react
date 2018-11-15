@@ -174,7 +174,7 @@ class ListingList extends Component {
                             </ul>
                         </div> 
                         {avaliacao}
-                        {this.getCategorias(guia.categorias)}
+                        {this.getCategorias(guia.array_categorias)}
                         
                         <div className="list-enqu-btn">
                             <ul>
@@ -274,7 +274,7 @@ class ListingList extends Component {
     }
 
     getCategorias(categorias){
-        if(categorias.length > 0){
+        if(categorias && categorias.length > 0){
             return (
                 <div className=" list-category"><strong>Categorias: </strong> 
                     {categorias.map((categoria, i) => {
