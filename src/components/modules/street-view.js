@@ -20,11 +20,7 @@ class StreetView extends React.Component {
         console.log("streeeeeeeeeeeeet: ", streetViewPanoramaOptions);
  
         return (
-            <div style={{
-                width: '760px',
-                height: '450px',
-                backgroundColor: '#eeeeee'
-            }}>
+            <div className="guia-google-maps" >
                 <ReactStreetview
                     apiKey={googleMapsApiKey}
                     streetViewPanoramaOptions={streetViewPanoramaOptions}
