@@ -73,15 +73,15 @@ class NewsItem extends Component {
                 <div className="blog-img"> {this.getImage(item)} </div>
                 
                 <div className="page-blog">
-                    <h3 className="text-center">{(item)?item.titulo:'Carregando...'}</h3> 
-                    <span>{this.datePtBr(new Date(item.createdAt))}</span>
-                    <div className="share-btn share-pad-bot ">
+                    <div className="text-center share-btn share-pad-bot ">
                         <ul>
-                            <li><Link to={'/'}><i className="fa fa-facebook fb1"></i> Share On Facebook</Link> </li>
-                            <li><Link to={'/'}><i className="fa fa-twitter tw1"></i> Share On Twitter</Link> </li>
-                            <li><Link to={'/'}><i className="fa fa-google-plus gp1"></i> Share On Google Plus</Link> </li>
+                            <li><Link to={'/'}><i className="fa fa-facebook fb1"></i>Compartilhar <span>no Facebook</span></Link> </li>
+                            <li><Link to={'/'}><i className="fa fa-twitter tw1"></i>Compartilhar <span>no Facebook</span></Link> </li>
+                            <li><Link to={'/'}><i className="fa fa-google-plus gp1"></i>Compartilhar <span>no Facebook</span></Link> </li>
                         </ul>
                     </div>
+                    <h3 className="text-center">{(item)?item.titulo:'Carregando...'}</h3> 
+                    <span>{this.datePtBr(new Date(item.createdAt))}</span>
                     
                     <div dangerouslySetInnerHTML={{__html: (item)?item.descricao:'Carregando ...'}} ></div>
 

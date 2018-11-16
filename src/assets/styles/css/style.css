@@ -3654,6 +3654,7 @@ footer ul li a:hover {
 
 .share-btn ul li a {
   padding: 7px;
+  margin-right:10px;
   color: #fff;
   font-weight: 500;
   font-size: 12px;
@@ -7288,6 +7289,37 @@ footer ul li a:hover {
   background-color: #ddd;
   margin-top: 30px;
   padding: 30px 10px 20px 10px; }
+
+
+.share-btn ul li a span{
+    color: #fff;
+    font-size: 13px;
+    font-weight: 500px;
+}
+
+@media screen and (max-width: 330px) {
+  .share-btn ul li a {
+    margin-right:1px;
+    padding: 4px;
+    font-size: 9px;
+  }
+
+  .share-btn ul li a span{
+    display:none;
+  }
+}
+
+@media screen and (min-width: 331px) and (max-width: 375px) {
+    .share-btn ul li a {
+      margin-right:5px;
+      padding: 6px;
+      font-size: 10px;
+    }
+
+    .share-btn ul li a span{
+        display:none;
+    }
+  }
 
 @media screen and (max-width: 992px) {
   .dir-ho-t-tit h1 {

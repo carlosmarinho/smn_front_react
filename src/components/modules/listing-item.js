@@ -86,11 +86,11 @@ class ListingItem extends Component {
                 <div className="pglist-p-com-ti">
                     <h3><span>Sobre</span> {(item)?item.titulo:'Carregando...'}</h3> </div>
                 <div className="list-pg-inn-sp">
-                    <div className="share-btn">
+                    <div className="text-center share-btn">
                         <ul>
-                            <li><Link to={'/'}><i className="fa fa-facebook fb1"></i> Share On Facebook</Link> </li>
-                            <li><Link to={'/'}><i className="fa fa-twitter tw1"></i> Share On Twitter</Link> </li>
-                            <li><Link to={'/'}><i className="fa fa-google-plus gp1"></i> Share On Google Plus</Link> </li>
+                            <li><Link to={'/'}><i className="fa fa-facebook fb1"></i>Compartilhar <span>no Facebook</span></Link> </li>
+                            <li><Link to={'/'}><i className="fa fa-twitter tw1"></i>Compartilhar <span>no Twitter</span></Link> </li>
+                            <li><Link to={'/'}><i className="fa fa-google-plus gp1"></i>Compartilhar <span>no Google Plus</span></Link> </li>
                         </ul>
                     </div>
                     <div dangerouslySetInnerHTML={{__html: (item)?item.descricao:'carregando...'}}></div>
