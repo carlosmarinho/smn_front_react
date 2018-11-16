@@ -5,7 +5,7 @@ class StreetView extends React.Component {
  
     render() {
         // see https://developers.google.com/maps/documentation/javascript
-        const googleMapsApiKey = 'AIzaSyAFhqPmHe4zvdvpAzsF7T06d0RRCAQwSj0';
+        const googleMapsApiKey = 'AIzaSyARxd3kYMt1_pK1c3kTKj1k9iOCpupzN5Q';
  
         console.log("latitude: ", this.props.latitude);
         console.log("longitude: ", this.props.longitude)
