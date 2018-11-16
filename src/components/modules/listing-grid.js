@@ -123,18 +123,18 @@ class ListingGrid extends Component {
             
             return (
                 <div className="col-md-4" key={ind}>
-                        <div className="list-mig-like-com com-mar-bot-30">
-                            <div className="list-mig-lc-img list-img-grid"> <img src={this.getImageSrc(evento)} alt="" /> <span className="home-list-pop-rat list-mi-pr">$720</span> </div>
-                            <div className="list-mig-lc-con">
-                            <Link to={`/eventos/${evento.slug}`}>
-                                {this.getAvaliacao(evento)}
-                                <h5>{evento.titulo} </h5>
-                                <h6>Data do Evento: {this.dateNumberPtBr(new Date(evento.createdAt))}</h6>
-                                <p>{(evento && evento.cidade && evento.cidade.length>0)?evento.cidade[0].nome:''} {(evento && evento.bairros && evento.bairros.length>0)?'- ' + evento.bairros[0].nome:''}</p>
-                            </Link>
-                                {this.getCategorias(evento.categorias)}
-                            </div>
+                    <div className="list-mig-like-com com-mar-bot-30">
+                        <div className="list-mig-lc-img list-img-grid"> <img src={this.getImageSrc(evento)} alt="" /> <span className="home-list-pop-rat list-mi-pr">$720</span> </div>
+                        <div className="list-mig-lc-con">
+                        <Link to={`/eventos/${evento.slug}`}>
+                            {this.getAvaliacao(evento)}
+                            <h5>{evento.titulo} </h5>
+                            <h6>Data do Evento: {this.dateNumberPtBr(new Date(evento.createdAt))}</h6>
+                            <p>{(evento && evento.object_cidade && evento.object_cidade.nome)?evento.object_cidade.nome:''} {(evento && evento.array_bairros && evento.array_bairros.length>0)?'- ' + evento.array_bairros[0].nome:''}</p>
+                        </Link>
+                            {this.getCategorias(evento.array_categorias)}
                         </div>
+                    </div>
                 </div>
             )
         })
@@ -185,7 +185,7 @@ class ListingGrid extends Component {
     }
 
     getCategorias(categorias){
-        if(categorias.length > 0){
+        if(categorias && categorias.length > 0){
             return (
                 <div className="grid-category"><strong>Categorias: </strong> 
                     {categorias.map((categoria, i) => {
