@@ -36,7 +36,7 @@ export const fetchEventos = async(id, limit=200) => {
 
     let config = { headers: { 'Authorization': `Bearer ${jwt}` } };
 
-    const request = axios.get(`${process.env.REACT_APP_URL_API}evento/?_sort=-_id&_limit=${limit}`, config);
+    const request = axios.get(`${process.env.REACT_APP_URL_API}evento/?populateAssociation=false&_sort=-_id&_limit=${limit}`, config);
 
     return {
         type: FETCH_EVENTOS,
@@ -172,7 +172,7 @@ export const fetchEventosByCategory = async(category='', limit='', sort=null) =>
     let categoria = ''
     let req;
     if(category){
-        req = await axios.get(`${process.env.REACT_APP_URL_API}categoria/?slug=eventos/${category}`, config);
+        req = await axios.get(`${process.env.REACT_APP_URL_API}categoria/?populateAssociation=false&slug=eventos/${category}`, config);
 
         if(req.data.length > 0){
             categoria=`categorias=${req.data[0]._id}&`

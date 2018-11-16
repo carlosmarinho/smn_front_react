@@ -68,7 +68,7 @@ export const fetchGuiasByCategoryBoth = async(category='', limit='', sort=null) 
     if(limit)
         limit = `&_limit=${limit}`;
     else
-        limit = `&_limit=500`;
+        limit = `&_limit=150`;
   
 
     let jwt = localStorage.getItem('jwt');
@@ -85,13 +85,13 @@ export const fetchGuiasByCategoryBoth = async(category='', limit='', sort=null) 
     let categoriaServico = ''
     let req;
     if(category){
-        req = await axios.get(`${process.env.REACT_APP_URL_API}categoria/?slug=guia/comercial/${category}`, config);
+        req = await axios.get(`${process.env.REACT_APP_URL_API}categoria/?populateAssociation=false&slug=guia/comercial/${category}`, config);
 
         if(req.data.length > 0){
             categoria=`categorias=${req.data[0]._id}&`
         }
 
-        req = await axios.get(`${process.env.REACT_APP_URL_API}categoria/?slug=guia/servicos/${category}`, config);
+        req = await axios.get(`${process.env.REACT_APP_URL_API}categoria/?populateAssociation=false&slug=guia/servicos/${category}`, config);
     
         if(req.data.length > 0){
             categoriaServico=`categorias=${req.data[0]._id}&`
@@ -103,7 +103,7 @@ export const fetchGuiasByCategoryBoth = async(category='', limit='', sort=null) 
     if(categoria !== '')
     {
         let request = await axios.get(`${process.env.REACT_APP_URL_API}guia/?${categoria}&_sort=${sort}${limit}`, config);
-        const request1 = await axios.get(`${process.env.REACT_APP_URL_API}guia/?${categoriaServico}&_sort=${sort}${limit}`, config);
+        const request1 = await axios.get(`${process.env.REACT_APP_URL_API}guia/?populateAssociation=false&${categoriaServico}&_sort=${sort}${limit}`, config);
         console.log("O request: ", request);
         request.categoria = req.data[0];
         request.data = [...request.data, ...request1.data];
@@ -143,7 +143,7 @@ export const fetchGuiasByCategoryComercial = async(category='', limit='', sort=n
     let categoria = ''
     let req;
     if(category){
-        req = await axios.get(`${process.env.REACT_APP_URL_API}categoria/?slug=guia/comercial/${category}`, config);
+        req = await axios.get(`${process.env.REACT_APP_URL_API}categoria/?populateAssociation=false&slug=guia/comercial/${category}`, config);
 
         if(req.data.length > 0){
             categoria=`categorias=${req.data[0]._id}&`
@@ -153,7 +153,7 @@ export const fetchGuiasByCategoryComercial = async(category='', limit='', sort=n
 
     if(categoria !== '')
     {
-        const request = await axios.get(`${process.env.REACT_APP_URL_API}guia/?${categoria}&_sort=${sort}${limit}`, config);
+        const request = await axios.get(`${process.env.REACT_APP_URL_API}guia/?populateAssociation=false&${categoria}&_sort=${sort}${limit}`, config);
         request.categoria = req.data[0];
         return {
             type: FETCH_GUIAS,
@@ -191,7 +191,7 @@ export const fetchGuiasByCategoryServico = async(category='', limit='', sort=nul
     let categoria = ''
     let req;
     if(category){
-        req = await axios.get(`${process.env.REACT_APP_URL_API}categoria/?slug=guia/servicos/${category}`, config);
+        req = await axios.get(`${process.env.REACT_APP_URL_API}categoria/?populateAssociation=false&slug=guia/servicos/${category}`, config);
 
         if(req.data.length > 0){
             categoria=`categorias=${req.data[0]._id}&`
@@ -201,7 +201,7 @@ export const fetchGuiasByCategoryServico = async(category='', limit='', sort=nul
 
     if(categoria !== '')
     {
-        const request = await axios.get(`${process.env.REACT_APP_URL_API}guia/?${categoria}&_sort=${sort}${limit}`, config);
+        const request = await axios.get(`${process.env.REACT_APP_URL_API}guia/?populateAssociation=false&${categoria}&_sort=${sort}${limit}`, config);
         request.categoria = req.data[0];
         return {
             type: FETCH_GUIAS,
@@ -239,13 +239,13 @@ export const fetchGuiasByCategory = async(category='', limit='', sort=null) => {
     let categoria = ''
     let req;
     if(category){
-        req = await axios.get(`${process.env.REACT_APP_URL_API}categoria/?slug=guia/comercial/${category}`, config);
+        req = await axios.get(`${process.env.REACT_APP_URL_API}categoria/?populateAssociation=false&slug=guia/comercial/${category}`, config);
 
         if(req.data.length > 0){
             categoria=`categorias=${req.data[0]._id}&`
         }
         else{
-            req = await axios.get(`${process.env.REACT_APP_URL_API}categoria/?slug=guia/servicos/${category}`, config);
+            req = await axios.get(`${process.env.REACT_APP_URL_API}categoria/?populateAssociation=false&slug=guia/servicos/${category}`, config);
 
             if(req.data.length > 0){
                 categoria=`categorias=${req.data[0]._id}&`
@@ -403,8 +403,7 @@ export const fetchGuias = async(city_id, search='', limit='', sort=null) => {
 
     let config = { headers: { 'Authorization': `Bearer ${jwt}` } };
 
-    console.log(`${process.env.REACT_APP_URL_API}guia/?_sort=${sort}${limit}&cidade=${city_id}`);
-    const request = axios.get(`${process.env.REACT_APP_URL_API}guia/?${search}&_sort=${sort}${limit}&cidade=${city_id}`, config);
+    const request = axios.get(`${process.env.REACT_APP_URL_API}guia/?populateAssociation=false&${search}&_sort=${sort}${limit}&cidade=${city_id}`, config);
 
     return {
         type: FETCH_GUIAS,
