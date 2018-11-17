@@ -472,7 +472,6 @@ class SearchList extends Component {
             if(!this.props.guias.list)
                 guias = <div className="dir-alp-con-right-1 content_search" style={{ textAlign: 'center'}}><img src="/images/preloader_smn.gif" />Carregando Guias...</div>
             else{
-                console.log("aqui no generate guiaaaaaaaaaaaaaaaaaaaaaaaa", this.props.guias.list);
                 if(this.props.guias.list.length>0)
                     guias = this.generateGuias();
                 else

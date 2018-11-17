@@ -57,7 +57,6 @@ class CategoryOrItem extends Component {
             }
         }
         else if(this.props.guias && this.props.guias.guia){
-            console.log("guiaaaaaaaaa: ", this.props.guias);
             return(
                 <Route component={listingItem} />
             )

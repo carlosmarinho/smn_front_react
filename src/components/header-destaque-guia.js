@@ -70,7 +70,6 @@ class HeaderDestaqueGuia extends Component {
         let metadescription = '';
         if(this.props.guia){
             title = this.props.guia.titulo + " | " + title;
-            console.log("guiaaaaaaa: ", this.props.guia);
             if(this.props.guia.metadescription)   
                 metadescription = this.props.guia.metadescription;
             else if(this.props.guia.descricao){
