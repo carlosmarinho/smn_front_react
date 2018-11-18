@@ -4,7 +4,7 @@ import { Field, Input, reduxForm } from 'redux-form';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 import { searchHome } from '../actions/search';
-
+import GoogleAds from './modules/google-ads';
 
 
 class HeaderDestaqueHome extends Component {
@@ -128,6 +128,7 @@ class HeaderDestaqueHome extends Component {
                         </div>
                     </div>
                 </section>
+                <GoogleAds />
             </div>
         )
     }

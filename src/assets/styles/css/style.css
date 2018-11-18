@@ -7308,6 +7308,51 @@ footer ul li a:hover {
   .share-btn ul li a span {
     display: none; } }
 
+@media screen and (max-width: 199px) {
+  .adsense-desktop,
+  .adsense-tablet-big,
+  .adsense-tablet,
+  .adsense-mobile,
+  .adsense-small-square {
+    display: none; } }
+
+@media screen and (min-width: 200px) and (max-width: 319px) {
+  .adsense-desktop,
+  .adsense-tablet-big,
+  .adsense-tablet,
+  .adsense-mobile {
+    display: none; } }
+
+@media screen and (min-width: 320px) and (max-width: 467px) {
+  .adsense-desktop,
+  .adsense-tablet-big,
+  .adsense-tablet,
+  .adsense-small-square {
+    display: none; } }
+
+@media screen and (min-width: 468px) and (max-width: 727px) {
+  .adsense-desktop,
+  .adsense-tablet-big,
+  .adsense-mobile,
+  .adsense-small-square {
+    display: none; } }
+
+@media screen and (min-width: 728px) and (max-width: 919px) {
+  .adsense-desktop,
+  .adsense-tablet,
+  .adsense-mobile,
+  .adsense-small-square {
+    display: none; }
+  .adsense-tablet-big {
+    display: block; } }
+
+@media screen and (min-width: 920px) and (max-width: 1920px) {
+  .adsense-tablet-big,
+  .adsense-tablet,
+  .adsense-mobile,
+  .adsense-small-square {
+    display: none; } }
+
 @media screen and (min-width: 331px) and (max-width: 375px) {
   .share-btn ul li a {
     margin-right: 5px;
@@ -7324,7 +7369,6 @@ footer ul li a:hover {
   .blog-img img {
     min-height: 170px;
     max-height: 250px; }
-  /*added class with height by carlos */
   .col-md-4 .list-img-grid img {
     height: 250px; }
   .col-md-6 .list-mig-lc-img {

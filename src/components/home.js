@@ -42,7 +42,7 @@ class Home extends Component {
                 <div>
                     <HeaderHome background="" />
                     {/*<FeaturedOneRowAboveOtherLayer background="" />*/}
-                    <FeaturedListingThreeColumns background="" object={this.props.guiasFeatured} />
+                    <FeaturedListingThreeColumns customClass="com-padd-min" background="" object={this.props.guiasFeatured} />
                     <FeaturedOneRowOneColumn text={this.oneRow()} />
                     <FeaturedTwoColumns background="" object={this.props.eventos} />
                     <FeaturedOneRowTwoColumn background="light-gray" title="História da cidade de Niterói" img="http://images.soumaisniteroi.com.br/wp-content/uploads/2014/06/praia-de-icarai-antiga.png"  text="A data oficial de fundação da cidade de Niterói, estabelecida através da Deliberação n.º 106, de 10 de março de 1909, é 22 de novembro de 1573. É a data que consta do Auto da Posse da Sesmaria. Araribóia teria recebido as terras em atendimento a uma Petição que encaminhara a Mem de Sá. Na verdade, os temiminós; trazidos do norte da capitania de São Tomé para participarem da luta contra os franceses; já estavam estabelecidos aqui desde 1568, no entanto, as lutas que ainda travavam contra os tamoios podem ter impedido a realização da cerimônia de posse." link="/historia-da-cidade-de-niteroi" textLink="Leia mais" />

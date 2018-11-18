@@ -80,7 +80,7 @@ class FeaturedListingThreeColumns extends Component {
     render(){
         return(
             
-            <section className={`com-padd ${this.getCustomClass()} ${this.getBackgroundColor()}`}>
+            <section className={`com-pad ${this.getCustomClass()} ${this.getBackgroundColor()}`}>
                 <div className="container dir-hom-pre-tit">
                     <div className="com-title">
                         <h2>Guia da Cidade de Niterói</h2>
