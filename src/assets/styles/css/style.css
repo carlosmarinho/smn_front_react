@@ -7328,14 +7328,18 @@ footer ul li a:hover {
   .adsense-tablet-big,
   .adsense-tablet,
   .adsense-small-square {
-    display: none; } }
+    display: none; }
+  .adsense-mobile {
+    margin-top: 20px; } }
 
 @media screen and (min-width: 468px) and (max-width: 727px) {
   .adsense-desktop,
   .adsense-tablet-big,
   .adsense-mobile,
   .adsense-small-square {
-    display: none; } }
+    display: none; }
+  .adsense-tablet {
+    margin-top: 20px; } }
 
 @media screen and (min-width: 728px) and (max-width: 919px) {
   .adsense-desktop,
@@ -7347,6 +7351,8 @@ footer ul li a:hover {
     display: block; } }
 
 @media screen and (min-width: 920px) and (max-width: 1920px) {
+  .adsense-desktop {
+    margin-top: 20px; }
   .adsense-tablet-big,
   .adsense-tablet,
   .adsense-mobile,
