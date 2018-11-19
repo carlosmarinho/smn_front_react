@@ -9,6 +9,7 @@ import Paginate from '../paginate';
 
 import ListingLeftColumn from '../listing-left-column';
 import PreFooter from './pre-footer';
+import GoogleAds from './google-ads';
 
 
 class ListingGrid extends Component {
@@ -263,7 +264,8 @@ class ListingGrid extends Component {
                 <HeaderListing title={title} />
                 <section className="dir-alp dir-pa-sp-top">
                     <div className="container">
-                        <div className="row">
+                        <GoogleAds />
+                        <div className="row text-center">
                             <div className="dir-alp-tit">
                                 <h1>{title}</h1>
                                 <ol className="breadcrumb">

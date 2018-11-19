@@ -1,6 +1,7 @@
 import _ from 'lodash'
 import React, { Component } from 'react';
 import { Helmet } from 'react-helmet';
+import GoogleAds from './modules/google-ads';
 
 class HeaderDestaqueGuia extends Component {
 
@@ -143,6 +144,8 @@ class HeaderDestaqueGuia extends Component {
                         </div>
                     </div>
                 </section>
+                <GoogleAds />
+
             </div>
             
         )

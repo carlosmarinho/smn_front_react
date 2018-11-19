@@ -10,6 +10,7 @@ import slugify from 'slugify';
 
 import ListingLeftColumn from '../listing-left-column';
 import PreFooter from './pre-footer';
+import GoogleAds from './google-ads';
 
 
 class ListingList extends Component {
@@ -342,11 +343,11 @@ class ListingList extends Component {
 
         return(
             <div>
-
                 <HeaderListing title={windowTitle}/>
                 <section className="dir-alp dir-pa-sp-top">
                     <div className="container">
-                        <div className="row">
+                        <GoogleAds />
+                        <div className="row text-center">
                             <div className="dir-alp-tit">
                                 <h1>{title}</h1>
                                 {this.breadcrumbs(listName, tipo, (this.props.guias)?this.props.guias.categoria:'')}

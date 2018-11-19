@@ -68,6 +68,7 @@ class HeaderDestaqueGallery extends Component {
                         </div>
                     </div>
                 </section>
+
             </div>
             
         )

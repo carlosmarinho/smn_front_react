@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import Helmet from 'react-helmet';
+import GoogleAds from './modules/google-ads';
 
 class HeaderDestaqueBlog extends Component {
     render(){
@@ -24,6 +25,7 @@ class HeaderDestaqueBlog extends Component {
                         </div>
                     </div>
                 </section>
+                <GoogleAds />
             </div>
         )
     }

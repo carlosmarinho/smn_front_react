@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import GoogleAds from './modules/google-ads';
 
 class HeaderDestaqueGuia extends Component {
 
@@ -123,6 +124,7 @@ class HeaderDestaqueGuia extends Component {
                         </div>
                     </div>
                 </section>
+                <GoogleAds />
             </div>
             
         )

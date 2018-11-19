@@ -2,6 +2,7 @@ import _ from 'lodash';
 import React, { Component } from 'react';
 import { Helmet } from 'react-helmet'
 import { Link } from 'react-router-dom';
+import GoogleAds from './modules/google-ads';
 
 class HeaderDestaqueEvento extends Component {
 
@@ -178,6 +179,7 @@ class HeaderDestaqueEvento extends Component {
                         </div>
                     </div>
                 </section>
+                <GoogleAds />
             </div>
             
         )
