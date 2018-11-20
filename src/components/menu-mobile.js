@@ -66,7 +66,7 @@ class MenuMobile extends Component {
                                         <ul>
                                             <li><a href="login.html" className="v3-menu-sign"><i className="fa fa-sign-in"></i> Login</a> </li>
                                             <li><a href="price.html" className="v3-add-bus"><i className="fa fa-plus" aria-hidden="true"></i> Cadastrar Guia</a> </li>
-                                            <li><a href="#menu@todo" className="ts-menu-5" id="v3-mob-menu-btn" /*onClick={@todo take away jquery this.openMenu}*/><i className="fa fa-bars" aria-hidden="true"></i>Menu</a> </li>
+                                            <li><a href="#menu" className="ts-menu-5" id="v3-mob-menu-btn" /*onClick={@todo take away jquery this.openMenu}*/><i className="fa fa-bars" aria-hidden="true"></i>Menu</a> </li>
                                         </ul>
                                     </div>
                                 </div>
