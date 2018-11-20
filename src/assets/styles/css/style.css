@@ -7302,7 +7302,9 @@ footer ul li a:hover {
 .share-btn ul li a span {
   color: #fff;
   font-size: 13px;
-  font-weight: 500px; }
+  font-weight: 500px;
+  margin-right: 10px;
+  border-radius: 3px; }
 
 @media screen and (max-width: 330px) {
   .share-btn ul li a {
@@ -7314,37 +7316,33 @@ footer ul li a:hover {
 
 @media screen and (min-width: 0px) and (max-width: 149px) {
   .adsense-desktop,
-  .adsense-tablet-big,
-  .adsense-tablet,
-  .adsense-mobile,
-  .adsense-small-square {
+  .adsense-mobile {
     display: none; } }
 
 @media screen and (min-width: 150px) and (max-width: 727px) {
-  .adsense-desktop,
-  .adsense-tablet-big {
+  .adsense-desktop {
     display: none; }
   .adsense-mobile {
     margin-top: 20px; } }
 
-@media screen and (min-width: 728px) and (max-width: 919px) {
-  .adsense-desktop,
-  .adsense-mobile {
-    display: none; }
-  .adsense-tablet-big {
-    margin-top: 20px; } }
-
-@media screen and (min-width: 920px) and (max-width: 1920px) {
+@media screen and (min-width: 728px) and (max-width: 1920px) {
   .adsense-desktop {
     margin-top: 20px; }
-  .adsense-tablet-big,
   .adsense-mobile {
     display: none; } }
 
-@media screen and (min-width: 331px) and (max-width: 375px) {
+@media screen and (min-width: 331px) and (max-width: 767px) {
   .share-btn ul li a {
     margin-right: 5px;
-    padding: 6px;
+    padding: 5px;
+    font-size: 10px; }
+  .share-btn ul li a span {
+    display: none; } }
+
+@media screen and (min-width: 992px) and (max-width: 1199px) {
+  .share-btn ul li a {
+    margin-right: 5px;
+    padding: 5px;
     font-size: 10px; }
   .share-btn ul li a span {
     display: none; } }
