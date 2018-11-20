@@ -7312,7 +7312,7 @@ footer ul li a:hover {
   .share-btn ul li a span {
     display: none; } }
 
-@media screen and (max-width: 199px) {
+@media screen and (min-width: 0px) and (max-width: 149px) {
   .adsense-desktop,
   .adsense-tablet-big,
   .adsense-tablet,
@@ -7320,47 +7320,25 @@ footer ul li a:hover {
   .adsense-small-square {
     display: none; } }
 
-@media screen and (min-width: 200px) and (max-width: 319px) {
+@media screen and (min-width: 150px) and (max-width: 727px) {
   .adsense-desktop,
-  .adsense-tablet-big,
-  .adsense-tablet,
-  .adsense-mobile {
-    display: none; } }
-
-@media screen and (min-width: 320px) and (max-width: 467px) {
-  .adsense-desktop,
-  .adsense-tablet-big,
-  .adsense-tablet,
-  .adsense-small-square {
+  .adsense-tablet-big {
     display: none; }
   .adsense-mobile {
-    margin-top: 20px; } }
-
-@media screen and (min-width: 468px) and (max-width: 727px) {
-  .adsense-desktop,
-  .adsense-tablet-big,
-  .adsense-mobile,
-  .adsense-small-square {
-    display: none; }
-  .adsense-tablet {
     margin-top: 20px; } }
 
 @media screen and (min-width: 728px) and (max-width: 919px) {
   .adsense-desktop,
-  .adsense-tablet,
-  .adsense-mobile,
-  .adsense-small-square {
+  .adsense-mobile {
     display: none; }
   .adsense-tablet-big {
-    display: block; } }
+    margin-top: 20px; } }
 
 @media screen and (min-width: 920px) and (max-width: 1920px) {
   .adsense-desktop {
     margin-top: 20px; }
   .adsense-tablet-big,
-  .adsense-tablet,
-  .adsense-mobile,
-  .adsense-small-square {
+  .adsense-mobile {
     display: none; } }
 
 @media screen and (min-width: 331px) and (max-width: 375px) {

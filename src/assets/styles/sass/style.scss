@@ -7777,7 +7777,7 @@
   }
 }
 
-@media screen and (max-width:199px) {
+@media screen and (min-width:0px)  and (max-width:149px) {
     .adsense-desktop,
     .adsense-tablet-big, 
     .adsense-tablet,
@@ -7787,56 +7787,26 @@
     }
 }
 
-@media screen and (min-width:200px) and (max-width:319px) {
-    .adsense-desktop, 
-    .adsense-tablet-big, 
-    .adsense-tablet, 
-    .adsense-mobile{
-        display:none;
-    }
 
-    .adsense-small-square{   
-
-    }
-}
-
-@media screen and (min-width:320px) and (max-width:467px) {
+@media screen and (min-width:150px) and (max-width:727px) {
     .adsense-desktop,
-    .adsense-tablet-big,
-    .adsense-tablet,
-    .adsense-small-square{
-        display:none;   
-    }
-
-    .adsense-mobile{
-        margin-top: 20px;
-    }
-
-}
-
-@media screen and (min-width:468px) and (max-width:727px) {
-    .adsense-desktop,
-    .adsense-tablet-big,
-    .adsense-mobile,
-    .adsense-small-square{
+    .adsense-tablet-big{
         display:none;
     }
     
-    .adsense-tablet{
+    .adsense-mobile{
         margin-top: 20px;
     }
 }
 
 @media screen and (min-width:728px) and (max-width:919px){
     .adsense-desktop,
-    .adsense-tablet,
-    .adsense-mobile,
-    .adsense-small-square{
+    .adsense-mobile{
         display:none;
     }
 
     .adsense-tablet-big{
-        display:block;
+        margin-top: 20px;
     }
 }
 
@@ -7846,9 +7816,7 @@
     }
 
     .adsense-tablet-big,
-    .adsense-tablet,
-    .adsense-mobile,
-    .adsense-small-square{
+    .adsense-mobile{
         display:none;
     }
 }
