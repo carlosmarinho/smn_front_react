@@ -49,9 +49,10 @@ class LeftWidgetLink extends Component {
         }
 
         return (
-            <div>
+            <div className={this.props.customClass}>
                 <div className="dir-alp-con-left-1">
-                    <h3>{this.props.title}</h3> </div>
+                    <h3>{this.props.title}</h3> 
+                </div>
                 <div className="dir-hom-pre dir-alp-left-ner-notb">
                     <ul>
                         {this.generateWidget(objects)}

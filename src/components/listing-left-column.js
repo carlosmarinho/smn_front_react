@@ -9,13 +9,13 @@ class ListingLeftColumn extends Component {
     render(){
         return(
             <div className="col-md-3 dir-alp-con-left">
-                <LeftWidgetLink title="Guias Recentes" objects={this.props.objects} />
+                <LeftWidgetLink customClass="hidden-xs hidden-sm" title="Guias Recentes" objects={this.props.objects} />
 
-                <WidgetFilterCheckbox title="Filtro de Categoria" objects={this.props.categories} />                
+                <WidgetFilterCheckbox customClass="hidden-xs hidden-sm" title="Filtro de Categoria" objects={this.props.categories} />                
 
-                <WidgetFilterRadio title="Filtro de Bairros" objects={this.props.bairros} />
+                <WidgetFilterRadio customClass="hidden-xs hidden-sm" title="Filtro de Bairros" objects={this.props.bairros} />
 
-                <WidgetFilterStars title="Filtro por avaliação" />        
+                <WidgetFilterStars customClass="hidden-xs hidden-sm" title="Filtro por avaliação" />        
 
             </div>
             

@@ -39,7 +39,7 @@ class WidgetFilterRadio extends Component {
         }
 
         return (
-            <div className="dir-alp-l3 dir-alp-l-com">
+            <div className={`dir-alp-l3 dir-alp-l-com ${this.props.customClass}`}>
                 <h4>Filtro por Bairros</h4>
                 <div className="dir-alp-l-com1 dir-alp-p3">
                     <form>

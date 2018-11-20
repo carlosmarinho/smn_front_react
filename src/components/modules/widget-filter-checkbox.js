@@ -38,7 +38,7 @@ class WidgetFilterCheckbox extends Component {
         }
 
         return (
-            <div className="dir-alp-l3 dir-alp-l-com">
+            <div className={`dir-alp-l3 dir-alp-l-com ${this.props.customClass}`} >
                 <h4>{this.props.title}</h4>
                 <div className="dir-hom-pre dir-alp-left-ner-notb">
                     <form action="#">
