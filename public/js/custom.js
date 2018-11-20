@@ -1,13 +1,21 @@
 $(document).ready(function() {
     "use strict";
 
+    //Included by carlos to hide mobile menu
+    $("body").on('click', function(e){
+        if($(".mob-right-nav").css('right') == '0px'){
+            $(".mob-right-nav").css('right', '-270px');
+        }
+    
+    })
+
     //LEFT MOBILE MENU OPEN
     $(".ts-menu-5").on('click', function() {
         $(".mob-right-nav").css('right', '0px');
     });
 
     //LEFT MOBILE MENU OPEN
-    $(".mob-right-nav-close").on('click', function() {
+    $(".mob-right-nav-close, .menu-close").on('click', function() {
         $(".mob-right-nav").css('right', '-270px');
     });
 

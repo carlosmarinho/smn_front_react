@@ -7289,6 +7289,9 @@ footer ul li a:hover {
   margin-bottom: 30px; }
 
 /*INCLUDED BY CARLOS*/
+a.menu-close {
+  color: #fff; }
+
 .guia-google-maps {
   width: 100%;
   height: 450px;
