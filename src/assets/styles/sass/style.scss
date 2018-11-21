@@ -7784,16 +7784,18 @@ h5 a.menu-close{
 }
 
 @media screen and (min-width:0px)  and (max-width:149px) {
+    .adsense-tablet,
+    .adsense-desktop-big,
     .adsense-desktop,
     .adsense-mobile{
         display:none;
     }
 }
 
-
-
-@media screen and (min-width:150px) and (max-width:727px) {
-    .adsense-desktop{
+@media screen and (min-width:150px) and (max-width:450px) {
+    .adsense-tablet,
+    .adsense-desktop, 
+    .adsense-desktop-big{
         display:none;
     }
    
@@ -7802,24 +7804,50 @@ h5 a.menu-close{
     }
 
     .adsense-mobile{
+        /*margin-top: 20px;*/
+    }
+}
+
+@media screen and (min-width:450px) and (max-width:727px) {
+    .adsense-mobile, 
+    .adsense-desktop, 
+    .adsense-desktop-big{
+        display:none;
+    }
+   
+    .hide-992 {
+        display:none;
+    }
+
+    .adsense-tablet{
         margin-top: 20px;
     }
 }
 
 @media screen and (min-width:728px) and (max-width:992px) {
     
+    .adsense-mobile, 
+    .adsense-tablet,
+    .adsense-desktop-big, 
     .hide-992 {
         display:none;
     }
     
+    .adsense-desktop{
+        margin-top: 20px;
+        background-color:#000;
+    }
+
 }
 
-@media screen and (min-width:728px) and (max-width:1920px) {
-    .adsense-desktop{
+@media screen and (min-width:992px) and (max-width:2920px) {
+    .adsense-desktop-big{
         margin-top: 20px;
     }
 
-    .adsense-mobile{
+    .adsense-mobile,
+    .adsense-tablet,
+    .adsense-desktop{
         display:none;
     }
 }
