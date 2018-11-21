@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 
 
-class LeftWidgetLink extends Component {
+class LeftWidgetLinkCollapsable extends Component {
 
     getImageSrc(object){
         if(object.s3_imagem_destacada){
@@ -49,18 +49,20 @@ class LeftWidgetLink extends Component {
         }
 
         return (
-            <div className={this.props.customClass}>
-                <div className="dir-alp-con-left-1">
+
+            <li>
+                <div className="collapsible-header dir-alp-con-left-1">
                     <h3>{this.props.title}</h3> 
                 </div>
-                <div className="dir-hom-pre dir-alp-left-ner-notb">
-                    <ul >
-                        {this.generateWidget(objects)}
+                <div className="collapsible-body dir-hom-pre dir-alp-left-ner-notb">
+                    <ul>
+                    {this.generateWidget(objects)}
                     </ul>
                 </div>
-            </div>
+            </li>
+
         );
     }
 }
 
-export default LeftWidgetLink;
+export default LeftWidgetLinkCollapsable;

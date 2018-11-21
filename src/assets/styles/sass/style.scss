@@ -7796,10 +7796,22 @@ h5 a.menu-close{
     .adsense-desktop{
         display:none;
     }
-    
+   
+    .hide-992 {
+        display:none;
+    }
+
     .adsense-mobile{
         margin-top: 20px;
     }
+}
+
+@media screen and (min-width:728px) and (max-width:992px) {
+    
+    .hide-992 {
+        display:none;
+    }
+    
 }
 
 @media screen and (min-width:728px) and (max-width:1920px) {

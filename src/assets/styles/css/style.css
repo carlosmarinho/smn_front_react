@@ -7289,8 +7289,8 @@ footer ul li a:hover {
   margin-bottom: 30px; }
 
 /*INCLUDED BY CARLOS*/
-a.menu-close {
-  color: #fff; }
+h5 a.menu-close {
+  color: #b9b9b9; }
 
 .guia-google-maps {
   width: 100%;
@@ -7325,8 +7325,14 @@ a.menu-close {
 @media screen and (min-width: 150px) and (max-width: 727px) {
   .adsense-desktop {
     display: none; }
+  .hide-992 {
+    display: none; }
   .adsense-mobile {
     margin-top: 20px; } }
+
+@media screen and (min-width: 728px) and (max-width: 992px) {
+  .hide-992 {
+    display: none; } }
 
 @media screen and (min-width: 728px) and (max-width: 1920px) {
   .adsense-desktop {
