@@ -5,33 +5,28 @@ import windowSize from 'react-window-size';
 class GoogleAds extends Component {
 
     constructor(){
-        super();
+        super()
 
         this.state = {
-                        width: 0,
-                        teste: 10,
-                     }
-
-        this.getAdsenseByWidth = this.getAdsenseByWidth.bind(this);
+            myWidth: 500
+        }
     }
 
     componentDidMount () {
+        
         (window.adsbygoogle = window.adsbygoogle || []).push({});
 
-        //this.setState({windowWidth: this.props.windowWidth});
-        
-    }
-
-    componentWillReceiveProps(nextProps) {
-        /* if(nextProps && nextProps.windowWidth)
-            this.setState({windowWidth: nextProps.windowWidth}); */
+        console.log("my width props: ", this.props.windowWidth);
+        this.setState({
+            myWidth: this.props.windowWidth
+        })
     }
 
     getAdsenseByWidth(width=0){
         //console.log("iidth: ", this.state.teste)
         if(width <= 450){
             return(
-                <div className="adsense-mobile">adsense-mobile
+                <div className="adsense-mobile">
                     {/*<!-- Soumaisniteroi Responsivo -->*/}
                     <ins className="adsbygoogle"
                         style={{display:'block'}}
@@ -44,7 +39,7 @@ class GoogleAds extends Component {
         }
         else if(width <= 727){
             return(
-                <div className="adsense-tablet">adsense-tablllllet
+                <div className="adsense-tablet">
                     {/*<!-- soumaisniteroi horizontal 468x60 -->*/}
                     <ins className="adsbygoogle"
                         style={{display:'inline-block',width:'468px',height:'60px'}}
@@ -55,7 +50,7 @@ class GoogleAds extends Component {
         }
         else if(width < 992){
             return(
-                <div className="adsense-desktop">adsense-deskkkkktoopp                    
+                <div className="adsense-desktop">                   
                     {/*<!-- soumaisniteroi Cabeçalho 728x90 -->*/}
                     <ins className="adsbygoogle"
                         style={{display:'inline-block',width:'728px',height:'90px'}}
@@ -66,7 +61,7 @@ class GoogleAds extends Component {
         }
         else{
             return(
-                <div className="adsense-desktop-big">adsense-desktoppp-biiiiig                    
+                <div className="adsense-desktop-big">              
                     {/*<!-- Soumaisniteroi banner grande 970x90 -->*/}
                     <ins className="adsbygoogle"
                         style={{display:'inline-block',width:'970px',height:'90px'}}
@@ -79,14 +74,24 @@ class GoogleAds extends Component {
     }
 
     render(){
-        //console.log("window width: ", this.state.windowWidth)
+        let width = this.state.myWidth;
+        if(width === 500){
+            return null;
+
+            console.log("width no null: ", width);
+        }
+        else{
+            return <div>minha divdididididiididid</div>
+        }
+
+        /* console.log("width: ", width);
         return(
             <div className="text-center">
-                {this.getAdsenseByWidth()}
+                {this.getAdsenseByWidth(width)}
             </div>
-        )
+        ) */
     }
 
 }
 
-export default windowSize(GoogleAds)
+export default windowSize(GoogleAds);
