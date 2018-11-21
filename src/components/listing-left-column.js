@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import LeftWidgetLink from './modules/left-widget-link';
-import WidgetFilterCheckbox from './modules/widget-filter-checkbox';
+/* import WidgetFilterCheckbox from './modules/widget-filter-checkbox';
 import WidgetFilterRadio from './modules/widget-filter-radio';
 import WidgetFilterStars from './modules/widget-filter-stars';
-import LeftWidgetLinkCollapsable from './modules/left-widget-link-collapsable';
+import LeftWidgetLinkCollapsable from './modules/left-widget-link-collapsable'; */
 import WidgetFilterCheckboxCollapsable from './modules/widget-filter-checkbox-collapsable';
 import WidgetFilterRadioCollapsable from './modules/widget-filter-radio-collapsable';
 import WidgetFilterStarsCollapsable from './modules/widget-filter-stars-collapsable';
