@@ -7332,7 +7332,7 @@ h5 a.menu-close {
   .hide-992 {
     display: none; }
   .adsense-mobile {
-    /*margin-top: 20px;*/ } }
+    margin-top: 20px; } }
 
 @media screen and (min-width: 450px) and (max-width: 727px) {
   .adsense-mobile,
