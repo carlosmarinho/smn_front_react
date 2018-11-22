@@ -7351,8 +7351,7 @@ h5 a.menu-close {
   .hide-992 {
     display: none; }
   .adsense-desktop {
-    margin-top: 20px;
-    background-color: #000; } }
+    margin-top: 20px; } }
 
 @media screen and (min-width: 992px) and (max-width: 2920px) {
   .adsense-desktop-big {
