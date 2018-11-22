@@ -7325,7 +7325,8 @@ h5 a.menu-close {
   .adsense-mobile-small {
     display: none; } }
 
-@media screen and (min-width: 150px) and (max-width: 319px) {
+@media screen and (min-width: 150px) and (max-width: 336px) {
+  .adsense-mobile,
   .adsense-tablet,
   .adsense-desktop,
   .adsense-desktop-big {
@@ -7335,8 +7336,8 @@ h5 a.menu-close {
   .adsense-mobile-small {
     margin-top: 20px; } }
 
-@media screen and (min-width: 319px) and (max-width: 449px) {
-  .adsense-mobile,
+@media screen and (min-width: 337px) and (max-width: 449px) {
+  .adsense-mobile-small,
   .adsense-tablet,
   .adsense-desktop,
   .adsense-desktop-big {

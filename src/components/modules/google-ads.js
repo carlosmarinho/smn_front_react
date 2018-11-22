@@ -35,11 +35,11 @@ class GoogleAds extends Component {
 
     getAdsenseByWidth(width=0){
         //console.log("iidth: ", this.state.teste)
-        if(width < 319 ){
+        if(width <= 336 ){
             console.log("\n\n\n caramba é menor que 319")
             return(
                 <div className="adsense-mobile-small">
-                    {/*<div>
+                    {/*
                     <!-- Soumaisniteroi Responsivo -->
                     <Adsense.Google
                         client='ca-pub-7471205086445538'
@@ -48,19 +48,36 @@ class GoogleAds extends Component {
                         format='link'
                         responsive='true'
                     />
-                    
-                    
-                    </div>
+
+                    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+                    <!-- soumaisniteroi 180x150 -->
+                    <ins class="adsbygoogle"
+                        style="display:inline-block;width:180px;height:150px"
+                        data-ad-client="ca-pub-7471205086445538"
+                        data-ad-slot="4702893159"></ins>
+                    <script>
+                    (adsbygoogle = window.adsbygoogle || []).push({});
+                    </script>
+
+                      <Adsense.Google
+                            client='ca-pub-7471205086445538'
+                            slot='4917284641'
+                            style={{display:'inline-block',width:'200px',height:'200px'}}
+                            format=''
+                    />
 
                     */}
-                    
-                    {/*<!-- soumaisniteroi 180 x 150-->*/}
+
+                    {/*<!-- soumaisniteroi quadrado 200 x 200-->*/}
+
+
                     <Adsense.Google
                             client='ca-pub-7471205086445538'
                             slot='4702893159'
                             style={{display:'inline-block',width:'180px',height:'150px'}}
                             format=''
                     />
+                    
                 </div>
             )
 
