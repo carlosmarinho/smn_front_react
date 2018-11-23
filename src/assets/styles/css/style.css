@@ -7289,6 +7289,14 @@ footer ul li a:hover {
   margin-bottom: 30px; }
 
 /*INCLUDED BY CARLOS*/
+.collapsible-header {
+  padding: 21px;
+  /*background: #20344c;*/
+  background: #20344c;
+  color: #fff;
+  border-bottom: none;
+  font-size: 18px; }
+
 h5 a.menu-close {
   color: #b9b9b9; }
 
