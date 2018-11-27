@@ -148,14 +148,14 @@ class TagList extends Component {
 
     generateEventos() {
         if(this.state.dataEvento.length > 0){
-            let eventos = this.state.dataEvento.map( evento => {
+            let eventos = this.state.dataEvento.map( (evento, ind) => {
                 let avaliacao = '';
                 /*Por enquanto está implementado para não exibir avaliações depois que já tiver avaliação suficiente colocar o texto sem avaliação*/
                 if(evento.mediaAvaliacao)
                     avaliacao = <span className="home-list-pop-rat">{evento.mediaAvaliacao}</span>
                 
                 return (
-                    <div className="row">
+                    <div className="row" key={ind}>
                         {/*<!--EVENTS-->*/}  
                         <div className="home-list-pop list-spac">
                             {/*<!--EVENTS IMAGE-->*/}
@@ -220,14 +220,14 @@ class TagList extends Component {
     generateGuias() {
         
 
-        let guias = this.state.data.map( guia => {
+        let guias = this.state.data.map( (guia, ind) => {
             let avaliacao = '';
             /*Por enquanto está implementado para não exibir avaliações depois que já tiver avaliação suficiente colocar o texto sem avaliação*/
             if(guia.mediaAvaliacao)
                 avaliacao = <span className="home-list-pop-rat">{guia.mediaAvaliacao}</span>
             return (
                 
-                    <div className="row">
+                    <div className="row" key={ind}>
                         <div className="home-list-pop list-spac">
                             {/*<!--LISTINGS IMAGE-->*/}
                             <div className="col-md-3 list-ser-img"> <img src={this.getImageSrc(guia)} alt="" /> </div>
@@ -288,10 +288,10 @@ class TagList extends Component {
 
     generateNoticias() {
         const truncate = _.truncate
-        let noticias = this.state.dataNoticia.map( noticia => {
+        let noticias = this.state.dataNoticia.map( (noticia, ind) => {
             
             return (
-                <div className="row">
+                <div className="row" key={ind}>
                     {/*<!--NEWS-->*/}
                     <div className="home-list-pop list-spac">
                         <div className="col-md-4">
