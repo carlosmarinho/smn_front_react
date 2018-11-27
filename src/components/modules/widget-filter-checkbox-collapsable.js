@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import {Collapsible, CollapsibleItem} from 'react-materialize';
 
 
 class WidgetFilterCheckboxCollapsable extends Component {
@@ -38,19 +39,18 @@ class WidgetFilterCheckboxCollapsable extends Component {
         }
 
         return (
-            <li>
-                <div className={`collapsible-header dir-alp-con-left-1 ${this.props.classActive}`}>
-                    <h4>{this.props.title}</h4> 
-                </div>
-                <div className="collapsible-body dir-hom-pre dir-alp-l3 dir-alp-left-1">
-                    <form action="#">
-                        <ul>
-                           {this.generateWidget(objects)}
-                        </ul>
-                    </form> 
-                </div>
+            <Collapsible defaultActiveKey={(this.props.classActive)?0:1}>
+                <CollapsibleItem header={this.props.title}  >{/*icon='filter_drama'*/} 
+                    <div className="dir-alp-l3 dir-alp-l-com1 dir-alp-p3 dir-alp-con-left-1">
+                        <form action="#">
+                            <ul>
+                                {this.generateWidget(objects)}
+                            </ul>
+                        </form>                 
+                    </div>
+                </CollapsibleItem>
+            </Collapsible>
             
-            </li>
         );
     }
 }

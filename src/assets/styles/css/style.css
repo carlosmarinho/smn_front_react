@@ -7289,6 +7289,14 @@ footer ul li a:hover {
   margin-bottom: 30px; }
 
 /*INCLUDED BY CARLOS*/
+.collapsible-header {
+  padding: 21px;
+  /*background: #20344c;*/
+  background: #20344c;
+  color: #fff;
+  border-bottom: none;
+  font-size: 18px; }
+
 h5 a.menu-close {
   color: #b9b9b9; }
 
@@ -7318,26 +7326,63 @@ h5 a.menu-close {
     display: none; } }
 
 @media screen and (min-width: 0px) and (max-width: 149px) {
+  .adsense-tablet,
+  .adsense-desktop-big,
   .adsense-desktop,
-  .adsense-mobile {
+  .adsense-mobile,
+  .adsense-mobile-small {
     display: none; } }
 
-@media screen and (min-width: 150px) and (max-width: 727px) {
-  .adsense-desktop {
+@media screen and (min-width: 150px) and (max-width: 336px) {
+  .adsense-mobile,
+  .adsense-tablet,
+  .adsense-desktop,
+  .adsense-desktop-big {
+    display: none; }
+  .hide-992 {
+    display: none; }
+  .adsense-mobile-small {
+    margin-top: 20px; } }
+
+@media screen and (min-width: 337px) and (max-width: 449px) {
+  .adsense-mobile-small,
+  .adsense-tablet,
+  .adsense-desktop,
+  .adsense-desktop-big {
     display: none; }
   .hide-992 {
     display: none; }
   .adsense-mobile {
     margin-top: 20px; } }
 
-@media screen and (min-width: 728px) and (max-width: 992px) {
+@media screen and (min-width: 450px) and (max-width: 727px) {
+  .adsense-mobile-small,
+  .adsense-mobile,
+  .adsense-desktop,
+  .adsense-desktop-big {
+    display: none; }
   .hide-992 {
-    display: none; } }
+    display: none; }
+  .adsense-tablet {
+    margin-top: 20px; } }
 
-@media screen and (min-width: 728px) and (max-width: 1920px) {
+@media screen and (min-width: 728px) and (max-width: 992px) {
+  .adsense-mobile-small,
+  .adsense-mobile,
+  .adsense-tablet,
+  .adsense-desktop-big,
+  .hide-992 {
+    display: none; }
   .adsense-desktop {
+    margin-top: 20px; } }
+
+@media screen and (min-width: 992px) and (max-width: 3920px) {
+  .adsense-desktop-big {
     margin-top: 20px; }
-  .adsense-mobile {
+  .adsense-mobile-small,
+  .adsense-mobile,
+  .adsense-tablet,
+  .adsense-desktop {
     display: none; } }
 
 @media screen and (min-width: 331px) and (max-width: 767px) {

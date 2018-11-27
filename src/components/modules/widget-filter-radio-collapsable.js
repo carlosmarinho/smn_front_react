@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import {Collapsible, CollapsibleItem} from 'react-materialize';
 
 
 class WidgetFilterRadioCollapsable extends Component {
@@ -39,18 +40,17 @@ class WidgetFilterRadioCollapsable extends Component {
         }
 
         return (
-            <li>
-                <div className={`collapsible-header dir-alp-con-left-1  dir-alp-l3 dir-alp-l-com ${this.props.classActive}`}>
-                    <h3>Filtro por Bairros</h3>
-                </div>
-                <div className="collapsible-body dir-alp-l-com1 dir-alp-p3 dir-alp-l3">
-                    <form>
+            <Collapsible defaultActiveKey={(this.props.classActive)?0:''}>
+                <CollapsibleItem header={this.props.title}  >{/*icon='filter_drama' ${this.props.classActive} */} 
+                    <div className="dir-alp-l3 dir-alp-l-com1 dir-alp-p3">
+                    <form action="#">
                         <ul>
-                            {this.generateWidget(objects)}
+                           {this.generateWidget(objects)}
                         </ul>
-                    </form> <a href="#!" className="list-view-more-btn">ver mais</a> 
-                </div>
-            </li>
+                    </form>                 
+                    </div>
+                </CollapsibleItem>
+            </Collapsible>
         );
     }
 }
