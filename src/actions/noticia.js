@@ -102,7 +102,7 @@ export const fetchNoticiasByTag = async(tag='', limit='', sort=null) => {
 
     if(tags !== '')
     {
-        const request = await axios.get(`${process.env.REACT_APP_URL_API}noticia/populateAssociation=false&?${tags}&_sort=${sort}${limit}`, config);
+        const request = await axios.get(`${process.env.REACT_APP_URL_API}noticia/?populateAssociation=false&${tags}&_sort=${sort}${limit}`, config);
         request.tag = req.data[0];
         console.log("request no noticias action: ", request);
         return {

@@ -431,8 +431,10 @@ class TagList extends Component {
             return (
                 <div className=" list-category"><strong>Categorias: </strong> 
                     {categorias.map((categoria, i) => {
-                        if(i+1 === categorias.length)
-                            return <Link key={i} to={`/${categoria.slug.replace('comercial/','comercial/categoria/').replace('servicos/','servicos/categoria/')}`}>{categoria.nome}</Link>
+                        if(i+1 === categorias.length){
+                            if(categoria && categoria.lenght)
+                                return <Link key={i} to={`/${categoria.slug.replace('comercial/','comercial/categoria/').replace('servicos/','servicos/categoria/')}`}>{categoria.nome}</Link>
+                        }
                         else
                             return <Link key={i} to={`/${categoria.slug.replace('comercial/','comercial/categoria/').replace('servicos/','servicos/categoria/')}`}>{categoria.nome}, </Link>
                     })}
