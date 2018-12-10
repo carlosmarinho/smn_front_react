@@ -34,7 +34,7 @@ class FeaturedTwoColumns extends Component {
                 <div className="col-md-3" key={ind}>
                     <Link to={`/noticias/${noticia.slug}`}>
                         <div className="list-mig-like-com">
-                            <div className="list-mig-lc-img"> <img src={this.getImageSrc(noticia)} alt="" /> </div>
+                            <div className="list-mig-lc-img list-mig-lc-img-small"> <img src={this.getImageSrc(noticia)} alt="" /> </div>
                             <div className="list-mig-lc-con list-mig-lc-con2">
                                 <h5>{truncate(noticia.titulo, { length: 50, separator: /,?\.* +/ })}</h5>
                                 <p>{truncate(noticia.descricao.replace(/<\/?[^>]+(>|$)/g, ""), { length: 75, separator: /,?\.* +/ })}</p>
@@ -71,7 +71,7 @@ class FeaturedTwoColumns extends Component {
                             <div className="col-md-6">
                                 <a href={`/noticias/${noticia_destaque.slug}`}>
                                     <div className="list-mig-like-com">
-                                        <div className="list-mig-lc-img"> <img src={this.getImageSrc(noticia_destaque)} alt="" /> </div>
+                                        <div className="list-mig-lc-img list-mig-lc-img-big"> <img src={this.getImageSrc(noticia_destaque)} alt="" /> </div>
                                         <div className="list-mig-lc-con">
                                             {/*<div className="list-rat-ch list-room-rati"> <span>4.0</span> <i className="fa fa-star" aria-hidden="true"></i> <i className="fa fa-star" aria-hidden="true"></i> <i className="fa fa-star" aria-hidden="true"></i> <i className="fa fa-star" aria-hidden="true"></i> <i className="fa fa-star-o" aria-hidden="true"></i> </div>*/}
                                             <h5>{truncate(noticia_destaque.titulo, { length: 80, separator: /,?\.* +/ })}</h5>

@@ -4116,6 +4116,12 @@ footer ul li a:hover {
   /*commented by carlos height: 250px;*/
   border-radius: 5px; }
 
+.list-mig-lc-img-small img {
+  max-height: 200px; }
+
+.list-mig-lc-img-big img {
+  max-height: 420px; }
+
 .list-mig-lc-img-fixed img {
   height: 250px; }
 
