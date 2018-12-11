@@ -12,15 +12,16 @@ import { Link } from 'react-router-dom';
 import { fetchFeaturedGuias } from '../actions/guia';
 import { fetchCityBySlug } from '../actions/city';
 import { fetchEventos } from '../actions/evento';
-import { fetchNoticias } from '../actions/noticia';
+import { fetchNoticiasFeatured } from '../actions/noticia';
 import PreFooter from './modules/pre-footer';
 
 class Home extends Component {
 
     componentDidMount() {
+        console.log("chamando o no ticias featured")
         this.props.fetchFeaturedGuias('5ba26f813a018f42215a36a0');
         this.props.fetchEventos('5ba26f813a018f42215a36a0', 4);
-        //this.props.fetchNoticiasRecentes('5ba26f813a018f42215a36a0', 5, '-_id');
+        this.props.fetchNoticiasFeatured('5ba26f813a018f42215a36a0', 5, '-_id');
         this.props.fetchCityBySlug('niteroi');
         
     }
@@ -37,7 +38,7 @@ class Home extends Component {
             </div>)
         }
         else{ 
-            console.log("Noticias: ", this.props.noticias);
+            console.log("Noticiasssss na home: ", this.props.noticias);
             return(
                 <div>
                     <HeaderHome background="" />
@@ -46,7 +47,7 @@ class Home extends Component {
                     <FeaturedOneRowOneColumn text={this.oneRow()} />
                     <FeaturedTwoColumns background="" object={this.props.eventos} />
                     <FeaturedOneRowTwoColumn background="light-gray" title="História da cidade de Niterói" img="http://images.soumaisniteroi.com.br/wp-content/uploads/2014/06/praia-de-icarai-antiga.png"  text="A data oficial de fundação da cidade de Niterói, estabelecida através da Deliberação n.º 106, de 10 de março de 1909, é 22 de novembro de 1573. É a data que consta do Auto da Posse da Sesmaria. Araribóia teria recebido as terras em atendimento a uma Petição que encaminhara a Mem de Sá. Na verdade, os temiminós; trazidos do norte da capitania de São Tomé para participarem da luta contra os franceses; já estavam estabelecidos aqui desde 1568, no entanto, as lutas que ainda travavam contra os tamoios podem ter impedido a realização da cerimônia de posse." link="/historia-da-cidade-de-niteroi" textLink="Leia mais" />
-                    <FeaturedNews background="" customClass="com-padd-incre-top" object={this.props.noticias.recentes} />
+                    <FeaturedNews background="" customClass="com-padd-incre-top" object={this.props.noticias.featured} />
                     {/*<FeaturedFourColumns  background="light-gray" />
                     <FeaturedCategoriesSmallIcon background="" />
                     <FeaturedOneRowWithEffect background="" />
@@ -71,4 +72,4 @@ function mapStateToProps(state){
     }
 }
 
-export default connect(mapStateToProps, { fetchFeaturedGuias, fetchEventos, fetchNoticias, fetchCityBySlug })(Home);
+export default connect(mapStateToProps, { fetchFeaturedGuias, fetchEventos, fetchNoticiasFeatured, fetchCityBySlug })(Home);

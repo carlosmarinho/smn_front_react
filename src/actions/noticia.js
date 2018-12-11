@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { FETCH_NOTICIA, FETCH_NOTICIAS, FETCH_NOTICIAS_RECENTES } from "./types";
+import { FETCH_NOTICIA, FETCH_NOTICIAS, FETCH_NOTICIAS_RECENTES, FETCH_NOTICIAS_FEATURED } from "./types";
 
 
 export const fetchNoticiaBySlug = async(slug='', limit=1) => {
@@ -266,6 +266,36 @@ export const fetchNoticiasRecentes = async(city_id, limit='', sort=null) => {
 
     return {
         type: FETCH_NOTICIAS_RECENTES,
+        payload: request
+    }
+
+}
+
+
+export const fetchNoticiasFeatured = async(city_id, limit='', sort=null) => {
+    if(!sort)
+        sort = '-_id';
+    if(limit)
+        limit = `&_limit=${limit}`
+
+
+    let jwt = localStorage.getItem('jwt');
+    
+
+    if(!jwt){
+        let ret = await axios.post(`${process.env.REACT_APP_URL_API}auth/local`, { identifier: process.env.REACT_APP_USER_API, password: process.env.REACT_APP_PASSWORD_API })
+        jwt = ret.data.jwt;
+        localStorage.setItem('jwt', jwt);
+    }
+
+    let config = { headers: { 'Authorization': `Bearer ${jwt}` } };
+
+    console.log("vai chamar o featch Featured url: ", `${process.env.REACT_APP_URL_API}noticia/?featured=true&_sort=${sort}${limit}`)
+    //const request = axios.get(`${process.env.REACT_APP_URL_API}noticia/?_sort=${sort}${limit}&cidade=${city_id}`, config);
+    const request = axios.get(`${process.env.REACT_APP_URL_API}noticia/?featured=true&_sort=${sort}${limit}`, config);
+
+    return {
+        type: FETCH_NOTICIAS_FEATURED,
         payload: request
     }
 

@@ -1,8 +1,8 @@
-import { FETCH_NOTICIA, FETCH_NOTICIAS, FETCH_NOTICIAS_RECENTES } from "../actions/types";
+import { FETCH_NOTICIA, FETCH_NOTICIAS, FETCH_NOTICIAS_RECENTES, FETCH_NOTICIAS_FEATURED } from "../actions/types";
 
 export default function(state = null, action) {
 
-    let noticia =  {noticia: null, recentes: null, list: null, categoria: null};
+    let noticia =  {noticia: null, featured: null, recentes: null, list: null, categoria: null};
     switch (action.type) {
         case FETCH_NOTICIA:
             if(state){
@@ -10,6 +10,8 @@ export default function(state = null, action) {
                     noticia.recentes = state.recentes;
                 if(state.list)
                     noticia.list = state.list;
+                if(state.featured)
+                    noticia.featured = state.featured;
             }
                         
             noticia.noticia = action.payload.data[0];
@@ -20,11 +22,12 @@ export default function(state = null, action) {
                     noticia.recentes = state.recentes;
                 if(state.noticia)
                     noticia.noticia = state.noticia;
+                if(state.featured)
+                    noticia.featured = state.featured;
             }
             
             noticia.categoria = action.payload.categoria;
             noticia.list = action.payload.data;
-            console.log('noticiasaaasssssssss: ', action);
             return noticia;
         case FETCH_NOTICIAS_RECENTES:
             if(state){
@@ -32,9 +35,24 @@ export default function(state = null, action) {
                     noticia.list = state.list;
                 if(state.noticia)
                     noticia.noticia = state.noticia;
+                if(state.featured)
+                    noticia.featured = state.featured;
             }
 
             noticia.recentes = action.payload.data
+            return noticia;
+
+        case FETCH_NOTICIAS_FEATURED:
+            if(state){
+                if(state.list)
+                    noticia.list = state.list;
+                if(state.noticia)
+                    noticia.noticia = state.noticia;
+                if(state.recentes)
+                    noticia.recentes = state.recentes;
+            }
+
+            noticia.featured = action.payload.data
             return noticia;
         default: return state;
     }
