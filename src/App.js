@@ -131,6 +131,7 @@ class App extends Component {
                         <Header />
                         
                             <Switch>
+                            <Redirect from="/home.html" to="/" state={ { status: 301 } } />
                             <Redirect from="/guia_comercial/:slug/" to="/guia/:slug/" state={ { status: 301 } } />
                             <Redirect from="/guia_comercial_category/:slug/" to="/guia/comercial/:slug/" state={ { status: 301 } } />
                             <Route exact path="/" component={Home} />
