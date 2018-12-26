@@ -149,7 +149,6 @@ class GoogleAds extends Component {
             return(
                 <div className="text-center">
                     {this.getAdsenseByWidth(width)}
-                    
                 </div>
             ) 
         }
