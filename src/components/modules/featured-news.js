@@ -2,7 +2,7 @@ import _ from 'lodash';
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 
-class FeaturedTwoColumns extends Component {
+class FeaturedNews extends Component {
 
     getCustomClass(){
         return (this.props.customClass)? this.props.customClass : '';
@@ -87,8 +87,25 @@ class FeaturedTwoColumns extends Component {
                 </section>
             )
         }
+        else{
+            return (
+                <section className={`com-padd com-padd-redu-top ${this.getCustomClass()} ${this.getBackgroundColor()}`}>
+                    <div className="container">
+                        <div className="row">
+                            <div className="com-title">
+                                <h2>Últimas notícias da <span>Cidade de Niterói</span></h2>
+                                {/*<p>Explore some of the best business from around the world from our partners and friends.</p>*/}
+                            </div>
+                            <div className="col-md-6">
+                                Carregando!
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            )
+        }
     }
 
 }
 
-export default FeaturedTwoColumns;
+export default FeaturedNews;

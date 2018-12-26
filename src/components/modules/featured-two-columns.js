@@ -32,7 +32,7 @@ class FeaturedTwoColumns extends Component {
         const truncate = _.truncate
         return array.map( (evento, ind) => {
             if(evento === undefined){
-                return <div>Carregando Evento!</div>;
+                return <div>Carregando!</div>;
             }
             else{
                 return(

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-class FeaturedOneRowOneColumn extends Component {
+class FeaturedOneRowTwoColumn extends Component {
 
     getCustomClass(){
         return (this.props.customClass)? this.props.customClass : '';
@@ -31,4 +31,4 @@ class FeaturedOneRowOneColumn extends Component {
 
 }
 
-export default FeaturedOneRowOneColumn;
+export default FeaturedOneRowTwoColumn;
