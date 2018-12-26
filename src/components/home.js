@@ -18,7 +18,6 @@ import PreFooter from './modules/pre-footer';
 class Home extends Component {
 
     componentDidMount() {
-        console.log("chamando o no ticias featured")
         this.props.fetchFeaturedGuias('5ba26f813a018f42215a36a0');
         this.props.fetchEventos('5ba26f813a018f42215a36a0', 4);
         this.props.fetchNoticiasFeatured('5ba26f813a018f42215a36a0', 5, '-_id');
@@ -38,7 +37,6 @@ class Home extends Component {
             </div>)
         }
         else{ 
-            console.log("Noticiasssss na home: ", this.props.noticias);
             return(
                 <div>
                     <HeaderHome background="" />

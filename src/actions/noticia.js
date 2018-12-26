@@ -290,7 +290,6 @@ export const fetchNoticiasFeatured = async(city_id, limit='', sort=null) => {
 
     let config = { headers: { 'Authorization': `Bearer ${jwt}` } };
 
-    console.log("vai chamar o featch Featured url: ", `${process.env.REACT_APP_URL_API}noticia/?featured=true&_sort=${sort}${limit}`)
     //const request = axios.get(`${process.env.REACT_APP_URL_API}noticia/?_sort=${sort}${limit}&cidade=${city_id}`, config);
     const request = axios.get(`${process.env.REACT_APP_URL_API}noticia/?featured=true&_sort=${sort}${limit}`, config);
 

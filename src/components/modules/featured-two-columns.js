@@ -63,7 +63,6 @@ class FeaturedTwoColumns extends Component {
     render(){
         let ar_object = [];
         
-        console.log("carregando o evento: ", this.props.object)
         if(this.props.object && this.props.object.list){
             ar_object = this.props.object.list;
 
