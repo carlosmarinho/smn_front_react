@@ -15,28 +15,20 @@ class GoogleAds extends Component {
 
     componentDidMount () {
         
-        
-
-        console.log("my width props: ", this.props.windowWidth);
         this.setState({
             myWidth: this.props.windowWidth
         })
         
-        //if(this.state.myWidth != 0)
     }
     
     componentWillReceiveProps(nextProps){
-        if(nextProps && nextProps.windowWidth){
-            
-            
+        /*if(nextProps && nextProps.windowWidth){
             console.log("vou setar o state aqui");
-        }
+        }*/
     }
 
     getAdsenseByWidth(width=0){
-        //console.log("iidth: ", this.state.teste)
         if(width <= 336 ){
-            console.log("\n\n\n caramba é menor que 319")
             return(
                 <div className="adsense-mobile-small">
                     {/*
@@ -83,7 +75,6 @@ class GoogleAds extends Component {
 
         }
         else if(width <= 450){
-            console.log("\n\n\n caracoles é menor que 450 ------- ")
             return(
                 <div className="adsense-mobile">
                     {/*<!-- Soumaisniteroi Responsivo -->
@@ -151,13 +142,10 @@ class GoogleAds extends Component {
 
     render(){
         let width = this.state.myWidth;
-        console.log("minha width no render: ", width)
         if(width === 0){
             return null;
         }
         else{
-
-            console.log("width: ", width);
             return(
                 <div className="text-center">
                     {this.getAdsenseByWidth(width)}
