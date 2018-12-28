@@ -9,7 +9,6 @@ import { fetchGuiasFeatured } from '../../actions/guia';
 import FormComment from './form-comment';
 import { Link } from 'react-router-dom';
 
-
 class NewsItem extends Component {
 
     constructor() {
@@ -44,6 +43,29 @@ class NewsItem extends Component {
         return date.toLocaleDateString('pt-BR', options)
     }
 
+    getImageSrc(item){
+        let imageSrc = '';
+        if(item){
+            if(item.s3_imagem_destacada){
+                return item.old_imagem_destacada;
+            }
+            if(item.old_imagem_destacada) {
+                return item.old_imagem_destacada;
+            }
+            else if(item.imagem_destacada){
+                //implementar codigo
+                return  "http://images.soumaisniteroi.com.br/wp-content/uploads/2015/04/no-image.png";
+            }
+            else
+                return ''
+        }
+        else {
+            return ''
+        }
+
+        return ''
+    }
+
     getImage(item){
         let imageSrc = '';
         if(item){
@@ -68,6 +90,7 @@ class NewsItem extends Component {
     }
 
     getContent(item){
+        let url = "http://soumaisniteroi.com.br/noticias/" + item.slug
         return(
             <div>
                 <div className="blog-img"> {this.getImage(item)} </div>
@@ -75,7 +98,7 @@ class NewsItem extends Component {
                 <div className="page-blog">
                     <div className="text-center share-btn share-pad-bot ">
                         <ul>
-                            <li><Link to={'/'}><i className="fa fa-facebook fb1"></i>Compartilhar <span>no Facebook</span></Link> </li>
+                            <li><a target="_blank" href="https://facebook.com/sharer/sharer.php?u=http%3A%2F%2Fsoumaisniteroi.com.br%2Fnoticias%2Fintervencao-chega-ao-fim-no-rio"><i className="fa fa-facebook fb1"></i>Compartilhar <span>no Facebook</span></a> </li>
                             <li><Link to={'/'}><i className="fa fa-twitter tw1"></i>Compartilhar <span>no Facebook</span></Link> </li>
                             <li><Link to={'/'}><i className="fa fa-google-plus gp1"></i>Compartilhar <span>no Facebook</span></Link> </li>
                         </ul>
@@ -93,10 +116,12 @@ class NewsItem extends Component {
     }
 
     contentWithColumnRight(item){
+        let url = "http://soumaisniteroi.com.br/noticias/" + item.slug;
+        
         return (
             <div>
                     
-                    <HeaderBlog title={(item)?item.titulo:'Carregando...'}/>
+                    <HeaderBlog title={(item)?item.titulo:'Carregando...'} url={url} description={item.descricao} image={this.getImageSrc(item)}/>
 
                     <section className="p-about com-padd">
                         <div className="container">
