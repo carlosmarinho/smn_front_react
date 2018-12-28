@@ -14,7 +14,7 @@ export const fetchCity = (id) => {
 }
 
 export const fetchCityBySlug = async (slug) => {
-
+/* 
     let jwt = localStorage.getItem('jwt');
 
     if(!jwt){
@@ -24,7 +24,9 @@ export const fetchCityBySlug = async (slug) => {
     }
     let config = { headers: { 'Authorization': `Bearer ${jwt}` } };
 
-    const request = axios.get(`${process.env.REACT_APP_URL_API}cidade/?slug=${slug}`, config);
+    const request = axios.get(`${process.env.REACT_APP_URL_API}cidade/?slug=${slug}`, config); */
+
+    const request = axios.get(`${process.env.REACT_APP_URL_API}cidade/?slug=${slug}`);
 
     return {
         type: FETCH_CITY,

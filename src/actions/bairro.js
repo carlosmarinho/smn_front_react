@@ -24,7 +24,7 @@ export const fetchBairros = async(city_id, limit='', sort=null) => {
 
     let jwt = localStorage.getItem('jwt');
 
-    if(!jwt){
+    /* if(!jwt){
         let ret = await axios.post(`${process.env.REACT_APP_URL_API}auth/local`, { identifier: process.env.REACT_APP_USER_API, password: process.env.REACT_APP_PASSWORD_API })
         jwt = ret.data.jwt;
         localStorage.setItem('jwt', jwt);
@@ -32,7 +32,9 @@ export const fetchBairros = async(city_id, limit='', sort=null) => {
 
     let config = { headers: { 'Authorization': `Bearer ${jwt}` } };
 
-    const request = axios.get(`${process.env.REACT_APP_URL_API}bairro/?populateAssociation=false&_sort=${sort}${limit}&cidade=${city_id}`, config);
+    const request = axios.get(`${process.env.REACT_APP_URL_API}bairro/?populateAssociation=false&_sort=${sort}${limit}&cidade=${city_id}`, config); */
+
+    const request = axios.get(`${process.env.REACT_APP_URL_API}bairro/?populateAssociation=false&_sort=${sort}${limit}&cidade=${city_id}`);
 
     return {
         type: FETCH_BAIRROS,

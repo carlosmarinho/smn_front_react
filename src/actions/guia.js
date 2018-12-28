@@ -15,7 +15,7 @@ export const fetchGuia = (id) => {
 
 export const fetchGuiaBySlug = async (slug) => {
 
-    let jwt = localStorage.getItem('jwt');
+    /* let jwt = localStorage.getItem('jwt');
     
 
     if(!jwt){
@@ -26,7 +26,9 @@ export const fetchGuiaBySlug = async (slug) => {
 
     let config = { headers: { 'Authorization': `Bearer ${jwt}` } };
 
-    const request = axios.get(`${process.env.REACT_APP_URL_API}guia/?slug=${slug}`, config);
+    const request = axios.get(`${process.env.REACT_APP_URL_API}guia/?slug=${slug}`, config); */
+
+    const request = axios.get(`${process.env.REACT_APP_URL_API}guia/?slug=${slug}`);
 
     return {
         type: FETCH_GUIA,
@@ -41,18 +43,7 @@ export const fetchGuiasRecentes = async(city_id, limit='', sort=null) => {
         limit = `&_limit=${limit}`
 
 
-    let jwt = localStorage.getItem('jwt');
-    
-
-    if(!jwt){
-        let ret = await axios.post(`${process.env.REACT_APP_URL_API}auth/local`, { identifier: process.env.REACT_APP_USER_API, password: process.env.REACT_APP_PASSWORD_API })
-        jwt = ret.data.jwt;
-        localStorage.setItem('jwt', jwt);
-    }
-
-    let config = { headers: { 'Authorization': `Bearer ${jwt}` } };
-
-    const request = axios.get(`${process.env.REACT_APP_URL_API}guia/?_sort=${sort}${limit}&cidade=${city_id}`, config);
+    const request = axios.get(`${process.env.REACT_APP_URL_API}guia/?_sort=${sort}${limit}&cidade=${city_id}`);
 
     return {
         type: FETCH_GUIAS_RECENTES,
@@ -70,28 +61,17 @@ export const fetchGuiasByCategoryBoth = async(category='', limit='', sort=null) 
     else
         limit = `&_limit=150`;
   
-
-    let jwt = localStorage.getItem('jwt');
-
-    if(!jwt){
-        let ret = await axios.post(`${process.env.REACT_APP_URL_API}auth/local`, { identifier: process.env.REACT_APP_USER_API, password: process.env.REACT_APP_PASSWORD_API })
-        jwt = ret.data.jwt;
-        localStorage.setItem('jwt', jwt);
-    }
-
-    let config = { headers: { 'Authorization': `Bearer ${jwt}` } };
-
     let categoria = ''
     let categoriaServico = ''
     let req;
     if(category){
-        req = await axios.get(`${process.env.REACT_APP_URL_API}categoria/?populateAssociation=false&slug=guia/comercial/${category}`, config);
+        req = await axios.get(`${process.env.REACT_APP_URL_API}categoria/?populateAssociation=false&slug=guia/comercial/${category}`);
 
         if(req.data.length > 0){
             categoria=`categorias=${req.data[0]._id}&`
         }
 
-        req = await axios.get(`${process.env.REACT_APP_URL_API}categoria/?populateAssociation=false&slug=guia/servicos/${category}`, config);
+        req = await axios.get(`${process.env.REACT_APP_URL_API}categoria/?populateAssociation=false&slug=guia/servicos/${category}`);
     
         if(req.data.length > 0){
             categoriaServico=`categorias=${req.data[0]._id}&`
@@ -102,8 +82,8 @@ export const fetchGuiasByCategoryBoth = async(category='', limit='', sort=null) 
 
     if(categoria !== '')
     {
-        let request = await axios.get(`${process.env.REACT_APP_URL_API}guia/?${categoria}&_sort=${sort}${limit}`, config);
-        const request1 = await axios.get(`${process.env.REACT_APP_URL_API}guia/?populateAssociation=false&${categoriaServico}&_sort=${sort}${limit}`, config);
+        let request = await axios.get(`${process.env.REACT_APP_URL_API}guia/?${categoria}&_sort=${sort}${limit}`);
+        const request1 = await axios.get(`${process.env.REACT_APP_URL_API}guia/?populateAssociation=false&${categoriaServico}&_sort=${sort}${limit}`);
         console.log("O request: ", request);
         request.categoria = req.data[0];
         request.data = [...request.data, ...request1.data];
@@ -130,20 +110,10 @@ export const fetchGuiasByCategoryComercial = async(category='', limit='', sort=n
         limit = `&_limit=500`;
   
 
-    let jwt = localStorage.getItem('jwt');
-
-    if(!jwt){
-        let ret = await axios.post(`${process.env.REACT_APP_URL_API}auth/local`, { identifier: process.env.REACT_APP_USER_API, password: process.env.REACT_APP_PASSWORD_API })
-        jwt = ret.data.jwt;
-        localStorage.setItem('jwt', jwt);
-    }
-
-    let config = { headers: { 'Authorization': `Bearer ${jwt}` } };
-
     let categoria = ''
     let req;
     if(category){
-        req = await axios.get(`${process.env.REACT_APP_URL_API}categoria/?populateAssociation=false&slug=guia/comercial/${category}`, config);
+        req = await axios.get(`${process.env.REACT_APP_URL_API}categoria/?populateAssociation=false&slug=guia/comercial/${category}`);
 
         if(req.data.length > 0){
             categoria=`categorias=${req.data[0]._id}&`
@@ -153,7 +123,7 @@ export const fetchGuiasByCategoryComercial = async(category='', limit='', sort=n
 
     if(categoria !== '')
     {
-        const request = await axios.get(`${process.env.REACT_APP_URL_API}guia/?populateAssociation=false&${categoria}&_sort=${sort}${limit}`, config);
+        const request = await axios.get(`${process.env.REACT_APP_URL_API}guia/?populateAssociation=false&${categoria}&_sort=${sort}${limit}`);
         request.categoria = req.data[0];
         return {
             type: FETCH_GUIAS,
@@ -177,31 +147,19 @@ export const fetchGuiasByCategoryServico = async(category='', limit='', sort=nul
     else
         limit = `&_limit=500`;
   
-
-    let jwt = localStorage.getItem('jwt');
-
-    if(!jwt){
-        let ret = await axios.post(`${process.env.REACT_APP_URL_API}auth/local`, { identifier: process.env.REACT_APP_USER_API, password: process.env.REACT_APP_PASSWORD_API })
-        jwt = ret.data.jwt;
-        localStorage.setItem('jwt', jwt);
-    }
-
-    let config = { headers: { 'Authorization': `Bearer ${jwt}` } };
-
     let categoria = ''
     let req;
     if(category){
-        req = await axios.get(`${process.env.REACT_APP_URL_API}categoria/?populateAssociation=false&slug=guia/servicos/${category}`, config);
+        req = await axios.get(`${process.env.REACT_APP_URL_API}categoria/?populateAssociation=false&slug=guia/servicos/${category}`);
 
         if(req.data.length > 0){
             categoria=`categorias=${req.data[0]._id}&`
         }
-       
     }
 
     if(categoria !== '')
     {
-        const request = await axios.get(`${process.env.REACT_APP_URL_API}guia/?populateAssociation=false&${categoria}&_sort=${sort}${limit}`, config);
+        const request = await axios.get(`${process.env.REACT_APP_URL_API}guia/?populateAssociation=false&${categoria}&_sort=${sort}${limit}`);
         request.categoria = req.data[0];
         return {
             type: FETCH_GUIAS,
@@ -226,26 +184,16 @@ export const fetchGuiasByCategory = async(category='', limit='', sort=null) => {
         limit = `&_limit=500`;
   
 
-    let jwt = localStorage.getItem('jwt');
-
-    if(!jwt){
-        let ret = await axios.post(`${process.env.REACT_APP_URL_API}auth/local`, { identifier: process.env.REACT_APP_USER_API, password: process.env.REACT_APP_PASSWORD_API })
-        jwt = ret.data.jwt;
-        localStorage.setItem('jwt', jwt);
-    }
-
-    let config = { headers: { 'Authorization': `Bearer ${jwt}` } };
-
     let categoria = ''
     let req;
     if(category){
-        req = await axios.get(`${process.env.REACT_APP_URL_API}categoria/?populateAssociation=false&slug=guia/comercial/${category}`, config);
+        req = await axios.get(`${process.env.REACT_APP_URL_API}categoria/?populateAssociation=false&slug=guia/comercial/${category}`);
 
         if(req.data.length > 0){
             categoria=`categorias=${req.data[0]._id}&`
         }
         else{
-            req = await axios.get(`${process.env.REACT_APP_URL_API}categoria/?populateAssociation=false&slug=guia/servicos/${category}`, config);
+            req = await axios.get(`${process.env.REACT_APP_URL_API}categoria/?populateAssociation=false&slug=guia/servicos/${category}`);
 
             if(req.data.length > 0){
                 categoria=`categorias=${req.data[0]._id}&`
@@ -255,7 +203,7 @@ export const fetchGuiasByCategory = async(category='', limit='', sort=null) => {
 
     if(categoria !== '')
     {
-        const request = await axios.get(`${process.env.REACT_APP_URL_API}guia/?${categoria}&_sort=${sort}${limit}`, config);
+        const request = await axios.get(`${process.env.REACT_APP_URL_API}guia/?${categoria}&_sort=${sort}${limit}`);
         request.categoria = req.data[0];
         return {
             type: FETCH_GUIAS,
@@ -281,20 +229,10 @@ export const fetchGuiasByTag = async(tag='', limit='', sort=null) => {
         limit = `&_limit=500`;
   
 
-    let jwt = localStorage.getItem('jwt');
-
-    if(!jwt){
-        let ret = await axios.post(`${process.env.REACT_APP_URL_API}auth/local`, { identifier: process.env.REACT_APP_USER_API, password: process.env.REACT_APP_PASSWORD_API })
-        jwt = ret.data.jwt;
-        localStorage.setItem('jwt', jwt);
-    }
-
-    let config = { headers: { 'Authorization': `Bearer ${jwt}` } };
-
     let tags = '';
     let req;
     if(tag){
-        req = await axios.get(`${process.env.REACT_APP_URL_API}tag/?slug=${tag}`, config);
+        req = await axios.get(`${process.env.REACT_APP_URL_API}tag/?slug=${tag}`);
 
         if(req.data.length > 0){
             console.log("request do tag: ", req.data);
@@ -305,7 +243,7 @@ export const fetchGuiasByTag = async(tag='', limit='', sort=null) => {
 
     if(tags !== '')
     {
-        const request = await axios.get(`${process.env.REACT_APP_URL_API}guia/?${tags}&_sort=${sort}${limit}`, config);
+        const request = await axios.get(`${process.env.REACT_APP_URL_API}guia/?${tags}&_sort=${sort}${limit}`);
         request.tag = req.data[0];
         return {
             type: FETCH_GUIAS,
@@ -330,22 +268,10 @@ export const fetchGuiasBySearch = async(search='', limit='', sort=null) => {
     else
         limit = `&_limit=500`;
   
-
-    let jwt = localStorage.getItem('jwt');
-
-    if(!jwt){
-        let ret = await axios.post(`${process.env.REACT_APP_URL_API}auth/local`, { identifier: process.env.REACT_APP_USER_API, password: process.env.REACT_APP_PASSWORD_API })
-        jwt = ret.data.jwt;
-        localStorage.setItem('jwt', jwt);
-    }
-
-    let config = { headers: { 'Authorization': `Bearer ${jwt}` } };
-
-    console.log("no busca guia: ", search)
     let bairros = '';
     let req;
     if(search.bairro){
-        req = await axios.get(`${process.env.REACT_APP_URL_API}bairro/?slug=${search.bairro}`, config);
+        req = await axios.get(`${process.env.REACT_APP_URL_API}bairro/?slug=${search.bairro}`);
 
         if(req.data.length > 0){
             console.log("request do tag: ", req.data);
@@ -356,14 +282,14 @@ export const fetchGuiasBySearch = async(search='', limit='', sort=null) => {
 
     let keyword = '';
     if(search.keyword){
-        req = await axios.get(`${process.env.REACT_APP_URL_API}categoria/?slug=${search.keyword}&tipo=guia comercial`, config);
+        req = await axios.get(`${process.env.REACT_APP_URL_API}categoria/?slug=${search.keyword}&tipo=guia comercial`);
 
         if(req.data.length > 0){
             console.log("request do tag: ", req.data);
             keyword=`&categoria=${req.data[0]._id}&`
         }
         else{
-            req = await axios.get(`${process.env.REACT_APP_URL_API}categoria/?slug=${search.keyword}&tipo=guia serviço`, config);
+            req = await axios.get(`${process.env.REACT_APP_URL_API}categoria/?slug=${search.keyword}&tipo=guia serviço`);
 
             if(req.data.length > 0){
                 console.log("request do tag: ", req.data);
@@ -374,7 +300,7 @@ export const fetchGuiasBySearch = async(search='', limit='', sort=null) => {
         keyword=`titulo_contains=${search.keyword}&`
     }
 
-    const request = await axios.get(`${process.env.REACT_APP_URL_API}guia/?${bairros}${keyword}_sort=${sort}${limit}`, config);
+    const request = await axios.get(`${process.env.REACT_APP_URL_API}guia/?${bairros}${keyword}_sort=${sort}${limit}`);
     
     return {
         type: FETCH_GUIAS,
@@ -392,18 +318,7 @@ export const fetchGuias = async(city_id, search='', limit='', sort=null) => {
     else
         limit = `&_limit=500`;
   
-
-    let jwt = localStorage.getItem('jwt');
-
-    if(!jwt){
-        let ret = await axios.post(`${process.env.REACT_APP_URL_API}auth/local`, { identifier: process.env.REACT_APP_USER_API, password: process.env.REACT_APP_PASSWORD_API })
-        jwt = ret.data.jwt;
-        localStorage.setItem('jwt', jwt);
-    }
-
-    let config = { headers: { 'Authorization': `Bearer ${jwt}` } };
-
-    const request = axios.get(`${process.env.REACT_APP_URL_API}guia/?populateAssociation=false&${search}&_sort=${sort}${limit}&cidade=${city_id}`, config);
+    const request = axios.get(`${process.env.REACT_APP_URL_API}guia/?populateAssociation=false&${search}&_sort=${sort}${limit}&cidade=${city_id}`);
 
     return {
         type: FETCH_GUIAS,
@@ -413,28 +328,8 @@ export const fetchGuias = async(city_id, search='', limit='', sort=null) => {
 
 export const fetchFeaturedGuias = async(city_id) => {
 
-    let jwt = localStorage.getItem('jwt');
-    if(!jwt){
-        let ret = await axios.post(`${process.env.REACT_APP_URL_API}auth/local`, { identifier: process.env.REACT_APP_USER_API, password: process.env.REACT_APP_PASSWORD_API })
-        jwt = ret.data.jwt;
-        localStorage.setItem('jwt', jwt);
-    }
-
-    let config = { headers: { 'Authorization': `Bearer ${jwt}` } };
-    let request;
-    try{
-        request = await axios.get(`${process.env.REACT_APP_URL_API}guia/?cidade_destaque=${city_id}`, config);
-    }
-    catch(e){
-        let ret = await axios.post(`${process.env.REACT_APP_URL_API}auth/local`, { identifier: process.env.REACT_APP_USER_API, password: process.env.REACT_APP_PASSWORD_API })
-        jwt = ret.data.jwt;
-        localStorage.setItem('jwt', jwt);
-        return {
-            type: FETCH_FEATURED_GUIAS,
-            payload: []
-        }
-    }
-
+    let request = await axios.get(`${process.env.REACT_APP_URL_API}guia/?cidade_destaque=${city_id}`);
+    
 
     return {
         type: FETCH_FEATURED_GUIAS,
@@ -444,17 +339,7 @@ export const fetchFeaturedGuias = async(city_id) => {
 
 export const fetchGuiasFeatured = async(city_id) => {
 
-    let jwt = localStorage.getItem('jwt');
-
-    if(!jwt){
-        let ret = await axios.post(`${process.env.REACT_APP_URL_API}auth/local`, { identifier: process.env.REACT_APP_USER_API, password: process.env.REACT_APP_PASSWORD_API })
-        jwt = ret.data.jwt;
-        localStorage.setItem('jwt', jwt);
-    }
-    
-    let config = { headers: { 'Authorization': `Bearer ${jwt}` } };
-
-    const request = axios.get(`${process.env.REACT_APP_URL_API}guia/?cidade_destaque=${city_id}`, config);
+    const request = axios.get(`${process.env.REACT_APP_URL_API}guia/?cidade_destaque=${city_id}`);
 
     return {
         type: FETCH_GUIAS_FEATURED,

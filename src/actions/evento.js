@@ -4,7 +4,7 @@ import { FETCH_EVENTO, FETCH_EVENTOS, FETCH_EVENTOS_RECENTES } from "./types";
 
 export const fetchEventoBySlug = async (slug) => {
 
-    let jwt = localStorage.getItem('jwt');
+   /*  let jwt = localStorage.getItem('jwt');
     
 
     if(!jwt){
@@ -15,7 +15,9 @@ export const fetchEventoBySlug = async (slug) => {
 
     let config = { headers: { 'Authorization': `Bearer ${jwt}` } };
 
-    const request = axios.get(`${process.env.REACT_APP_URL_API}evento/?slug=${slug}`, config);
+    const request = axios.get(`${process.env.REACT_APP_URL_API}evento/?slug=${slug}`, config); */
+
+    const request = axios.get(`${process.env.REACT_APP_URL_API}evento/?slug=${slug}`);
 
     return {
         type: FETCH_EVENTO,
@@ -26,17 +28,7 @@ export const fetchEventoBySlug = async (slug) => {
 
 export const fetchEventos = async(id, limit=200) => {
 
-    let jwt = localStorage.getItem('jwt');
-
-    if(!jwt){
-        let ret = await axios.post(`${process.env.REACT_APP_URL_API}auth/local`, { identifier: process.env.REACT_APP_USER_API, password: process.env.REACT_APP_PASSWORD_API })
-        jwt = ret.data.jwt;
-        localStorage.setItem('jwt', jwt);
-    }
-
-    let config = { headers: { 'Authorization': `Bearer ${jwt}` } };
-
-    const request = axios.get(`${process.env.REACT_APP_URL_API}evento/?populateAssociation=false&_sort=-_id&_limit=${limit}`, config);
+    const request = axios.get(`${process.env.REACT_APP_URL_API}evento/?populateAssociation=false&_sort=-_id&_limit=${limit}`);
 
     return {
         type: FETCH_EVENTOS,
@@ -54,20 +46,10 @@ export const fetchEventosByTag = async(tag='', limit='', sort=null) => {
         limit = `&_limit=200`;
   
 
-    let jwt = localStorage.getItem('jwt');
-
-    if(!jwt){
-        let ret = await axios.post(`${process.env.REACT_APP_URL_API}auth/local`, { identifier: process.env.REACT_APP_USER_API, password: process.env.REACT_APP_PASSWORD_API })
-        jwt = ret.data.jwt;
-        localStorage.setItem('jwt', jwt);
-    }
-
-    let config = { headers: { 'Authorization': `Bearer ${jwt}` } };
-
     let tags = '';
     let req;
     if(tag){
-        req = await axios.get(`${process.env.REACT_APP_URL_API}tag/?slug=${tag}`, config);
+        req = await axios.get(`${process.env.REACT_APP_URL_API}tag/?slug=${tag}`);
 
         if(req.data.length > 0){
             console.log("request do tag: ", req.data);
@@ -78,7 +60,7 @@ export const fetchEventosByTag = async(tag='', limit='', sort=null) => {
 
     if(tags !== '')
     {
-        const request = await axios.get(`${process.env.REACT_APP_URL_API}evento/?${tags}&_sort=${sort}${limit}`, config);
+        const request = await axios.get(`${process.env.REACT_APP_URL_API}evento/?${tags}&_sort=${sort}${limit}`);
         request.tag = req.data[0];
         return {
             type: FETCH_EVENTOS,
@@ -103,21 +85,10 @@ export const fetchEventosBySearch = async(search='', limit='', sort=null) => {
         limit = `&_limit=500`;
   
 
-    let jwt = localStorage.getItem('jwt');
-
-    if(!jwt){
-        let ret = await axios.post(`${process.env.REACT_APP_URL_API}auth/local`, { identifier: process.env.REACT_APP_USER_API, password: process.env.REACT_APP_PASSWORD_API })
-        jwt = ret.data.jwt;
-        localStorage.setItem('jwt', jwt);
-    }
-
-    let config = { headers: { 'Authorization': `Bearer ${jwt}` } };
-
-    console.log("no busca evento: ", search)
     let bairros = '';
     let req;
     if(search.bairro){
-        req = await axios.get(`${process.env.REACT_APP_URL_API}bairro/?slug=${search.bairro}`, config);
+        req = await axios.get(`${process.env.REACT_APP_URL_API}bairro/?slug=${search.bairro}`);
 
         if(req.data.length > 0){
             console.log("request do tag: ", req.data);
@@ -128,7 +99,7 @@ export const fetchEventosBySearch = async(search='', limit='', sort=null) => {
 
     let keyword = '';
     if(search.keyword){
-        req = await axios.get(`${process.env.REACT_APP_URL_API}categoria/?slug=${search.keyword}&tipo=evento`, config);
+        req = await axios.get(`${process.env.REACT_APP_URL_API}categoria/?slug=${search.keyword}&tipo=evento`);
 
         if(req.data.length > 0){
             console.log("request do tag: ", req.data);
@@ -139,7 +110,7 @@ export const fetchEventosBySearch = async(search='', limit='', sort=null) => {
     }
 
 
-    const request = await axios.get(`${process.env.REACT_APP_URL_API}evento/?${bairros}${keyword}&_sort=${sort}${limit}`, config);
+    const request = await axios.get(`${process.env.REACT_APP_URL_API}evento/?${bairros}${keyword}&_sort=${sort}${limit}`);
     
     return {
         type: FETCH_EVENTOS,
@@ -158,21 +129,10 @@ export const fetchEventosByCategory = async(category='', limit='', sort=null) =>
     else
         limit = `&_limit=200`;
   
-
-    let jwt = localStorage.getItem('jwt');
-
-    if(!jwt){
-        let ret = await axios.post(`${process.env.REACT_APP_URL_API}auth/local`, { identifier: process.env.REACT_APP_USER_API, password: process.env.REACT_APP_PASSWORD_API })
-        jwt = ret.data.jwt;
-        localStorage.setItem('jwt', jwt);
-    }
-
-    let config = { headers: { 'Authorization': `Bearer ${jwt}` } };
-
     let categoria = ''
     let req;
     if(category){
-        req = await axios.get(`${process.env.REACT_APP_URL_API}categoria/?populateAssociation=false&slug=eventos/${category}`, config);
+        req = await axios.get(`${process.env.REACT_APP_URL_API}categoria/?populateAssociation=false&slug=eventos/${category}`);
 
         if(req.data.length > 0){
             categoria=`categorias=${req.data[0]._id}&`
@@ -181,7 +141,7 @@ export const fetchEventosByCategory = async(category='', limit='', sort=null) =>
 
     if(categoria !== '')
     {
-        const request = await axios.get(`${process.env.REACT_APP_URL_API}evento/?${categoria}&_sort=${sort}${limit}`, config);
+        const request = await axios.get(`${process.env.REACT_APP_URL_API}evento/?${categoria}&_sort=${sort}${limit}`);
         request.categoria = req.data[0];
         return {
             type: FETCH_EVENTOS,
@@ -198,17 +158,7 @@ export const fetchEventosByCategory = async(category='', limit='', sort=null) =>
 
 export const fetchEventosRecentes = async(id, limit=5) => {
 
-    let jwt = localStorage.getItem('jwt');
-
-    if(!jwt){
-        let ret = await axios.post(`${process.env.REACT_APP_URL_API}auth/local`, { identifier: process.env.REACT_APP_USER_API, password: process.env.REACT_APP_PASSWORD_API })
-        jwt = ret.data.jwt;
-        localStorage.setItem('jwt', jwt);
-    }
-
-    let config = { headers: { 'Authorization': `Bearer ${jwt}` } };
-
-    const request = axios.get(`${process.env.REACT_APP_URL_API}evento/?_sort=-_id&_limit=${limit}`, config);
+    const request = axios.get(`${process.env.REACT_APP_URL_API}evento/?_sort=-_id&_limit=${limit}`);
 
     return {
         type: FETCH_EVENTOS_RECENTES,
