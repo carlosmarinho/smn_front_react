@@ -34,6 +34,12 @@ import './assets/styles/css/materialize.css';
 import './assets/styles/css/style.css';
 import './assets/styles/css/bootstrap.css';
 import './assets/styles/css/responsive.css';
+
+import ReactGA from 'react-ga';
+ReactGA.initialize('UA-17728772-17');
+ReactGA.pageview(window.location.pathname + window.location.search);
+
+
 let city_or_neighbor = 'city/niteroi';
 //let city_or_neighbor = 'district/engenhoca';
 import (`./assets/styles/css/${city_or_neighbor}.css`);
