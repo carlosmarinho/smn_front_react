@@ -28,12 +28,11 @@ class HeaderDestaqueBlog extends Component {
                 <Helmet>
                     <meta charSet="utf-8" />
                     <title>{title}</title>
-                    <link rel="canonical" href={this.props.url} />
+                    <meta property="og:image" content={image} />
                     <meta property="og:url" content={this.props.url} />
                     <meta property="og:title" content={title} />
                     <meta property="og:description" content={description} />
-                    <meta property="og:image" content={image} />
-                    <meta property="og:image:url" content={image} />
+                    <link rel="canonical" href={this.props.url} />
                     
                 </Helmet>
                 <section className="inn-page-bg">
