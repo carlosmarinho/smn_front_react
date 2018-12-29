@@ -98,7 +98,7 @@ class NewsItem extends Component {
                 <div className="page-blog">
                     <div className="text-center share-btn share-pad-bot ">
                         <ul>
-                            <li><a target="_blank" href="https://facebook.com/sharer/sharer.php?u=http%3A%2F%2Fsoumaisniteroi.com.br%2Fnoticias%2Fintervencao-chega-ao-fim-no-rio"><i className="fa fa-facebook fb1"></i>Compartilhar <span>no Facebook</span></a> </li>
+                            <li><a target="_blank" href={`https://facebook.com/sharer/sharer.php?u=${url}`><i className="fa fa-facebook fb1"></i>Compartilhar <span>no Facebook</span></a> </li>
                             <li><Link to={'/'}><i className="fa fa-twitter tw1"></i>Compartilhar <span>no Facebook</span></Link> </li>
                             <li><Link to={'/'}><i className="fa fa-google-plus gp1"></i>Compartilhar <span>no Facebook</span></Link> </li>
                         </ul>
