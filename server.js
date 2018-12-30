@@ -14,12 +14,12 @@ app.get('/ping', function (req, res) {
  return res.send('pong');
 });
 
-const metaTagsInstance = MetaTagsServer();
-const meta = metaTagsInstance.renderToString();
-console.log("metaaaaa:", meta);
 
 app.get('/guia', function (req, res) {
   console.log("aquiiiiiiiiiiiiiii no /")
+  const metaTagsInstance = MetaTagsServer();
+  const meta = metaTagsInstance.renderToString();
+  console.log("metaaaaa:", meta);
   const filePath = path.resolve(__dirname, './build', 'index.html');
   res.sendFile(filePath);
 
