@@ -26,6 +26,7 @@ class HeaderDestaqueBlog extends Component {
 
         return(
             <div>
+                <div className="wrapper">
                 <MetaTags>
                     <title>Page 1</title>
                     <meta property="og:image" content={image} />
@@ -33,6 +34,7 @@ class HeaderDestaqueBlog extends Component {
                     <meta property="og:title" content={title} />
                     <meta property="og:description" content={description} />
                 </MetaTags>
+                </div>
                 <Helmet>
                     <meta charSet="utf-8" />
                     <title>{title}</title>
