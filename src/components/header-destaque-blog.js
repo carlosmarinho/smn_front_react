@@ -2,7 +2,6 @@ import _ from 'lodash';
 import React, { Component } from 'react';
 import Helmet from 'react-helmet';
 import GoogleAds from './modules/google-ads';
-import MetaTags from 'react-meta-tags';
 
 class HeaderDestaqueBlog extends Component {
 
@@ -26,21 +25,14 @@ class HeaderDestaqueBlog extends Component {
 
         return(
             <div>
-                <div className="wrapper">
-                <MetaTags>
-                    <title>Page 1</title>
-                    <meta property="og:image" content={image} />
-                    <meta property="og:url" content={this.props.url} />
-                    <meta property="og:title" content={title} />
-                    <meta property="og:description" content={description} />
-                </MetaTags>
-                </div>
                 <Helmet>
                     <meta charSet="utf-8" />
                     <title>{title}</title>
 
-                    
-                    
+                    <meta property="og:image" content={image} />
+                    <meta property="og:url" content={this.props.url} />
+                    <meta property="og:title" content={title} />
+                    <meta property="og:description" content={description} />                    
                     <link rel="canonical" href={this.props.url} />
                     
                 </Helmet>
