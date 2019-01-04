@@ -4,6 +4,7 @@ export default function(state = null, action) {
 
     switch (action.type) {
         case CREATE_USER:
+            console.log("Retorno do payload: ", action.payload)
             return action.payload;
         case EDIT_USER:
             return action.payload;
