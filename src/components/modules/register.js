@@ -1,12 +1,25 @@
 import React, { Component } from 'react';
-//import { connect } from 'react-redux';
+import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-//import { Field, reduxForm } from 'redux-form';
+import { Field, reduxForm } from 'redux-form';
+import { createUser } from '../../actions/user';
 
 class Register extends Component {
 
+    constructor(){
+        super();
+
+        this.handleSubmit = this.handleSubmit.bind(this);
+    }
+
+    handleSubmit(values){
+        console.log("values", values);
+        this.props.createUser(values);
+    }
+
     render(){
         let name1 = "";
+        const { pristine, reset, submitting, handleSubmit } = this.props
         return(
             <div>
                 <section className="tz-register">
@@ -30,34 +43,59 @@ class Register extends Component {
                             <h4>Faça o seu Cadastro <span>(Em manutenção)</span></h4>
                             <p>O login do site está em manutenção! Esperamos resolver o mais breve possível.</p>
                             <p>Ainda não fez seu cadastro? Então faça o seu registro. Leva menos de 1 minuto</p>
-                            <form className="s12">
+                            <form className="s12" onSubmit={handleSubmit(this.handleSubmit)}>
                                 <div>
                                     <div className="input-field s12">
-                                        <input type="text" data-ng-model="name1" className="validate" />
+                                        <Field
+                                            name="usuario"
+                                            component="input"
+                                            type="text"
+                                            data-ng-model="name1"
+                                            className="validate"
+                                        />
+                                        {/*<input type="text" data-ng-model="name1" className="validate" />*/}
                                         <label>Username</label>
                                     </div>
                                 </div>
                                 <div>
                                     <div className="input-field s12">
-                                        <input type="email" className="validate" />
+                                        <Field
+                                            name="email"
+                                            component="input"
+                                            type="email"
+                                            className="validate"
+                                        />
+                                        {/*<input type="email" className="validate" />*/}
                                         <label>Email</label>
                                     </div>
                                 </div>
                                 <div>
                                     <div className="input-field s12">
-                                        <input type="password" className="validate" />
+                                        <Field
+                                            name="senha"
+                                            component="input"
+                                            type="password"
+                                            className="validate"
+                                        />
+                                        {/*<input type="password" className="validate" />*/}
                                         <label>Senha</label>
                                     </div>
                                 </div>
                                 <div>
                                     <div className="input-field s12">
-                                        <input type="password" className="validate" />
+                                        <Field
+                                            name="confirme_senha"
+                                            component="input"
+                                            type="password"
+                                            className="validate"
+                                        />
+                                        {/*<input type="password" className="validate" />*/}
                                         <label>Confirme a senha</label>
                                     </div>
                                 </div>
                                 <div>
                                     <div className="input-field s4">
-                                        <input type="submit" value="Register" className="waves-effect waves-light log-in-btn" /> </div>
+                                    <input type="submit" value="Cadastrar"  disabled={pristine || submitting} className="waves-effect waves-light log-in-btn" /> </div>
                                 </div>
                                 <div>
                                     <div className="input-field s12"> <Link className='v3-add-bus' to="/login">Já é cadastrado ? Login</Link> </div>
@@ -102,4 +140,14 @@ class Register extends Component {
 
 }
 
-export default Register;
+function mapStateToProps(state){
+    return({
+
+    })
+}
+
+const Connect = connect(mapStateToProps, {createUser})(Register)
+
+export default reduxForm ({
+    form: 'register'
+})(Connect);
