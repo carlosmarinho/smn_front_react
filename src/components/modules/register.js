@@ -10,6 +10,7 @@ class Register extends Component {
         super();
 
         this.handleSubmit = this.handleSubmit.bind(this);
+        this.showError = this.showError.bind(this);
     }
 
     handleSubmit(values){
@@ -17,9 +18,19 @@ class Register extends Component {
         this.props.createUser(values);
     }
 
+    showError(){
+        if(this.props.error){
+            return(
+                <p className="text-danger">{this.props.error.msg}</p>
+            )
+        }
+    }
+
     render(){
         let name1 = "";
         const { pristine, reset, submitting, handleSubmit } = this.props
+
+        console.log("minhas props: ", this.props);
         return(
             <div>
                 <section className="tz-register">
@@ -40,14 +51,14 @@ class Register extends Component {
                         <div className="log-in-pop-right">
                             <a href="#@todoclose" className="pop-close" data-dismiss="modal"><img src="images/cancel.png" alt="" />
                             </a>
-                            <h4>Faça o seu Cadastro <span>(Em manutenção)</span></h4>
-                            <p>O login do site está em manutenção! Esperamos resolver o mais breve possível.</p>
+                            <h4>Faça o seu Cadastro </h4>
                             <p>Ainda não fez seu cadastro? Então faça o seu registro. Leva menos de 1 minuto</p>
+                            {this.showError()}
                             <form className="s12" onSubmit={handleSubmit(this.handleSubmit)}>
                                 <div>
                                     <div className="input-field s12">
                                         <Field
-                                            name="usuario"
+                                            name="username"
                                             component="input"
                                             type="text"
                                             data-ng-model="name1"
@@ -72,7 +83,7 @@ class Register extends Component {
                                 <div>
                                     <div className="input-field s12">
                                         <Field
-                                            name="senha"
+                                            name="password"
                                             component="input"
                                             type="password"
                                             className="validate"
@@ -142,7 +153,8 @@ class Register extends Component {
 
 function mapStateToProps(state){
     return({
-
+        users: state.users,
+        error: state.error
     })
 }
 

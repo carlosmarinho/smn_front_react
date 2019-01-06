@@ -10,6 +10,7 @@ import Eventos from './eventoReducer';
 import Noticias from './noticiaReducer';
 import Paginas from './paginaReducer';
 import City from './cityReducer';
+import Errors from './errorReducer';
 
 export default combineReducers({
     users: Users,
@@ -21,5 +22,6 @@ export default combineReducers({
     noticias: Noticias,
     paginas: Paginas,
     city: City,
+    error: Errors,
     form: formReducer
 })
