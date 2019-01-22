@@ -4,6 +4,26 @@ import { Link } from 'react-router-dom';
 import { Field, reduxForm } from 'redux-form';
 import { createUser } from '../../actions/user';
 
+
+const required = value => value ? undefined : 'Campo Obrigatório'
+
+const email = value =>
+  value && !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(value) ?
+  'Campo de Email inválido' : undefined
+
+const maxLength = max => value =>
+  value && value.length > max ? `Must be ${max} characters or less` : undefined;
+
+const maxLength15 = maxLength(15)
+
+const minLength = min => value =>
+    value && value.length < min ? `O campo deve conter no mínimo ${min} caracteres` : undefined;
+
+const minLength5 = minLength(5)
+
+const passwordMatch = (value, allValues) =>
+    value != allValues.senha ? "As senhas não podem ser diferentes!" : undefined;
+
 class Register extends Component {
 
     constructor(){
@@ -24,6 +44,19 @@ class Register extends Component {
                 <p className="text-danger">{this.props.error.msg}</p>
             )
         }
+    }
+
+    renderField(field){
+        const {input, label, type, meta: {touched, error, warning} } = field;
+
+        return(
+                <div className="input-field s12">
+                    <input {...input}  type={type} />
+                    {touched && ((error && <span className="text-danger">{error}</span>) || (warning && <span>{warning}</span>))}
+                    <label>{label}</label> 
+                </div>
+            
+        )
     }
 
     render(){
@@ -56,52 +89,55 @@ class Register extends Component {
                             {this.showError()}
                             <form className="s12" onSubmit={handleSubmit(this.handleSubmit)}>
                                 <div>
-                                    <div className="input-field s12">
-                                        <Field
+                                    <Field
                                             name="username"
-                                            component="input"
+                                            component={this.renderField}
                                             type="text"
+                                            label="Usuário"
                                             data-ng-model="name1"
                                             className="validate"
+                                            validate={[ required, minLength5, maxLength15 ]}
                                         />
-                                        {/*<input type="text" data-ng-model="name1" className="validate" />*/}
-                                        <label>Username</label>
-                                    </div>
+                                        {/*<input type="text" data-ng-model="name1" className="validate" />
+                                        <label>Username</label>*/}
                                 </div>
                                 <div>
                                     <div className="input-field s12">
                                         <Field
                                             name="email"
-                                            component="input"
+                                            component={this.renderField}
                                             type="email"
+                                            label="Email"
                                             className="validate"
+                                            validate={[ email, required ]}
                                         />
                                         {/*<input type="email" className="validate" />*/}
-                                        <label>Email</label>
                                     </div>
                                 </div>
                                 <div>
                                     <div className="input-field s12">
                                         <Field
                                             name="password"
-                                            component="input"
+                                            component={this.renderField}
                                             type="password"
+                                            label="Senha"
                                             className="validate"
+                                            validate={[required, minLength5, maxLength15]}
                                         />
                                         {/*<input type="password" className="validate" />*/}
-                                        <label>Senha</label>
                                     </div>
                                 </div>
                                 <div>
                                     <div className="input-field s12">
                                         <Field
                                             name="confirme_senha"
-                                            component="input"
+                                            component={this.renderField}
+                                            validate={[passwordMatch]}
                                             type="password"
+                                            label="Confirme a Senha"
                                             className="validate"
                                         />
                                         {/*<input type="password" className="validate" />*/}
-                                        <label>Confirme a senha</label>
                                     </div>
                                 </div>
                                 <div>
@@ -157,6 +193,18 @@ function mapStateToProps(state){
         error: state.error
     })
 }
+
+/* function validate(values){
+
+    console.log("valores: ", values);
+    let errors = [];
+    console.log('username: ', !values.username )
+    if(!values.username)
+        errors['username'] = "Campo Usuário é obrigatório!";
+        
+    console.log("errors: ", errors);
+    return errors
+} */
 
 const Connect = connect(mapStateToProps, {createUser})(Register)
 
