@@ -21,8 +21,10 @@ const minLength = min => value =>
 
 const minLength5 = minLength(5)
 
-const passwordMatch = (value, allValues) =>
-    value != allValues.senha ? "As senhas não podem ser diferentes!" : undefined;
+const passwordMatch = (value, allValues) => {
+    console.log("value: ", value, " ----- allvalues: ", allValues.password )
+    value != allValues.password ? "As senhas não podem ser diferentes!" : undefined;
+}
 
 class Register extends Component {
 
@@ -59,6 +61,10 @@ class Register extends Component {
         )
     }
 
+    facebookLogin(){
+        console.log("aqui no facebook login");
+    }
+
     render(){
         let name1 = "";
         const { pristine, reset, submitting, handleSubmit } = this.props
@@ -73,7 +79,7 @@ class Register extends Component {
                             <p>Ainda não fez seu cadastro? Então faça o seu registro. Leva menos de 1 minuto</p>
                             <h4>Login com media social </h4>
                             <ul>
-                                <li><a href="#@todoface"><i className="fa fa-facebook"></i> Facebook</a>
+                                <li><a href="http://localhost:1337/connect/facebook" ><i className="fa fa-facebook"></i> Facebook</a>
                                 </li>
                                 <li><a href="#@todogoogle"><i className="fa fa-google"></i> Google+</a>
                                 </li>
