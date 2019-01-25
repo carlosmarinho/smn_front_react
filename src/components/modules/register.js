@@ -21,10 +21,9 @@ const minLength = min => value =>
 
 const minLength5 = minLength(5)
 
-const passwordMatch = (value, allValues) => {
-    console.log("value: ", value, " ----- allvalues: ", allValues.password )
+const passwordMatch = (value, allValues) => 
     value != allValues.password ? "As senhas não podem ser diferentes!" : undefined;
-}
+
 
 class Register extends Component {
 
@@ -32,7 +31,7 @@ class Register extends Component {
         super();
 
         this.handleSubmit = this.handleSubmit.bind(this);
-        this.showError = this.showError.bind(this);
+        this.showMessage = this.showMessage.bind(this);
     }
 
     handleSubmit(values){
@@ -40,11 +39,19 @@ class Register extends Component {
         this.props.createUser(values);
     }
 
-    showError(){
-        if(this.props.error){
-            return(
-                <p className="text-danger">{this.props.error.msg}</p>
-            )
+    showMessage(){
+        console.log("mensagem: ", this.props.message);
+        if(this.props.message){
+            if(this.props.message.error){
+                return(
+                    <p className="text-danger">{this.props.message.error.msg}</p>
+                )
+            }
+            else if(this.props.message.success){
+                return(
+                    <p className="text-success">Usuário cadastrado com sucesso! Valide o seu cadastro através do email que foi enviado.</p>
+                )
+            }
         }
     }
 
@@ -92,7 +99,7 @@ class Register extends Component {
                             </a>
                             <h4>Faça o seu Cadastro </h4>
                             <p>Ainda não fez seu cadastro? Então faça o seu registro. Leva menos de 1 minuto</p>
-                            {this.showError()}
+                            {this.showMessage()}
                             <form className="s12" onSubmit={handleSubmit(this.handleSubmit)}>
                                 <div>
                                     <Field
@@ -196,7 +203,7 @@ class Register extends Component {
 function mapStateToProps(state){
     return({
         users: state.users,
-        error: state.error
+        message: state.message
     })
 }
 

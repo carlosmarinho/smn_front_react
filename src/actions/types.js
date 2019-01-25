@@ -3,6 +3,7 @@ export const CREATE_USER = "CREATE_USER";
 export const EDIT_USER = "EDIT_USER";
 export const FETCH_USER = "FETCH_USER";
 export const FETCH_USER_FIELDS = "FETCH_USER_FIELDS";
+export const SUCCESS_CREATE_USER = "SUCCESS_CREATE_USER";
 export const ERROR_CREATE_USER = "ERROR_CREATE_USER";
 
 export const FETCH_GUIA = "FETCH_GUIA";
