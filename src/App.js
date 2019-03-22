@@ -24,6 +24,8 @@ import ListingGrid from './components/modules/listing-grid'
 //import Gallery from './components/modules/gallery'
 import Contact from './components/modules/contact'
 import Login from './components/modules/login'
+
+import Connect from './components/modules/connect'
 import Register from './components/modules/register'
 
 import BairroGrid from './components/modules/bairro-grid'
@@ -140,6 +142,7 @@ class App extends Component {
                             <Redirect from="/home.html" to="/" state={ { status: 301 } } />
                             <Redirect from="/guia_comercial/:slug/" to="/guia/:slug/" state={ { status: 301 } } />
                             <Redirect from="/guia_comercial_category/:slug/" to="/guia/comercial/:slug/" state={ { status: 301 } } />
+                            <Route exact path="/connect/facebook/" component={Connect} />
                             <Route exact path="/" component={Home} />
                             <Route exact path="/login" component={Login} />
                             <Route exact path="/cadastro" component={Register} />

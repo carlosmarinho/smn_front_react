@@ -1,4 +1,4 @@
-import {ERROR_CREATE_USER, SUCCESS_CREATE_USER} from './types';
+import {ERROR_CREATE_USER, SUCCESS_CREATE_USER, LOGIN_USER} from './types';
 
 import axios from 'axios';
 
@@ -32,6 +32,15 @@ import axios from 'axios';
 
 
 }; */
+
+export const loginProvider = (params) => {
+    let request = axios.get(`${process.env.REACT_APP_URL_API}auth/facebook/callback${params}`)
+                                                                     
+    return({
+        type: LOGIN_USER,
+        payload: request
+    })
+}
  
 export const createUser = async(user) =>  {
     
