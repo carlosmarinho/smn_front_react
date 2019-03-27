@@ -86,7 +86,7 @@ class Register extends Component {
                             <p>Ainda não fez seu cadastro? Então faça o seu registro. Leva menos de 1 minuto</p>
                             <h4>Login com media social </h4>
                             <ul>
-                                <li><a href="http://localhost:1337/connect/facebook" ><i className="fa fa-facebook"></i> Facebook</a>
+                                <li><a href={process.env.REACT_APP_URL_API + 'connect/facebook'} ><i className="fa fa-facebook"></i> Facebook</a>
                                 </li>
                                 <li><a href="#@todogoogle"><i className="fa fa-google"></i> Google+</a>
                                 </li>
