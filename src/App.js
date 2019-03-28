@@ -144,6 +144,7 @@ class App extends Component {
                             <Redirect from="/guia_comercial_category/:slug/" to="/guia/comercial/:slug/" state={ { status: 301 } } />
                             <Route exact path="/connect/facebook/" component={Connect} />
                             <Route exact path="/" component={Home} />
+                            <Route exact path="/auth/facebook/callback/" component={Home} />
                             <Route exact path="/login" component={Login} />
                             <Route exact path="/cadastro" component={Register} />
 

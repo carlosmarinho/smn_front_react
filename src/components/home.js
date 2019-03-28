@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import {connect} from 'react-redux';
+import queryString from 'query-string';
 
 import HeaderHome from './header-destaque-home';
 import FeaturedTwoColumns from './modules/featured-two-columns';
@@ -9,15 +10,23 @@ import FeaturedOneRowOneColumn from './modules/featured-one-row-one-column';
 import FeaturedOneRowTwoColumn from './modules/featured-one-row-two-column';
 import { Link } from 'react-router-dom';
 
+
+import { loginProvider } from '../actions/user'
 import { fetchFeaturedGuias } from '../actions/guia';
 import { fetchCityBySlug } from '../actions/city';
 import { fetchEventos } from '../actions/evento';
 import { fetchNoticiasFeatured } from '../actions/noticia';
+
+
 import PreFooter from './modules/pre-footer';
 
 class Home extends Component {
 
     componentDidMount() {
+        let params = queryString.parse(this.props.location.search)
+        if(params.access_token){
+            this.props.loginProvider(params.access_token);
+        }
         this.props.fetchFeaturedGuias('5ba26f813a018f42215a36a0');
         this.props.fetchEventos('5ba26f813a018f42215a36a0', 4);
         this.props.fetchNoticiasFeatured('5ba26f813a018f42215a36a0', 5, '-_id');
@@ -70,4 +79,4 @@ function mapStateToProps(state){
     }
 }
 
-export default connect(mapStateToProps, { fetchFeaturedGuias, fetchEventos, fetchNoticiasFeatured, fetchCityBySlug })(Home);
+export default connect(mapStateToProps, { loginProvider, fetchFeaturedGuias, fetchEventos, fetchNoticiasFeatured, fetchCityBySlug })(Home);

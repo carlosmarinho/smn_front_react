@@ -2,6 +2,42 @@ import React, { Component } from 'react';
 import {Link} from 'react-router-dom';
 
 class Menu extends Component {
+
+    constructor() {
+        super();
+        this.state = {
+            userLogged: null
+        }
+    }
+
+    componentDidMount() {
+        let user = localStorage.getItem('user');
+        if(user){
+            this.setState({userLogged: JSON.parse(user).user})
+        }
+    }
+
+    userBar(){
+        if(!this.state.userLogged){
+
+            return(
+                <div className="v3-m-3">
+                    <div className="v3-top-ri">
+                        <ul>
+                            <li>
+                                <Link className='v3-add-bus' to="/login"><i className="fa fa-sign-in"></i> Login</Link>  
+                            </li>
+                            <li>
+                                <Link className='v3-add-bus' to="/cadastro"><i className="fa fa-plus" aria-hidden="true"></i> Cadastro</Link> 
+                            </li>
+    
+                        </ul>
+                    </div>
+                </div>
+            )
+        }
+    }
+
     render(){
         return(
             <div className="v3-top-menu">
@@ -35,19 +71,7 @@ class Menu extends Component {
                                     </li>
                                 </ul>
                             </div>
-                            <div className="v3-m-3">
-                                <div className="v3-top-ri">
-                                    <ul>
-                                        <li>
-                                            <Link className='v3-add-bus' to="/login"><i className="fa fa-sign-in"></i> Login</Link>  
-                                        </li>
-                                        <li>
-                                            <Link className='v3-add-bus' to="/cadastro"><i className="fa fa-plus" aria-hidden="true"></i> Cadastro</Link> 
-                                        </li>
-
-                                    </ul>
-                                </div>
-                            </div>
+                            {this.userBar()}
                         </div>
                         <div className="all-drop-down-menu">
                             <ul id='drop-menu-cidade' className='dropdown-content'>

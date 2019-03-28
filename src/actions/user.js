@@ -33,13 +33,22 @@ import axios from 'axios';
 
 }; */
 
-export const loginProvider = (params) => {
-    let request = axios.get(`${process.env.REACT_APP_URL_API}auth/facebook/callback${params}`)
-                                                                     
+export const loginProvider = async(token) => {
+    let request;
+    try{
+        request = await axios.get(`${process.env.REACT_APP_URL_API}auth/facebook/callback?access_token=${token}`)    
+        console.log("guardando o user no storage", request.data);
+        localStorage.setItem("user", JSON.stringify(request.data));
+    }
+    catch( error ){
+        console.log("\n\n\nError ao logar ao buscar o user");
+    }
+
     return({
         type: LOGIN_USER,
-        payload: request
+        payload: request.data
     })
+    
 }
  
 export const createUser = async(user) =>  {
