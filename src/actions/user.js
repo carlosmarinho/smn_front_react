@@ -41,7 +41,8 @@ export const loginProvider = async(token) => {
         localStorage.setItem("user", JSON.stringify(request.data));
     }
     catch( error ){
-        console.log("\n\n\nError ao logar ao buscar o user");
+        request = { data: {loginError: "Houve um erro ao fazer o seu login"}};
+        console.log("\n\n\nError ao logar ao buscar o user", request);
     }
 
     return({

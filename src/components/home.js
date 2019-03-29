@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+
 import {connect} from 'react-redux';
 import queryString from 'query-string';
 
@@ -9,6 +10,7 @@ import FeaturedNews from './modules/featured-news';
 import FeaturedOneRowOneColumn from './modules/featured-one-row-one-column';
 import FeaturedOneRowTwoColumn from './modules/featured-one-row-two-column';
 import { Link } from 'react-router-dom';
+import { Redirect } from 'react-router-dom';
 
 
 import { loginProvider } from '../actions/user'
@@ -40,6 +42,12 @@ class Home extends Component {
         )
     }
     render(){
+        console.log("\n\nusuario: ", this.props);
+
+        if(this.props.user && this.props.user.loginError){
+            return <Redirect to={`/login`} />
+        }
+
         if(!this.props.guiasFeatured || !this.props.eventos || !this.props.noticias){
             return(<div>
                 <HeaderHome background="" />
@@ -75,7 +83,8 @@ function mapStateToProps(state){
         guiasFeatured: state.guiasFeatured,
         eventos: state.eventos,
         noticias: state.noticias,
-        city: state.city
+        city: state.city,
+        user: state.users
     }
 }
 
