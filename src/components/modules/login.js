@@ -24,10 +24,12 @@ class Login extends Component {
     }
 
     componentDidMount() {
+
+        console.log("props no login: " , this.props);
         let params = queryString.parse(this.props.location.search)
 
-        if(params.access_token){
-            this.props.loginProvider(params);
+        if(this.props.match.params.provider && params.access_token){
+            this.props.loginProvider(this.props.match.params.provider, params);
         }            
     }
 
@@ -79,7 +81,7 @@ class Login extends Component {
                             <ul>
                                 <li><a href={process.env.REACT_APP_URL_API + 'connect/facebook'} ><i className="fa fa-facebook"></i> Facebook</a>
                                 </li>
-                                <li><a href="#@todogoogle"><i className="fa fa-google"></i> Google+</a>
+                                <li><a href={process.env.REACT_APP_URL_API + 'connect/google'}><i className="fa fa-google"></i> Google+</a>
                                 </li>
                                 <li><a href="#@todotwitter"><i className="fa fa-twitter"></i> Twitter</a>
                                 </li>

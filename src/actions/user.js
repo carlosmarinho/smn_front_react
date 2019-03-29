@@ -52,11 +52,11 @@ export const login = async(values) => {
     
 }
 
-export const loginProvider = async(params) => {
+export const loginProvider = async(provider, params) => {
     let request;
     console.log("guardando o user no storage", params);
     try{
-        request = await axios.get(`${process.env.REACT_APP_URL_API}auth/facebook/callback?access_token=${params.access_token}`)    
+        request = await axios.get(`${process.env.REACT_APP_URL_API}auth/${provider}/callback?access_token=${params.access_token}`)    
         request.data.expires = params['raw[expires_in]'];
         localStorage.setItem("user", JSON.stringify(request.data));
     }
