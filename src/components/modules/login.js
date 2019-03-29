@@ -1,11 +1,72 @@
 import React, { Component } from 'react';
-//import { connect } from 'react-redux';
+
 import {Link} from 'react-router-dom';
-//import { Field, reduxForm } from 'redux-form'
+
+import { Field, reduxForm } from 'redux-form';
+import { connect } from 'react-redux';
+import { Redirect } from 'react-router-dom'
+
+import queryString from 'query-string';
+import { loginProvider } from '../../actions/user';
+import { login } from '../../actions/user';
+
+const required = value => value ? undefined : 'Campo Obrigatório'
+
+
 
 class Login extends Component {
 
+    constructor() {
+        super()
+
+        this.handleSubmit = this.handleSubmit.bind(this);
+
+    }
+
+    componentDidMount() {
+        let params = queryString.parse(this.props.location.search)
+
+        if(params.access_token){
+            this.props.loginProvider(params);
+        }            
+    }
+
+    handleSubmit(values){
+        this.props.login(values);
+    }
+
+    renderField(field){
+        const {input, label, type, meta: {touched, error, warning} } = field;
+
+        return(
+                <div className="input-field s12">
+                    <input {...input}  type={type} />
+                    {touched && ((error && <span className="text-danger">{error}</span>) || (warning && <span>{warning}</span>))}
+                    <label>{label}</label> 
+                </div>
+            
+        )
+    }
+
+    errorMessage(){
+        if(this.props.user && this.props.user.loginError){
+            return(
+                <p className="alert-danger">{this.props.user.loginError}</p>
+            )
+        }
+    }
+
     render(){
+
+        console.log("\n\nusuario: ", this.props);
+
+        if(this.props.user &&  this.props.user.user){
+            return <Redirect to={`/`} />
+        }
+
+        const { pristine, reset, submitting, handleSubmit } = this.props
+
+
         let name1 = "";
         return(
             <div>
@@ -16,7 +77,7 @@ class Login extends Component {
                             <p>Ainda não fez seu cadastro? Então faça o seu registro. Leva menos de 1 minuto</p>
                             <h4>Login com media social </h4>
                             <ul>
-                                <li><a href="#@todoface"><i className="fa fa-facebook"></i> Facebook</a>
+                                <li><a href={process.env.REACT_APP_URL_API + 'connect/facebook'} ><i className="fa fa-facebook"></i> Facebook</a>
                                 </li>
                                 <li><a href="#@todogoogle"><i className="fa fa-google"></i> Google+</a>
                                 </li>
@@ -27,20 +88,34 @@ class Login extends Component {
                         <div className="log-in-pop-right">
                             <a href="#@todoclose" className="pop-close" data-dismiss="modal"><img src="images/cancel.png" alt="" />
                             </a>
-                            <h4>Login <span>(Em manutenção)</span></h4>
-                            <p>O login do site está em manutenção! Esperamos resolver o mais breve possível.</p>
-                            <p>Informe seu usuario ou email e sua senha para logar no site!</p>
-                            <form className="s12">
+                            <h4>Login </h4>
+                            {this.errorMessage()}
+                            <p >Informe seu usuario ou email e sua senha para logar no site!</p>
+                            <form className="s12" onSubmit={handleSubmit(this.handleSubmit)}>
                                 <div>
                                     <div className="input-field s12">
-                                        <input type="text" data-ng-model="name1" className="validate" />
-                                        <label>Username</label>
+                                        <Field
+                                                name="identifier"
+                                                component={this.renderField}
+                                                type="text"
+                                                label="Usuário ou Email"
+                                                data-ng-model="name1"
+                                                className="validate"
+                                                validate={[ required ]}
+                                            />
                                     </div>
                                 </div>
                                 <div>
                                     <div className="input-field s12">
-                                        <input type="password" className="validate" />
-                                        <label>Senha</label>
+                                            <Field
+                                                name="password"
+                                                component={this.renderField}
+                                                type="password"
+                                                label="Senha"
+                                                data-ng-model="name1"
+                                                className="validate"
+                                                validate={[ required ]}
+                                            />
                                     </div>
                                 </div>
                                 <div>
@@ -91,4 +166,18 @@ class Login extends Component {
 
 }
 
-export default Login;
+//export default Login;
+
+function mapStateToProps(state) {
+    return(
+        {
+            user: state.users
+        }
+    )
+}
+
+const Connect = connect(mapStateToProps, {loginProvider, login})(Login);
+
+export default reduxForm({
+    form: 'login'
+})(Connect)

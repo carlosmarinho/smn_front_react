@@ -33,16 +33,36 @@ import axios from 'axios';
 
 }; */
 
-export const loginProvider = async(token) => {
+export const login = async(values) => {
     let request;
     try{
-        request = await axios.get(`${process.env.REACT_APP_URL_API}auth/facebook/callback?access_token=${token}`)    
-        console.log("guardando o user no storage", request.data);
+        request = await axios.post(`${process.env.REACT_APP_URL_API}auth/local/`, values)    
+        //request.data.expires = params['raw[expires_in]'];
         localStorage.setItem("user", JSON.stringify(request.data));
     }
     catch( error ){
         request = { data: {loginError: "Houve um erro ao fazer o seu login"}};
-        console.log("\n\n\nError ao logar ao buscar o user", request);
+        console.log("\n\n\nError ao logar ao buscar o user", error);
+    }
+
+    return({
+        type: LOGIN_USER,
+        payload: request.data
+    })
+    
+}
+
+export const loginProvider = async(params) => {
+    let request;
+    console.log("guardando o user no storage", params);
+    try{
+        request = await axios.get(`${process.env.REACT_APP_URL_API}auth/facebook/callback?access_token=${params.access_token}`)    
+        request.data.expires = params['raw[expires_in]'];
+        localStorage.setItem("user", JSON.stringify(request.data));
+    }
+    catch( error ){
+        request = { data: {loginError: "Houve um erro ao fazer o seu login"}};
+        console.log("\n\n\nError ao logar ao buscar o user", error);
     }
 
     return({
