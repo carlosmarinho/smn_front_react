@@ -5777,13 +5777,23 @@ footer ul li a:hover {
   color: #494b4b;
   float: right; }
 
+.top-user-pro-v3 {
+  color: #494b4b;
+  float: right; }
+
 .top-user-pro img {
   width: 25px;
   margin-right: 10px;
   border-radius: 35px;
   border: 2px solid #a1adb3; }
 
-.top-user-pro i {
+.top-user-pro-v3 img {
+  width: 25px;
+  margin-right: 10px;
+  border-radius: 35px;
+  border: 2px solid #a1adb3; }
+
+.top-user-pro i, .top-user-pro-v3 i {
   margin-left: 5px; }
 
 .page-back {
@@ -6179,8 +6189,15 @@ footer ul li a:hover {
 
 .v3-m-3 {
   float: left;
-  width: 20%; }
+  width: 20%;
+  /*added by carlos */
+  padding-top: 5px; }
 
+/*added by carlos*/
+.v3-m-3 ul {
+  margin-bottom: 0px; }
+
+/*end*/
 .dropdown-content {
   overflow: visible;
   /*added by carlos marinho*/

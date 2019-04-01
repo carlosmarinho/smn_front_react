@@ -18,24 +18,40 @@ class Menu extends Component {
     }
 
     userBar(){
+        return this.loggedUserBar();
         if(!this.state.userLogged){
-
-            return(
-                <div className="v3-m-3">
-                    <div className="v3-top-ri">
-                        <ul>
-                            <li>
-                                <Link className='v3-add-bus' to="/login"><i className="fa fa-sign-in"></i> Login</Link>  
-                            </li>
-                            <li>
-                                <Link className='v3-add-bus' to="/cadastro"><i className="fa fa-plus" aria-hidden="true"></i> Cadastro</Link> 
-                            </li>
-    
-                        </ul>
-                    </div>
-                </div>
-            )
+            return this.notLoggedUserBar();   
         }
+    }
+
+    notLoggedUserBar(){
+        return(
+            <div className="v3-m-3">
+                <div className="v3-top-ri">
+                    <ul>
+                        <li>
+                            <Link className='v3-add-bus' to="/login"><i className="fa fa-sign-in"></i> Login</Link>  
+                        </li>
+                        <li>
+                            <Link className='v3-add-bus' to="/cadastro"><i className="fa fa-plus" aria-hidden="true"></i> Cadastro</Link> 
+                        </li>
+
+                    </ul>
+                </div>
+            </div>
+        );
+    }
+
+    loggedUserBar(){
+        return(
+
+            /*<!--== MY ACCCOUNT ==-->*/
+            <div className="v3-m-3">
+                    {/*<!-- Dropdown Trigger -->*/}
+                    <a className='waves-effect dropdown-button top-user-pro-v3' href='#' data-activates='top-menu'><img src="images/users/6.png" alt="" />My Account <i class="fa fa-angle-down" aria-hidden="true"></i> </a>
+            </div>
+            
+        )
     }
 
     render(){
@@ -105,6 +121,17 @@ class Menu extends Component {
                                 <li><a href="email-template-email-verification.html" target="_blank">Email Verification</a> </li>
                                 <li><a href="email-template-forgot-pass.html" target="_blank">Forgot Password</a> </li>
                             </ul>
+                            {/*<!-- Dropdown Structure -->*/}
+                            <ul id='top-menu' className='dropdown-content top-menu-sty'>
+                                <li><a href="admin-setting.html" className="waves-effect"><i className="fa fa-cogs"></i>Admin Setting</a> </li>
+                                <li><a href="admin-analytics.html"><i class="fa fa-bar-chart"></i> Analytics</a> </li>
+                                <li><a href="admin-ads.html"><i className="fa fa-buysellads" aria-hidden="true"></i>Ads</a> </li>
+                                <li><a href="admin-payment.html"><i className="fa fa-usd" aria-hidden="true"></i> Payments</a> </li>
+                                <li><a href="admin-notifications.html"><i className="fa fa-bell-o"></i>Notifications</a> </li>
+                                <li><a href="#" class="waves-effect"><i className="fa fa-undo" aria-hidden="true"></i> Backup Data</a> </li>
+                                <li class="divider"></li>
+                                <li><a href="#" className="ho-dr-con-last waves-effect"><i class="fa fa-sign-in" aria-hidden="true"></i> Logout</a> </li>
+                            </ul> 
                         </div>
                     </div>
                 </div>
