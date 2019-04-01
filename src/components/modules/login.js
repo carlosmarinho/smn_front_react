@@ -1,10 +1,8 @@
 import React, { Component } from 'react';
 
-import {Link} from 'react-router-dom';
-
 import { Field, reduxForm } from 'redux-form';
 import { connect } from 'react-redux';
-import { Redirect } from 'react-router-dom'
+import { Redirect, Link } from 'react-router-dom'
 
 import queryString from 'query-string';
 import { loginProvider } from '../../actions/user';
@@ -19,6 +17,7 @@ class Login extends Component {
     constructor() {
         super()
 
+
         this.handleSubmit = this.handleSubmit.bind(this);
 
     }
@@ -32,6 +31,8 @@ class Login extends Component {
             this.props.loginProvider(this.props.match.params.provider, params);
         }            
     }
+
+    
 
     handleSubmit(values){
         this.props.login(values);
@@ -60,10 +61,11 @@ class Login extends Component {
 
     render(){
 
-        console.log("\n\nusuario: ", this.props);
-
+        
         if(this.props.user &&  this.props.user.user){
-            return <Redirect to={`/`} />
+            //console.log("\n\nusuario no login: ", this.props.user, " ---- ", localStorage.getItem('user'));
+            window.location.href = '/'
+            //return <Redirect to={`/`} />
         }
 
         const { pristine, reset, submitting, handleSubmit } = this.props

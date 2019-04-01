@@ -130,7 +130,10 @@ const GridEvents = (props) => {
 }                    
 
 class App extends Component {
+
+    
     render() {
+        console.log("\n\n\n\nlocal storage no app: ", localStorage.getItem('user'));
         return (
         <Provider store={createStoreWithMiddleware(reducers)}>
             <BrowserRouter onUpdate={() => window.scrollTo(0, 0)}>

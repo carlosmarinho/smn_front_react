@@ -12,15 +12,27 @@ class Menu extends Component {
 
     componentDidMount() {
         let user = localStorage.getItem('user');
+        console.log("usuario no menuuuuu: ", user);
         if(user){
             this.setState({userLogged: JSON.parse(user).user})
         }
+        
+    }
+
+    loggout(e){
+        //e.preventDefault();
+        console.log("\n\n removendo o storage no loggout \n\n")
+        this.setState({userLogged: null});
+        localStorage.removeItem('user');
+        //return "/"
     }
 
     userBar(){
-        return this.loggedUserBar();
         if(!this.state.userLogged){
             return this.notLoggedUserBar();   
+        }
+        else{
+            return this.loggedUserBar();
         }
     }
 
@@ -46,9 +58,9 @@ class Menu extends Component {
         return(
 
             /*<!--== MY ACCCOUNT ==-->*/
-            <div className="v3-m-3">
+            <div className="v3-m-4">
                     {/*<!-- Dropdown Trigger -->*/}
-                    <a className='dropdown-button top-user-pro-v3' href='#' data-activates='top-menu'><img src="images/users/6.png" alt="" />Minha Conta <i class="fa fa-angle-down" aria-hidden="true"></i> </a>
+                    <a className='dropdown-button top-user-pro-v3' href='#' data-activates='top-menu'><img src="/images/users/user-default-32x32.png" alt="" />Minha Conta <i class="fa fa-angle-down" aria-hidden="true"></i> </a>
             </div>
             
         )
@@ -137,7 +149,7 @@ class Menu extends Component {
                                 <li><a href="#" class="waves-effect"><i className="fa fa-calendar" aria-hidden="true"></i> Meus Eventos</a> </li>
                                 <li><a href="#" class="waves-effect"><i className="fa fa-rss" aria-hidden="true"></i> Minhas Notícias</a> </li>
                                 <li class="divider"></li>
-                                <li><a href="#" className="ho-dr-con-last waves-effect"><i class="fa fa-sign-in" aria-hidden="true"></i> Logout</a> </li>
+                                <li><Link to="/" onClick={(e) => this.loggout(e)} className="ho-dr-con-last waves-effect"><i class="fa fa-sign-in" aria-hidden="true"></i> Logout</Link> </li>
                             </ul> 
                         </div>
                     </div>

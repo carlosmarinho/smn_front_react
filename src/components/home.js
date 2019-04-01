@@ -23,6 +23,7 @@ import PreFooter from './modules/pre-footer';
 class Home extends Component {
 
     componentDidMount() {
+        console.log("\n\nRedirecionou para o homeeeeeeeee\n\n");
         this.props.fetchFeaturedGuias('5ba26f813a018f42215a36a0');
         this.props.fetchEventos('5ba26f813a018f42215a36a0', 4);
         this.props.fetchNoticiasFeatured('5ba26f813a018f42215a36a0', 5, '-_id');
@@ -35,6 +36,7 @@ class Home extends Component {
             <div><span>Guia da Cidade:</span> Veja todos os Guias da cidade <Link to='/guia'>Aqui!</Link></div>
         )
     }
+    
     render(){
 
         if(!this.props.guiasFeatured || !this.props.eventos || !this.props.noticias){
