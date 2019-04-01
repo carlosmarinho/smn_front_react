@@ -48,7 +48,7 @@ class Menu extends Component {
             /*<!--== MY ACCCOUNT ==-->*/
             <div className="v3-m-3">
                     {/*<!-- Dropdown Trigger -->*/}
-                    <a className='waves-effect dropdown-button top-user-pro-v3' href='#' data-activates='top-menu'><img src="images/users/6.png" alt="" />My Account <i class="fa fa-angle-down" aria-hidden="true"></i> </a>
+                    <a className='dropdown-button top-user-pro-v3' href='#' data-activates='top-menu'><img src="images/users/6.png" alt="" />Minha Conta <i class="fa fa-angle-down" aria-hidden="true"></i> </a>
             </div>
             
         )
@@ -85,7 +85,9 @@ class Menu extends Component {
                                     <li>
                                         <Link className='dropdown-button' to="/contato">Contato</Link>
                                     </li>
+
                                 </ul>
+                                
                             </div>
                             {this.userBar()}
                         </div>
@@ -123,12 +125,17 @@ class Menu extends Component {
                             </ul>
                             {/*<!-- Dropdown Structure -->*/}
                             <ul id='top-menu' className='dropdown-content top-menu-sty'>
-                                <li><a href="admin-setting.html" className="waves-effect"><i className="fa fa-cogs"></i>Admin Setting</a> </li>
+                                {/*<li><a href="admin-setting.html" className="waves-effect"><i className="fa fa-cogs"></i>Admin Setting</a> </li>
                                 <li><a href="admin-analytics.html"><i class="fa fa-bar-chart"></i> Analytics</a> </li>
                                 <li><a href="admin-ads.html"><i className="fa fa-buysellads" aria-hidden="true"></i>Ads</a> </li>
                                 <li><a href="admin-payment.html"><i className="fa fa-usd" aria-hidden="true"></i> Payments</a> </li>
                                 <li><a href="admin-notifications.html"><i className="fa fa-bell-o"></i>Notifications</a> </li>
-                                <li><a href="#" class="waves-effect"><i className="fa fa-undo" aria-hidden="true"></i> Backup Data</a> </li>
+                                <li><a href="#" class="waves-effect"><i className="fa fa-undo" aria-hidden="true"></i> Backup Data</a> </li>*/}
+                                <li><a href="#" class="waves-effect"><i className="fa fa-tachometer" aria-hidden="true"></i> Dashboard</a> </li>
+                                <li><a href="#" class="waves-effect"><i className="fa fa-user" aria-hidden="true"></i> Meus Dados</a> </li>
+                                <li><a href="#" class="waves-effect"><i className="fa fa-list-ul" aria-hidden="true"></i> Meus Guias</a> </li>
+                                <li><a href="#" class="waves-effect"><i className="fa fa-calendar" aria-hidden="true"></i> Meus Eventos</a> </li>
+                                <li><a href="#" class="waves-effect"><i className="fa fa-rss" aria-hidden="true"></i> Minhas Notícias</a> </li>
                                 <li class="divider"></li>
                                 <li><a href="#" className="ho-dr-con-last waves-effect"><i class="fa fa-sign-in" aria-hidden="true"></i> Logout</a> </li>
                             </ul> 
