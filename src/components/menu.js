@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import {Link} from 'react-router-dom';
 
+import {connect} from 'react-redux';
+
 class Menu extends Component {
 
     constructor() {
@@ -12,7 +14,7 @@ class Menu extends Component {
 
     componentDidMount() {
         let user = localStorage.getItem('user');
-        console.log("usuario no menuuuuu: ", user);
+        //console.log("usuario no menuuuuu: ", this.propsuser);
         if(user){
             this.setState({userLogged: JSON.parse(user).user})
         }
@@ -60,13 +62,19 @@ class Menu extends Component {
             /*<!--== MY ACCCOUNT ==-->*/
             <div className="v3-m-4">
                     {/*<!-- Dropdown Trigger -->*/}
-                    <a className='dropdown-button top-user-pro-v3' href='#' data-activates='top-menu'><img src="/images/users/user-default-32x32.png" alt="" />Minha Conta <i class="fa fa-angle-down" aria-hidden="true"></i> </a>
+                    <a className='dropdown-button top-user-pro-v3' href='#' data-activates='top-menu'><img src="/images/users/user-default-32x32.png" alt="" />Minha Conta <i className="fa fa-angle-down" aria-hidden="true"></i> </a>
             </div>
             
         )
     }
 
     render(){
+        
+        if(this.state.userLogged == null && this.props.user && this.props.user.user){
+            console.log("no did mount: ", this.props.user);
+            this.setState({userLogged: this.props.user}) 
+        }
+
         return(
             <div className="v3-top-menu">
                 <div className="container">
@@ -138,18 +146,18 @@ class Menu extends Component {
                             {/*<!-- Dropdown Structure -->*/}
                             <ul id='top-menu' className='dropdown-content top-menu-sty'>
                                 {/*<li><a href="admin-setting.html" className="waves-effect"><i className="fa fa-cogs"></i>Admin Setting</a> </li>
-                                <li><a href="admin-analytics.html"><i class="fa fa-bar-chart"></i> Analytics</a> </li>
+                                <li><a href="admin-analytics.html"><i className="fa fa-bar-chart"></i> Analytics</a> </li>
                                 <li><a href="admin-ads.html"><i className="fa fa-buysellads" aria-hidden="true"></i>Ads</a> </li>
                                 <li><a href="admin-payment.html"><i className="fa fa-usd" aria-hidden="true"></i> Payments</a> </li>
                                 <li><a href="admin-notifications.html"><i className="fa fa-bell-o"></i>Notifications</a> </li>
-                                <li><a href="#" class="waves-effect"><i className="fa fa-undo" aria-hidden="true"></i> Backup Data</a> </li>*/}
-                                <li><a href="#" class="waves-effect"><i className="fa fa-tachometer" aria-hidden="true"></i> Dashboard</a> </li>
-                                <li><a href="#" class="waves-effect"><i className="fa fa-user" aria-hidden="true"></i> Meus Dados</a> </li>
-                                <li><a href="#" class="waves-effect"><i className="fa fa-list-ul" aria-hidden="true"></i> Meus Guias</a> </li>
-                                <li><a href="#" class="waves-effect"><i className="fa fa-calendar" aria-hidden="true"></i> Meus Eventos</a> </li>
-                                <li><a href="#" class="waves-effect"><i className="fa fa-rss" aria-hidden="true"></i> Minhas Notícias</a> </li>
-                                <li class="divider"></li>
-                                <li><Link to="/" onClick={(e) => this.loggout(e)} className="ho-dr-con-last waves-effect"><i class="fa fa-sign-in" aria-hidden="true"></i> Logout</Link> </li>
+                                <li><a href="#" className="waves-effect"><i className="fa fa-undo" aria-hidden="true"></i> Backup Data</a> </li>*/}
+                                <li><a href="#" className="waves-effect"><i className="fa fa-tachometer" aria-hidden="true"></i> Dashboard</a> </li>
+                                <li><a href="#" className="waves-effect"><i className="fa fa-user" aria-hidden="true"></i> Meus Dados</a> </li>
+                                <li><a href="#" className="waves-effect"><i className="fa fa-list-ul" aria-hidden="true"></i> Meus Guias</a> </li>
+                                <li><a href="#" className="waves-effect"><i className="fa fa-calendar" aria-hidden="true"></i> Meus Eventos</a> </li>
+                                <li><a href="#" className="waves-effect"><i className="fa fa-rss" aria-hidden="true"></i> Minhas Notícias</a> </li>
+                                <li className="divider"></li>
+                                <li><Link to="/" onClick={(e) => this.loggout(e)} className="ho-dr-con-last waves-effect"><i className="fa fa-sign-in" aria-hidden="true"></i> Logout</Link> </li>
                             </ul> 
                         </div>
                     </div>
@@ -160,4 +168,14 @@ class Menu extends Component {
     }
 }
 
-export default Menu;
+
+function mapStateToProps(state){
+    return(
+        {
+            user: state.users
+        }
+    )
+    
+}
+
+export default connect(mapStateToProps, {})(Menu);

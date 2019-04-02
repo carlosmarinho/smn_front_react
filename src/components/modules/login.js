@@ -64,8 +64,10 @@ class Login extends Component {
         
         if(this.props.user &&  this.props.user.user){
             //console.log("\n\nusuario no login: ", this.props.user, " ---- ", localStorage.getItem('user'));
-            window.location.href = '/'
             //return <Redirect to={`/`} />
+            //@todo change to tag redirect 
+            //Tive que usar isso daqui pois o jquery não é carregado nesse momento então o menu não é carregado
+            window.location.href = '/'
         }
 
         const { pristine, reset, submitting, handleSubmit } = this.props

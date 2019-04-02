@@ -140,59 +140,57 @@ class App extends Component {
                 <Route>
                     <div>
                         <Header />
-                        
                             <Switch>
-                            <Redirect from="/home.html" to="/" state={ { status: 301 } } />
-                            <Redirect from="/guia_comercial/:slug/" to="/guia/:slug/" state={ { status: 301 } } />
-                            <Redirect from="/guia_comercial_category/:slug/" to="/guia/comercial/:slug/" state={ { status: 301 } } />
-                            <Route exact path="/connect/facebook/" component={Connect} />
-                            <Route exact path="/" component={Home} />
-                            <Route exact path="/auth/:provider/callback/" component={Login} />
-                            <Route exact path="/login" component={Login} />
-                            <Route exact path="/cadastro" component={Register} />
+                                <Redirect from="/home.html" to="/" state={ { status: 301 } } />
+                                <Redirect from="/guia_comercial/:slug/" to="/guia/:slug/" state={ { status: 301 } } />
+                                <Redirect from="/guia_comercial_category/:slug/" to="/guia/comercial/:slug/" state={ { status: 301 } } />
+                                <Route exact path="/connect/facebook/" component={Connect} />
+                                <Route exact path="/" component={Home} />
+                                <Route exact path="/auth/:provider/callback/" component={Login} />
+                                <Route exact path="/login" component={Login} />
+                                <Route exact path="/cadastro" component={Register} />
 
-                            <Route exact path="/cidade" component={BlogListCity} />
-                            <Route exact path="/cidade/bairros-de-niteroi" component={BairrosGrid} />
-                            <Route exact path="/cidade/:slug" component={PageItem} />
-                            <Route exact path="/cidade/:slug/page/:page" component={PageItem} />
-                            
-                            <Route exact path="/guia" component={ListingList} />
-                            <Route exact path="/guia/page/:page" component={ListingList} />
-                            <Route exact path="/guia/comercial/page/:page" component={ListingListComercios} />
-                            <Route exact path="/guia/servicos/page/:page" component={ListingListServicos} />
-                            <Route exact path="/guia/comercial/:slug" component={ListingList} />
-                            <Route exact path="/guia/comercial/:slug/page/:page" component={ListingList} />
-                            <Route exact path="/guia/servicos/:slug" component={ListingList} />
-                            <Route exact path="/guia/servicos/:slug/page/:page" component={ListingList} />
-                            <Route exact path="/guia/servicos/" component={ListingListServicos} />
-                            <Route exact path="/guia/comercial/" component={ListingListComercios} />
-                            <Route exact path="/guia/categoria/:slug" component={ListingList} />
-                            <Route exact path="/guia/:slug" component={CategoryOrItem} />
+                                <Route exact path="/cidade" component={BlogListCity} />
+                                <Route exact path="/cidade/bairros-de-niteroi" component={BairrosGrid} />
+                                <Route exact path="/cidade/:slug" component={PageItem} />
+                                <Route exact path="/cidade/:slug/page/:page" component={PageItem} />
+                                
+                                <Route exact path="/guia" component={ListingList} />
+                                <Route exact path="/guia/page/:page" component={ListingList} />
+                                <Route exact path="/guia/comercial/page/:page" component={ListingListComercios} />
+                                <Route exact path="/guia/servicos/page/:page" component={ListingListServicos} />
+                                <Route exact path="/guia/comercial/:slug" component={ListingList} />
+                                <Route exact path="/guia/comercial/:slug/page/:page" component={ListingList} />
+                                <Route exact path="/guia/servicos/:slug" component={ListingList} />
+                                <Route exact path="/guia/servicos/:slug/page/:page" component={ListingList} />
+                                <Route exact path="/guia/servicos/" component={ListingListServicos} />
+                                <Route exact path="/guia/comercial/" component={ListingListComercios} />
+                                <Route exact path="/guia/categoria/:slug" component={ListingList} />
+                                <Route exact path="/guia/:slug" component={CategoryOrItem} />
 
-                            <Route exact path="/eventos" component={GridEvents} />
-                            <Route exact path="/eventos/categoria/:slug/page/:page" component={GridEvents} />
-                            <Route exact path="/eventos/categoria/:slug" component={GridEvents} />
-                            <Route exact path="/eventos/page/:page" component={GridEvents} />
-                            <Route exact path="/eventos/:slug" component={EventItem} />
+                                <Route exact path="/eventos" component={GridEvents} />
+                                <Route exact path="/eventos/categoria/:slug/page/:page" component={GridEvents} />
+                                <Route exact path="/eventos/categoria/:slug" component={GridEvents} />
+                                <Route exact path="/eventos/page/:page" component={GridEvents} />
+                                <Route exact path="/eventos/:slug" component={EventItem} />
 
-                            <Route exact path="/noticias/categoria/:slug/page/:page" component={BlogList} />
-                            <Route exact path="/noticias/categoria/:slug" component={BlogList} />
-                            <Route exact path="/noticias/:slug" component={NewsItem} />
-                            <Route exact path="/noticias/page/:page" component={BlogListNews} />
-                            <Route exact path="/noticias" component={BlogListNews} />
+                                <Route exact path="/noticias/categoria/:slug/page/:page" component={BlogList} />
+                                <Route exact path="/noticias/categoria/:slug" component={BlogList} />
+                                <Route exact path="/noticias/:slug" component={NewsItem} />
+                                <Route exact path="/noticias/page/:page" component={BlogListNews} />
+                                <Route exact path="/noticias" component={BlogListNews} />
 
-                            <Route exact path="/tags/:slug/" component={TagList} />
+                                <Route exact path="/tags/:slug/" component={TagList} />
 
-                            <Route exact path="/busca/bairro/:bairro/keyword/:keyword/" component={SearchList} />
-                            <Route exact path="/busca/bairro/:bairro/" component={SearchList} />
-                            <Route exact path="/busca/keyword/:keyword/" component={SearchList} />
+                                <Route exact path="/busca/bairro/:bairro/keyword/:keyword/" component={SearchList} />
+                                <Route exact path="/busca/bairro/:bairro/" component={SearchList} />
+                                <Route exact path="/busca/keyword/:keyword/" component={SearchList} />
 
-                            <Route exact path="/contato" component={Contact} />
+                                <Route exact path="/contato" component={Contact} />
 
-                            <Route exact path="/:slug" component={NotFound} />
-                            {/*@todo <Route exact path="/fotos-da-cidade-de-niteroi" component={Photos} />*/}
+                                <Route exact path="/:slug" component={NotFound} />
+                                {/*@todo <Route exact path="/fotos-da-cidade-de-niteroi" component={Photos} />*/}
                             </Switch>
-                        
                         <Footer />
                     </div>
                 </Route>
