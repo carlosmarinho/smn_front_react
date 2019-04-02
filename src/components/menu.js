@@ -151,7 +151,7 @@ class Menu extends Component {
                                 <li><a href="admin-payment.html"><i className="fa fa-usd" aria-hidden="true"></i> Payments</a> </li>
                                 <li><a href="admin-notifications.html"><i className="fa fa-bell-o"></i>Notifications</a> </li>
                                 <li><a href="#" className="waves-effect"><i className="fa fa-undo" aria-hidden="true"></i> Backup Data</a> </li>*/}
-                                <li><a href="#" className="waves-effect"><i className="fa fa-tachometer" aria-hidden="true"></i> Dashboard</a> </li>
+                                <li><Link to="/dashboard" className="waves-effect"><i className="fa fa-tachometer" aria-hidden="true"></i> Dashboard</Link> </li>
                                 <li><a href="#" className="waves-effect"><i className="fa fa-user" aria-hidden="true"></i> Meus Dados</a> </li>
                                 <li><a href="#" className="waves-effect"><i className="fa fa-list-ul" aria-hidden="true"></i> Meus Guias</a> </li>
                                 <li><a href="#" className="waves-effect"><i className="fa fa-calendar" aria-hidden="true"></i> Meus Eventos</a> </li>
