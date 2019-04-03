@@ -36,6 +36,23 @@ export const fetchGuiaBySlug = async (slug) => {
     }
 }
 
+export const fetchGuiasByUser = async(user_id, limit='', sort=null) => {
+    if(!sort)
+        sort = '-_id';
+    if(limit)
+        limit = `&_limit=${limit}`
+
+
+    const request = axios.get(`${process.env.REACT_APP_URL_API}guia/?_sort=${sort}${limit}`);
+
+    return {
+        type: FETCH_GUIAS_RECENTES,
+        payload: request
+    }
+
+}
+
+
 export const fetchGuiasRecentes = async(city_id, limit='', sort=null) => {
     if(!sort)
         sort = '-_id';

@@ -1,113 +1,58 @@
 import React, { Component } from 'react';
-import {Link} from 'react-router-dom';
+import MenuDashboardLeft from '../menu-dashboard-left';
+import {connect} from 'react-redux';
+
+import {fetchGuiasByUser} from '../../actions/guia';
 
 
 class Dashboard extends Component{
+
+    componentDidMount(){
+        let user = JSON.parse(localStorage.getItem('user'));
+        console.log("user aqui no dashboard: ", user);
+
+        this.props.fetchGuiasByUser(user.user.id);
+    }
 
     render(){
         return(
             <section>
                 <div className="tz">
                     {/* <!--LEFT SECTION--> */}
-                    <div className="tz-l">
-                        <div className="tz-l-1">
-                            <ul>
-                                {/* @todo mudar para imagem quadrada */}
-                                <li><img src="/images/users/user-default-160x160.png" alt="" /> </li>
-                                {/* @todo do calculation of profile
-                                <li><span>80%</span> profile compl</li>
-                                <li><span>18</span> Notifications</li>
-                                */}
-                            </ul>
-                        </div>
-                        <div className="tz-l-2">
-                            <ul>
-                                <li>
-                                    <Link to="/dashboard" className="tz-lma"><img src="images/icon/dbl1.png" alt="" /> Minha Dashboard</Link>
-                                </li>
-                                <li>
-                                    <Link to="/dashboard" ><img src="images/icon/dbl2.png" alt="" /> Meus Guias</Link>
-                                </li>
-                                <li>
-                                    <Link to="/dashboard" ><img src="images/icon/dbl3.png" alt="" /> Adicionar Guia</Link>
-                                </li>
-                                <li>
-                                    <Link to="/dashboard" ><img src="images/icon/dbl14.png" alt="" /> Eventos</Link>
-                                </li>
-                                <li>
-                                    <Link to="/dashboard" ><img src="images/icon/dbl3.png" alt="" /> Adicionar Evento</Link>
-                                </li>
-                                <li>
-                                    <Link to="/dashboard" ><img src="images/icon/dbl14.png" alt="" /> Noticias</Link>
-                                </li>
-                                <li>
-                                    <Link to="/dashboard" ><img src="images/icon/dbl3.png" alt="" /> Adicionar Notícias</Link>
-                                </li>
-                                {/*@todo fazer minhas revies e meus comentários 
-                                <li>
-                                    <Link to="/dashboard" ><img src="images/icon/dbl14.png" alt="" /> Minhas Reviews</Link>
-                                </li>
-                                <li>
-                                    <Link to="/dashboard" ><img src="images/icon/dbl14.png" alt="" /> Meus Comentários</Link>
-                                </li>
-                                */}
-                                <li>
-                                    <Link to="/dashboard" ><img src="images/icon/dbl6.png" alt="" /> Meus Dados</Link>
-                                </li>
-                                {/*@todo pagamentos e settings 
-                                <li>
-                                    <a href="db-post-ads.html"><img src="images/icon/dbl11.png" alt="" /> Ad Summary</a>
-                                </li>
-                                <li>
-                                    <a href="db-payment.html"><img src="images/icon/dbl9.png" alt="" /> Check Out</a>
-                                </li>
-                                <li>
-                                    <a href="db-invoice-all.html"><img src="images/icon/db21.png" alt="" /> Invoice</a>
-                                </li>						
-                                <li>
-                                    <a href="db-claim.html"><img src="images/icon/dbl7.png" alt="" /> Claim & Refund</a>
-                                </li>
-                                <li>
-                                    <a href="db-setting.html"><img src="images/icon/dbl210.png" alt="" /> Setting</a>
-                                </li>*/}
-                                <li>
-                                    <Link to="/" onClick={(e) => this.loggout(e)}><img src="images/icon/dbl12.png" alt="" /> Logout</Link>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
+                    <MenuDashboardLeft />
+                    
                     { /*!--CENTER SECTION--> */}
                     <div className="tz-2">
                         <div className="tz-2-com tz-2-main">
-                            <h4>Manage Booking</h4>
+                            <h4>Minha Dashboard</h4>
                             <div className="tz-2-main-com">
                                 <div className="tz-2-main-1">
-                                    <div className="tz-2-main-2"> <img src="images/icon/d1.png" alt="" /><span>All Listings</span>
-                                        <p>All the Lorem Ipsum generators on the</p>
+                                    <div className="tz-2-main-2"> <img src="images/icon/d1.png" alt="" /><span>Guias</span>
+                                        <p>Total de guias cadastrados</p>
                                         <h2>04</h2> </div>
                                 </div>
                                 <div className="tz-2-main-1">
-                                    <div className="tz-2-main-2"> <img src="images/icon/d2.png" alt="" /><span>Review</span>
-                                        <p>All the Lorem Ipsum generators on the</p>
+                                    <div className="tz-2-main-2"> <img src="images/icon/d1.png" alt="" /><span>Eventos</span>
+                                        <p>Total de eventos cadastrados</p>
                                         <h2>69</h2> </div>
                                 </div>
                                 <div className="tz-2-main-1">
-                                    <div className="tz-2-main-2"> <img src="images/icon/d3.png" alt="" /><span>Messages</span>
-                                        <p>All the Lorem Ipsum generators on the</p>
+                                    <div className="tz-2-main-2"> <img src="images/icon/d1.png" alt="" /><span>Notícias</span>
+                                        <p>Total de notícias cadastradas</p>
                                         <h2>53</h2> </div>
                                 </div>
                             </div>
                             <div className="db-list-com tz-db-table">
                                 <div className="ds-boar-title">
-                                    <h2>Listings</h2>
-                                    <p>All the Lorem Ipsum generators on the All the Lorem Ipsum generators on the</p>
+                                    <h2>Guias Comerciais/Serviços</h2>
+                                    <p>Listagem de seus guias comercias/serviços</p>
                                 </div>
                                 <table className="responsive-table bordered">
                                     <thead>
                                         <tr>
-                                            <th>Listing Name</th>
+                                            <th>Nome</th>
                                             <th>Date</th>
-                                            <th>Rating</th>
+                                            <th>tipo</th>
                                             <th>Status</th>
                                             <th>Edit</th>
                                         </tr>
@@ -148,17 +93,17 @@ class Dashboard extends Component{
                             </div>
                             <div className="db-list-com tz-db-table">
                                 <div className="ds-boar-title">
-                                    <h2>Payment & analytics</h2>
-                                    <p>All the Lorem Ipsum generators on the All the Lorem Ipsum generators on the</p>
+                                    <h2>Eventos</h2>
+                                    <p>Listagem de seus eventos</p>
                                 </div>
                                 <table className="responsive-table bordered">
                                     <thead>
                                         <tr>
-                                            <th>Listing Name</th>
-                                            <th>Views(week)</th>
-                                            <th>Payment</th>
-                                            <th>Listing Type</th>
-                                            <th>Make Payment</th>
+                                            <th>Nome</th>
+                                            <th>Início</th>
+                                            <th>Fim</th>
+                                            <th>Bairro</th>
+                                            <th>Status</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -197,8 +142,8 @@ class Dashboard extends Component{
                             </div>
                             <div className="db-list-com tz-db-table">
                                 <div className="ds-boar-title">
-                                    <h2>Messages</h2>
-                                    <p>All the Lorem Ipsum generators on the All the Lorem Ipsum generators on the</p>
+                                    <h2>Notícias</h2>
+                                    <p>Listagem de suas Notícias</p>
                                 </div>
                                 <div className="tz-mess">
                                     <ul>
@@ -217,6 +162,7 @@ class Dashboard extends Component{
                                     </ul>
                                 </div>
                             </div>
+                             {/*@todo implement reviews
                             <div className="db-list-com tz-db-table">
                                 <div className="ds-boar-title">
                                     <h2>Reviews</h2>
@@ -258,7 +204,7 @@ class Dashboard extends Component{
                                         </li>
                                     </ul>
                                 </div>
-                            </div>
+                            </div>*/}
                         </div>
                     </div>
                     { /*!--RIGHT SECTION--> */}
@@ -323,4 +269,15 @@ class Dashboard extends Component{
     }
 }
 
-export default Dashboard;
+
+function mapStateToProps(state){
+    return(
+        {
+            user: state.users,
+            guia: state.guias
+        }
+    )
+    
+}
+
+export default connect(mapStateToProps, {fetchGuiasByUser})(Dashboard);
