@@ -1,8 +1,8 @@
-import { FETCH_EVENTO, FETCH_EVENTOS, FETCH_EVENTOS_RECENTES } from "../actions/types";
+import { FETCH_EVENTO, FETCH_EVENTOS, FETCH_EVENTOS_RECENTES, FETCH_EVENTOS_USER } from "../actions/types";
 
 export default function(state = null, action) {
 
-    let evento =  {recentes: null, list: null};
+    let evento =  {erecentes: null, list: null, featured: null, byUser: null};
     switch (action.type) {
         case FETCH_EVENTO:
             if(state){
@@ -11,7 +11,9 @@ export default function(state = null, action) {
                 if(state.featured)
                     evento.featured = state.featured;
                 if(state.list)
-                    evento.list = state.list
+                    evento.list = state.list;
+                if(state.byUser)
+                    evento.byUser = state.byUser
             }
             
             evento.evento = action.payload.data[0];
@@ -24,6 +26,8 @@ export default function(state = null, action) {
                     evento.featured = state.featured;
                 if(state.list)
                     evento.evento = state.evento;
+                if(state.byUser)
+                    evento.byUser = state.byUser
             }
             
             evento.list = action.payload.data;
@@ -37,9 +41,26 @@ export default function(state = null, action) {
                     evento.featured = state.featured;
                 if(state.list)
                     evento.list = state.list
+                if(state.byUser)
+                    evento.byUser = state.byUser
             }
             
             evento.recentes = action.payload.data
+            return evento;
+
+        case FETCH_EVENTOS_USER:
+            if(state){
+                if(state.evento)
+                    evento.evento = state.evento;
+                if(state.featured)
+                    evento.featured = state.featured;
+                if(state.list)
+                    evento.list = state.list
+                if(state.recentes)
+                    evento.recentes = state.recentes
+            }
+            
+            evento.byUser = action.payload.data
             return evento;
         default: return state;
     }

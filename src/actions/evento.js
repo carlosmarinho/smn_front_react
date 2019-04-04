@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { FETCH_EVENTO, FETCH_EVENTOS, FETCH_EVENTOS_RECENTES } from "./types";
+import { FETCH_EVENTO, FETCH_EVENTOS, FETCH_EVENTOS_RECENTES, FETCH_EVENTOS_USER } from "./types";
 
 
 export const fetchEventoBySlug = async (slug) => {
@@ -32,6 +32,16 @@ export const fetchEventos = async(id, limit=200) => {
 
     return {
         type: FETCH_EVENTOS,
+        payload: request
+    }
+}
+
+export const fetchEventosByUser = async(id, limit=200) => {
+
+    const request = axios.get(`${process.env.REACT_APP_URL_API}evento/?populateAssociation=false&_sort=-_id&_limit=${limit}`);
+
+    return {
+        type: FETCH_EVENTOS_USER,
         payload: request
     }
 }

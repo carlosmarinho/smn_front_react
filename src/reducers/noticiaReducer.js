@@ -1,8 +1,8 @@
-import { FETCH_NOTICIA, FETCH_NOTICIAS, FETCH_NOTICIAS_RECENTES, FETCH_NOTICIAS_FEATURED } from "../actions/types";
+import { FETCH_NOTICIA, FETCH_NOTICIAS, FETCH_NOTICIAS_RECENTES, FETCH_NOTICIAS_FEATURED, FETCH_NOTICIAS_USER } from "../actions/types";
 
 export default function(state = null, action) {
 
-    let noticia =  {noticia: null, featured: null, recentes: null, list: null, categoria: null};
+    let noticia =  {noticia: null, featured: null, recentes: null, list: null, categoria: null, byUser: null};
     switch (action.type) {
         case FETCH_NOTICIA:
             if(state){
@@ -53,6 +53,19 @@ export default function(state = null, action) {
             }
 
             noticia.featured = action.payload.data
+            return noticia;
+
+        case FETCH_NOTICIAS_USER:
+            if(state){
+                if(state.list)
+                    noticia.list = state.list;
+                if(state.noticia)
+                    noticia.noticia = state.noticia;
+                if(state.recentes)
+                    noticia.recentes = state.recentes;
+            }
+
+            noticia.byUser = action.payload.data
             return noticia;
         default: return state;
     }

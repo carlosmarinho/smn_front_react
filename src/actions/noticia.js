@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { FETCH_NOTICIA, FETCH_NOTICIAS, FETCH_NOTICIAS_RECENTES, FETCH_NOTICIAS_FEATURED } from "./types";
+import { FETCH_NOTICIA, FETCH_NOTICIAS, FETCH_NOTICIAS_RECENTES, FETCH_NOTICIAS_FEATURED, FETCH_NOTICIAS_USER } from "./types";
 
 
 export const fetchNoticiaBySlug = async(slug='', limit=1) => {
@@ -171,6 +171,24 @@ export const fetchNoticias = async(id, category='', limit=150) => {
 
     return {
         type: FETCH_NOTICIAS,
+        payload: request
+    }
+}
+
+export const fetchNoticiasByUser = async(id, category='', limit=150) => {
+    
+
+    if(category){
+        const req = await axios.get(`${process.env.REACT_APP_URL_API}categoria/?populateAssociation=false&nome=${category}`);
+
+        if(req.data.length > 0)
+            category=`categorias=${req.data[0]._id}&`
+    }
+
+    const request = axios.get(`${process.env.REACT_APP_URL_API}noticia/?populateAssociation=false&${category}_sort=-_id&_limit=${limit}`);
+
+    return {
+        type: FETCH_NOTICIAS_USER,
         payload: request
     }
 }

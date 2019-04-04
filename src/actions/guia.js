@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { FETCH_FEATURED_GUIAS, FETCH_GUIA, FETCH_GUIAS, FETCH_GUIAS_RECENTES, FETCH_GUIAS_FEATURED } from "./types";
+import { FETCH_FEATURED_GUIAS, FETCH_GUIA, FETCH_GUIAS, FETCH_GUIAS_RECENTES, FETCH_GUIAS_FEATURED, FETCH_GUIAS_USER } from "./types";
 
 
 
@@ -45,8 +45,9 @@ export const fetchGuiasByUser = async(user_id, limit='', sort=null) => {
 
     const request = axios.get(`${process.env.REACT_APP_URL_API}guia/?_sort=${sort}${limit}`);
 
+    console.log("aqui no fetch guias by user")
     return {
-        type: FETCH_GUIAS_RECENTES,
+        type: FETCH_GUIAS_USER,
         payload: request
     }
 

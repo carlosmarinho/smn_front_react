@@ -3,6 +3,8 @@ import MenuDashboardLeft from '../menu-dashboard-left';
 import {connect} from 'react-redux';
 
 import {fetchGuiasByUser} from '../../actions/guia';
+import {fetchEventosByUser} from '../../actions/evento';
+import {fetchNoticiasByUser} from '../../actions/noticia';
 
 
 class Dashboard extends Component{
@@ -14,7 +16,52 @@ class Dashboard extends Component{
         this.props.fetchGuiasByUser(user.user.id);
     }
 
+    datePtBr(date){
+        const options = {year: 'numeric', month: 'long', day: 'numeric' };
+        return date.toLocaleDateString('pt-BR', options)
+    }
+
+    showGuias(){
+        if(this.props.guias && this.props.guias.fromUser){
+            return this.props.guias.fromUser.map( guia => {
+                
+                return(
+                    <tr>
+                        <td>{guia.titulo}</td>
+                        <td>{this.datePtBr(new Date(guia.createdAt))}</td>
+                        <td><span className="db-list-rat">{guia.tipo}</span>
+                        </td>
+                        <td><span className="db-list-ststus">{/*@todo qnd atualizar o banco excluir esse status === undefined */(guia.status===undefined || guia.status === true)?'Ativo':'Inativo'}</span>
+                        </td>
+                        <td><a href="db-listing-edit.html" className="db-list-edit">Edit</a>
+                        </td>
+                    </tr>
+                )
+                
+            })
+        }
+    }
+    
+
     render(){
+
+        console.log('guias no dashboard: ', this.props.guias )
+        let totalGuias = 0;
+        let totalEventos = 0;
+        let totalNoticias = 0;
+
+        
+
+        if(this.props.guias && this.props.guias.fromUser)
+            totalGuias = this.props.guias.fromUser.length;
+
+        if(this.props.eventos)
+            totalEventos = this.props.eventos.fromUser.length;
+
+        if(this.props.noticias)
+            totalNoticias = this.props.noticias.fromUser.length;
+
+
         return(
             <section>
                 <div className="tz">
@@ -29,17 +76,17 @@ class Dashboard extends Component{
                                 <div className="tz-2-main-1">
                                     <div className="tz-2-main-2"> <img src="images/icon/d1.png" alt="" /><span>Guias</span>
                                         <p>Total de guias cadastrados</p>
-                                        <h2>04</h2> </div>
+                                        <h2>{totalGuias}</h2> </div>
                                 </div>
                                 <div className="tz-2-main-1">
                                     <div className="tz-2-main-2"> <img src="images/icon/d1.png" alt="" /><span>Eventos</span>
                                         <p>Total de eventos cadastrados</p>
-                                        <h2>69</h2> </div>
+                                        <h2>{totalEventos}</h2> </div>
                                 </div>
                                 <div className="tz-2-main-1">
                                     <div className="tz-2-main-2"> <img src="images/icon/d1.png" alt="" /><span>Notícias</span>
                                         <p>Total de notícias cadastradas</p>
-                                        <h2>53</h2> </div>
+                                        <h2>{totalNoticias}</h2> </div>
                                 </div>
                             </div>
                             <div className="db-list-com tz-db-table">
@@ -51,45 +98,16 @@ class Dashboard extends Component{
                                     <thead>
                                         <tr>
                                             <th>Nome</th>
-                                            <th>Date</th>
+                                            <th>Data</th>
                                             <th>tipo</th>
                                             <th>Status</th>
                                             <th>Edit</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr>
-                                            <td>Taj Luxury Hotel & Resorts</td>
-                                            <td>12 May 2017</td>
-                                            <td><span className="db-list-rat">4.2</span>
-                                            </td>
-                                            <td><span className="db-list-ststus">Active</span>
-                                            </td>
-                                            <td><a href="db-listing-edit.html" className="db-list-edit">Edit</a>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>Joney Health and Fitness</td>
-                                            <td>12 May 2017</td>
-                                            <td><span className="db-list-rat">3.4</span>
-                                            </td>
-                                            <td><span className="db-list-ststus-na">Non-Active</span>
-                                            </td>
-                                            <td><a href="db-listing-edit.html" className="db-list-edit">Edit</a>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>Effi Furniture Dealers</td>
-                                            <td>12 May 2017</td>
-                                            <td><span className="db-list-rat">5.0</span>
-                                            </td>
-                                            <td><span className="db-list-ststus-na">Non-Active</span>
-                                            </td>
-                                            <td><a href="db-listing-edit.html" className="db-list-edit">Edit</a>
-                                            </td>
-                                        </tr>
+                                        {this.showGuias()}
                                     </tbody>
-                                </table>
+                                </table>                            
                             </div>
                             <div className="db-list-com tz-db-table">
                                 <div className="ds-boar-title">
@@ -274,10 +292,11 @@ function mapStateToProps(state){
     return(
         {
             user: state.users,
-            guia: state.guias
+            guias: state.guias,
+            eventos: state.eventos
         }
     )
     
 }
 
-export default connect(mapStateToProps, {fetchGuiasByUser})(Dashboard);
+export default connect(mapStateToProps, {fetchGuiasByUser, fetchEventosByUser, fetchNoticiasByUser})(Dashboard);
