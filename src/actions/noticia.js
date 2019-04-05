@@ -175,17 +175,13 @@ export const fetchNoticias = async(id, category='', limit=150) => {
     }
 }
 
-export const fetchNoticiasByUser = async(id, category='', limit=150) => {
-    
+export const fetchNoticiasByUser = async(user_id, limit=100, sort=null) => {
+    if(!sort)
+        sort = '-_id';
+    if(limit)
+        limit = `&_limit=${limit}`
 
-    if(category){
-        const req = await axios.get(`${process.env.REACT_APP_URL_API}categoria/?populateAssociation=false&nome=${category}`);
-
-        if(req.data.length > 0)
-            category=`categorias=${req.data[0]._id}&`
-    }
-
-    const request = axios.get(`${process.env.REACT_APP_URL_API}noticia/?populateAssociation=false&${category}_sort=-_id&_limit=${limit}`);
+    const request = axios.get(`${process.env.REACT_APP_URL_API}noticia/?user=${user_id}&populateAssociation=false&_sort=-${sort}&${limit}`);
 
     return {
         type: FETCH_NOTICIAS_USER,
@@ -193,6 +189,19 @@ export const fetchNoticiasByUser = async(id, category='', limit=150) => {
     }
 }
 
+export const fetchNoticiasByAdm = async(limit=100, sort=null) => {
+    if(!sort)
+        sort = '-_id';
+    if(limit)
+        limit = `&_limit=${limit}`
+
+    const request = axios.get(`${process.env.REACT_APP_URL_API}noticia/?populateAssociation=false&_sort=-${sort}&${limit}`);
+
+    return {
+        type: FETCH_NOTICIAS_USER,
+        payload: request
+    }
+}
 
 export const fetchNoticiasRecentes = async(city_id, limit='', sort=null) => {
     if(!sort)

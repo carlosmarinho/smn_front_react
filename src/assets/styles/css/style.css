@@ -5095,6 +5095,18 @@ footer ul li a:hover {
   font-size: 14px;
   border-radius: 2px; }
 
+/*Added by carlos*/
+.db-list-red {
+  background: #ff0022;
+  padding: 4px;
+  font-weight: 600;
+  color: #000;
+  right: 15px;
+  top: 0px;
+  font-size: 14px;
+  border-radius: 2px; }
+
+/*end added*/
 .db-list-ststus {
   background: #76cce6;
   padding: 4px;
@@ -5183,6 +5195,14 @@ footer ul li a:hover {
   font-size: 18px;
   vertical-align: top; }
 
+.td-imagem img {
+  float: left;
+  width: 50px;
+  height: 50px;
+  border-radius: 50px;
+  margin-right: 10px;
+  margin-right: 22px; }
+
 .tz-mess ul li h5 img {
   float: left;
   width: 50px;
@@ -5223,6 +5243,14 @@ footer ul li a:hover {
   border-radius: 5px;
   color: #333;
   margin-right: 12px; }
+
+/*added table-information i */
+.table-information i {
+  border: 1px solid #eaedef;
+  padding: 3px 3px;
+  border-radius: 5px;
+  color: #333;
+  margin-right: 2px; }
 
 .view-msg {
   -webkit-transition: all 0.5s ease;

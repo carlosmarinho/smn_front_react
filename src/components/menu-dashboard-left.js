@@ -19,25 +19,25 @@ class MenuDashboardLeft extends Component{
             <div className="tz-l-2">
             <ul>
                 <li>
-                    <Link to="/dashboard" className="tz-lma"><img src="images/icon/dbl1.png" alt="" /> Minha Dashboard</Link>
+                    <Link to="/dashboard" className="tz-lma"><img src="/images/icon/dbl1.png" alt="" /> Minha Dashboard</Link>
                 </li>
                 <li>
-                    <Link to="/dashboard" ><img src="images/icon/dbl2.png" alt="" /> Meus Guias</Link>
+                    <Link to="/dashboard/guias" ><img src="/images/icon/dbl2.png" alt="" /> Meus Guias</Link>
                 </li>
                 <li>
-                    <Link to="/dashboard" ><img src="images/icon/dbl3.png" alt="" /> Adicionar Guia</Link>
+                    <Link to="/dashboard/guias/novo" ><img src="/images/icon/dbl3.png" alt="" /> Adicionar Guia</Link>
                 </li>
                 <li>
-                    <Link to="/dashboard" ><img src="images/icon/dbl14.png" alt="" /> Eventos</Link>
+                    <Link to="/dashboard/eventos" ><img src="/images/icon/dbl14.png" alt="" /> Eventos</Link>
                 </li>
                 <li>
-                    <Link to="/dashboard" ><img src="images/icon/dbl3.png" alt="" /> Adicionar Evento</Link>
+                    <Link to="/dashboard/eventos/novo" ><img src="/images/icon/dbl3.png" alt="" /> Adicionar Evento</Link>
                 </li>
                 <li>
-                    <Link to="/dashboard" ><img src="images/icon/dbl14.png" alt="" /> Noticias</Link>
+                    <Link to="/dashboard/noticias" ><img src="/images/icon/dbl14.png" alt="" /> Noticias</Link>
                 </li>
                 <li>
-                    <Link to="/dashboard" ><img src="images/icon/dbl3.png" alt="" /> Adicionar Notícias</Link>
+                    <Link to="/dashboard/noticias/novo" ><img src="/images/icon/dbl3.png" alt="" /> Adicionar Notícias</Link>
                 </li>
                 {/*@todo fazer minhas revies e meus comentários 
                 <li>

@@ -91,8 +91,8 @@ class EventItem extends Component {
                     <div className="text-center share-btn">
                         <ul>
                             <li><Link to={'/'}><i className="fa fa-facebook fb1"></i>Compartilhar <span>no Facebook</span></Link> </li>
-                            <li><Link to={'/'}><i className="fa fa-twitter tw1"></i>Compartilhar <span>no Facebook</span></Link> </li>
-                            <li><Link to={'/'}><i className="fa fa-google-plus gp1"></i>Compartilhar <span>no Facebook</span></Link> </li>
+                            <li><Link to={'/'}><i className="fa fa-twitter tw1"></i>Compartilhar <span>no Twitter</span></Link> </li>
+                            <li><Link to={'/'}><i className="fa fa-google-plus gp1"></i>Compartilhar <span>no Google</span></Link> </li>
                         </ul>
                     </div>
                     <div className="row v2-mar-top-40">

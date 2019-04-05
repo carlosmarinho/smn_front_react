@@ -36,7 +36,7 @@ export const fetchGuiaBySlug = async (slug) => {
     }
 }
 
-export const fetchGuiasByUser = async(user_id, limit='', sort=null) => {
+export const fetchGuiasByAdm = async(limit=100, sort=null) => {
     if(!sort)
         sort = '-_id';
     if(limit)
@@ -44,6 +44,23 @@ export const fetchGuiasByUser = async(user_id, limit='', sort=null) => {
 
 
     const request = axios.get(`${process.env.REACT_APP_URL_API}guia/?_sort=${sort}${limit}`);
+
+    console.log("aqui no fetch guias by user")
+    return {
+        type: FETCH_GUIAS_USER,
+        payload: request
+    }
+
+}
+
+export const fetchGuiasByUser = async(user_id, limit=100, sort=null) => {
+    if(!sort)
+        sort = '-_id';
+    if(limit)
+        limit = `&_limit=${limit}`
+
+
+    const request = axios.get(`${process.env.REACT_APP_URL_API}guia/?user=${user_id}&_sort=${sort}${limit}`);
 
     console.log("aqui no fetch guias by user")
     return {

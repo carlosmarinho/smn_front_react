@@ -24,13 +24,15 @@ import ListingGrid from './components/modules/listing-grid'
 //import Gallery from './components/modules/gallery'
 import Contact from './components/modules/contact'
 import Login from './components/modules/login'
-import Dashboard from './components/modules/dashboard'
-
 import Connect from './components/modules/connect'
 import Register from './components/modules/register'
 
+import Dashboard from './components/dashboard/dashboard'
+import DashboardGuia from './components/dashboard/guia'
+
 import BairroGrid from './components/modules/bairro-grid'
 import NotFound from './components/not-found'
+
 
 /* Importing css */
 import './assets/styles/css/materialize.css';
@@ -42,6 +44,8 @@ import ReactGA from 'react-ga';
 ReactGA.initialize('UA-17728772-17');
 ReactGA.pageview(window.location.pathname + window.location.search);
 
+const DashboardEvento = {};
+const DashboardNoticia = {};
 
 let city_or_neighbor = 'city/niteroi';
 //let city_or_neighbor = 'district/engenhoca';
@@ -145,9 +149,14 @@ class App extends Component {
                                 <Redirect from="/home.html" to="/" state={ { status: 301 } } />
                                 <Redirect from="/guia_comercial/:slug/" to="/guia/:slug/" state={ { status: 301 } } />
                                 <Redirect from="/guia_comercial_category/:slug/" to="/guia/comercial/:slug/" state={ { status: 301 } } />
+                                
+                                <Route exact path="/dashboard" component={Dashboard} />
+                                <Route exact path="/dashboard/guias" component={DashboardGuia} />
+                                <Route exact path="/dashboard/eventos" component={DashboardEvento} />
+                                <Route exact path="/dashboard/noticias" component={DashboardNoticia} />
+                                
                                 <Route exact path="/connect/facebook/" component={Connect} />
                                 <Route exact path="/" component={Home} />
-                                <Route exact path="/dashboard" component={Dashboard} />
                                 <Route exact path="/auth/:provider/callback/" component={Login} />
                                 <Route exact path="/login" component={Login} />
                                 <Route exact path="/cadastro" component={Register} />

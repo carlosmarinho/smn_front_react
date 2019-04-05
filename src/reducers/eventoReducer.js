@@ -2,7 +2,7 @@ import { FETCH_EVENTO, FETCH_EVENTOS, FETCH_EVENTOS_RECENTES, FETCH_EVENTOS_USER
 
 export default function(state = null, action) {
 
-    let evento =  {erecentes: null, list: null, featured: null, byUser: null};
+    let evento =  {erecentes: null, list: null, featured: null, fromUser: null};
     switch (action.type) {
         case FETCH_EVENTO:
             if(state){
@@ -12,8 +12,8 @@ export default function(state = null, action) {
                     evento.featured = state.featured;
                 if(state.list)
                     evento.list = state.list;
-                if(state.byUser)
-                    evento.byUser = state.byUser
+                if(state.fromUser)
+                    evento.fromUser = state.fromUser
             }
             
             evento.evento = action.payload.data[0];
@@ -26,8 +26,8 @@ export default function(state = null, action) {
                     evento.featured = state.featured;
                 if(state.list)
                     evento.evento = state.evento;
-                if(state.byUser)
-                    evento.byUser = state.byUser
+                if(state.fromUser)
+                    evento.fromUser = state.fromUser
             }
             
             evento.list = action.payload.data;
@@ -41,8 +41,8 @@ export default function(state = null, action) {
                     evento.featured = state.featured;
                 if(state.list)
                     evento.list = state.list
-                if(state.byUser)
-                    evento.byUser = state.byUser
+                if(state.fromUser)
+                    evento.fromUser = state.fromUser
             }
             
             evento.recentes = action.payload.data
@@ -60,7 +60,7 @@ export default function(state = null, action) {
                     evento.recentes = state.recentes
             }
             
-            evento.byUser = action.payload.data
+            evento.fromUser = action.payload.data
             return evento;
         default: return state;
     }

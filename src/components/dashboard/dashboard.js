@@ -1,24 +1,48 @@
+import _ from 'lodash';
 import React, { Component } from 'react';
 import MenuDashboardLeft from '../menu-dashboard-left';
 import {connect} from 'react-redux';
+import {Link, Redirect} from 'react-router-dom';
 
-import {fetchGuiasByUser} from '../../actions/guia';
-import {fetchEventosByUser} from '../../actions/evento';
-import {fetchNoticiasByUser} from '../../actions/noticia';
+import {fetchGuiasByUser, fetchGuiasByAdm} from '../../actions/guia';
+import {fetchEventosByUser, fetchEventosByAdm} from '../../actions/evento';
+import {fetchNoticiasByUser, fetchNoticiasByAdm} from '../../actions/noticia';
 
 
 class Dashboard extends Component{
+
+    constructor(){
+        super();
+
+        this.state = {userLogged:null}
+    }
 
     componentDidMount(){
         let user = JSON.parse(localStorage.getItem('user'));
         console.log("user aqui no dashboard: ", user);
 
-        this.props.fetchGuiasByUser(user.user.id);
+        if(user !== null){
+            this.setState({userLogged:true})
+            if(user.user.role.name == 'Administrator'){
+                this.props.fetchGuiasByAdm(7);
+                this.props.fetchEventosByAdm(7);
+                this.props.fetchNoticiasByAdm(7);
+            }
+            else{
+                this.props.fetchGuiasByUser(user.user._id, 5);
+                this.props.fetchEventosByUser(user.user._id, 5);
+                this.props.fetchNoticiasByUser(user.user._id, 5);
+            }
+        }
+        else{
+            this.setState({userLogged:false})
+        }
     }
 
     datePtBr(date){
-        const options = {year: 'numeric', month: 'long', day: 'numeric' };
-        return date.toLocaleDateString('pt-BR', options)
+        //const options = {year: 'numeric', month: 'short', day: 'numeric' };
+        //return date.toLocaleDateString('pt-BR', options)
+        return date.toLocaleDateString('pt-BR')
     }
 
     showGuias(){
@@ -26,14 +50,18 @@ class Dashboard extends Component{
             return this.props.guias.fromUser.map( guia => {
                 
                 return(
-                    <tr>
+                    <tr key={guia.id}>
+                        <td className="td-imagem"><img src={this.getImageSrc(guia)} alt="" /></td>
                         <td>{guia.titulo}</td>
                         <td>{this.datePtBr(new Date(guia.createdAt))}</td>
                         <td><span className="db-list-rat">{guia.tipo}</span>
                         </td>
-                        <td><span className="db-list-ststus">{/*@todo qnd atualizar o banco excluir esse status === undefined */(guia.status===undefined || guia.status === true)?'Ativo':'Inativo'}</span>
+                        <td><span className={(guia.status === false)?'db-list-ststus-na':'db-list-ststus'}>{(guia.status === false)?'Inativo':'Ativo'}</span>
                         </td>
-                        <td><a href="db-listing-edit.html" className="db-list-edit">Edit</a>
+                        <td className="table-information">
+                            <a href="#"><i className="fa fa-pencil" title="edit"></i></a>  
+                            <Link to={'/guia/' + guia.slug}  ><i className="fa fa-eye" title="view"></i></Link>
+                            <a href="#"><i className="fa fa-trash" title="delete"></i></a>
                         </td>
                     </tr>
                 )
@@ -42,23 +70,88 @@ class Dashboard extends Component{
         }
     }
     
+    showEventos(){
+        if(this.props.eventos && this.props.eventos.fromUser){
+            return this.props.eventos.fromUser.map( evento => {
+                console.log("eventos: ", evento.array_bairros);
+
+                return(
+                    <tr key={evento.id}>
+                        <td className="td-imagem"><img src={this.getImageSrc(evento)} alt="" /></td>
+                        <td>{evento.titulo}</td>
+                        <td>{(evento.array_bairros[0])?evento.array_bairros[0].nome:''}</td>
+                        <td ><span className="db-list-rat">{this.datePtBr(new Date(evento.inicio))}</span></td>
+                        <td><span className="db-list-red">{this.datePtBr(new Date(evento.fim))}</span></td>
+                        <td><span className={(evento.status === false)?'db-list-ststus-na':'db-list-ststus'}>
+                        {(evento.status === false)?'Inativo':'Ativo'}</span>
+                        </td>
+                        <td className="table-information">
+                            <a href="#"><i className="fa fa-pencil" title="edit"></i></a>  
+                            <Link to={'/eventos/' + evento.slug}  ><i className="fa fa-eye" title="view"></i></Link>
+                            <a href="#"><i className="fa fa-trash" title="delete"></i></a>
+                        </td>
+                    </tr>
+                )
+                
+            })
+        }
+    }
+
+    getImageSrc(item){
+        if(item.s3_imagem_destacada){
+            return item.old_imagem_destacada;
+        }
+        if(item.old_imagem_destacada) {
+            return item.old_imagem_destacada;
+        }
+        else if(item.imagem_destacada){
+            //implementar codigo
+            return "http://images.soumaisniteroi.com.br/wp-content/uploads/2015/04/no-image.png";
+        }
+        return "http://images.soumaisniteroi.com.br/wp-content/uploads/2015/04/no-image.png";
+    }
+
+    showNoticias(){
+        let truncate = _.truncate;
+        console.log("noticias:::: ", this.props.noticias);
+        if(this.props.noticias && this.props.noticias.fromUser){
+            return this.props.noticias.fromUser.map( noticia => {
+                
+                return(
+                    <li className="view-msg">
+                        <h5><img src={this.getImageSrc(noticia)} alt="" />{noticia.titulo} <span className="tz-msg-un-read">{(noticia.status === false)?'Inativo':'Ativo'}</span></h5>
+                        <p>{truncate(noticia.descricao.replace(/&#13;/g,'').replace(/<\/?[^>]+(>|$)/g, ""), { length: 200, separator: /,?\.* +/ })}</p>
+                        <div className="hid-msg">
+                            <a href="#"><i className="fa fa-pencil" title="edit"></i></a>  
+                            <Link to={'/noticias/' + noticia.slug}  ><i className="fa fa-eye" title="view"></i></Link>
+                            <a href="#"><i className="fa fa-trash" title="delete"></i></a>
+                        </div>
+                    </li>
+                )
+                
+            })
+        }
+    }
 
     render(){
+        if(this.state.userLogged === false){
+            return <Redirect to={'/'} />
+        }
 
-        console.log('guias no dashboard: ', this.props.guias )
         let totalGuias = 0;
         let totalEventos = 0;
         let totalNoticias = 0;
-
         
-
+        
+        
         if(this.props.guias && this.props.guias.fromUser)
             totalGuias = this.props.guias.fromUser.length;
-
-        if(this.props.eventos)
+        
+        if(this.props.eventos && this.props.eventos.fromUser){
             totalEventos = this.props.eventos.fromUser.length;
+        }
 
-        if(this.props.noticias)
+        if(this.props.noticias && this.props.noticias.fromUser)
             totalNoticias = this.props.noticias.fromUser.length;
 
 
@@ -97,11 +190,12 @@ class Dashboard extends Component{
                                 <table className="responsive-table bordered">
                                     <thead>
                                         <tr>
+                                            <th></th>
                                             <th>Nome</th>
                                             <th>Data</th>
                                             <th>tipo</th>
                                             <th>Status</th>
-                                            <th>Edit</th>
+                                            <th>Ações</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -117,44 +211,17 @@ class Dashboard extends Component{
                                 <table className="responsive-table bordered">
                                     <thead>
                                         <tr>
+                                            <th></th>
                                             <th>Nome</th>
+                                            <th>Bairro</th>
                                             <th>Início</th>
                                             <th>Fim</th>
-                                            <th>Bairro</th>
                                             <th>Status</th>
+                                            <th>Ações</th>                                            
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr>
-                                            <td>Taj Luxury Hotel & Resorts</td>
-                                            <td>142</td>
-                                            <td><span className="db-list-rat">Done</span>
-                                            </td>
-                                            <td><span className="db-list-ststus">Premium</span>
-                                            </td>
-                                            <td><a href="db-payment.html" className="db-list-edit">Payment</a>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>Joney Health and Fitness</td>
-                                            <td>53</td>
-                                            <td><span className="db-list-rat">Done</span>
-                                            </td>
-                                            <td><span className="db-list-ststus-na">Free</span>
-                                            </td>
-                                            <td><a href="db-payment.html" className="db-list-edit">Payment</a>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>Effi Furniture Dealers</td>
-                                            <td>76</td>
-                                            <td><span className="db-list-ststus-na">No</span>
-                                            </td>
-                                            <td><span className="db-list-ststus-na">Free</span>
-                                            </td>
-                                            <td><a href="db-payment.html" className="db-list-edit">Payment</a>
-                                            </td>
-                                        </tr>
+                                        {this.showEventos()}
                                     </tbody>
                                 </table>
                             </div>
@@ -165,18 +232,7 @@ class Dashboard extends Component{
                                 </div>
                                 <div className="tz-mess">
                                     <ul>
-                                        <li className="view-msg">
-                                            <h5><img src="images/users/1.png" alt="" />Listing Enquiry <span className="tz-msg-un-read">unread</span></h5>
-                                            <p>Nulla egestas leo elit, eu sollicitudin diam suscipit non. Nunc imperdiet hendrerit mi, mollis sagittis risus accumsan ac.</p>
-                                            <div className="hid-msg"><a href="#"><i className="fa fa-eye" title="view"></i></a><a href="#"><i className="fa fa-trash" title="delete"></i></a>
-                                            </div>
-                                        </li>
-                                        <li className="view-msg">
-                                            <h5><img src="images/users/4.png" alt="" />Request for meet <span className="tz-msg-read">unread</span></h5>
-                                            <p>Duis nulla ligula, interdum porta nulla sed, efficitur tempus lacus. Quisque facilisis, sapien tempor mollis sollicitudin, urna ligula vulputate nulla, rhoncus faucibus justo mauris eget elit.Pellentesque eget pellentesque dolor.</p>
-                                            <div className="hid-msg"><a href="#"><i className="fa fa-eye" title="view"></i></a><a href="#"><i className="fa fa-trash" title="delete"></i></a>
-                                            </div>
-                                        </li>
+                                        {this.showNoticias()}
                                     </ul>
                                 </div>
                             </div>
@@ -293,10 +349,11 @@ function mapStateToProps(state){
         {
             user: state.users,
             guias: state.guias,
-            eventos: state.eventos
+            eventos: state.eventos,
+            noticias: state.noticias
         }
     )
     
 }
 
-export default connect(mapStateToProps, {fetchGuiasByUser, fetchEventosByUser, fetchNoticiasByUser})(Dashboard);
+export default connect(mapStateToProps, {fetchGuiasByUser, fetchGuiasByAdm, fetchEventosByUser, fetchEventosByAdm, fetchNoticiasByUser, fetchNoticiasByAdm})(Dashboard);

@@ -36,9 +36,27 @@ export const fetchEventos = async(id, limit=200) => {
     }
 }
 
-export const fetchEventosByUser = async(id, limit=200) => {
+export const fetchEventosByUser = async(user_id, limit=100, sort=null) => {
+    if(!sort)
+        sort = '-_id';
+    if(limit)
+        limit = `&_limit=${limit}`
 
-    const request = axios.get(`${process.env.REACT_APP_URL_API}evento/?populateAssociation=false&_sort=-_id&_limit=${limit}`);
+    const request = axios.get(`${process.env.REACT_APP_URL_API}evento/?user=${user_id}&populateAssociation=false&_sort=${sort}${limit}`);
+
+    return {
+        type: FETCH_EVENTOS_USER,
+        payload: request
+    }
+}
+
+export const fetchEventosByAdm = async(limit=100, sort=null) => {
+    if(!sort)
+        sort = '-_id';
+    if(limit)
+        limit = `&_limit=${limit}`
+
+    const request = axios.get(`${process.env.REACT_APP_URL_API}evento/?populateAssociation=false&_sort=${sort}${limit}`);
 
     return {
         type: FETCH_EVENTOS_USER,
