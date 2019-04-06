@@ -59,9 +59,9 @@ class Dashboard extends Component{
                         <td><span className={(guia.status === false)?'db-list-ststus-na':'db-list-ststus'}>{(guia.status === false)?'Inativo':'Ativo'}</span>
                         </td>
                         <td className="table-information">
-                            <a href="#"><i className="fa fa-pencil" title="edit"></i></a>  
+                            <Link to={'/dashboard/guias/edit/' + guia._id}  ><i className="fa fa-pencil" title="edit"></i></Link>  
                             <Link to={'/guia/' + guia.slug}  ><i className="fa fa-eye" title="view"></i></Link>
-                            <a href="#"><i className="fa fa-trash" title="delete"></i></a>
+                            <Link to={'/dashboard/guias/edit/' + guia._id}  ><i className="fa fa-trash" title="delete"></i></Link>
                         </td>
                     </tr>
                 )
@@ -86,9 +86,9 @@ class Dashboard extends Component{
                         {(evento.status === false)?'Inativo':'Ativo'}</span>
                         </td>
                         <td className="table-information">
-                            <a href="#"><i className="fa fa-pencil" title="edit"></i></a>  
+                            <Link to={'/dashboard/eventos/edit/' + evento._id}  ><i className="fa fa-pencil" title="edit"></i></Link>  
                             <Link to={'/eventos/' + evento.slug}  ><i className="fa fa-eye" title="view"></i></Link>
-                            <a href="#"><i className="fa fa-trash" title="delete"></i></a>
+                            <Link to={'/dashboard/eventos/delete/' + evento._id}  ><i className="fa fa-trash" title="delete"></i></Link>
                         </td>
                     </tr>
                 )
@@ -122,9 +122,9 @@ class Dashboard extends Component{
                         <h5><img src={this.getImageSrc(noticia)} alt="" />{noticia.titulo} <span className="tz-msg-un-read">{(noticia.status === false)?'Inativo':'Ativo'}</span></h5>
                         <p>{truncate(noticia.descricao.replace(/&#13;/g,'').replace(/<\/?[^>]+(>|$)/g, ""), { length: 200, separator: /,?\.* +/ })}</p>
                         <div className="hid-msg">
-                            <a href="#"><i className="fa fa-pencil" title="edit"></i></a>  
+                            <Link to={'/dashboard/noticias/edit/' + noticia._id}  ><i className="fa fa-pencil" title="edit"></i></Link> 
                             <Link to={'/noticias/' + noticia.slug}  ><i className="fa fa-eye" title="view"></i></Link>
-                            <a href="#"><i className="fa fa-trash" title="delete"></i></a>
+                            <Link to={'/dashboard/noticias/delete/' + noticia._id}  ><i className="fa fa-trash" title="delete"></i></Link>
                         </div>
                     </li>
                 )
@@ -217,7 +217,7 @@ class Dashboard extends Component{
                                             <th>Início</th>
                                             <th>Fim</th>
                                             <th>Status</th>
-                                            <th>Ações</th>                                            
+                                            <th style={{minWidth:'85px'}}>Ações</th>                                            
                                         </tr>
                                     </thead>
                                     <tbody>

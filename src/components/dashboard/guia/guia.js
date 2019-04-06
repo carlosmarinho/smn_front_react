@@ -1,11 +1,10 @@
 import _ from 'lodash';
 import React, { Component } from 'react';
-import MenuDashboardLeft from '../menu-dashboard-left';
+import MenuDashboardLeft from '../../menu-dashboard-left';
 import {connect} from 'react-redux';
 import {Link, Redirect} from 'react-router-dom';
 
-import {fetchGuiasByUser, fetchGuiasByAdm} from '../../actions/guia';
-
+import {fetchGuiasByUser, fetchGuiasByAdm} from '../../../actions/guia';
 
 class DashboardGuia extends Component{
 
@@ -54,9 +53,9 @@ class DashboardGuia extends Component{
                         <td><span className={(guia.status === false)?'db-list-ststus-na':'db-list-ststus'}>{(guia.status === false)?'Inativo':'Ativo'}</span>
                         </td>
                         <td className="table-information">
-                            <a href="#"><i className="fa fa-pencil" title="edit"></i></a>  
+                            <Link to={'/dashboard/guias/edit/' + guia._id}  ><i className="fa fa-pencil" title="edit"></i></Link>  
                             <Link to={'/guia/' + guia.slug}  ><i className="fa fa-eye" title="view"></i></Link>
-                            <a href="#"><i className="fa fa-trash" title="delete"></i></a>
+                            <Link to={'/dashboard/guias/delete/' + guia._id}  ><i className="fa fa-trash" title="delete"></i></Link>
                         </td>
                     </tr>
                 )

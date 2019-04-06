@@ -28,7 +28,9 @@ import Connect from './components/modules/connect'
 import Register from './components/modules/register'
 
 import Dashboard from './components/dashboard/dashboard'
-import DashboardGuia from './components/dashboard/guia'
+import DashboardGuia from './components/dashboard/guia/guia'
+import DashboardGuiaEdit from './components/dashboard/guia/edit'
+
 
 import BairroGrid from './components/modules/bairro-grid'
 import NotFound from './components/not-found'
@@ -152,6 +154,7 @@ class App extends Component {
                                 
                                 <Route exact path="/dashboard" component={Dashboard} />
                                 <Route exact path="/dashboard/guias" component={DashboardGuia} />
+                                <Route exact path="/dashboard/guias/edit/:id" component={DashboardGuiaEdit} />
                                 <Route exact path="/dashboard/eventos" component={DashboardEvento} />
                                 <Route exact path="/dashboard/noticias" component={DashboardNoticia} />
                                 
