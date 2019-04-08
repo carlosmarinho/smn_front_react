@@ -1,7 +1,25 @@
 import axios from 'axios';
-import { FETCH_FEATURED_GUIAS, FETCH_GUIA, FETCH_GUIAS, FETCH_GUIAS_RECENTES, FETCH_GUIAS_FEATURED, FETCH_GUIAS_USER } from "./types";
+import { SUCCESS_CREATE_GUIA, ERROR_CREATE_GUIA, FETCH_FEATURED_GUIAS, FETCH_GUIA, FETCH_GUIAS, FETCH_GUIAS_RECENTES, FETCH_GUIAS_FEATURED, FETCH_GUIAS_USER } from "./types";
 
+export const createGuia = (guia) => {
+    
+    console.log('guia no action: ', guia)
+    const request = axios.post(`${process.env.REACT_APP_URL_API}guia/`, guia);
 
+    console.log("REQUEST DO CREATE GUIA: ", request)
+    if(request.statusText == 'OK'){
+        return({
+            type: SUCCESS_CREATE_GUIA,
+            payload: request
+        })
+    }
+    else{
+        return({
+            type: ERROR_CREATE_GUIA,
+            payload: {msg: "Houve um erro ao efetuar o cadastro!" }
+        })
+    }
+}
 
 export const fetchGuia = (id) => {
 

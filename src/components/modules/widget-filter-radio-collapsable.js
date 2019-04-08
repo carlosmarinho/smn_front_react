@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import {Collapsible, CollapsibleItem} from 'react-materialize';
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+//@todo verify if this widget is still working with this line commented 
+//import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 
 
 class WidgetFilterRadioCollapsable extends Component {

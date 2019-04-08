@@ -29,7 +29,7 @@ const minLength = min => value =>
     value && value.length < min ? `O campo deve conter no mínimo ${min} caracteres` : undefined;
 
 
-class GuiaEdit extends Component{
+class GuiaNew extends Component{
 
     constructor(){
         super();
@@ -180,8 +180,8 @@ class GuiaEdit extends Component{
 							<h4>Gerenciamento de Guias</h4>
 							<div className="db-list-com tz-db-table">
 								<div className="ds-boar-title">
-									<h2>Editar Guia</h2>
-									<p>Edição do guia comercial/serviço</p>
+									<h2>Cadastrar Novo Guia</h2>
+									<p>Cadastro de novo guia comercial/serviço</p>
 								</div>
 								<div className="hom-cre-acc-left hom-cre-acc-right">
 									<div className="">
@@ -565,7 +565,7 @@ function mapStateToProps(state){
     
 }
 
-const Connect = connect(mapStateToProps, {createGuia})(GuiaEdit);
+const Connect = connect(mapStateToProps, {createGuia})(GuiaNew);
 
 export default reduxForm({
 	form: 'editGuia'

@@ -3140,10 +3140,21 @@ footer ul li a:hover {
      */
   margin-top: -10px; }
 
+/*added by carlos*/
 .react-widget ul li div {
   display: inline !important;
   margin-left: 20px !important; }
 
+.react-widget label {
+  top: 6px; }
+
+.react-widget .rw-multiselect-taglist {
+  display: inline; }
+
+.rw-multiselect .rw-input-reset {
+  height: calc(2.429em + 3px) !important; }
+
+/*end added by carlos*/
 .hom-cre-acc-right form {
   border: 1px solid #ededed;
   background-color: #f9f9f9;
@@ -5243,6 +5254,11 @@ footer ul li a:hover {
   margin-left: 72px;
   display: none; }
 
+/*included by carlos*/
+.rw-dropdown-list-input {
+  padding-left: 0px !important; }
+
+/*end*/
 .hid-msg a i {
   border: 1px solid #eaedef;
   padding: 3px 3px;
