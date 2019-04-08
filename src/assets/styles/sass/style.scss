@@ -3298,12 +3298,15 @@
  .hom-cre-acc-left ul {
      padding: 0px;
      margin-bottom: 0px;
-     margin-top: 50px;
+     /* altered by carlos to 0 margin-top: 50px;*/
+     margin-top: 0px;
 }
  .hom-cre-acc-left ul li {
     /* padding-top: 25px;
      */
-     padding-bottom: 30px;
+
+     /* altered by carlos to 0 padding-bottom: 30px;*/
+     padding-bottom: 0px;
      list-style-type: none;
 }
  .hom-cre-acc-left ul li img {
@@ -3311,6 +3314,8 @@
      float: left;
      width: 50px;
 }
+
+
  .hom-cre-acc-left ul li div {
      display: block;
      margin-left: 80px;
@@ -3320,6 +3325,13 @@
      */
      margin-top: -10px;
 }
+
+.react-widget  ul li div {
+    display: inline !important;
+    margin-left: 20px !important;
+}
+
+
  .hom-cre-acc-right {
 }
  .hom-cre-acc-right form {

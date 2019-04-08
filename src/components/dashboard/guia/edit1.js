@@ -3,38 +3,15 @@ import React, { Component } from 'react';
 import MenuDashboardLeft from '../../menu-dashboard-left';
 import {connect} from 'react-redux';
 import {Field, reduxForm} from 'redux-form';
+import {Input} from 'react'
 import {Link, Redirect} from 'react-router-dom';
+import SelectField from 'material-ui/SelectField';
 
-import DropdownList from 'react-widgets/lib/DropdownList'
-import SelectList from 'react-widgets/lib/SelectList'
-import Multiselect from 'react-widgets/lib/Multiselect'
-
-import 'react-widgets/dist/css/react-widgets.css'
-
-
+import MenuItem from 'material-ui/MenuItem';
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import getMuiTheme from 'material-ui/styles/getMuiTheme';
 
 import {fetchGuiasByUser, fetchGuiasByAdm} from '../../../actions/guia';
-
-const renderDropdownList = ({ input, data, valueField, textField }) =>
-  <DropdownList {...input}
-    data={data}
-    valueField={valueField}
-    textField={textField}
-    onChange={input.onChange} />
-
-const renderMultiselect = ({ input, data, valueField, textField }) =>
-  <Multiselect {...input}
-    onBlur={() => input.onBlur()}
-    value={input.value || []} // requires value to be an array
-    data={data}
-    valueField={valueField}
-    textField={textField}
-  />
-
-const renderSelectList = ({ input, data }) =>
-  <SelectList {...input}
-    onBlur={() => input.onBlur()}
-    data={data} />
 
 const required = value => value ? undefined : 'Campo Obrigatório'
 
@@ -51,9 +28,24 @@ const maxLength15 = maxLength(15)
 const minLength = min => value =>
     value && value.length < min ? `O campo deve conter no mínimo ${min} caracteres` : undefined;
 
-	const colors = [ { color: 'Red', value: 'ff0000' },
-	{ color: 'Green', value: '00ff00' },
-	{ color: 'Blue', value: '0000ff' } ]
+
+	const renderSelectField = ({
+		input,
+		label,
+		meta: { touched, error },
+		children,
+		...custom
+	  }) => (
+		<SelectField
+		  floatingLabelText={label}
+		  errorText={touched && error}	
+		  {...input}
+		  onChange={(event, index, value) => input.onChange(value)}
+		  children={children}
+		  {...custom}
+		  variant="outlined"
+		/>
+	  )
 
 class GuiaEdit extends Component{
 
@@ -147,6 +139,31 @@ class GuiaEdit extends Component{
             
         )
 	}
+
+	renderSelect({
+		input,
+		label,
+		meta: { touched, error, warning },
+		children,
+		...custom
+	  }){
+		return(
+
+			<div className={`input-field col s12`}>
+				<SelectField
+				floatingLabelText={label}
+				errorText={touched && error}
+				{...input}
+				onChange={(event, index, value) => input.onChange(value)}
+				children={children}
+				{...custom}
+				/>
+
+				{touched && ((error && <span className="text-danger">{error}</span>) || (warning && <span>{warning}</span>))} 
+			</div>
+		)
+	  }
+	  
 	
 	renderSelect1(field){
 		const {input, label, type, meta: {touched, error, warning} } = field;
@@ -154,29 +171,7 @@ class GuiaEdit extends Component{
 			
 			<div className={`input-field col ${field.classCol}`}>
 			
-				{ <Field {...input} style={{display:'block',paddingTop:'0px', paddingBottom:'0px', height:'40px'}}  component="select" className="native" native={true} multiple={(field.multiple)?'multiple':''}>
-					{(!field.multiple)?<option>{label}</option>:''}
-					{(field.options)?field.options.map(option => {
-						return(
-							<option value={option}>{option}</option>
-						)
-					}):''}
-					
-				</Field>}
-				
-				{touched && ((error && <span className="text-danger">{error}</span>) || (warning && <span>{warning}</span>))} 
-			</div>
-            
-        )
-	}
-
-	renderSelect(field){
-		const {input, label, type, meta: {touched, error, warning} } = field;
-		return(
-			
-			<div className={`input-field col ${field.classCol}`}>
-			
-				{ <Field {...input} style={{display:'block',paddingTop:'0px', paddingBottom:'0px', height:'40px'}}  component="select" className="native" native={true} multiple={(field.multiple)?'multiple':''}>
+				{ <Field {...input}  component="select" multiple={(field.multiple)?'multiple':''}>
 					{(!field.multiple)?<option>{label}</option>:''}
 					{(field.options)?field.options.map(option => {
 						return(
@@ -204,6 +199,7 @@ class GuiaEdit extends Component{
 
         
         return(
+			<MuiThemeProvider muiTheme={getMuiTheme()}>
 
             <section>
                 <div className="tz">
@@ -223,40 +219,6 @@ class GuiaEdit extends Component{
 								<div className="hom-cre-acc-left hom-cre-acc-right">
 									<div className="">
 										<form className="" onSubmit={handleSubmit(this.handleSubmit)}>
-													
-											<div className="row">
-												<div className={`input-field col s4`}>
-													<Field
-														name="favoriteColor"
-														component={renderDropdownList}
-														data={colors}
-														valueField="value"
-														textField="color"
-														/>
-													<label>Favorite Color</label>
-												</div>
-											
-											
-												<div className={`react-widget input-field col s4`}>
-												<label>Hobbies</label>
-												<Field
-													name="hobbies"
-													component={renderMultiselect}
-													data={[ 'Guitar', 'Cycling', 'Hiking' ]}
-												/>
-												</div>
-											
-											
-												<div className={`s4`}>
-													<Field
-														name="sex"
-														component={renderSelectList}
-														data={[ 'male', 'female' ]}
-														/>
-													<label>Sex</label>
-												</div>
-											</div>
-											
 											<div className="row">
 												<Field
 													name="titulo"
@@ -342,7 +304,23 @@ class GuiaEdit extends Component{
 													validate={[]}
 												/>
 											</div>
+
+											<div className="row">
+											<div className="input-field col s12">
+
+												<Field 
+													name="favoriteColor"
+													component={renderSelectField}
+													label="Favorite Color"
+													multiple
+													>
+													<MenuItem value="ff0000" primaryText="Red" />
+													<MenuItem value="00ff00" primaryText="Green" />
+													<MenuItem value="0000ff" primaryText="Blue" />
+													</Field>
+												</div>
 											
+											</div>
 											<div className="row">
 												<Field
 													name="estado"
@@ -375,8 +353,6 @@ class GuiaEdit extends Component{
 												/>
 											</div>
 											<div className="row">
-											
-
 												<Field
 													name="endereco"
 													component={this.renderField}
@@ -516,14 +492,14 @@ class GuiaEdit extends Component{
 											</div>
 
 											<div class="row">
-					
 												<div class="input-field col s6">
 													<Field
 														name="tipo"
 														component={this.renderSelect}
 														options={['Comercial', 'Serviços']}
 														label="Selecione o tipo"
-														classCol="s6"
+														classCol="s4"
+														multiple="true"
 														className="validate"
 														validate={[]}
 													/>
@@ -630,6 +606,7 @@ class GuiaEdit extends Component{
                     
                 </div>
             </section>
+				</MuiThemeProvider>
         )
     }
 }
