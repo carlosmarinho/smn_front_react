@@ -43,12 +43,12 @@ class Register extends Component {
     showMessage(){
         console.log("mensagem: ", this.props.message);
         if(this.props.message){
-            if(this.props.message.error){
+            if(this.props.message.error && this.props.message.error.user){
                 return(
-                    <p className="text-danger">{this.props.message.error.msg}</p>
+                    <p className="text-danger">{this.props.message.error.user.msg}</p>
                 )
             }
-            else if(this.props.message.success){
+            else if(this.props.message.success && this.props.message.success.user){
                 return(
                     <p className="text-success">Usuário cadastrado com sucesso! Valide o seu cadastro através do email que foi enviado.</p>
                 )

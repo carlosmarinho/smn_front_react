@@ -141,10 +141,18 @@ class GuiaNew extends Component{
 			
 				{ <Field {...input} style={{display:'block',paddingTop:'0px', paddingBottom:'0px', height:'40px'}}  component="select" className="native" native={true} multiple={(field.multiple)?'multiple':''}>
 					{(!field.multiple)?<option>{label}</option>:''}
-					{(field.options)?field.options.map(option => {
-						return(
-							<option value={option}>{option}</option>
-						)
+					{(field.options)?field.options.map((option, key) => {
+						if(_.isObject(option)){
+							console.log("option: ", option);
+							return(
+								<option value={Object.keys(option)[0]}>{Object.values(option)[0]}</option>
+							)
+						}
+						else{
+							return(
+								<option value={option}>{option}</option>
+							)
+						}
 					}):''}
 					
 				</Field>}
@@ -155,9 +163,25 @@ class GuiaNew extends Component{
         )
 	}
 	
+	showMessage(){
+        console.log("mensagem: ", this.props.message);
+        if(this.props.message){
+            if(this.props.message.error && this.props.message.error.guia){
+                return(
+                    <p className="text-danger text-center"><strong>{this.props.message.error.guia.msg}</strong></p>
+                )
+            }
+            else if(this.props.message.success && this.props.message.success.guia){
+                return(
+                    <p className="text-danger text-center"><strong>Houve um erro ao cadastrar o seu guia!</strong></p>
+                )
+            }
+        }
+    }
 
 
     render(){
+
         if(this.state.userLogged === false){
             return <Redirect to={'/'} />
         }
@@ -182,6 +206,7 @@ class GuiaNew extends Component{
 								<div className="ds-boar-title">
 									<h2>Cadastrar Novo Guia</h2>
 									<p>Cadastro de novo guia comercial/serviço</p>
+									{this.showMessage()}
 								</div>
 								<div className="hom-cre-acc-left hom-cre-acc-right">
 									<div className="">
@@ -289,7 +314,7 @@ class GuiaNew extends Component{
 												<Field
 													name="cidade"
 													component={this.renderSelect}
-													options={['niteroi']}
+													options={[{'5ba26f813a018f42215a36a0':'niteroi'}]}
 													label="Cidade"
 													classCol="s4"
 													className="validate"
@@ -453,7 +478,7 @@ class GuiaNew extends Component{
 													<Field
 														name="tipo"
 														component={this.renderSelect}
-														options={['Comercial', 'Serviços']}
+														options={[{'guia comercial':'Guia Comercial'}, {'guia de serviços':'Guia de Serviços'}]}
 														label="Selecione o tipo"
 														classCol="s3"
 														className="validate"
@@ -475,7 +500,7 @@ class GuiaNew extends Component{
 											
 											<div className="row">
 												<Field
-													name="tag[]"
+													name="tag[0]"
 													component={this.renderField}
 													type="text"
 													label="tag 1"
@@ -485,7 +510,7 @@ class GuiaNew extends Component{
 													validate={[]}
 												/>
 												<Field
-													name="tag[]"
+													name="tag[1]"
 													component={this.renderField}
 													type="text"
 													label="Tag 2"
@@ -495,7 +520,7 @@ class GuiaNew extends Component{
 													validate={[]}
 												/>
 												<Field
-													name="tag[]"
+													name="tag[2]"
 													component={this.renderField}
 													type="text"
 													label="Tag 3"
@@ -537,7 +562,7 @@ class GuiaNew extends Component{
 													
 											<div className="row">
 												<div className="input-field col s12 v2-mar-top-40"> 
-													<input type="submit"  disabled={pristine || submitting} value="Atualizar Guia" className="waves-effect waves-light  btn-large full-btn" /> 
+													<input type="submit"  disabled={pristine || submitting} value="Cadastrar Guia" className="waves-effect waves-light  btn-large full-btn" /> 
 												</div>
 											</div>
 										</form>
@@ -559,7 +584,8 @@ function mapStateToProps(state){
     return(
         {
             user: state.users,
-            guias: state.guias,
+			guias: state.guias,
+			message: state.message
         }
     )
     

@@ -1,24 +1,92 @@
 import axios from 'axios';
 import { SUCCESS_CREATE_GUIA, ERROR_CREATE_GUIA, FETCH_FEATURED_GUIAS, FETCH_GUIA, FETCH_GUIAS, FETCH_GUIAS_RECENTES, FETCH_GUIAS_FEATURED, FETCH_GUIAS_USER } from "./types";
 
-export const createGuia = (guia) => {
-    
-    console.log('guia no action: ', guia)
-    const request = axios.post(`${process.env.REACT_APP_URL_API}guia/`, guia);
+export const createGuia = async (guia) => {
 
-    console.log("REQUEST DO CREATE GUIA: ", request)
-    if(request.statusText == 'OK'){
-        return({
-            type: SUCCESS_CREATE_GUIA,
-            payload: request
-        })
+    let user = JSON.parse(localStorage.getItem('user'));
+
+    let request;
+    if(user){
+        try{
+            let jwt = user.jwt    
+            let config = { headers: { 'Authorization': `Bearer ${jwt}` } };
+            request = await axios.post(`${process.env.REACT_APP_URL_API}guia/`, guia, config);
+
+            if(request.statusText == 'OK'){
+                return({
+                    type: SUCCESS_CREATE_GUIA,
+                    payload: request
+                })
+            }
+            else{
+                console.log("cadastrando o user ver o erro: ", request);
+                return({
+                    type: ERROR_CREATE_GUIA,
+                    payload: {msg: "Houve um erro ao cadastrar o seu guia!" }
+                })
+            }
+        }
+        catch(error){
+            console.log("ERROR DO CREATE GUIA: ", request)
+            return({
+                type: ERROR_CREATE_GUIA,
+                payload: {msg: "Houve um erro ao efetuar o cadastro do seu guia!" }
+            })
+        }
+    
     }
     else{
-        return({
-            type: ERROR_CREATE_GUIA,
-            payload: {msg: "Houve um erro ao efetuar o cadastro!" }
-        })
+        return(
+            {
+                type: ERROR_CREATE_GUIA,
+                payload: {msg: "Usuário não logado"}
+            }
+        )
     }
+
+    
+}
+
+export const createGuiabkp = async (guia) => {
+
+    let user = JSON.parse(localStorage.getItem('user'));
+
+    let request;
+    if(user){
+        try{
+            let jwt = user.jwt    
+            let config = { headers: { 'Authorization': `Bearer ${jwt}` } };
+            request = await axios.post(`${process.env.REACT_APP_URL_API}guia/`, guia, config);
+
+            if(request.statusText == 'OK'){
+                return({
+                    type: SUCCESS_CREATE_GUIA,
+                    payload: request
+                })
+            }
+            else{
+                console.log("cadastrando o user ver o erro: ", request);
+                return({
+                    type: ERROR_CREATE_GUIA,
+                    payload: {msg: "Houve um erro ao efetuar o cadastro!" }
+                })
+            }
+        }
+        catch(error){
+            console.log("ERROR DO CREATE GUIA: ", request)
+        }
+    
+    }
+    else{
+        return(
+            {
+                type: ERROR_CREATE_GUIA,
+                payload: {msg: "Usuário não logado"}
+            }
+        )
+    }
+
+    
 }
 
 export const fetchGuia = (id) => {

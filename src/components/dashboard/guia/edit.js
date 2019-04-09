@@ -155,7 +155,11 @@ class GuiaEdit extends Component{
         )
 	}
 	
-
+	showErrorMessage(){
+		return(
+			<p className="text-danger text-center"><strong>Houve um erro ao cadastrar o seu guia!</strong></p>
+		)
+	}
 
     render(){
         if(this.state.userLogged === false){
@@ -182,6 +186,8 @@ class GuiaEdit extends Component{
 								<div className="ds-boar-title">
 									<h2>Editar Guia</h2>
 									<p>Edição do guia comercial/serviço</p>
+									{this.showErrorMessage()}
+
 								</div>
 								<div className="hom-cre-acc-left hom-cre-acc-right">
 									<div className="">
@@ -453,7 +459,7 @@ class GuiaEdit extends Component{
 													<Field
 														name="tipo"
 														component={this.renderSelect}
-														options={['Comercial', 'Serviços']}
+														options={['Guia Comercial', 'Guia de Serviços']}
 														label="Selecione o tipo"
 														classCol="s3"
 														className="validate"
