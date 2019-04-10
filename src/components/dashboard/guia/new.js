@@ -5,6 +5,8 @@ import {connect} from 'react-redux';
 import {Field, reduxForm} from 'redux-form';
 import {Link, Redirect} from 'react-router-dom';
 
+import { fetchCategories } from '../../../actions/categoria';
+
 import DropdownList from 'react-widgets/lib/DropdownList'
 import SelectList from 'react-widgets/lib/SelectList'
 import Multiselect from 'react-widgets/lib/Multiselect'
@@ -42,18 +44,19 @@ class GuiaNew extends Component{
 		this.handleSubmit = this.handleSubmit.bind(this);
 		this.renderMultiselect = this.renderMultiselect.bind(this);
     }
-
+	
     componentDidMount(){
-        let user = JSON.parse(localStorage.getItem('user'));
+		let user = JSON.parse(localStorage.getItem('user'));
         console.log("user aqui no dashboard: ", user);
-
+		
         if(user !== null){
-            this.setState({userLogged:true})
+			this.setState({userLogged:true})
+			this.props.fetchCategories('guia comercial');
             // if(user.user.role.name == 'Administrator'){
-            //     this.props.fetchGuiasByAdm(7);
+				//     this.props.fetchGuiasByAdm(7);
                 
-            // }
-            // else{
+				// }
+				// else{
             //     this.props.fetchGuiasByUser(user.user._id, 5);
             // }
         }
@@ -114,6 +117,8 @@ class GuiaNew extends Component{
 	renderMultiselect (field){
 		const { input, data, valueField, textField, label } = field;
 
+		console.log("Data no select: ", data);
+
 		return (
 			<div className={`react-widget input-field col ${field.classCol}`}>
 				<Multiselect {...input}
@@ -126,6 +131,7 @@ class GuiaNew extends Component{
 					valueField={valueField}
 					textField={textField}
 					inputProps={{id:field.id}}
+					groupBy='parent_name'
 				/>
 				<label for={field.id} onClick="">{(this.state.labelMultiselct)?label:''}</label>
 			</div>
@@ -162,6 +168,24 @@ class GuiaNew extends Component{
             
         )
 	}
+
+	setCategoryParentName(categories){
+		let newCat = categories.map(category => {
+			if(category.parent_id){
+				let pai = categories.filter(catFilter =>{
+					//console.log(catFilter._id, ' * ', catFilter.nome, " ---- ", category.parent_id,  ' * ', category.nome)	
+					return catFilter._id == category.parent_id
+				})
+				//console.log("categoria: ", category.nome , " - categoria pai: ", category.parent_id, " -- ", (pai[0])?pai[0].nome:'Categoria principal');
+				category.parent_name = pai[0].nome;
+				console.log("cat parent::::: ", category)
+			}
+			else
+				category.parent_name = "Categoria Principal";
+			return category;
+		})
+		return newCat
+	}
 	
 	showMessage(){
         console.log("mensagem: ", this.props.message);
@@ -184,7 +208,14 @@ class GuiaNew extends Component{
 
         if(this.state.userLogged === false){
             return <Redirect to={'/'} />
-        }
+		}
+		
+		let categorias = [];
+		if(this.props.categorias){
+			categorias = this.props.categorias.list;
+			categorias = this.setCategoryParentName(categorias);
+			console.log("categoriassss: ", categorias)
+		}
         
 			
 		const { pristine, reset, submitting, handleSubmit } = this.props
@@ -488,11 +519,11 @@ class GuiaNew extends Component{
 												<Field
 													name="categorias"
 													id="select-categorias"
-													label="Escolha as categorias."
+													label="Escolhaaa as categorias."
 													component={this.renderMultiselect}
-													data={[ 'Guitar', 'Cycling', 'Hiking', 
-													'Guiffftar', 'Cyclinfwea333g', 'Hikingwwfqqf',
-													'Gui34234tar', 'Cycli434ng', 'Hiking123' ]}
+													textField='nome'
+													valueField='_id'
+													data={categorias}
 													classCol="s9"
 												/>
 											</div>
@@ -585,13 +616,14 @@ function mapStateToProps(state){
         {
             user: state.users,
 			guias: state.guias,
+			categorias: state.categorias,
 			message: state.message
         }
     )
     
 }
 
-const Connect = connect(mapStateToProps, {createGuia})(GuiaNew);
+const Connect = connect(mapStateToProps, {createGuia, fetchCategories})(GuiaNew);
 
 export default reduxForm({
 	form: 'editGuia'

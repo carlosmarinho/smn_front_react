@@ -73,7 +73,6 @@ class Dashboard extends Component{
     showEventos(){
         if(this.props.eventos && this.props.eventos.fromUser){
             return this.props.eventos.fromUser.map( evento => {
-                console.log("eventos: ", evento.array_bairros);
 
                 return(
                     <tr key={evento.id}>
