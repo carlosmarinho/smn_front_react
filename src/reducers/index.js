@@ -5,6 +5,7 @@ import Users from './userReducer';
 import Guias from './guiaReducer';
 import Bairros from './bairroReducer';
 import Categorias from './categoriaReducer';
+import Tags from './tagReducer';
 import GuiasFeatured from './guiaFeaturedReducer';
 import Eventos from './eventoReducer';
 import Noticias from './noticiaReducer';
@@ -17,6 +18,7 @@ export default combineReducers({
     guias: Guias,
     bairros: Bairros,
     categorias: Categorias,
+    tags: Tags,
     guiasFeatured: GuiasFeatured,
     eventos: Eventos,
     noticias: Noticias,

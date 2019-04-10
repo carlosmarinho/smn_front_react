@@ -7366,6 +7366,13 @@ footer ul li a:hover {
   margin-bottom: 30px; }
 
 /*INCLUDED BY CARLOS*/
+.rw-list-optgroup {
+  font-weight: bold; }
+
+.rw-list-option {
+  font-weight: normal;
+  margin-left: 20px; }
+
 .collapsible-header {
   padding: 21px;
   /*background: #20344c;*/

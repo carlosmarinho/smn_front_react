@@ -134,18 +134,20 @@ export const fetchCategoriesEventoTop = async(limit='', sort=null) => {
 
 }
 
-export const fetchCategories = async(tipo=null, limit='', sort=null) => {
+export const fetchCategories = async(tipo='', limit='', sort=null) => {
     if(tipo)
         tipo = `tipo=${tipo}&`
     if(!sort)
-        sort = '-_id';
-    if(limit)
-        limit = `&_limit=${limit}`;
+        sort = '_sort=-_id&';
     else
-        limit = `&_limit=200`;
+        sort = `_sort=${sort}&`;
+    if(limit)
+        limit = `_limit=${limit}`;
+    else
+        limit = `_limit=200`;
 
 
-    const request = axios.get(`${process.env.REACT_APP_URL_API}categoria/?${tipo}_sort=${sort}${limit}`);
+    const request = axios.get(`${process.env.REACT_APP_URL_API}categoria/?${tipo}${sort}${limit}`);
 
     return {
         type: FETCH_CATEGORIES,

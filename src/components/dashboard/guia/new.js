@@ -6,6 +6,9 @@ import {Field, reduxForm} from 'redux-form';
 import {Link, Redirect} from 'react-router-dom';
 
 import { fetchCategories } from '../../../actions/categoria';
+import { fetchTags } from '../../../actions/tag';
+import { fetchBairros } from '../../../actions/bairro';
+
 
 import DropdownList from 'react-widgets/lib/DropdownList'
 import SelectList from 'react-widgets/lib/SelectList'
@@ -38,7 +41,9 @@ class GuiaNew extends Component{
 
 		this.state = {
 			userLogged: null,
-			labelMultiselct: true
+			labelMultiselect: {categorias: true, tags: true},
+			categorias: true,
+			tags: true
 		}
 		
 		this.handleSubmit = this.handleSubmit.bind(this);
@@ -51,7 +56,9 @@ class GuiaNew extends Component{
 		
         if(user !== null){
 			this.setState({userLogged:true})
-			this.props.fetchCategories('guia comercial');
+			this.props.fetchCategories('guia comercial', 250, 'parent_id');
+			this.props.fetchTags();
+			this.props.fetchBairros('5ba26f813a018f42215a36a0', 200, 'nome');
             // if(user.user.role.name == 'Administrator'){
 				//     this.props.fetchGuiasByAdm(7);
                 
@@ -105,35 +112,46 @@ class GuiaNew extends Component{
         )
 	}
 
-	multiSelectFocus(e){
-		this.setState({labelMultiselct:false});
+	multiSelectFocus(e, name){
+		
+		console.log("no multiselect antes: ", this.state.labelMultiselect);
+		if(name == 'tags')
+				this.setState({tags: false});
+		if(name == 'categorias')
+			this.setState({categorias: false});
+		console.log("no multiselect depois: ", this.state.labelMultiselect);
 	}
 	
-	multiSelectBlur(e, item){
-		if(item.length <= 0)
-			this.setState({labelMultiselct:true});
+	multiSelectBlur(e, itemName, itemValue){
+		if(itemValue.length <= 0)
+		{
+			
+			if(itemName == 'tags')
+				this.setState({tags: true});
+			if(itemName == 'categorias')
+				this.setState({categorias: true});
+		}
 	}
 
 	renderMultiselect (field){
 		const { input, data, valueField, textField, label } = field;
 
-		console.log("Data no select: ", data);
-
+		//console.log("state do multiselect no multselect ", input.name, ": ", this.state.labelMultiselect[input.name]);
 		return (
 			<div className={`react-widget input-field col ${field.classCol}`}>
 				<Multiselect {...input}
 					onBlur={(e) => {
-						 this.multiSelectBlur(e, input.value)}
+						 this.multiSelectBlur(e, input.name, input.value)}
 					}
-					onFocus={(e) => this.multiSelectFocus(e) }
+					onFocus={(e) => this.multiSelectFocus(e, input.name) }
 					value={input.value || []} // requires value to be an array
 					data={data}
 					valueField={valueField}
 					textField={textField}
 					inputProps={{id:field.id}}
-					groupBy='parent_name'
+					groupBy={field.groupBy}
 				/>
-				<label for={field.id} onClick="">{(this.state.labelMultiselct)?label:''}</label>
+				<label for={field.id} onClick="">{(this.state[input.name] ===true)?label:''}</label>
 			</div>
 		)
 	}
@@ -171,24 +189,23 @@ class GuiaNew extends Component{
 
 	setCategoryParentName(categories){
 		let newCat = categories.map(category => {
-			if(category.parent_id){
+			if(category.parent_id && category.parent_id !== null){
 				let pai = categories.filter(catFilter =>{
 					//console.log(catFilter._id, ' * ', catFilter.nome, " ---- ", category.parent_id,  ' * ', category.nome)	
 					return catFilter._id == category.parent_id
 				})
 				//console.log("categoria: ", category.nome , " - categoria pai: ", category.parent_id, " -- ", (pai[0])?pai[0].nome:'Categoria principal');
-				category.parent_name = pai[0].nome;
-				console.log("cat parent::::: ", category)
+				category.parent_name = (pai[0])?pai[0].nome:'Sem Categoria Principal';
 			}
-			else
-				category.parent_name = "Categoria Principal";
+			else{
+				category.parent_name = 'Categoria Principal'
+			}
 			return category;
 		})
 		return newCat
 	}
 	
 	showMessage(){
-        console.log("mensagem: ", this.props.message);
         if(this.props.message){
             if(this.props.message.error && this.props.message.error.guia){
                 return(
@@ -214,12 +231,21 @@ class GuiaNew extends Component{
 		if(this.props.categorias){
 			categorias = this.props.categorias.list;
 			categorias = this.setCategoryParentName(categorias);
-			console.log("categoriassss: ", categorias)
+			console.log("categorias props: ", categorias[0])
 		}
-        
-			
-		const { pristine, reset, submitting, handleSubmit } = this.props
 
+		let tags = [];
+		if(this.props.tags){
+			tags = this.props.tags.list;
+			
+		}
+		
+		let bairros = [];
+		if(this.props.tags){
+			bairros = this.props.bairros;
+		}
+
+		const { pristine, reset, submitting, handleSubmit } = this.props
         
         return(
 
@@ -503,9 +529,7 @@ class GuiaNew extends Component{
 												</div>	
 											</div>
 
-											<div class="row">
-					
-												
+											<div class="row">												
 													<Field
 														name="tipo"
 														component={this.renderSelect}
@@ -519,13 +543,28 @@ class GuiaNew extends Component{
 												<Field
 													name="categorias"
 													id="select-categorias"
-													label="Escolhaaa as categorias."
+													label="Escolha as categorias. (Digite para filtrar)"
 													component={this.renderMultiselect}
 													textField='nome'
-													valueField='_id'
+													valueField='id'
 													data={categorias}
 													classCol="s9"
+													groupBy='parent_name'
 												/>
+											</div>
+
+											<div class="row">																								
+												<Field
+													name="tags"
+													id="select-tags"
+													label="Escolha as tags. (Digite para filtrar)"
+													component={this.renderMultiselect}
+													textField='nome'
+													valueField='id'
+													data={tags}
+													classCol="s12"
+													/>
+													{/*@todo implementar incluir nova tag*/}
 											</div>
 											
 											
@@ -617,13 +656,15 @@ function mapStateToProps(state){
             user: state.users,
 			guias: state.guias,
 			categorias: state.categorias,
+			tags: state.tags,
+			bairros: state.bairros,
 			message: state.message
         }
     )
     
 }
 
-const Connect = connect(mapStateToProps, {createGuia, fetchCategories})(GuiaNew);
+const Connect = connect(mapStateToProps, {createGuia, fetchCategories, fetchTags, fetchBairros})(GuiaNew);
 
 export default reduxForm({
 	form: 'editGuia'
