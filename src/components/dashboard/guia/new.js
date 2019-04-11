@@ -151,7 +151,7 @@ class GuiaNew extends Component{
 					inputProps={{id:field.id}}
 					groupBy={field.groupBy}
 				/>
-				<label for={field.id} onClick="">{(this.state[input.name] ===true)?label:''}</label>
+				<label htmlFor={field.id} >{(this.state[input.name] ===true)?label:''}</label>
 			</div>
 		)
 	}
@@ -163,18 +163,18 @@ class GuiaNew extends Component{
 			
 			<div className={`input-field col ${field.classCol}`}>
 			
-				{ <Field {...input} style={{display:'block',paddingTop:'0px', paddingBottom:'0px', height:'40px'}}  component="select" className="native" native={true} multiple={(field.multiple)?'multiple':''}>
+				{ <Field {...input} style={{display:'block',paddingTop:'0px', paddingBottom:'0px', height:'40px'}}  component="select" className="native" native="true" multiple={(field.multiple)?'multiple':''}>
 					{(!field.multiple)?<option>{label}</option>:''}
 					{(field.options)?field.options.map((option, key) => {
 						if(_.isObject(option)){
 							console.log("option: ", option);
 							return(
-								<option value={Object.keys(option)[0]}>{Object.values(option)[0]}</option>
+								<option key={`key-${Object.keys(option)[0]}`} value={Object.keys(option)[0]}>{Object.values(option)[0]}</option>
 							)
 						}
 						else{
 							return(
-								<option value={option}>{option}</option>
+								<option key={`key-${option}`} value={option}>{option}</option>
 							)
 						}
 					}):''}
@@ -203,6 +203,12 @@ class GuiaNew extends Component{
 			return category;
 		})
 		return newCat
+	}
+
+	proccessJsonForMultSelect(tags){
+		return  tags.map(tag => {
+			return tag;
+		})
 	}
 	
 	showMessage(){
@@ -237,16 +243,16 @@ class GuiaNew extends Component{
 		let tags = [];
 		if(this.props.tags){
 			tags = this.props.tags.list;
-			
+			tags = this.proccessJsonForMultSelect(tags);
 		}
 		
 		let bairros = [];
 		if(this.props.tags){
 			bairros = this.props.bairros;
 		}
-
 		const { pristine, reset, submitting, handleSubmit } = this.props
-        
+		
+		
         return(
 
             <section>
@@ -326,7 +332,7 @@ class GuiaNew extends Component{
 												<div className="input-field col s12">
 													<Field name="descricao" component="textarea" />
 														
-													<label for="descricao">Descrição</label>
+													<label htmlFor="descricao">Descrição</label>
 												</div>
 											</div>
 
@@ -529,7 +535,7 @@ class GuiaNew extends Component{
 												</div>	
 											</div>
 
-											<div class="row">												
+											<div className="row">												
 													<Field
 														name="tipo"
 														component={this.renderSelect}
@@ -553,7 +559,7 @@ class GuiaNew extends Component{
 												/>
 											</div>
 
-											<div class="row">																								
+											<div className="row">																								
 												<Field
 													name="tags"
 													id="select-tags"
@@ -562,44 +568,13 @@ class GuiaNew extends Component{
 													textField='nome'
 													valueField='id'
 													data={tags}
-													classCol="s12"
+													classCol="s8"
 													/>
 													{/*@todo implementar incluir nova tag*/}
-											</div>
-											
-											
-											<div className="row">
-												<Field
-													name="tag[0]"
-													component={this.renderField}
-													type="text"
-													label="tag 1"
-													value=""
-													classCol="s4"
-													className="validate"
-													validate={[]}
-												/>
-												<Field
-													name="tag[1]"
-													component={this.renderField}
-													type="text"
-													label="Tag 2"
-													value=""
-													classCol="s4"
-													className="validate"
-													validate={[]}
-												/>
-												<Field
-													name="tag[2]"
-													component={this.renderField}
-													type="text"
-													label="Tag 3"
-													value=""
-													classCol="s4"
-													className="validate"
-													validate={[]}
-												/>								
-											</div>							
+													<div className="col s4">
+														<button  className="waves-effect waves-light  btn-large btn" >Incluir nova Tag</button>
+													</div>
+											</div>			
 
 											<div className="row">
 												<div className="db-v2-list-form-inn-tit">

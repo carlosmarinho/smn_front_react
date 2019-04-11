@@ -47,8 +47,8 @@ import ReactGA from 'react-ga';
 ReactGA.initialize('UA-17728772-17');
 ReactGA.pageview(window.location.pathname + window.location.search);
 
-const DashboardEvento = {};
-const DashboardNoticia = {};
+const DashboardEvento = () => {};
+const DashboardNoticia = () => {};
 
 let city_or_neighbor = 'city/niteroi';
 //let city_or_neighbor = 'district/engenhoca';
