@@ -1,13 +1,72 @@
 import React, { Component } from 'react';
 import PreFooter from '../modules/pre-footer';
 import Helmet from 'react-helmet';
+import {connect} from 'react-redux';
+import {Field, reduxForm} from 'redux-form';
+
+import {createContact} from '../../actions/contact';
+
+const required = value => value ? undefined : 'Campo Obrigatório'
+
+const email = value =>
+  value && !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(value) ?
+  'Campo de Email inválido' : undefined
+
+
 
 class Contact extends Component {
+
+    constructor(){
+        super();
+
+        this.handleSubmit = this.handleSubmit.bind(this);
+
+    }
+
+    handleSubmit(values){
+        console.log("aqui no contact valllllllvalues", values);
+        this.props.createContact(values);
+    }
+
+
+    showMessage(){
+        console.log("mensagem: ", this.props.message);
+        if(this.props.message){
+            if(this.props.message.error && this.props.message.error.guia){
+                return(
+                    <p className="text-danger text-center"><strong>{this.props.message.error.guia.msg}</strong></p>
+                )
+            }
+            else if(this.props.message.success && this.props.message.success.guia){
+                return(
+                    <p className="text-danger text-center"><strong>Houve um erro ao cadastrar o seu guia!</strong></p>
+                )
+            }
+        }
+    }
+
+    renderField(field){
+        const {input, label, type, meta: {touched, error, warning} } = field;
+
+        return(
+    
+			<div className={`input-field col ${field.classCol}`}>
+				<input {...input} id={`gfc_${input.name}`}  type={type} className="validate" required={(field.required)?'required':''} />
+				{touched && ((error && <span className="text-danger">{error}</span>) || (warning && <span>{warning}</span>))}
+				<label htmlFor={input.name}>{label}</label> 
+			</div>
+            
+        )
+	}
 
     render(){
         let title = "Entre em contato | Soumaisniterói";
         if(this.props.title)
             title = this.props.title + " - " + title;
+
+        const { pristine, reset, submitting, handleSubmit } = this.props
+
+
         return(
             <div>
                 <Helmet>
@@ -35,37 +94,50 @@ class Contact extends Component {
                             </div>
                             <div className="con-com">
                                 <div className="cpn-pag-form">
-                                    <form>
-                                        <h3>Entre em contato! <span>(Formulário em manutenção)</span></h3>
-                                        <p>O Formulário de contato do site está em manutenção! Esperamos resolver o mais breve possível.</p>
-                                        <p>Envie sua opinião, reclamação, sugestão e elogio através do formulário abaixo e contribua para o crescimento do nosso site e da sua cidade. Esperamos que fique a vontade para falar conosco.</p>
+                                    <form onSubmit={handleSubmit(this.handleSubmit)}>
+                                        <h3>Entre em contato!</h3>
+                                        <p>Envie sua opinião, reclamação, sugestão e elogio através do formulário abaixo e contribua para o crescimento do nosso site e da sua cidade. </p>
+                                        {this.showMessage()}
                                         <div>
-                                            <div className="input-field col s12">
-                                                <input id="gfc_name" type="text" className="validate" required />
-                                                <label htmlFor="gfc_name">Nome</label>
-                                            </div>
+                                            <Field
+                                                name="nome"
+                                                component={this.renderField}
+                                                type="text"
+                                                label="Nome"
+                                                classCol="s12"
+                                                validate={[ required ]}
+                                            />
+                                        </div>
+                                        <div>
+                                            <Field
+                                                name="celular"
+                                                component={this.renderField}
+                                                type="text"
+                                                label="Celular"
+                                                classCol="s12"
+                                            />
+                                        </div>
+                                        <div>
+                                            <Field
+                                                name="email"
+                                                component={this.renderField}
+                                                type="text"
+                                                label="Email"
+                                                classCol="s6"
+                                                className="validate"
+                                                required={true}
+                                                validate={[required, email]}
+                                            />
                                         </div>
                                         <div>
                                             <div className="input-field col s12">
-                                                <input id="gfc_mob" type="number" className="validate" />
-                                                <label htmlFor="gfc_mob">Celular</label>
+                                                <Field id="gfc_descricao" className="validate" name="descricao" component="textarea" />
+                                                <label htmlFor="gfc_descricao">Mensagem</label>
                                             </div>
                                         </div>
                                         <div>
-                                            <div className="input-field col s12">
-                                                <input id="gfc_mail" type="email" className="validate" />
-                                                <label htmlFor="gfc_mail">Email</label>
-                                            </div>
-                                        </div>
-                                        <div>
-                                            <div className="input-field col s12">
-                                                <textarea id="gfc_msg" className="validate" ></textarea>
-                                                <label htmlFor="gfc_msg">Mensagem</label>
-                                            </div>
-                                        </div>
-                                        <div>
-                                            <div className="input-field col s12">
-                                                <input type="submit" value="Enviar" className="waves-effect waves-light btn-large full-btn list-red-btn" /> </div>
+                                            <div className="input-field col s12"> 
+                                                <input type="submit" disabled={pristine || submitting} value="Enviar" className="waves-effect waves-light btn-large full-btn list-red-btn" /> </div>
                                         </div>
                                     </form>
                                 </div>
@@ -86,4 +158,17 @@ class Contact extends Component {
 
 }
 
-export default Contact;
+function mapStateToProps(state){
+    return(
+        {
+            user: state.users,
+            message: state.message
+        }
+    )
+}
+
+const Connect = connect(mapStateToProps, {createContact})(Contact);
+
+export default reduxForm({
+	form: 'contactForm'
+})(Connect)
