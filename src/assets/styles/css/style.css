@@ -3249,6 +3249,12 @@ footer ul li a:hover {
   /* text-transform: uppercase;
      */ }
 
+.hom-cre-acc-right form .no-color input[type="submit"] {
+  background: linear-gradient(to top, #F44336, #fb5a4e) !important; }
+
+.hom-cre-acc-right form .no-color input[type="submit"]:hover {
+  background: linear-gradient(to bottom, #455ca2, #263a78) !important; }
+
 .hom-cre-acc-right form input[type="submit"]:hover {
   background: #14addb; }
 

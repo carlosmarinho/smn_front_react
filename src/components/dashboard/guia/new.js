@@ -4,6 +4,9 @@ import MenuDashboardLeft from '../../menu-dashboard-left';
 import {connect} from 'react-redux';
 import {Field, reduxForm} from 'redux-form';
 import {Link, Redirect} from 'react-router-dom';
+import { FileUpload } from 'redux-file-upload'
+
+
 
 import { fetchCategories } from '../../../actions/categoria';
 import { fetchTags } from '../../../actions/tag';
@@ -99,7 +102,9 @@ class GuiaNew extends Component{
     }
 
     renderField(field){
-        const {input, label, type, meta: {touched, error, warning} } = field;
+		const {input, label, type, meta: {touched, error, warning} } = field;
+		if(type=='file')
+			delete(input.value)
 
         return(
 			
@@ -163,7 +168,7 @@ class GuiaNew extends Component{
 			
 			<div className={`input-field col ${field.classCol}`}>
 			
-				{ <Field {...input} style={{display:'block',paddingTop:'0px', paddingBottom:'0px', height:'40px'}}  component="select" className="native" native="true" multiple={(field.multiple)?'multiple':''}>
+				{ <Field {...input} style={{display:'block',paddingTop:'0px', paddingBottom:'0px', height:(field.multiple)?'90px':'40px'}}  component="select" className="native" native="true" multiple={(field.multiple)?'multiple':''}>
 					{(!field.multiple)?<option>{label}</option>:''}
 					{(field.options)?field.options.map((option, key) => {
 						if(_.isObject(option)){
@@ -450,6 +455,7 @@ class GuiaNew extends Component{
 												</div>
 											</div>
 											<div className="row">
+												
 												<Field
 													name="diasfuncionamento"
 													component={this.renderSelect}
@@ -468,19 +474,19 @@ class GuiaNew extends Component{
 													type="text"
 													label="Horário Abertura: Ex.: 10:00"
 													value=""
-													classCol="s4"
+													classCol="s8"
 													className="validate"
 													validate={[]}
 												/>
 												<Field
 													name="funcionamento_hora_final"
-													component={this.renderField}
+													component={this.renderSelect}
 													options={['7:00','8:00','9:00','10:00','11:00','12:00','13:00','14:00',
 															'15:00','16:00','17:00','18:00','19:00','20:00','21:00','22:00','23:00','00:00',]}
 													type="text"
 													label="Horário Encerramento: Ex.: 18:00"
 													value=""
-													classCol="s4"
+													classCol="s8"
 													className="validate"
 													validate={[]}
 												/>
@@ -571,8 +577,8 @@ class GuiaNew extends Component{
 													classCol="s8"
 													/>
 													{/*@todo implementar incluir nova tag*/}
-													<div className="col s4">
-														<button  className="waves-effect waves-light  btn-large btn" >Incluir nova Tag</button>
+													<div className="input-field col s4">
+														<button  className="waves-effect waves-light btn" >Incluir nova Tag</button>
 													</div>
 											</div>			
 
@@ -582,24 +588,29 @@ class GuiaNew extends Component{
 												</div>
 											</div>
 											<div className="row tz-file-upload">
-												<div className="file-field input-field">
-													<div className="tz-up-btn"> <span>File</span>
-														<input type="file" /> </div>
-													<div className="file-path-wrapper db-v2-pg-inp">
-														<input className="file-path validate" type="text" /> 
-													</div>
-												</div>
+												<Field
+													name="imagem-principal"
+													component={this.renderField}
+													type="file"
+													classCol="s12"
+													className="validate"
+													validate={[]}
+												/>			
 											</div>
+
+
 											<div className="row">
 												<div className="db-v2-list-form-inn-tit">
 													<h5>Photo Gallery <span className="v2-db-form-note">(upload multiple photos note:size 750x500):</span ></h5>
 												</div>
 											</div>
+
 											<div className="row tz-file-upload">
 												<div className="file-field input-field">
 													<div className="tz-up-btn"> <span>File</span>
 														<input type="file" multiple /> </div>
 													<div className="file-path-wrapper db-v2-pg-inp">
+													<Field name="picture" component="input" type="file" value={null} />
 														<input className="file-path validate" type="text" /> 
 													</div>
 												</div>
@@ -607,7 +618,7 @@ class GuiaNew extends Component{
 													
 											<div className="row">
 												<div className="input-field col s12 v2-mar-top-40"> 
-													<input type="submit"  disabled={pristine || submitting} value="Cadastrar Guia" className="waves-effect waves-light  btn-large full-btn" /> 
+													<input type="submit"  value="Cadastrar Guia" className="waves-effect waves-light no-color btn-large full-btn" /> 
 												</div>
 											</div>
 										</form>
