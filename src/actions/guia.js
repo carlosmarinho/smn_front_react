@@ -1,18 +1,69 @@
+import _ from 'lodash';
 import axios from 'axios';
 import { SUCCESS_CREATE_GUIA, ERROR_CREATE_GUIA, FETCH_FEATURED_GUIAS, FETCH_GUIA, FETCH_GUIAS, FETCH_GUIAS_RECENTES, FETCH_GUIAS_FEATURED, FETCH_GUIAS_USER } from "./types";
+
 
 export const createGuia = async (guia) => {
 
     let user = JSON.parse(localStorage.getItem('user'));
-
+    console.log("guia post: ", guia);
     let request;
     if(user){
         try{
             let jwt = user.jwt    
             let config = { headers: { 'Authorization': `Bearer ${jwt}` } };
+            
             request = await axios.post(`${process.env.REACT_APP_URL_API}guia/`, guia, config);
 
             if(request.statusText == 'OK'){
+                new FormData(guia)
+
+                console.log("guia", guia)
+
+
+                
+                let imagem_destacada = {
+                    
+                    "files": guia.imagem_principal[0], // Buffer or stream of file(s)
+                    "path": "guia/destacada", // Uploading folder of file(s).
+                    "refId": request.data._id, // Guia's Id.
+                    "ref": "guia", // Model name.
+                    //"source": "users-permissions", // Plugin name.
+                    "field": "imagem_destacada" // Field name in the User model.
+                }
+                
+                
+                let form = new FormData();
+
+                _.map(imagem_destacada, (value, key) => {
+                    if(key == 'imagem_destacada'){
+                        console.log("key: ", key, " --- value é FIELD: ", value);
+                    }
+                    
+                    form.append(key, value);
+                })
+                
+                console.log("imagem destacada: ", imagem_destacada, '----', form);
+
+                //let config1 = { headers: { 'Authorization': `Bearer ${jwt}`, 'Content-Type': 'multipart/form-data' } };
+                let request_img = await axios.post(`${process.env.REACT_APP_URL_API}upload/`, form, config);
+
+                
+                let form1 = new FormData();
+                form1.append('path', 'guia/galeria');
+                form1.append('refId', request.data._id);
+                form1.append('ref', 'guia');
+                form1.append('field', 'galeria_imagens');
+                guia.galeria_imagens.map( (value, key) => {
+
+                    //form1.append(`files[]`, value)
+                })
+
+                console.log("formmmm1: ", form1);
+
+                //let request_gal = await axios.post(`${process.env.REACT_APP_URL_API}upload/`, form1, config);
+
+
                 return({
                     type: SUCCESS_CREATE_GUIA,
                     payload: request

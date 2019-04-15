@@ -4,7 +4,6 @@ import MenuDashboardLeft from '../../menu-dashboard-left';
 import {connect} from 'react-redux';
 import {Field, reduxForm} from 'redux-form';
 import {Link, Redirect} from 'react-router-dom';
-import { FileUpload } from 'redux-file-upload'
 
 
 
@@ -119,12 +118,10 @@ class GuiaNew extends Component{
 
 	multiSelectFocus(e, name){
 		
-		console.log("no multiselect antes: ", this.state.labelMultiselect);
 		if(name == 'tags')
 				this.setState({tags: false});
 		if(name == 'categorias')
 			this.setState({categorias: false});
-		console.log("no multiselect depois: ", this.state.labelMultiselect);
 	}
 	
 	multiSelectBlur(e, itemName, itemValue){
@@ -172,7 +169,6 @@ class GuiaNew extends Component{
 					{(!field.multiple)?<option>{label}</option>:''}
 					{(field.options)?field.options.map((option, key) => {
 						if(_.isObject(option)){
-							console.log("option: ", option);
 							return(
 								<option key={`key-${Object.keys(option)[0]}`} value={Object.keys(option)[0]}>{Object.values(option)[0]}</option>
 							)
@@ -242,7 +238,6 @@ class GuiaNew extends Component{
 		if(this.props.categorias){
 			categorias = this.props.categorias.list;
 			categorias = this.setCategoryParentName(categorias);
-			console.log("categorias props: ", categorias[0])
 		}
 
 		let tags = [];
@@ -589,7 +584,7 @@ class GuiaNew extends Component{
 											</div>
 											<div className="row tz-file-upload">
 												<Field
-													name="imagem-principal"
+													name="imagem_principal"
 													component={this.renderField}
 													type="file"
 													classCol="s12"
@@ -606,19 +601,27 @@ class GuiaNew extends Component{
 											</div>
 
 											<div className="row tz-file-upload">
-												<div className="file-field input-field">
-													<div className="tz-up-btn"> <span>File</span>
-														<input type="file" multiple /> </div>
-													<div className="file-path-wrapper db-v2-pg-inp">
-													<Field name="picture" component="input" type="file" value={null} />
-														<input className="file-path validate" type="text" /> 
-													</div>
-												</div>
+												<Field
+													name="galeria_imagens[0]"
+													component={this.renderField}
+													type="file"
+													classCol="s12"
+													className="validate"
+													validate={[]}
+												/>
+												<Field
+													name="galeria_imagens[1]"
+													component={this.renderField}
+													type="file"
+													classCol="s12"
+													className="validate"
+													validate={[]}
+												/>
 											</div>									
 													
 											<div className="row">
 												<div className="input-field col s12 v2-mar-top-40"> 
-													<input type="submit"  value="Cadastrar Guia" className="waves-effect waves-light no-color btn-large full-btn" /> 
+													{/*Cadastrar Guia*/}<input type="submit"  value="Cadastrar" className="waves-effect waves-light no-color btn-large full-btn" /> 
 												</div>
 											</div>
 										</form>
