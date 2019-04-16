@@ -602,7 +602,7 @@ class GuiaNew extends Component{
 
 											<div className="row tz-file-upload">
 												<Field
-													name="galeria_imagens[0]"
+													name="galeria_img[0]"
 													component={this.renderField}
 													type="file"
 													classCol="s12"
@@ -610,7 +610,7 @@ class GuiaNew extends Component{
 													validate={[]}
 												/>
 												<Field
-													name="galeria_imagens[1]"
+													name="galeria_img[1]"
 													component={this.renderField}
 													type="file"
 													classCol="s12"

@@ -9,7 +9,8 @@ export const createGuia = async (guia) => {
     console.log("guia post: ", guia);
     let request;
     if(user){
-        try{
+        //try
+        {
             let jwt = user.jwt    
             let config = { headers: { 'Authorization': `Bearer ${jwt}` } };
             
@@ -22,31 +23,33 @@ export const createGuia = async (guia) => {
 
 
                 
-                let imagem_destacada = {
-                    
-                    "files": guia.imagem_principal[0], // Buffer or stream of file(s)
-                    "path": "guia/destacada", // Uploading folder of file(s).
-                    "refId": request.data._id, // Guia's Id.
-                    "ref": "guia", // Model name.
-                    //"source": "users-permissions", // Plugin name.
-                    "field": "imagem_destacada" // Field name in the User model.
-                }
-                
-                
-                let form = new FormData();
-
-                _.map(imagem_destacada, (value, key) => {
-                    if(key == 'imagem_destacada'){
-                        console.log("key: ", key, " --- value é FIELD: ", value);
+                if(guia.imagem_destacada){
+                    let imagem_destacada = {    
+                        "files": guia.imagem_principal[0], // Buffer or stream of file(s)
+                        "path": "guia/destacada", // Uploading folder of file(s).
+                        "refId": request.data._id, // Guia's Id.
+                        "ref": "guia", // Model name.
+                        //"source": "users-permissions", // Plugin name.
+                        "field": "imagem_destacada" // Field name in the User model.
                     }
                     
-                    form.append(key, value);
-                })
-                
-                console.log("imagem destacada: ", imagem_destacada, '----', form);
-
-                //let config1 = { headers: { 'Authorization': `Bearer ${jwt}`, 'Content-Type': 'multipart/form-data' } };
-                let request_img = await axios.post(`${process.env.REACT_APP_URL_API}upload/`, form, config);
+                    console.log("imagem destacada: ", guia.imagem_principal[0])
+                    
+                    let form = new FormData();
+    
+                    _.map(imagem_destacada, (value, key) => {
+                        if(key == 'imagem_destacada'){
+                            console.log("key: ", key, " --- value é FIELD: ", value);
+                        }
+                        
+                        form.append(key, value);
+                    })
+                    
+                    console.log("imagem destacada: ", imagem_destacada, '----', form);
+    
+                    //let config1 = { headers: { 'Authorization': `Bearer ${jwt}`, 'Content-Type': 'multipart/form-data' } };
+                    let request_img = await axios.post(`${process.env.REACT_APP_URL_API}upload/`, form, config);
+                }
 
                 
                 let form1 = new FormData();
@@ -54,14 +57,17 @@ export const createGuia = async (guia) => {
                 form1.append('refId', request.data._id);
                 form1.append('ref', 'guia');
                 form1.append('field', 'galeria_imagens');
-                guia.galeria_imagens.map( (value, key) => {
 
-                    //form1.append(`files[]`, value)
+                console.log("guia galeria_img: ", guia.galeria_img);    
+                let arrFile = guia.galeria_img.map( (value, key) => {
+                    console.log("value na galeria: ", value[0]);
+                    //return value[0];
+                    form1.append(`files[${key}]`, value[0])
                 })
 
-                console.log("formmmm1: ", form1);
+                //form1.append(`files[]`, arrFile);
 
-                //let request_gal = await axios.post(`${process.env.REACT_APP_URL_API}upload/`, form1, config);
+                let request_gal = await axios.post(`${process.env.REACT_APP_URL_API}upload/`, form1, config);
 
 
                 return({
@@ -77,13 +83,13 @@ export const createGuia = async (guia) => {
                 })
             }
         }
-        catch(error){
-            console.log("ERROR DO CREATE GUIA: ", request)
+        /* catch(error){
+            console.log("ERROR DO CREATE GUIA: ", error)
             return({
                 type: ERROR_CREATE_GUIA,
                 payload: {msg: "Houve um erro ao efetuar o cadastro do seu guia!" }
             })
-        }
+        } */
     
     }
     else{
