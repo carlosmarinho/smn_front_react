@@ -51,23 +51,23 @@ export const createGuia = async (guia) => {
                     let request_img = await axios.post(`${process.env.REACT_APP_URL_API}upload/`, form, config);
                 }
 
-                
-                let form1 = new FormData();
-                form1.append('path', 'guia/galeria');
-                form1.append('refId', request.data._id);
-                form1.append('ref', 'guia');
-                form1.append('field', 'galeria_imagens');
-
-                console.log("guia galeria_img: ", guia.galeria_img);    
-                let arrFile = guia.galeria_img.map( (value, key) => {
-                    console.log("value na galeria: ", value[0]);
-                    //return value[0];
-                    form1.append(`files[${key}]`, value[0])
-                })
-
-                //form1.append(`files[]`, arrFile);
-
-                let request_gal = await axios.post(`${process.env.REACT_APP_URL_API}upload/`, form1, config);
+                if(guia.galeria_img){
+                    console.log("guia galeria_img: ", guia.galeria_img);    
+                    
+                    let form1 = new FormData();
+                    form1.append('path', 'guia/galeria');
+                    form1.append('refId', request.data._id);
+                    form1.append('ref', 'guia');
+                    form1.append('field', 'galeria_imagens');
+    
+    
+                    guia.galeria_img.map( (value, key) => {
+                        //return value[0];
+                        form1.append(`files`, value[0])
+                    })
+    
+                    let request_gal = await axios.post(`${process.env.REACT_APP_URL_API}upload/`, form1, config);
+                }
 
 
                 return({

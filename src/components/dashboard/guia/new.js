@@ -4,6 +4,7 @@ import MenuDashboardLeft from '../../menu-dashboard-left';
 import {connect} from 'react-redux';
 import {Field, reduxForm} from 'redux-form';
 import {Link, Redirect} from 'react-router-dom';
+import {absence, allowBlank, file} from 'redux-form-validators';
 
 
 
@@ -213,6 +214,7 @@ class GuiaNew extends Component{
 	}
 	
 	showMessage(){
+		console.log("no show message: ", this.props.message);
         if(this.props.message){
             if(this.props.message.error && this.props.message.error.guia){
                 return(
@@ -221,7 +223,7 @@ class GuiaNew extends Component{
             }
             else if(this.props.message.success && this.props.message.success.guia){
                 return(
-                    <p className="text-danger text-center"><strong>Houve um erro ao cadastrar o seu guia!</strong></p>
+                    <p className="text-success text-center"><strong>Guia cadastrado com sucesso!</strong></p>
                 )
             }
         }
@@ -589,7 +591,7 @@ class GuiaNew extends Component{
 													type="file"
 													classCol="s12"
 													className="validate"
-													validate={[]}
+													validate={ [absence, file({accept: 'image/*', maxSize:'20 MB', allowBlank: true})]}
 												/>			
 											</div>
 
@@ -607,7 +609,7 @@ class GuiaNew extends Component{
 													type="file"
 													classCol="s12"
 													className="validate"
-													validate={[]}
+													validate={ [absence, file({accept: 'image/*', maxSize:'20 MB', allowBlank: true})]}
 												/>
 												<Field
 													name="galeria_img[1]"
@@ -615,7 +617,71 @@ class GuiaNew extends Component{
 													type="file"
 													classCol="s12"
 													className="validate"
-													validate={[]}
+													validate={ [absence, file({accept: 'image/*', maxSize:'20 MB', allowBlank: true})]}
+												/>
+												<Field
+													name="galeria_img[2]"
+													component={this.renderField}
+													type="file"
+													classCol="s12"
+													className="validate"
+													validate={ [absence, file({accept: 'image/*', maxSize:'20 MB', allowBlank: true})]}
+												/>
+												<Field
+													name="galeria_img[3]"
+													component={this.renderField}
+													type="file"
+													classCol="s12"
+													className="validate"
+													validate={ [absence, file({accept: 'image/*', maxSize:'20 MB', allowBlank: true})]}
+												/>
+												<Field
+													name="galeria_img[4]"
+													component={this.renderField}
+													type="file"
+													classCol="s12"
+													className="validate"
+													validate={ [absence, file({accept: 'image/*', maxSize:'20 MB', allowBlank: true})]}
+												/>
+												<Field
+													name="galeria_img[5]"
+													component={this.renderField}
+													type="file"
+													classCol="s12"
+													className="validate"
+													validate={ [absence, file({accept: 'image/*', maxSize:'20 MB', allowBlank: true})]}
+												/>
+												<Field
+													name="galeria_img[6]"
+													component={this.renderField}
+													type="file"
+													classCol="s12"
+													className="validate"
+													validate={ [absence, file({accept: 'image/*', maxSize:'20 MB', allowBlank: true})]}
+												/>
+												<Field
+													name="galeria_img[7]"
+													component={this.renderField}
+													type="file"
+													classCol="s12"
+													className="validate"
+													validate={ [absence, file({accept: 'image/*', maxSize:'20 MB', allowBlank: true})]}
+												/>
+												<Field
+													name="galeria_img[8]"
+													component={this.renderField}
+													type="file"
+													classCol="s12"
+													className="validate"
+													validate={ [absence, file({accept: 'image/*', maxSize:'20 MB', allowBlank: true})]}
+												/>
+												<Field
+													name="galeria_img[9]"
+													component={this.renderField}
+													type="file"
+													classCol="s12"
+													className="validate"
+													validate={ [absence, file({accept: 'image/*', maxSize:'20 MB', allowBlank: true})]}
 												/>
 											</div>									
 													
