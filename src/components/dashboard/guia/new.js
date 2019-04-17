@@ -208,9 +208,11 @@ class GuiaNew extends Component{
 	}
 
 	proccessJsonForMultSelect(tags){
-		return  tags.map(tag => {
-			return tag;
-		})
+		if(tags){
+			return  tags.map(tag => {
+				return tag;
+			})
+		}
 	}
 	
 	showMessage(){
