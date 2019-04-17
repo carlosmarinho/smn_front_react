@@ -19,11 +19,11 @@ export const createGuia = async (guia) => {
             if(request.statusText == 'OK'){
                 new FormData(guia)
 
-                console.log("guia", guia)
+                console.log("guia antes do imagem destacada", guia)
 
 
                 
-                if(guia.imagem_destacada){
+                if(guia.imagem_principal){
                     let imagem_destacada = {    
                         "files": guia.imagem_principal[0], // Buffer or stream of file(s)
                         "path": "guia/destacada", // Uploading folder of file(s).

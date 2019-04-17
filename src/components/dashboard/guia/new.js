@@ -21,6 +21,8 @@ import 'react-widgets/dist/css/react-widgets.css'
 
 import {createGuia} from '../../../actions/guia';
 
+const myFile = value => value ? file({accept: 'image/*', maxSize:'20 MB', allowBlank: true}): 'É vázio' 
+
 const required = value => value ? undefined : 'Campo Obrigatório'
 
 const maxLength = max => value =>
@@ -593,7 +595,7 @@ class GuiaNew extends Component{
 													type="file"
 													classCol="s12"
 													className="validate"
-													validate={ [absence, file({accept: 'image/*', maxSize:'20 MB', allowBlank: true})]}
+													validate={[myFile]}
 												/>			
 											</div>
 
@@ -611,7 +613,7 @@ class GuiaNew extends Component{
 													type="file"
 													classCol="s12"
 													className="validate"
-													validate={ [absence, file({accept: 'image/*', maxSize:'20 MB', allowBlank: true})]}
+													validate={ [ file({accept: 'image/*', maxSize:'20 MB', allowBlank: true})]}
 												/>
 												<Field
 													name="galeria_img[1]"
@@ -619,7 +621,7 @@ class GuiaNew extends Component{
 													type="file"
 													classCol="s12"
 													className="validate"
-													validate={ [absence, file({accept: 'image/*', maxSize:'20 MB', allowBlank: true})]}
+													validate={ [absence(), file({accept: 'image/*', maxSize:'20 MB', allowBlank: true})]}
 												/>
 												<Field
 													name="galeria_img[2]"
@@ -627,7 +629,7 @@ class GuiaNew extends Component{
 													type="file"
 													classCol="s12"
 													className="validate"
-													validate={ [absence, file({accept: 'image/*', maxSize:'20 MB', allowBlank: true})]}
+													validate={ [absence(), file({accept: 'image/*', maxSize:'20 MB', allowBlank: true})]}
 												/>
 												<Field
 													name="galeria_img[3]"
@@ -635,7 +637,7 @@ class GuiaNew extends Component{
 													type="file"
 													classCol="s12"
 													className="validate"
-													validate={ [absence, file({accept: 'image/*', maxSize:'20 MB', allowBlank: true})]}
+													validate={ [absence(), file({accept: 'image/*', maxSize:'20 MB', allowBlank: true})]}
 												/>
 												<Field
 													name="galeria_img[4]"
@@ -643,7 +645,7 @@ class GuiaNew extends Component{
 													type="file"
 													classCol="s12"
 													className="validate"
-													validate={ [absence, file({accept: 'image/*', maxSize:'20 MB', allowBlank: true})]}
+													validate={ [absence(), file({accept: 'image/*', maxSize:'20 MB', allowBlank: true})]}
 												/>
 												<Field
 													name="galeria_img[5]"
@@ -651,7 +653,7 @@ class GuiaNew extends Component{
 													type="file"
 													classCol="s12"
 													className="validate"
-													validate={ [absence, file({accept: 'image/*', maxSize:'20 MB', allowBlank: true})]}
+													validate={ [absence(), file({accept: 'image/*', maxSize:'20 MB', allowBlank: true})]}
 												/>
 												<Field
 													name="galeria_img[6]"
@@ -659,7 +661,7 @@ class GuiaNew extends Component{
 													type="file"
 													classCol="s12"
 													className="validate"
-													validate={ [absence, file({accept: 'image/*', maxSize:'20 MB', allowBlank: true})]}
+													validate={ [absence(), file({accept: 'image/*', maxSize:'20 MB', allowBlank: true})]}
 												/>
 												<Field
 													name="galeria_img[7]"
@@ -667,7 +669,7 @@ class GuiaNew extends Component{
 													type="file"
 													classCol="s12"
 													className="validate"
-													validate={ [absence, file({accept: 'image/*', maxSize:'20 MB', allowBlank: true})]}
+													validate={ [absence(), file({accept: 'image/*', maxSize:'20 MB', allowBlank: true})]}
 												/>
 												<Field
 													name="galeria_img[8]"
@@ -675,7 +677,7 @@ class GuiaNew extends Component{
 													type="file"
 													classCol="s12"
 													className="validate"
-													validate={ [absence, file({accept: 'image/*', maxSize:'20 MB', allowBlank: true})]}
+													validate={ [absence(), file({accept: 'image/*', maxSize:'20 MB', allowBlank: true})]}
 												/>
 												<Field
 													name="galeria_img[9]"
@@ -683,7 +685,7 @@ class GuiaNew extends Component{
 													type="file"
 													classCol="s12"
 													className="validate"
-													validate={ [absence, file({accept: 'image/*', maxSize:'20 MB', allowBlank: true})]}
+													validate={ [absence(), file({accept: 'image/*', maxSize:'20 MB', allowBlank: true})]}
 												/>
 											</div>									
 													
