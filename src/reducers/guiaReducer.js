@@ -18,7 +18,12 @@ export default function(state = null, action) {
                     guia.fromUser = state.fromUser
             }
             
-            guia.guia = action.payload.data[0];
+            console.log("guia no FETCH_GUIA: ", action.payload)
+            
+            if(action.payload.data[0])
+                guia.guia = action.payload.data[0];
+            else
+                guia.guia = action.payload.data;
             return guia;
 
         case FETCH_GUIAS:

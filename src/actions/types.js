@@ -17,6 +17,8 @@ export const SUCCESS_CREATE_GUIA = "SUCCESS_CREATE_GUIA";
 export const ERROR_CREATE_GUIA = "ERROR_CREATE_GUIA";
 
 export const FETCH_CITY = "FETCH_CITY";
+export const FETCH_CITIES = "FETCH_CITIES";
+
 
 export const FETCH_EVENTO = "FETCH_EVENTO";
 export const FETCH_EVENTOS = "FETCH_EVENTOS";

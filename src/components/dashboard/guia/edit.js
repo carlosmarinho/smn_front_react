@@ -4,6 +4,15 @@ import MenuDashboardLeft from '../../menu-dashboard-left';
 import {connect} from 'react-redux';
 import {Field, reduxForm} from 'redux-form';
 import {Link, Redirect} from 'react-router-dom';
+import {absence, url, email} from 'redux-form-validators';
+
+
+import { fetchGuia } from '../../../actions/guia';
+import { fetchCategories } from '../../../actions/categoria';
+import { fetchTags } from '../../../actions/tag';
+import { fetchCities } from '../../../actions/city';
+import { fetchBairros } from '../../../actions/bairro';
+
 
 import DropdownList from 'react-widgets/lib/DropdownList'
 import SelectList from 'react-widgets/lib/SelectList'
@@ -13,14 +22,35 @@ import 'react-widgets/dist/css/react-widgets.css'
 
 import {createGuia} from '../../../actions/guia';
 
+const myFile = value => {
+	if(value){
+		if(value.length == 0)
+			return undefined;
+		
+		if(!value[0].type.includes('image'))
+			return "O arquivo deve ser do tipo imagem";
+			
+		if(value[0].size < 1000){
+			return "Tamanho do arquivo não pode ser menor que 1 KB";
+		}
+
+		if(value[0].size > 15 * 1024 * 1024){
+			return "Tamanho do arquivo não pode ser maior que 10 MB";
+		}
+
+		console.log("ver o tipo: ", value[0].type.includes('image'));
+
+
+		//if(value.FileList)
+	}
+	
+	return undefined
+}
+
 const required = value => value ? undefined : 'Campo Obrigatório'
 
 const maxLength = max => value =>
   value && value.length > max ? `Must be ${max} characters or less` : undefined;
-
-const email = value =>
-  value && !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(value) ?
-  'Campo de Email inválido' : undefined
 
 
 const maxLength15 = maxLength(15)
@@ -36,24 +66,31 @@ class GuiaEdit extends Component{
 
 		this.state = {
 			userLogged: null,
-			labelMultiselct: true
+			labelMultiselect: {categorias: true, tags: true},
+			categorias: true,
+			tags: true
 		}
 		
 		this.handleSubmit = this.handleSubmit.bind(this);
 		this.renderMultiselect = this.renderMultiselect.bind(this);
     }
-
+	
     componentDidMount(){
-        let user = JSON.parse(localStorage.getItem('user'));
-        console.log("user aqui no dashboard: ", user);
-
+		let user = JSON.parse(localStorage.getItem('user'));
+		
         if(user !== null){
-            this.setState({userLogged:true})
+			console.log("user aqui no dashboard: ", this.props.match.params.id);
+			this.setState({userLogged:true})
+			this.props.fetchGuia(this.props.match.params.id)
+			this.props.fetchCategories('guia comercial', 250, 'parent_id');
+			this.props.fetchTags();
+			this.props.fetchCities();
+			this.props.fetchBairros('5ba26f813a018f42215a36a0', 200, 'nome');
             // if(user.user.role.name == 'Administrator'){
-            //     this.props.fetchGuiasByAdm(7);
+				//     this.props.fetchGuiasByAdm(7);
                 
-            // }
-            // else{
+				// }
+				// else{
             //     this.props.fetchGuiasByUser(user.user._id, 5);
             // }
         }
@@ -89,7 +126,9 @@ class GuiaEdit extends Component{
     }
 
     renderField(field){
-        const {input, label, type, meta: {touched, error, warning} } = field;
+		const {input, label, type, meta: {touched, error, warning} } = field;
+		if(type=='file')
+			delete(input.value)
 
         return(
 			
@@ -102,32 +141,44 @@ class GuiaEdit extends Component{
         )
 	}
 
-	multiSelectFocus(e){
-		this.setState({labelMultiselct:false});
+	multiSelectFocus(e, name){
+		
+		if(name == 'tags')
+				this.setState({tags: false});
+		if(name == 'categorias')
+			this.setState({categorias: false});
 	}
 	
-	multiSelectBlur(e, item){
-		if(item.length <= 0)
-			this.setState({labelMultiselct:true});
+	multiSelectBlur(e, itemName, itemValue){
+		if(itemValue.length <= 0)
+		{
+			
+			if(itemName == 'tags')
+				this.setState({tags: true});
+			if(itemName == 'categorias')
+				this.setState({categorias: true});
+		}
 	}
 
 	renderMultiselect (field){
 		const { input, data, valueField, textField, label } = field;
 
+		//console.log("state do multiselect no multselect ", input.name, ": ", this.state.labelMultiselect[input.name]);
 		return (
 			<div className={`react-widget input-field col ${field.classCol}`}>
 				<Multiselect {...input}
 					onBlur={(e) => {
-						 this.multiSelectBlur(e, input.value)}
+						 this.multiSelectBlur(e, input.name, input.value)}
 					}
-					onFocus={(e) => this.multiSelectFocus(e) }
+					onFocus={(e) => this.multiSelectFocus(e, input.name) }
 					value={input.value || []} // requires value to be an array
 					data={data}
 					valueField={valueField}
 					textField={textField}
 					inputProps={{id:field.id}}
+					groupBy={field.groupBy}
 				/>
-				<label for={field.id} onClick="">{(this.state.labelMultiselct)?label:''}</label>
+				<label htmlFor={field.id} >{(this.state[input.name] ===true)?label:''}</label>
 			</div>
 		)
 	}
@@ -139,12 +190,28 @@ class GuiaEdit extends Component{
 			
 			<div className={`input-field col ${field.classCol}`}>
 			
-				{ <Field {...input} style={{display:'block',paddingTop:'0px', paddingBottom:'0px', height:'40px'}}  component="select" className="native" native={true} multiple={(field.multiple)?'multiple':''}>
+				{ <Field {...input} style={{display:'block',paddingTop:'0px', paddingBottom:'0px', height:(field.multiple)?'90px':'40px'}}  
+					component="select" className="native" native="true" multiple={(field.multiple)?'multiple':''} disabled={field.disabled}>
+					
 					{(!field.multiple)?<option>{label}</option>:''}
-					{(field.options)?field.options.map(option => {
-						return(
-							<option value={option}>{option}</option>
-						)
+					{(field.options)?field.options.map((option, key) => {
+						if(_.isObject(option)){
+							if(option._id && option.nome){
+								return(
+									<option key={`key-${label}-${option._id}`} value={option._id}>{option.nome}</option>
+								)
+							}
+							else{
+								return(
+									<option key={`key-${label}-${Object.keys(option)[0]}`} value={Object.keys(option)[0]}>{Object.values(option)[0]}</option>
+								)
+							}
+						}
+						else{
+							return(
+								<option key={`key-${label}-${option}`} value={option}>{option}</option>
+							)
+						}
 					}):''}
 					
 				</Field>}
@@ -154,22 +221,82 @@ class GuiaEdit extends Component{
             
         )
 	}
-	
-	showErrorMessage(){
-		return(
-			<p className="text-danger text-center"><strong>Houve um erro ao cadastrar o seu guia!</strong></p>
-		)
+
+	setCategoryParentName(categories){
+		let newCat = categories.map(category => {
+			if(category.parent_id && category.parent_id !== null){
+				let pai = categories.filter(catFilter =>{
+					//console.log(catFilter._id, ' * ', catFilter.nome, " ---- ", category.parent_id,  ' * ', category.nome)	
+					return catFilter._id == category.parent_id
+				})
+				//console.log("categoria: ", category.nome , " - categoria pai: ", category.parent_id, " -- ", (pai[0])?pai[0].nome:'Categoria principal');
+				category.parent_name = (pai[0])?pai[0].nome:'Sem Categoria Principal';
+			}
+			else{
+				category.parent_name = 'Categoria Principal'
+			}
+			return category;
+		})
+		return newCat
 	}
 
+	proccessJsonForMultSelect(tags){
+		if(tags){
+			return  tags.map(tag => {
+				return tag;
+			})
+		}
+	}
+	
+	showMessage(){
+		console.log("no show message: ", this.props.message);
+        if(this.props.message){
+            if(this.props.message.error && this.props.message.error.guia){
+                return(
+                    <p className="text-danger text-center"><strong>{this.props.message.error.guia.msg}</strong></p>
+                )
+            }
+            else if(this.props.message.success && this.props.message.success.guia){
+                return(
+                    <p className="text-success text-center"><strong>Guia cadastrado com sucesso!</strong></p>
+                )
+            }
+        }
+    }
+
+
     render(){
+
         if(this.state.userLogged === false){
             return <Redirect to={'/'} />
-        }
-        
-			
-		const { pristine, reset, submitting, handleSubmit } = this.props
+		}
+		
+		let categorias = [];
+		if(this.props.categorias){
+			categorias = this.props.categorias.list;
+			categorias = this.setCategoryParentName(categorias);
+		}
 
-        
+		let tags = [];
+		if(this.props.tags){
+			tags = this.props.tags.list;
+			tags = this.proccessJsonForMultSelect(tags);
+		}
+		
+		let cidades = [];
+		if(this.props.cidades){
+			cidades = this.props.cidades;
+		}
+
+		console.log("guias: ", this.props.guias)
+
+		let bairros = [];
+		if(this.props.tags){
+			bairros = this.props.bairros;
+		}
+		const { pristine, reset, submitting, handleSubmit } = this.props
+		
+		
         return(
 
             <section>
@@ -184,10 +311,9 @@ class GuiaEdit extends Component{
 							<h4>Gerenciamento de Guias</h4>
 							<div className="db-list-com tz-db-table">
 								<div className="ds-boar-title">
-									<h2>Editar Guia</h2>
-									<p>Edição do guia comercial/serviço</p>
-									{this.showErrorMessage()}
-
+									<h2>Cadastrar Novo Guia</h2>
+									<p>Cadastro de novo guia comercial/serviço</p>
+									{this.showMessage()}
 								</div>
 								<div className="hom-cre-acc-left hom-cre-acc-right">
 									<div className="">
@@ -234,7 +360,7 @@ class GuiaEdit extends Component{
 													label="Email"
 													classCol="s6"
 													className="validate"
-													validate={[required, email]}
+													validate={[email({allowBlank:true, message: "Email inválido!"})]}
 												/>
 												<Field
 													name="website"
@@ -243,14 +369,14 @@ class GuiaEdit extends Component{
 													label="Website"
 													classCol="s6"
 													className="validate"
-													validate={[ ]}
+													validate={[url({allowBlank:true, protocolIdentifier:false})]}
 												/>
 											</div>
 											<div className="row">
 												<div className="input-field col s12">
 													<Field name="descricao" component="textarea" />
 														
-													<label for="descricao">Descrição</label>
+													<label htmlFor="descricao">Descrição</label>
 												</div>
 											</div>
 
@@ -285,26 +411,28 @@ class GuiaEdit extends Component{
 												<Field
 													name="estado"
 													component={this.renderSelect}
-													options={['Rio de Janeiro']}
+													options={[{'5bce2506e8a51373aab0b047':'Rio de Janeiro'}]}
 													type="text"
 													label="Estado"
+													disabled={true}
+													defaultValue="5bce2506e8a51373aab0b047"
 													classCol="s4"
 													className="validate"
-													validate={[  ]}
+													validate={[ ]}
 												/>
 												<Field
 													name="cidade"
 													component={this.renderSelect}
-													options={['niteroi']}
+													options={cidades}
 													label="Cidade"
 													classCol="s4"
 													className="validate"
-													validate={[  ]}
+													validate={[required]}
 												/>
 												<Field
 													name="bairro"
 													component={this.renderSelect}
-													options={['fonseca','icaraí','engenhoca']}
+													options={bairros}
 													type="text"
 													label="Bairro"
 													classCol="s4"
@@ -339,7 +467,7 @@ class GuiaEdit extends Component{
 													value="https://www.facebook.com/"
 													classCol="s4"
 													className="validate"
-													validate={[]}
+													validate={[url({allowBlank:true, protocolIdentifier:false})]}
 												/>
 												<Field
 													name="google"
@@ -349,7 +477,7 @@ class GuiaEdit extends Component{
 													value="https://www.googleplus.com/"
 													classCol="s4"
 													className="validate"
-													validate={[]}
+													validate={[url({allowBlank:true, protocolIdentifier:false})]}
 												/>
 												<Field
 													name="twitter"
@@ -359,7 +487,7 @@ class GuiaEdit extends Component{
 													value="https://www.twitter.com/"
 													classCol="s4"
 													className="validate"
-													validate={[]}
+													validate={[url({allowBlank:true, protocolIdentifier:false})]}
 												/>
 											</div>
 											<div className="row">
@@ -368,6 +496,7 @@ class GuiaEdit extends Component{
 												</div>
 											</div>
 											<div className="row">
+												
 												<Field
 													name="diasfuncionamento"
 													component={this.renderSelect}
@@ -386,19 +515,19 @@ class GuiaEdit extends Component{
 													type="text"
 													label="Horário Abertura: Ex.: 10:00"
 													value=""
-													classCol="s4"
+													classCol="s8"
 													className="validate"
 													validate={[]}
 												/>
 												<Field
 													name="funcionamento_hora_final"
-													component={this.renderField}
+													component={this.renderSelect}
 													options={['7:00','8:00','9:00','10:00','11:00','12:00','13:00','14:00',
 															'15:00','16:00','17:00','18:00','19:00','20:00','21:00','22:00','23:00','00:00',]}
 													type="text"
 													label="Horário Encerramento: Ex.: 18:00"
 													value=""
-													classCol="s4"
+													classCol="s8"
 													className="validate"
 													validate={[]}
 												/>
@@ -453,64 +582,46 @@ class GuiaEdit extends Component{
 												</div>	
 											</div>
 
-											<div class="row">
-					
-												
+											<div className="row">												
 													<Field
 														name="tipo"
 														component={this.renderSelect}
-														options={['Guia Comercial', 'Guia de Serviços']}
+														options={[{'guia comercial':'Guia Comercial'}, {'guia de serviços':'Guia de Serviços'}]}
 														label="Selecione o tipo"
 														classCol="s3"
 														className="validate"
-														validate={[]}
+														validate={[required]}
 													/>
 												
 												<Field
 													name="categorias"
 													id="select-categorias"
-													label="Escolha as categorias."
+													label="Escolha as categorias. (Digite para filtrar)"
 													component={this.renderMultiselect}
-													data={[ 'Guitar', 'Cycling', 'Hiking', 
-													'Guiffftar', 'Cyclinfwea333g', 'Hikingwwfqqf',
-													'Gui34234tar', 'Cycli434ng', 'Hiking123' ]}
+													textField='nome'
+													valueField='id'
+													data={categorias}
 													classCol="s9"
+													groupBy='parent_name'
 												/>
 											</div>
-											
-											
-											<div className="row">
+
+											<div className="row">																								
 												<Field
-													name="tag[]"
-													component={this.renderField}
-													type="text"
-													label="tag 1"
-													value=""
-													classCol="s4"
-													className="validate"
-													validate={[]}
-												/>
-												<Field
-													name="tag[]"
-													component={this.renderField}
-													type="text"
-													label="Tag 2"
-													value=""
-													classCol="s4"
-													className="validate"
-													validate={[]}
-												/>
-												<Field
-													name="tag[]"
-													component={this.renderField}
-													type="text"
-													label="Tag 3"
-													value=""
-													classCol="s4"
-													className="validate"
-													validate={[]}
-												/>								
-											</div>							
+													name="tags"
+													id="select-tags"
+													label="Escolha as tags. (Digite para filtrar)"
+													component={this.renderMultiselect}
+													textField='nome'
+													valueField='id'
+													data={tags}
+													classCol="s8"
+													/>
+													{/*@todo implementar incluir nova tag*/}
+													<div className="input-field col s4">
+														<button  className="waves-effect waves-light btn" >Incluir nova Tag</button>
+													</div>
+											</div>			
 
 											<div className="row">
 												<div className="db-v2-list-form-inn-tit">
@@ -518,32 +629,109 @@ class GuiaEdit extends Component{
 												</div>
 											</div>
 											<div className="row tz-file-upload">
-												<div className="file-field input-field">
-													<div className="tz-up-btn"> <span>File</span>
-														<input type="file" /> </div>
-													<div className="file-path-wrapper db-v2-pg-inp">
-														<input className="file-path validate" type="text" /> 
-													</div>
-												</div>
+												<Field
+													name="imagem_principal"
+													component={this.renderField}
+													type="file"
+													classCol="s12"
+													className="validate"
+													validate={[myFile]}
+												/>			
 											</div>
+
+
 											<div className="row">
 												<div className="db-v2-list-form-inn-tit">
 													<h5>Photo Gallery <span className="v2-db-form-note">(upload multiple photos note:size 750x500):</span ></h5>
 												</div>
 											</div>
+
 											<div className="row tz-file-upload">
-												<div className="file-field input-field">
-													<div className="tz-up-btn"> <span>File</span>
-														<input type="file" multiple /> </div>
-													<div className="file-path-wrapper db-v2-pg-inp">
-														<input className="file-path validate" type="text" /> 
-													</div>
-												</div>
+												<Field
+													name="galeria_img[0]"
+													component={this.renderField}
+													type="file"
+													classCol="s12"
+													className="validate"
+													validate={ [myFile]}
+												/>
+												<Field
+													name="galeria_img[1]"
+													component={this.renderField}
+													type="file"
+													classCol="s12"
+													className="validate"
+													validate={ [myFile]}
+												/>
+												<Field
+													name="galeria_img[2]"
+													component={this.renderField}
+													type="file"
+													classCol="s12"
+													className="validate"
+													validate={ [myFile]}
+												/>
+												<Field
+													name="galeria_img[3]"
+													component={this.renderField}
+													type="file"
+													classCol="s12"
+													className="validate"
+													validate={ [myFile]}
+												/>
+												<Field
+													name="galeria_img[4]"
+													component={this.renderField}
+													type="file"
+													classCol="s12"
+													className="validate"
+													validate={ [myFile]}
+												/>
+												<Field
+													name="galeria_img[5]"
+													component={this.renderField}
+													type="file"
+													classCol="s12"
+													className="validate"
+													validate={ [myFile]}
+												/>
+												<Field
+													name="galeria_img[6]"
+													component={this.renderField}
+													type="file"
+													classCol="s12"
+													className="validate"
+													validate={ [myFile]}
+												/>
+												<Field
+													name="galeria_img[7]"
+													component={this.renderField}
+													type="file"
+													classCol="s12"
+													className="validate"
+													validate={ [myFile]}
+												/>
+												<Field
+													name="galeria_img[8]"
+													component={this.renderField}
+													type="file"
+													classCol="s12"
+													className="validate"
+													validate={ [myFile]}
+												/>
+												<Field
+													name="galeria_img[9]"
+													component={this.renderField}
+													type="file"
+													classCol="s12"
+													className="validate"
+													validate={ [myFile]}
+												/>
 											</div>									
 													
 											<div className="row">
 												<div className="input-field col s12 v2-mar-top-40"> 
-													<input type="submit"  disabled={pristine || submitting} value="Atualizar Guia" className="waves-effect waves-light  btn-large full-btn" /> 
+													{/*Cadastrar Guia*/}<input type="submit"  value="Cadastrar" className="waves-effect waves-light no-color btn-large full-btn" /> 
 												</div>
 											</div>
 										</form>
@@ -561,18 +749,31 @@ class GuiaEdit extends Component{
 }
 
 
-function mapStateToProps(state){
+function mapStateToProps(state, ownProps){
+	let guiaInit = {}
+	if(state.guias){
+		guiaInit = state.guias.guia;
+		console.log("ownProps: ", state.guias.guia);
+	}
     return(
         {
             user: state.users,
-            guias: state.guias,
+			guias: state.guias,
+			categorias: state.categorias,
+			tags: state.tags,
+			bairros: state.bairros,
+			cidades: state.city,
+			message: state.message,
+			initialValues: guiaInit
         }
     )
-    
 }
 
-const Connect = connect(mapStateToProps, {createGuia})(GuiaEdit);
 
-export default reduxForm({
-	form: 'editGuia'
-})(Connect)
+const myForm = reduxForm({
+	form: 'editGuia',
+	enableReinitialize: true
+	
+})(GuiaEdit)
+
+export default connect(mapStateToProps, {createGuia, fetchGuia, fetchCategories, fetchTags, fetchCities, fetchBairros})(myForm);

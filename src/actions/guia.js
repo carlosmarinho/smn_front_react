@@ -24,6 +24,7 @@ export const createGuia = async (guia) => {
 
                 
                 if(guia.imagem_principal){
+                    console.log("imagem destacada: ", guia.imagem_principal[0])
                     let imagem_destacada = {    
                         "files": guia.imagem_principal[0], // Buffer or stream of file(s)
                         "path": "guia/destacada", // Uploading folder of file(s).
@@ -33,7 +34,7 @@ export const createGuia = async (guia) => {
                         "field": "imagem_destacada" // Field name in the User model.
                     }
                     
-                    console.log("imagem destacada: ", guia.imagem_principal[0])
+    
                     
                     let form = new FormData();
     
@@ -147,9 +148,8 @@ export const createGuiabkp = async (guia) => {
 }
 
 export const fetchGuia = (id) => {
-
+    console.log("vai chamar o fetch guia: ", `${process.env.REACT_APP_URL_API}guia/${id}`)
     const request = axios.get(`${process.env.REACT_APP_URL_API}guia/${id}`);
-
     return {
         type: FETCH_GUIA,
         payload: request

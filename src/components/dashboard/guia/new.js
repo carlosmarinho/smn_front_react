@@ -4,12 +4,13 @@ import MenuDashboardLeft from '../../menu-dashboard-left';
 import {connect} from 'react-redux';
 import {Field, reduxForm} from 'redux-form';
 import {Link, Redirect} from 'react-router-dom';
-import {absence, allowBlank, file} from 'redux-form-validators';
+import {absence, url, email} from 'redux-form-validators';
 
 
 
 import { fetchCategories } from '../../../actions/categoria';
 import { fetchTags } from '../../../actions/tag';
+import { fetchCities } from '../../../actions/city';
 import { fetchBairros } from '../../../actions/bairro';
 
 
@@ -21,16 +22,35 @@ import 'react-widgets/dist/css/react-widgets.css'
 
 import {createGuia} from '../../../actions/guia';
 
-const myFile = value => value ? file({accept: 'image/*', maxSize:'20 MB', allowBlank: true}): 'É vázio' 
+const myFile = value => {
+	if(value){
+		if(value.length == 0)
+			return undefined;
+		
+		if(!value[0].type.includes('image'))
+			return "O arquivo deve ser do tipo imagem";
+			
+		if(value[0].size < 1000){
+			return "Tamanho do arquivo não pode ser menor que 1 KB";
+		}
+
+		if(value[0].size > 15 * 1024 * 1024){
+			return "Tamanho do arquivo não pode ser maior que 10 MB";
+		}
+
+		console.log("ver o tipo: ", value[0].type.includes('image'));
+
+
+		//if(value.FileList)
+	}
+	
+	return undefined
+}
 
 const required = value => value ? undefined : 'Campo Obrigatório'
 
 const maxLength = max => value =>
   value && value.length > max ? `Must be ${max} characters or less` : undefined;
-
-const email = value =>
-  value && !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(value) ?
-  'Campo de Email inválido' : undefined
 
 
 const maxLength15 = maxLength(15)
@@ -63,6 +83,7 @@ class GuiaNew extends Component{
 			this.setState({userLogged:true})
 			this.props.fetchCategories('guia comercial', 250, 'parent_id');
 			this.props.fetchTags();
+			this.props.fetchCities();
 			this.props.fetchBairros('5ba26f813a018f42215a36a0', 200, 'nome');
             // if(user.user.role.name == 'Administrator'){
 				//     this.props.fetchGuiasByAdm(7);
@@ -168,17 +189,26 @@ class GuiaNew extends Component{
 			
 			<div className={`input-field col ${field.classCol}`}>
 			
-				{ <Field {...input} style={{display:'block',paddingTop:'0px', paddingBottom:'0px', height:(field.multiple)?'90px':'40px'}}  component="select" className="native" native="true" multiple={(field.multiple)?'multiple':''}>
+				{ <Field {...input} style={{display:'block',paddingTop:'0px', paddingBottom:'0px', height:(field.multiple)?'90px':'40px'}}  
+					component="select" className="native" native="true" multiple={(field.multiple)?'multiple':''} disabled={field.disabled}>
+					
 					{(!field.multiple)?<option>{label}</option>:''}
 					{(field.options)?field.options.map((option, key) => {
 						if(_.isObject(option)){
-							return(
-								<option key={`key-${Object.keys(option)[0]}`} value={Object.keys(option)[0]}>{Object.values(option)[0]}</option>
-							)
+							if(option._id && option.nome){
+								return(
+									<option key={`key-${label}-${option._id}`} value={option._id}>{option.nome}</option>
+								)
+							}
+							else{
+								return(
+									<option key={`key-${label}-${Object.keys(option)[0]}`} value={Object.keys(option)[0]}>{Object.values(option)[0]}</option>
+								)
+							}
 						}
 						else{
 							return(
-								<option key={`key-${option}`} value={option}>{option}</option>
+								<option key={`key-${label}-${option}`} value={option}>{option}</option>
 							)
 						}
 					}):''}
@@ -252,6 +282,13 @@ class GuiaNew extends Component{
 			tags = this.proccessJsonForMultSelect(tags);
 		}
 		
+		let cidades = [];
+		if(this.props.cidades){
+			cidades = this.props.cidades;
+		}
+
+		console.log("cidades: ", cidades)
+
 		let bairros = [];
 		if(this.props.tags){
 			bairros = this.props.bairros;
@@ -322,7 +359,7 @@ class GuiaNew extends Component{
 													label="Email"
 													classCol="s6"
 													className="validate"
-													validate={[required, email]}
+													validate={[email({allowBlank:true, message: "Email inválido!"})]}
 												/>
 												<Field
 													name="website"
@@ -331,7 +368,7 @@ class GuiaNew extends Component{
 													label="Website"
 													classCol="s6"
 													className="validate"
-													validate={[ ]}
+													validate={[url({allowBlank:true, protocolIdentifier:false})]}
 												/>
 											</div>
 											<div className="row">
@@ -373,26 +410,28 @@ class GuiaNew extends Component{
 												<Field
 													name="estado"
 													component={this.renderSelect}
-													options={['Rio de Janeiro']}
+													options={[{'5bce2506e8a51373aab0b047':'Rio de Janeiro'}]}
 													type="text"
 													label="Estado"
+													disabled={true}
+													defaultValue="5bce2506e8a51373aab0b047"
 													classCol="s4"
 													className="validate"
-													validate={[  ]}
+													validate={[ ]}
 												/>
 												<Field
 													name="cidade"
 													component={this.renderSelect}
-													options={[{'5ba26f813a018f42215a36a0':'niteroi'}]}
+													options={cidades}
 													label="Cidade"
 													classCol="s4"
 													className="validate"
-													validate={[  ]}
+													validate={[required]}
 												/>
 												<Field
 													name="bairro"
 													component={this.renderSelect}
-													options={['fonseca','icaraí','engenhoca']}
+													options={bairros}
 													type="text"
 													label="Bairro"
 													classCol="s4"
@@ -427,7 +466,7 @@ class GuiaNew extends Component{
 													value="https://www.facebook.com/"
 													classCol="s4"
 													className="validate"
-													validate={[]}
+													validate={[url({allowBlank:true, protocolIdentifier:false})]}
 												/>
 												<Field
 													name="google"
@@ -437,7 +476,7 @@ class GuiaNew extends Component{
 													value="https://www.googleplus.com/"
 													classCol="s4"
 													className="validate"
-													validate={[]}
+													validate={[url({allowBlank:true, protocolIdentifier:false})]}
 												/>
 												<Field
 													name="twitter"
@@ -447,7 +486,7 @@ class GuiaNew extends Component{
 													value="https://www.twitter.com/"
 													classCol="s4"
 													className="validate"
-													validate={[]}
+													validate={[url({allowBlank:true, protocolIdentifier:false})]}
 												/>
 											</div>
 											<div className="row">
@@ -550,7 +589,7 @@ class GuiaNew extends Component{
 														label="Selecione o tipo"
 														classCol="s3"
 														className="validate"
-														validate={[]}
+														validate={[required]}
 													/>
 												
 												<Field
@@ -613,7 +652,7 @@ class GuiaNew extends Component{
 													type="file"
 													classCol="s12"
 													className="validate"
-													validate={ [ file({accept: 'image/*', maxSize:'20 MB', allowBlank: true})]}
+													validate={ [myFile]}
 												/>
 												<Field
 													name="galeria_img[1]"
@@ -621,7 +660,7 @@ class GuiaNew extends Component{
 													type="file"
 													classCol="s12"
 													className="validate"
-													validate={ [absence(), file({accept: 'image/*', maxSize:'20 MB', allowBlank: true})]}
+													validate={ [myFile]}
 												/>
 												<Field
 													name="galeria_img[2]"
@@ -629,7 +668,7 @@ class GuiaNew extends Component{
 													type="file"
 													classCol="s12"
 													className="validate"
-													validate={ [absence(), file({accept: 'image/*', maxSize:'20 MB', allowBlank: true})]}
+													validate={ [myFile]}
 												/>
 												<Field
 													name="galeria_img[3]"
@@ -637,7 +676,7 @@ class GuiaNew extends Component{
 													type="file"
 													classCol="s12"
 													className="validate"
-													validate={ [absence(), file({accept: 'image/*', maxSize:'20 MB', allowBlank: true})]}
+													validate={ [myFile]}
 												/>
 												<Field
 													name="galeria_img[4]"
@@ -645,7 +684,7 @@ class GuiaNew extends Component{
 													type="file"
 													classCol="s12"
 													className="validate"
-													validate={ [absence(), file({accept: 'image/*', maxSize:'20 MB', allowBlank: true})]}
+													validate={ [myFile]}
 												/>
 												<Field
 													name="galeria_img[5]"
@@ -653,7 +692,7 @@ class GuiaNew extends Component{
 													type="file"
 													classCol="s12"
 													className="validate"
-													validate={ [absence(), file({accept: 'image/*', maxSize:'20 MB', allowBlank: true})]}
+													validate={ [myFile]}
 												/>
 												<Field
 													name="galeria_img[6]"
@@ -661,7 +700,7 @@ class GuiaNew extends Component{
 													type="file"
 													classCol="s12"
 													className="validate"
-													validate={ [absence(), file({accept: 'image/*', maxSize:'20 MB', allowBlank: true})]}
+													validate={ [myFile]}
 												/>
 												<Field
 													name="galeria_img[7]"
@@ -669,7 +708,7 @@ class GuiaNew extends Component{
 													type="file"
 													classCol="s12"
 													className="validate"
-													validate={ [absence(), file({accept: 'image/*', maxSize:'20 MB', allowBlank: true})]}
+													validate={ [myFile]}
 												/>
 												<Field
 													name="galeria_img[8]"
@@ -677,7 +716,7 @@ class GuiaNew extends Component{
 													type="file"
 													classCol="s12"
 													className="validate"
-													validate={ [absence(), file({accept: 'image/*', maxSize:'20 MB', allowBlank: true})]}
+													validate={ [myFile]}
 												/>
 												<Field
 													name="galeria_img[9]"
@@ -685,7 +724,7 @@ class GuiaNew extends Component{
 													type="file"
 													classCol="s12"
 													className="validate"
-													validate={ [absence(), file({accept: 'image/*', maxSize:'20 MB', allowBlank: true})]}
+													validate={ [myFile]}
 												/>
 											</div>									
 													
@@ -717,14 +756,19 @@ function mapStateToProps(state){
 			categorias: state.categorias,
 			tags: state.tags,
 			bairros: state.bairros,
+			cidades: state.city,
 			message: state.message
         }
     )
     
 }
 
-const Connect = connect(mapStateToProps, {createGuia, fetchCategories, fetchTags, fetchBairros})(GuiaNew);
+const Connect = connect(mapStateToProps, {createGuia, fetchCategories, fetchTags, fetchCities, fetchBairros})(GuiaNew);
 
 export default reduxForm({
-	form: 'editGuia'
+	form: 'editGuia',
+	initialValues: {
+		'estado': '5bce2506e8a51373aab0b047',
+		'cidade': '5ba26f813a018f42215a36a0'
+	}
 })(Connect)

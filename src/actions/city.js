@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { FETCH_CITY } from "./types";
+import { FETCH_CITY, FETCH_CITIES } from "./types";
 
 
 
@@ -9,6 +9,30 @@ export const fetchCity = (id) => {
 
     return {
         type: FETCH_CITY,
+        payload: request
+    }
+}
+
+export const fetchCities = async(state='', limit='', sort=null) => {
+
+    if(!sort)
+        sort = '-_id';
+    if(limit)
+        limit = `&_limit=${limit}`;
+    else
+        limit = `&_limit=200`;
+
+    if(state)
+        state = `&estado=${state}`
+
+    let jwt = localStorage.getItem('jwt');
+
+    /*@todo colocar o populateAssotion p funcionar no city*/
+    //const request = axios.get(`${process.env.REACT_APP_URL_API}cidade/?populateAssociation=false&_sort=${sort}${limit}${state}`);
+    const request = axios.get(`${process.env.REACT_APP_URL_API}cidade/?_sort=${sort}${limit}${state}`);
+
+    return {
+        type: FETCH_CITIES,
         payload: request
     }
 }

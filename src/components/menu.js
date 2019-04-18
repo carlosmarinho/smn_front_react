@@ -75,6 +75,11 @@ class Menu extends Component {
             this.setState({userLogged: this.props.user}) 
         }
 
+        let logoSrc = 'http://images.soumaisniteroi.com.br/wp-content/uploads/2015/08/logo-soumaisniteroi-transp-.png'
+        if(process.env.REACT_APP_DEV)
+            logoSrc='';
+
+
         return(
             <div className="v3-top-menu">
                 <div className="container">
@@ -82,7 +87,7 @@ class Menu extends Component {
                         <div className="v3-menu">
                             <div className="v3-m-1">
                                 {/*<Link  data-activates='drop-menu-home' to="/"><img src="/images/logo-soumaisniteroi.png" alt="" /></Link>*/}
-                                <a href="/"><img src="http://images.soumaisniteroi.com.br/wp-content/uploads/2015/08/logo-soumaisniteroi-transp-.png" alt="" /></a>
+                                <a href="/"><img src={logoSrc} alt="" /></a>
                             </div>
                             <div className="v3-m-2">
                                 <ul>
