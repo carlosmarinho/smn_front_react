@@ -7372,6 +7372,16 @@ footer ul li a:hover {
   margin-bottom: 30px; }
 
 /*INCLUDED BY CARLOS*/
+/*added to guia edit by carlos */
+.file-input {
+  margin-left: 10px;
+  padding-top: 60px; }
+
+.file-input img {
+  width: 50px;
+  margin-right: 10px; }
+
+/*end added*/
 .rw-list-optgroup {
   font-weight: bold; }
 

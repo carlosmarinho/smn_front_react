@@ -142,9 +142,7 @@ export const createGuiabkp = async (guia) => {
                 payload: {msg: "Usuário não logado"}
             }
         )
-    }
-
-    
+    }    
 }
 
 export const fetchGuia = (id) => {

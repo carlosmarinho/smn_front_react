@@ -27,18 +27,23 @@ const myFile = value => {
 		if(value.length == 0)
 			return undefined;
 		
-		if(!value[0].type.includes('image'))
-			return "O arquivo deve ser do tipo imagem";
-			
-		if(value[0].size < 1000){
-			return "Tamanho do arquivo não pode ser menor que 1 KB";
-		}
+		if(value[0].type){
 
-		if(value[0].size > 15 * 1024 * 1024){
-			return "Tamanho do arquivo não pode ser maior que 10 MB";
-		}
-
-		console.log("ver o tipo: ", value[0].type.includes('image'));
+			console.log("meu value aqui: ", value)
+	
+			if(!value[0].type.includes('image'))
+			 	return "O arquivo deve ser do tipo imagem";
+				
+			if(value[0].size < 1000){
+			 	return "Tamanho do arquivo não pode ser menor que 1 KB";
+			}
+	
+			if(value[0].size > 15 * 1024 * 1024){
+			 	return "Tamanho do arquivo não pode ser maior que 10 MB";
+			}
+	
+			console.log("ver o tipo: ", value[0].type.includes('image'));
+		}	
 
 
 		//if(value.FileList)
@@ -264,6 +269,25 @@ class GuiaEdit extends Component{
         }
     }
 
+	showImagemDestacada(){
+		if(this.props.guias && this.props.guias.guia.imagem_destacada){
+			return(
+				<div className="file-input">
+					<img src={this.props.guias.guia.imagem_destacada.url} /><a href="#">Remover</a>
+				</div>
+			)
+		}
+	}			
+
+	showImagemGaleria(i){
+		if(this.props.guias && this.props.guias.guia.galeria_imagens[i]){
+			return(
+				<div className="file-input">
+					<img src={this.props.guias.guia.galeria_imagens[i].url} /><a href="#">Remover</a>
+				</div>
+			)
+		}
+	}
 
     render(){
 
@@ -636,7 +660,9 @@ class GuiaEdit extends Component{
 													classCol="s12"
 													className="validate"
 													validate={[myFile]}
-												/>			
+												/>
+												{this.showImagemDestacada()}
+												
 											</div>
 
 
@@ -655,6 +681,7 @@ class GuiaEdit extends Component{
 													className="validate"
 													validate={ [myFile]}
 												/>
+												{this.showImagemGaleria(0)}
 												<Field
 													name="galeria_img[1]"
 													component={this.renderField}
@@ -663,6 +690,7 @@ class GuiaEdit extends Component{
 													className="validate"
 													validate={ [myFile]}
 												/>
+												{this.showImagemGaleria(1)}
 												<Field
 													name="galeria_img[2]"
 													component={this.renderField}
@@ -671,6 +699,7 @@ class GuiaEdit extends Component{
 													className="validate"
 													validate={ [myFile]}
 												/>
+												{this.showImagemGaleria(2)}
 												<Field
 													name="galeria_img[3]"
 													component={this.renderField}
@@ -679,6 +708,7 @@ class GuiaEdit extends Component{
 													className="validate"
 													validate={ [myFile]}
 												/>
+												{this.showImagemGaleria(3)}
 												<Field
 													name="galeria_img[4]"
 													component={this.renderField}
@@ -687,6 +717,7 @@ class GuiaEdit extends Component{
 													className="validate"
 													validate={ [myFile]}
 												/>
+												{this.showImagemGaleria(4)}
 												<Field
 													name="galeria_img[5]"
 													component={this.renderField}
@@ -695,6 +726,7 @@ class GuiaEdit extends Component{
 													className="validate"
 													validate={ [myFile]}
 												/>
+												{this.showImagemGaleria(5)}
 												<Field
 													name="galeria_img[6]"
 													component={this.renderField}
@@ -703,6 +735,7 @@ class GuiaEdit extends Component{
 													className="validate"
 													validate={ [myFile]}
 												/>
+												{this.showImagemGaleria(6)}
 												<Field
 													name="galeria_img[7]"
 													component={this.renderField}
@@ -711,6 +744,7 @@ class GuiaEdit extends Component{
 													className="validate"
 													validate={ [myFile]}
 												/>
+												{this.showImagemGaleria(7)}
 												<Field
 													name="galeria_img[8]"
 													component={this.renderField}
@@ -719,6 +753,7 @@ class GuiaEdit extends Component{
 													className="validate"
 													validate={ [myFile]}
 												/>
+												{this.showImagemGaleria(8)}
 												<Field
 													name="galeria_img[9]"
 													component={this.renderField}
@@ -727,6 +762,7 @@ class GuiaEdit extends Component{
 													className="validate"
 													validate={ [myFile]}
 												/>
+												{this.showImagemGaleria(9)}
 											</div>									
 													
 											<div className="row">
