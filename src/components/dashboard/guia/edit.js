@@ -270,7 +270,7 @@ class GuiaEdit extends Component{
     }
 
 	showImagemDestacada(){
-		if(this.props.guias && this.props.guias.guia.imagem_destacada){
+		if(this.props.guias && this.props.guias.guia && this.props.guias.guia.imagem_destacada){
 			return(
 				<div className="file-input">
 					<img src={this.props.guias.guia.imagem_destacada.url} /><a href="#">Remover</a>
@@ -280,7 +280,7 @@ class GuiaEdit extends Component{
 	}			
 
 	showImagemGaleria(i){
-		if(this.props.guias && this.props.guias.guia.galeria_imagens[i]){
+		if(this.props.guias && this.props.guias.guia && this.props.guias.guia.galeria_imagens[i]){
 			return(
 				<div className="file-input">
 					<img src={this.props.guias.guia.galeria_imagens[i].url} /><a href="#">Remover</a>
