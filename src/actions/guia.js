@@ -11,10 +11,15 @@ export const createGuia = async (guia) => {
     if(user){
         //try
         {
+            //correção para salvar uma relação no strapi
+            let guiatosave = guia;
+            guiatosave.cidade = [guia.cidade];
+            guiatosave.galeria_img = '';
+            guiatosave.imagem_principal = '';
             let jwt = user.jwt    
             let config = { headers: { 'Authorization': `Bearer ${jwt}` } };
-            
-            request = await axios.post(`${process.env.REACT_APP_URL_API}guia/`, guia, config);
+          console.log("errrors:: ", guia)  
+            request = await axios.post(`${process.env.REACT_APP_URL_API}guia/`, guiatosave, config);
 
             if(request.statusText == 'OK'){
                 new FormData(guia)
@@ -77,7 +82,7 @@ export const createGuia = async (guia) => {
                 })
             }
             else{
-                console.log("cadastrando o user ver o erro: ", request);
+                console.log("cadastrando o guia ver o erro: ", request);
                 return({
                     type: ERROR_CREATE_GUIA,
                     payload: {msg: "Houve um erro ao cadastrar o seu guia!" }
