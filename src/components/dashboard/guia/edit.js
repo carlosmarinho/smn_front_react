@@ -105,7 +105,7 @@ class GuiaEdit extends Component{
 	}
 	
 	handleSubmit(values){
-        console.log("aqui no valllllllvalues", values);
+        console.log("aqui no valllllllvalues vai enviar ", values);
         this.props.editGuia(values);
     }
 

@@ -12,22 +12,20 @@ export const createGuia = async (guia) => {
         //try
         {
             //correção para salvar uma relação no strapi
-            let guiatosave = guia;
+            let guiatosave = _.clone(guia);
             guiatosave.cidade = [guia.cidade];
             guiatosave.galeria_img = '';
             guiatosave.imagem_principal = '';
             let jwt = user.jwt    
             let config = { headers: { 'Authorization': `Bearer ${jwt}` } };
-          console.log("errrors:: ", guia)  
-            request = await axios.post(`${process.env.REACT_APP_URL_API}guia/`, guiatosave, config);
+            
+            request = await axios.post(`${process.env.REACT_APP_URL_API}guia/${guia.id}`, guiatosave, config);
 
             if(request.statusText == 'OK'){
                 new FormData(guia)
 
                 console.log("guia antes do imagem destacada", guia)
-
-
-                
+    
                 if(guia.imagem_principal){
                     console.log("imagem destacada: ", guia.imagem_principal[0])
                     let imagem_destacada = {    
@@ -37,9 +35,7 @@ export const createGuia = async (guia) => {
                         "ref": "guia", // Model name.
                         //"source": "users-permissions", // Plugin name.
                         "field": "imagem_destacada" // Field name in the User model.
-                    }
-                    
-    
+                    }    
                     
                     let form = new FormData();
     
@@ -114,13 +110,13 @@ export const createGuia = async (guia) => {
 export const editGuia = async (guia) => {
 
     let user = JSON.parse(localStorage.getItem('user'));
-    console.log("guia post: ", guia);
+    console.log("guia post editar: ", guia);
     let request;
     if(user){
         //try
         {
             //correção para salvar uma relação no strapi
-            let guiatosave = guia;
+            let guiatosave = _.clone(guia);
             guiatosave.cidade = [guia.cidade];
             guiatosave.galeria_img = '';
             guiatosave.imagem_principal = '';
@@ -131,9 +127,6 @@ export const editGuia = async (guia) => {
 
             if(request.statusText == 'OK'){
                 new FormData(guia)
-
-                console.log("guia antes do imagem destacada", guia)
-
 
                 
                 if(guia.imagem_principal){
