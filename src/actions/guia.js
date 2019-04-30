@@ -1,6 +1,6 @@
 import _ from 'lodash';
 import axios from 'axios';
-import { SUCCESS_CREATE_GUIA, ERROR_CREATE_GUIA, FETCH_FEATURED_GUIAS, FETCH_GUIA, FETCH_GUIAS, FETCH_GUIAS_RECENTES, FETCH_GUIAS_FEATURED, FETCH_GUIAS_USER } from "./types";
+import { SUCCESS_CREATE_GUIA, ERROR_CREATE_GUIA, SUCCESS_EDIT_GUIA, ERROR_EDIT_GUIA, FETCH_FEATURED_GUIAS, FETCH_GUIA, FETCH_GUIAS, FETCH_GUIAS_RECENTES, FETCH_GUIAS_FEATURED, FETCH_GUIAS_USER } from "./types";
 
 
 export const createGuia = async (guia) => {
@@ -109,6 +109,116 @@ export const createGuia = async (guia) => {
 
     
 }
+
+
+export const editGuia = async (guia) => {
+
+    let user = JSON.parse(localStorage.getItem('user'));
+    console.log("guia post: ", guia);
+    let request;
+    if(user){
+        //try
+        {
+            //correção para salvar uma relação no strapi
+            let guiatosave = guia;
+            guiatosave.cidade = [guia.cidade];
+            guiatosave.galeria_img = '';
+            guiatosave.imagem_principal = '';
+            let jwt = user.jwt    
+            let config = { headers: { 'Authorization': `Bearer ${jwt}` } };
+          
+            request = await axios.put(`${process.env.REACT_APP_URL_API}guia/`, guiatosave, config);
+
+            if(request.statusText == 'OK'){
+                new FormData(guia)
+
+                console.log("guia antes do imagem destacada", guia)
+
+
+                
+                if(guia.imagem_principal){
+                    console.log("imagem destacada: ", guia.imagem_principal[0])
+                    let imagem_destacada = {    
+                        "files": guia.imagem_principal[0], // Buffer or stream of file(s)
+                        "path": "guia/destacada", // Uploading folder of file(s).
+                        "refId": request.data._id, // Guia's Id.
+                        "ref": "guia", // Model name.
+                        //"source": "users-permissions", // Plugin name.
+                        "field": "imagem_destacada" // Field name in the User model.
+                    }
+                    
+    
+                    
+                    let form = new FormData();
+    
+                    _.map(imagem_destacada, (value, key) => {
+                        if(key == 'imagem_destacada'){
+                            console.log("key: ", key, " --- value é FIELD: ", value);
+                        }
+                        
+                        form.append(key, value);
+                    })
+                    
+                    console.log("imagem destacada: ", imagem_destacada, '----', form);
+    
+                    //let config1 = { headers: { 'Authorization': `Bearer ${jwt}`, 'Content-Type': 'multipart/form-data' } };
+                    let request_img = await axios.post(`${process.env.REACT_APP_URL_API}upload/`, form, config);
+                }
+
+                if(guia.galeria_img){
+                    console.log("guia galeria_img: ", guia.galeria_img);    
+                    
+                    let form1 = new FormData();
+                    form1.append('path', 'guia/galeria');
+                    form1.append('refId', request.data._id);
+                    form1.append('ref', 'guia');
+                    form1.append('field', 'galeria_imagens');
+    
+    
+                    guia.galeria_img.map( (value, key) => {
+                        //return value[0];
+                        form1.append(`files`, value[0])
+                    })
+    
+                    let request_gal = await axios.post(`${process.env.REACT_APP_URL_API}upload/`, form1, config);
+                }
+
+
+                return({
+                    type: SUCCESS_EDIT_GUIA,
+                    payload: request
+                })
+            }
+            else{
+                console.log("cadastrando o guia ver o erro: ", request);
+                return({
+                    type: ERROR_EDIT_GUIA,
+                    payload: {msg: "Houve um erro ao cadastrar o seu guia!" }
+                })
+            }
+        }
+        /* catch(error){
+            console.log("ERROR DO CREATE GUIA: ", error)
+            return({
+                type: ERROR_CREATE_GUIA,
+                payload: {msg: "Houve um erro ao efetuar o cadastro do seu guia!" }
+            })
+        } */
+    
+    }
+    else{
+        return(
+            {
+                type: ERROR_EDIT_GUIA,
+                payload: {msg: "Usuário não logado"}
+            }
+        )
+    }
+
+    
+}
+
+
 
 export const createGuiabkp = async (guia) => {
 

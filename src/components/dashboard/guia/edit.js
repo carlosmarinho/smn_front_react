@@ -20,7 +20,7 @@ import Multiselect from 'react-widgets/lib/Multiselect'
 
 import 'react-widgets/dist/css/react-widgets.css'
 
-import {createGuia} from '../../../actions/guia';
+import {editGuia} from '../../../actions/guia';
 
 const myFile = value => {
 	if(value){
@@ -106,7 +106,7 @@ class GuiaEdit extends Component{
 	
 	handleSubmit(values){
         console.log("aqui no valllllllvalues", values);
-        this.props.createGuia(values);
+        this.props.editGuia(values);
     }
 
     datePtBr(date){
@@ -263,7 +263,7 @@ class GuiaEdit extends Component{
             }
             else if(this.props.message.success && this.props.message.success.guia){
                 return(
-                    <p className="text-success text-center"><strong>Guia cadastrado com sucesso!</strong></p>
+                    <p className="text-success text-center"><strong>Guia editado com sucesso!</strong></p>
                 )
             }
         }
@@ -335,7 +335,7 @@ class GuiaEdit extends Component{
 							<h4>Gerenciamento de Guias</h4>
 							<div className="db-list-com tz-db-table">
 								<div className="ds-boar-title">
-									<h2>Cadastrar Novo Guia</h2>
+									<h2>Editar Novo Guia</h2>
 									<p>Cadastro de novo guia comercial/serviço</p>
 									{this.showMessage()}
 								</div>
@@ -767,7 +767,7 @@ class GuiaEdit extends Component{
 													
 											<div className="row">
 												<div className="input-field col s12 v2-mar-top-40"> 
-													{/*Cadastrar Guia*/}<input type="submit"  value="Cadastrar" className="waves-effect waves-light no-color btn-large full-btn" /> 
+													{/*Cadastrar Guia*/}<input type="submit"  value="Editar" className="waves-effect waves-light no-color btn-large full-btn" /> 
 												</div>
 											</div>
 										</form>
@@ -812,4 +812,4 @@ const myForm = reduxForm({
 	
 })(GuiaEdit)
 
-export default connect(mapStateToProps, {createGuia, fetchGuia, fetchCategories, fetchTags, fetchCities, fetchBairros})(myForm);
+export default connect(mapStateToProps, {editGuia, fetchGuia, fetchCategories, fetchTags, fetchCities, fetchBairros})(myForm);

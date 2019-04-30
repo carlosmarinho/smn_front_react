@@ -458,7 +458,7 @@ class GuiaNew extends Component{
 												</div>
 											</div>
 											<div className="row">
-												<Field
+												{/*<Field
 													name="facebook"
 													component={this.renderField}
 													type="text"
@@ -487,6 +487,36 @@ class GuiaNew extends Component{
 													classCol="s4"
 													className="validate"
 													validate={[url({allowBlank:true, protocolIdentifier:false})]}
+												/>*/}
+												<Field
+													name="facebook"
+													component={this.renderField}
+													type="text"
+													label="Facebook"
+													value="https://www.facebook.com/"
+													classCol="s4"
+													className="validate"
+													validate={[]}
+												/>
+												<Field
+													name="google"
+													component={this.renderField}
+													type="text"
+													label="Google"
+													value="https://www.googleplus.com/"
+													classCol="s4"
+													className="validate"
+													validate={[]}
+												/>
+												<Field
+													name="twitter"
+													component={this.renderField}
+													type="text"
+													label="Twitter"
+													value="https://www.twitter.com/"
+													classCol="s4"
+													className="validate"
+													validate={[]}
 												/>
 											</div>
 											<div className="row">
