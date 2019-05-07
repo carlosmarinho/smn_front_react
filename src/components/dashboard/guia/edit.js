@@ -86,7 +86,7 @@ class GuiaEdit extends Component{
         if(user !== null){
 			console.log("user aqui no dashboard: ", this.props.match.params.id);
 			this.setState({userLogged:true})
-			this.props.fetchGuia(this.props.match.params.id)
+			//this.props.fetchGuia(this.props.match.params.id)
 			this.props.fetchCategories('guia comercial', 250, 'parent_id');
 			this.props.fetchTags();
 			this.props.fetchCities();
@@ -102,6 +102,10 @@ class GuiaEdit extends Component{
         else{
             this.setState({userLogged:false})
         }
+	}
+
+	componentWillMount(){
+		this.props.fetchGuia(this.props.match.params.id)
 	}
 	
 	handleSubmit(values){
