@@ -9,7 +9,7 @@ export const createGuia = async (guia) => {
     console.log("guia post: ", guia);
     let request;
     if(user){
-        //try
+        try
         {
             //correção para salvar uma relação no strapi
             let guiatosave = _.clone(guia);
@@ -85,13 +85,13 @@ export const createGuia = async (guia) => {
                 })
             }
         }
-        /* catch(error){
+        catch(error){
             console.log("ERROR DO CREATE GUIA: ", error)
             return({
                 type: ERROR_CREATE_GUIA,
                 payload: {msg: "Houve um erro ao efetuar o cadastro do seu guia!" }
             })
-        } */
+        } 
     
     }
     else{
@@ -107,13 +107,13 @@ export const createGuia = async (guia) => {
 }
 
 
-export const editGuia = async (guia) => {
+export const editGuia = async (guia, id) => {
 
     let user = JSON.parse(localStorage.getItem('user'));
     console.log("guia post editar: ", guia);
     let request;
     if(user){
-        //try
+        try
         {
             //correção para salvar uma relação no strapi
             let guiatosave = _.clone(guia);
@@ -123,12 +123,11 @@ export const editGuia = async (guia) => {
             let jwt = user.jwt    
             let config = { headers: { 'Authorization': `Bearer ${jwt}` } };
           
-            request = await axios.put(`${process.env.REACT_APP_URL_API}guia/`, guiatosave, config);
+            request = await axios.put(`${process.env.REACT_APP_URL_API}guia/${id}`, guiatosave, config);
 
             if(request.statusText == 'OK'){
                 new FormData(guia)
-
-                
+    
                 if(guia.imagem_principal){
                     console.log("imagem destacada: ", guia.imagem_principal[0])
                     let imagem_destacada = {    
@@ -166,8 +165,7 @@ export const editGuia = async (guia) => {
                     form1.append('refId', request.data._id);
                     form1.append('ref', 'guia');
                     form1.append('field', 'galeria_imagens');
-    
-    
+        
                     guia.galeria_img.map( (value, key) => {
                         //return value[0];
                         form1.append(`files`, value[0])
@@ -183,20 +181,20 @@ export const editGuia = async (guia) => {
                 })
             }
             else{
-                console.log("cadastrando o guia ver o erro: ", request);
+                console.log("Editando o guia ver o erro: ", request);
                 return({
                     type: ERROR_EDIT_GUIA,
                     payload: {msg: "Houve um erro ao cadastrar o seu guia!" }
                 })
             }
         }
-        /* catch(error){
-            console.log("ERROR DO CREATE GUIA: ", error)
+        catch(error){
+            console.log("ERROR DO EDIT GUIA: ", error)
             return({
                 type: ERROR_CREATE_GUIA,
                 payload: {msg: "Houve um erro ao efetuar o cadastro do seu guia!" }
             })
-        } */
+        } 
     
     }
     else{

@@ -18,9 +18,10 @@ import DropdownList from 'react-widgets/lib/DropdownList'
 import SelectList from 'react-widgets/lib/SelectList'
 import Multiselect from 'react-widgets/lib/Multiselect'
 
-import 'react-widgets/dist/css/react-widgets.css'
-
 import {editGuia} from '../../../actions/guia';
+
+import 'react-widgets/dist/css/react-widgets.css'
+import '../../../assets/styles/css/custom-materialize-edit.css';
 
 const myFile = value => {
 	if(value){
@@ -73,10 +74,12 @@ class GuiaEdit extends Component{
 			userLogged: null,
 			labelMultiselect: {categorias: true, tags: true},
 			categorias: true,
-			tags: true
+			tags: true,
+			guia: null
 		}
 		
 		this.handleSubmit = this.handleSubmit.bind(this);
+		this.renderField = this.renderField.bind(this);
 		this.renderMultiselect = this.renderMultiselect.bind(this);
     }
 	
@@ -86,31 +89,31 @@ class GuiaEdit extends Component{
         if(user !== null){
 			console.log("user aqui no dashboard: ", this.props.match.params.id);
 			this.setState({userLogged:true})
-			//this.props.fetchGuia(this.props.match.params.id)
 			this.props.fetchCategories('guia comercial', 250, 'parent_id');
 			this.props.fetchTags();
 			this.props.fetchCities();
 			this.props.fetchBairros('5ba26f813a018f42215a36a0', 200, 'nome');
+			this.props.fetchGuia(this.props.match.params.id)
             // if(user.user.role.name == 'Administrator'){
 				//     this.props.fetchGuiasByAdm(7);
                 
 				// }
 				// else{
-            //     this.props.fetchGuiasByUser(user.user._id, 5);
-            // }
-        }
-        else{
-            this.setState({userLogged:false})
-        }
-	}
-
+					//     this.props.fetchGuiasByUser(user.user._id, 5);
+					// }
+				}
+				else{
+					this.setState({userLogged:false})
+				}
+			}
+			
 	componentWillMount(){
 		this.props.fetchGuia(this.props.match.params.id)
 	}
 	
 	handleSubmit(values){
         console.log("aqui no valllllllvalues vai enviar ", values);
-        this.props.editGuia(values);
+        this.props.editGuia(values, this.props.match.params.id);
     }
 
     datePtBr(date){
@@ -139,12 +142,14 @@ class GuiaEdit extends Component{
 		if(type=='file')
 			delete(input.value)
 
+		let className = `col ${field.classCol}`
+
         return(
 			
-			<div className={`input-field col ${field.classCol}`}>
+			<div className={`input-field-edit input-field ${className}`}>
 				<input {...input}  type={type} className="validate" />
 				{touched && ((error && <span className="text-danger">{error}</span>) || (warning && <span>{warning}</span>))}
-				<label>{label}</label> 
+				<label >{label}</label> 
 			</div>
             
         )
@@ -298,6 +303,8 @@ class GuiaEdit extends Component{
         if(this.state.userLogged === false){
             return <Redirect to={'/'} />
 		}
+
+		
 		
 		let categorias = [];
 		if(this.props.categorias){
@@ -346,8 +353,7 @@ class GuiaEdit extends Component{
 								<div className="hom-cre-acc-left hom-cre-acc-right">
 									<div className="">
 										<form className="" onSubmit={handleSubmit(this.handleSubmit)}>
-													
-								
+											
 											
 											<div className="row">
 												<Field
@@ -401,7 +407,7 @@ class GuiaEdit extends Component{
 												/>
 											</div>
 											<div className="row">
-												<div className="input-field col s12">
+												<div className="input-field input-field-edit col s12">
 													<Field name="descricao" component="textarea" />
 														
 													<label htmlFor="descricao">Descrição</label>
@@ -771,7 +777,7 @@ class GuiaEdit extends Component{
 													
 											<div className="row">
 												<div className="input-field col s12 v2-mar-top-40"> 
-													{/*Cadastrar Guia*/}<input type="submit"  value="Editar" className="waves-effect waves-light no-color btn-large full-btn" /> 
+													<input type="submit"  value="Editar" className="waves-effect waves-light no-color btn-large full-btn" /> 
 												</div>
 											</div>
 										</form>
