@@ -469,7 +469,7 @@ class GuiaNew extends Component{
 													validate={[url({allowBlank:true, protocolIdentifier:false})]}
 												/>
 												<Field
-													name="google"
+													name="googleplus"
 													component={this.renderField}
 													type="text"
 													label="Google"

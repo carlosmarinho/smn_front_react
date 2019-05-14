@@ -147,9 +147,9 @@ class GuiaEdit extends Component{
         return(
 			
 			<div className={`input-field-edit input-field ${className}`}>
-				<input {...input}  type={type} className="validate" />
+				<input {...input}  type={type} className="validate" placeholder={label}  />
 				{touched && ((error && <span className="text-danger">{error}</span>) || (warning && <span>{warning}</span>))}
-				<label >{label}</label> 
+				
 			</div>
             
         )
@@ -182,7 +182,7 @@ class GuiaEdit extends Component{
 			<div className={`react-widget input-field col ${field.classCol}`}>
 				<Multiselect {...input}
 					onBlur={(e) => {
-						 this.multiSelectBlur(e, input.name, input.value)}
+						this.multiSelectBlur(e, input.name, input.value)}
 					}
 					onFocus={(e) => this.multiSelectFocus(e, input.name) }
 					value={input.value || []} // requires value to be an array
@@ -191,15 +191,19 @@ class GuiaEdit extends Component{
 					textField={textField}
 					inputProps={{id:field.id}}
 					groupBy={field.groupBy}
+					placeholder={(this.state[input.name] ===true)?label:''}
 				/>
-				<label htmlFor={field.id} >{(this.state[input.name] ===true)?label:''}</label>
+				
 			</div>
+
 		)
 	}
 
 
 	renderSelect(field){
 		const {input, label, type, meta: {touched, error, warning} } = field;
+
+		
 		return(
 			
 			<div className={`input-field col ${field.classCol}`}>
@@ -464,7 +468,7 @@ class GuiaEdit extends Component{
 													validate={[required]}
 												/>
 												<Field
-													name="bairro"
+													name="bairros"
 													component={this.renderSelect}
 													options={bairros}
 													type="text"
@@ -504,7 +508,7 @@ class GuiaEdit extends Component{
 													validate={[url({allowBlank:true, protocolIdentifier:false})]}
 												/>
 												<Field
-													name="google"
+													name="googleplus"
 													component={this.renderField}
 													type="text"
 													label="Google"
@@ -797,9 +801,20 @@ class GuiaEdit extends Component{
 
 function mapStateToProps(state, ownProps){
 	let guiaInit = {}
-	if(state.guias){
+	if(state.guias && state.guias.guia){
 		guiaInit = state.guias.guia;
-		console.log("ownProps: ", state.guias.guia);
+		
+		
+		guiaInit.estado = '5bce2506e8a51373aab0b047';
+		
+		if(guiaInit.cidade && _.isArray(guiaInit.cidade)){
+			guiaInit.cidade = guiaInit.cidade[0]._id;
+		}
+
+		if(guiaInit.bairros && _.isArray(guiaInit.bairros)){
+			guiaInit.bairros = guiaInit.bairros[0]._id;
+		}
+	
 	}
     return(
         {
