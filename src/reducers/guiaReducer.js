@@ -1,9 +1,16 @@
-import { FETCH_GUIA, FETCH_GUIAS, FETCH_GUIAS_RECENTES, FETCH_GUIAS_FEATURED, FETCH_GUIAS_USER} from "../actions/types";
+import { FETCH_GUIA, REMOVE_IMAGE_GUIA, FETCH_GUIAS, FETCH_GUIAS_RECENTES, FETCH_GUIAS_FEATURED, FETCH_GUIAS_USER} from "../actions/types";
 
 export default function(state = null, action) {
     
     let guia =  {guia: null, recentes: null, list: null, featured: null, categoria: null, fromUser: null};
     switch (action.type) {
+        case REMOVE_IMAGE_GUIA:
+            if(action.payload !== false){
+                guia.guia = state.guia;
+                guia.guia.imagem_destacada = [];
+            }
+
+            return guia;
         case FETCH_GUIA:
             if(state){
                 if(state.recentes)

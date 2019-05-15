@@ -7,7 +7,7 @@ import {Link, Redirect} from 'react-router-dom';
 import {absence, url, email} from 'redux-form-validators';
 
 
-import { fetchGuia } from '../../../actions/guia';
+import { fetchGuia, removeImageAssociation } from '../../../actions/guia';
 import { fetchCategories } from '../../../actions/categoria';
 import { fetchTags } from '../../../actions/tag';
 import { fetchCities } from '../../../actions/city';
@@ -282,11 +282,17 @@ class GuiaEdit extends Component{
         }
     }
 
+	removeImage(e, id){
+		e.preventDefault();
+		this.props.removeImageAssociation(id);
+		console.log("removendo id: ", id);
+	}
+
 	showImagemDestacada(){
 		if(this.props.guias && this.props.guias.guia && this.props.guias.guia.imagem_destacada){
 			return(
 				<div className="file-input">
-					<img src={this.props.guias.guia.imagem_destacada.url} /><a href="#">Remover</a>
+					<img src={this.props.guias.guia.imagem_destacada.url} /><a href="#" onClick={e => this.removeImage(e, this.props.guias.guia.imagem_destacada._id)}>Remover</a>
 				</div>
 			)
 		}
@@ -296,7 +302,7 @@ class GuiaEdit extends Component{
 		if(this.props.guias && this.props.guias.guia && this.props.guias.guia.galeria_imagens[i]){
 			return(
 				<div className="file-input">
-					<img src={this.props.guias.guia.galeria_imagens[i].url} /><a href="#">Remover</a>
+					<img src={this.props.guias.guia.galeria_imagens[i].url} /><a href="#" onClick={e => this.removeImage(e, this.props.guias.guia.galeria_imagens[i]._id)}>Remover</a>
 				</div>
 			)
 		}
@@ -837,4 +843,4 @@ const myForm = reduxForm({
 	
 })(GuiaEdit)
 
-export default connect(mapStateToProps, {editGuia, fetchGuia, fetchCategories, fetchTags, fetchCities, fetchBairros})(myForm);
+export default connect(mapStateToProps, {editGuia, fetchGuia, removeImageAssociation, fetchCategories, fetchTags, fetchCities, fetchBairros})(myForm);

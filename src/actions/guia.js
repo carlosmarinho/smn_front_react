@@ -1,6 +1,12 @@
 import _ from 'lodash';
 import axios from 'axios';
-import { SUCCESS_CREATE_GUIA, ERROR_CREATE_GUIA, SUCCESS_EDIT_GUIA, ERROR_EDIT_GUIA, FETCH_FEATURED_GUIAS, FETCH_GUIA, FETCH_GUIAS, FETCH_GUIAS_RECENTES, FETCH_GUIAS_FEATURED, FETCH_GUIAS_USER } from "./types";
+import { 
+    SUCCESS_CREATE_GUIA, REMOVE_IMAGE_GUIA, 
+    ERROR_CREATE_GUIA, SUCCESS_EDIT_GUIA, 
+    ERROR_EDIT_GUIA, FETCH_FEATURED_GUIAS, 
+    FETCH_GUIA, FETCH_GUIAS, FETCH_GUIAS_RECENTES, 
+    FETCH_GUIAS_FEATURED, FETCH_GUIAS_USER 
+} from "./types";
 
 
 export const createGuia = async (guia) => {
@@ -126,7 +132,7 @@ export const editGuia = async (guia, id) => {
             request = await axios.put(`${process.env.REACT_APP_URL_API}guia/${id}`, guiatosave, config);
 
             if(request.statusText == 'OK'){
-                new FormData(guia)
+                //new FormData(guia)
     
                 if(guia.imagem_principal){
                     console.log("imagem destacada: ", guia.imagem_principal[0])
@@ -137,8 +143,7 @@ export const editGuia = async (guia, id) => {
                         "ref": "guia", // Model name.
                         //"source": "users-permissions", // Plugin name.
                         "field": "imagem_destacada" // Field name in the User model.
-                    }
-                    
+                    }  
     
                     
                     let form = new FormData();
@@ -184,15 +189,15 @@ export const editGuia = async (guia, id) => {
                 console.log("Editando o guia ver o erro: ", request);
                 return({
                     type: ERROR_EDIT_GUIA,
-                    payload: {msg: "Houve um erro ao cadastrar o seu guia!" }
+                    payload: {msg: "Houve um erro ao editar o seu guia!" }
                 })
             }
         }
         catch(error){
             console.log("ERROR DO EDIT GUIA: ", error)
             return({
-                type: ERROR_CREATE_GUIA,
-                payload: {msg: "Houve um erro ao efetuar o cadastro do seu guia!" }
+                type: ERROR_EDIT_GUIA,
+                payload: {msg: "Houve um erro ao editar o seu guia!" }
             })
         } 
     
@@ -258,6 +263,25 @@ export const fetchGuia = (id) => {
         type: FETCH_GUIA,
         payload: request
     }
+}
+
+export const removeImageAssociation = async (id, id_guia) => {
+    let related = {related: []}
+    const request = await axios.put(`${process.env.REACT_APP_URL_API}uploadfile/${id}`, related);
+    console.log("request: ", request)
+    if(request.statusText == 'OK'){
+        console.log("conseguiu atualizar a imagem.....");
+        return {
+            type: REMOVE_IMAGE_GUIA,
+            payload: []
+        }
+    }
+
+    return {
+        type: REMOVE_IMAGE_GUIA,
+        payload: false
+    }
+    
 }
 
 export const fetchGuiaBySlug = async (slug) => {
