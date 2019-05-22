@@ -23,6 +23,7 @@
     "react-router-dom": "^4.3.1",
     "react-scripts": "1.1.5",
     "react-streetview": "^1.1.1",
+    "react-tabs": "^3.0.0",
     "react-widgets": "^4.4.10",
     "react-window-size": "^1.2.2",
     "redux": "^4.0.0",
