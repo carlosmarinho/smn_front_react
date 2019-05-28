@@ -279,7 +279,7 @@ class GuiaEdit extends Component{
             }
             else if(this.props.message.success && this.props.message.success.guia){
                 return(
-                    <p className="text-success text-center"><strong>Guia editado com sucesso!</strong></p>
+                    <p className="text-success text-center"><strong>{this.props.message.success.guia.msg}</strong></p>
                 )
             }
         }
@@ -492,11 +492,20 @@ class GuiaEdit extends Component{
 						</div>
 						<div className="row">
 							<Field
+									name="tipo"
+									component={this.renderSelect}
+									options={[{'guia comercial':'Guia Comercial'}, {'guia de serviços':'Guia de Serviços'}]}
+									label="Selecione o tipo"
+									classCol="s4"
+									className="validate"
+									validate={[required]}
+							/>
+							<Field
 								name="telefone"
 								component={this.renderField}
 								type="text"
 								label="Telefone"
-								classCol="s6"
+								classCol="s4"
 								className="validate"
 								validate={[]}
 							/>
@@ -505,7 +514,7 @@ class GuiaEdit extends Component{
 								component={this.renderField}
 								type="text"
 								label="Celular"
-								classCol="s6"
+								classCol="s4"
 								className="validate"
 								validate={[]}
 							/>
@@ -787,15 +796,7 @@ class GuiaEdit extends Component{
 						</div>
 
 						<div className="row">												
-								<Field
-									name="tipo"
-									component={this.renderSelect}
-									options={[{'guia comercial':'Guia Comercial'}, {'guia de serviços':'Guia de Serviços'}]}
-									label="Selecione o tipo"
-									classCol="s3"
-									className="validate"
-									validate={[required]}
-								/>
+								
 							
 							<Field
 								name="categorias"

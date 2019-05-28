@@ -6,12 +6,15 @@ import {Field, reduxForm} from 'redux-form';
 import {Link, Redirect} from 'react-router-dom';
 import {absence, url, email} from 'redux-form-validators';
 
+import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
+import "react-tabs/style/react-tabs.css";
 
 
 import { fetchCategories } from '../../../actions/categoria';
 import { fetchTags } from '../../../actions/tag';
 import { fetchCities } from '../../../actions/city';
 import { fetchBairros } from '../../../actions/bairro';
+import { SUCCESS_CREATE_GUIA } from '../../../actions/types';
 
 
 import DropdownList from 'react-widgets/lib/DropdownList'
@@ -91,7 +94,11 @@ class GuiaNew extends Component{
 				// }
 				// else{
             //     this.props.fetchGuiasByUser(user.user._id, 5);
-            // }
+			// }
+			if(this.props.message){
+				this.props.message.success = null;
+				this.props.message.error = null;
+			}
         }
         else{
             this.setState({userLogged:false})
@@ -99,8 +106,9 @@ class GuiaNew extends Component{
 	}
 	
 	handleSubmit(values){
-        console.log("aqui no valllllllvalues", values);
-        this.props.createGuia(values);
+        
+		this.props.createGuia(values);
+			
     }
 
     datePtBr(date){
@@ -263,11 +271,224 @@ class GuiaNew extends Component{
         }
     }
 
+	generalContent(){
+		const { pristine, reset, submitting, handleSubmit } = this.props
+
+		let categorias = [];
+		if(this.props.categorias){
+			categorias = this.props.categorias.list;
+			categorias = this.setCategoryParentName(categorias);
+		}
+
+		let tags = [];
+		if(this.props.tags){
+			tags = this.props.tags.list;
+			tags = this.proccessJsonForMultSelect(tags);
+		}
+		
+		let cidades = [];
+		if(this.props.cidades){
+			cidades = this.props.cidades;
+		}
+
+		let bairros = [];
+		if(this.props.tags){
+			bairros = this.props.bairros;
+		}
+
+		return(
+			<div className="hom-cre-acc-left hom-cre-acc-right">
+				<div className="">
+					<form className="" onSubmit={handleSubmit(this.handleSubmit)}>
+					<div className="row">
+							<div className="db-v2-list-form-inn-tit-top">
+								<h5>Imagem Principal <span className="v2-db-form-note">(tamanho da imagem 1350x500):</span ></h5>
+							</div>
+						</div>
+						<div className="row tz-file-upload">
+							<Field
+								name="imagem_principal"
+								component={this.renderField}
+								type="file"
+								classCol="s12"
+								className="validate"
+								validate={[myFile]}
+							/>
+							
+						</div>
+						<div className="row">
+							<div className="db-v2-list-form-inn-tit">
+								<h5>Dados Geral</h5>
+							</div>
+						</div>
+						<div className="row">
+							<Field
+								name="titulo"
+								component={this.renderField}
+								type="text"
+								label="Título"
+								classCol="s12"
+								className="validate"
+								validate={[ required ]}
+							/>
+						</div>
+						<div className="row">
+							<Field
+									name="tipo"
+									component={this.renderSelect}
+									options={[{'guia comercial':'Guia Comercial'}, {'guia de serviços':'Guia de Serviços'}]}
+									label="Selecione o tipo"
+									classCol="s4"
+									className="validate"
+									validate={[required]}
+							/>
+							<Field
+								name="telefone"
+								component={this.renderField}
+								type="text"
+								label="Telefone"
+								classCol="s4"
+								className="validate"
+								validate={[]}
+							/>
+							<Field
+								name="celular"
+								component={this.renderField}
+								type="text"
+								label="Celular"
+								classCol="s4"
+								className="validate"
+								validate={[]}
+							/>
+						</div>
+						<div className="row">
+							<Field
+								name="email"
+								component={this.renderField}
+								type="text"
+								label="Email"
+								classCol="s6"
+								className="validate"
+								validate={[email({allowBlank:true, message: "Email inválido!"})]}
+							/>
+							<Field
+								name="website"
+								component={this.renderField}
+								type="text"
+								label="Website"
+								classCol="s6"
+								className="validate"
+								validate={[url({allowBlank:true, protocolIdentifier:false})]}
+							/>
+						</div>
+						<div className="row">
+							<div className="input-field input-field-edit col s12">
+								<Field name="descricao" component="textarea" />
+									
+								<label htmlFor="descricao">Descrição</label>
+							</div>
+						</div>
+
+						<div className="row">
+							<div className="db-v2-list-form-inn-tit">
+								<h5>Endereço:</h5>
+							</div>
+						</div>
+						<div className="row">
+							<Field
+								name="cep"
+								component={this.renderField}
+								type="text"
+								label="Cep"
+								classCol="s6"
+								className="validate"
+								validate={[]}
+							/>
+							
+							<Field
+								name="complemento"
+								component={this.renderField}
+								type="text"
+								label="Complemento"
+								classCol="s6"
+								className="validate"
+								validate={[]}
+							/>
+						</div>
+						
+						<div className="row">
+							<Field
+								name="estado"
+								component={this.renderSelect}
+								options={[{'5bce2506e8a51373aab0b047':'Rio de Janeiro'}]}
+								type="text"
+								label="Estado"
+								disabled={true}
+								defaultValue="5bce2506e8a51373aab0b047"
+								classCol="s4"
+								className="validate"
+								validate={[ ]}
+							/>
+							<Field
+								name="cidade"
+								component={this.renderSelect}
+								options={cidades}
+								label="Cidade"
+								classCol="s4"
+								className="validate"
+								validate={[required]}
+							/>
+							<Field
+								name="bairros"
+								component={this.renderSelect}
+								options={bairros}
+								type="text"
+								label="Bairro"
+								classCol="s4"
+								className="validate"
+								validate={[  ]}
+							/>
+						</div>
+						<div className="row">
+						
+
+							<Field
+								name="endereco"
+								component={this.renderField}
+								type="text"
+								label="Endereço"
+								classCol="s12"
+								className="validate"
+								validate={[ required ]}
+							/>
+						</div>
+						
+						
+
+								
+						<div className="row">
+							<div className="input-field col s12 v2-mar-top-40"> 
+								<input type="submit"  value="Cadastrar" className="waves-effect waves-light no-color btn-large full-btn" /> 
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+		);
+	}
+
+
 
     render(){
 
         if(this.state.userLogged === false){
             return <Redirect to={'/'} />
+		}
+
+		if(this.props.message && this.props.message.success.guia  ){
+			console.log("guias antes de direcionar: ", this.props.guias);
+			console.log("message antes de direcionar: ", this.props.message);
+			return <Redirect to={`/dashboard/guias/edit/${this.props.message.success.guia.data._id}`} />
 		}
 		
 		let categorias = [];
@@ -314,428 +535,9 @@ class GuiaNew extends Component{
 									<p>Cadastro de novo guia comercial/serviço</p>
 									{this.showMessage()}
 								</div>
-								<div className="hom-cre-acc-left hom-cre-acc-right">
-									<div className="">
-										<form className="" onSubmit={handleSubmit(this.handleSubmit)}>
-													
 								
-											
-											<div className="row">
-												<Field
-													name="titulo"
-													component={this.renderField}
-													type="text"
-													label="Título"
-													classCol="s12"
-													className="validate"
-													validate={[ required ]}
-												/>
-											</div>
-											<div className="row">
-												<Field
-													name="telefone"
-													component={this.renderField}
-													type="text"
-													label="Telefone"
-													classCol="s6"
-													className="validate"
-													validate={[]}
-												/>
-												<Field
-													name="celular"
-													component={this.renderField}
-													type="text"
-													label="Celular"
-													classCol="s6"
-													className="validate"
-													validate={[]}
-												/>
-											</div>
-											<div className="row">
-												<Field
-													name="email"
-													component={this.renderField}
-													type="text"
-													label="Email"
-													classCol="s6"
-													className="validate"
-													validate={[email({allowBlank:true, message: "Email inválido!"})]}
-												/>
-												<Field
-													name="website"
-													component={this.renderField}
-													type="text"
-													label="Website"
-													classCol="s6"
-													className="validate"
-													validate={[url({allowBlank:true, protocolIdentifier:false})]}
-												/>
-											</div>
-											<div className="row">
-												<div className="input-field col s12">
-													<Field name="descricao" component="textarea" />
-														
-													<label htmlFor="descricao">Descrição</label>
-												</div>
-											</div>
-
-											<div className="row">
-												<div className="db-v2-list-form-inn-tit">
-													<h5>Endereço:</h5>
-												</div>
-											</div>
-											<div className="row">
-												<Field
-													name="cep"
-													component={this.renderField}
-													type="text"
-													label="Cep"
-													classCol="s6"
-													className="validate"
-													validate={[]}
-												/>
-												
-												<Field
-													name="complemento"
-													component={this.renderField}
-													type="text"
-													label="Complemento"
-													classCol="s6"
-													className="validate"
-													validate={[]}
-												/>
-											</div>
-											
-											<div className="row">
-												<Field
-													name="estado"
-													component={this.renderSelect}
-													options={[{'5bce2506e8a51373aab0b047':'Rio de Janeiro'}]}
-													type="text"
-													label="Estado"
-													disabled={true}
-													defaultValue="5bce2506e8a51373aab0b047"
-													classCol="s4"
-													className="validate"
-													validate={[ ]}
-												/>
-												<Field
-													name="cidade"
-													component={this.renderSelect}
-													options={cidades}
-													label="Cidade"
-													classCol="s4"
-													className="validate"
-													validate={[required]}
-												/>
-												<Field
-													name="bairro"
-													component={this.renderSelect}
-													options={bairros}
-													type="text"
-													label="Bairro"
-													classCol="s4"
-													className="validate"
-													validate={[  ]}
-												/>
-											</div>
-											<div className="row">
-											
-
-												<Field
-													name="endereco"
-													component={this.renderField}
-													type="text"
-													label="Endereço"
-													classCol="s12"
-													className="validate"
-													validate={[ required ]}
-												/>
-											</div>
-											<div className="row">
-												<div className="db-v2-list-form-inn-tit">
-													<h5>Informações de Mídia Social:</h5>
-												</div>
-											</div>
-											<div className="row">
-												<Field
-													name="facebook"
-													component={this.renderField}
-													type="text"
-													label="Facebook"
-													value="https://www.facebook.com/"
-													classCol="s4"
-													className="validate"
-													validate={[url({allowBlank:true, protocolIdentifier:false})]}
-												/>
-												<Field
-													name="googleplus"
-													component={this.renderField}
-													type="text"
-													label="Google"
-													value="https://www.googleplus.com/"
-													classCol="s4"
-													className="validate"
-													validate={[url({allowBlank:true, protocolIdentifier:false})]}
-												/>
-												<Field
-													name="twitter"
-													component={this.renderField}
-													type="text"
-													label="Twitter"
-													value="https://www.twitter.com/"
-													classCol="s4"
-													className="validate"
-													validate={[url({allowBlank:true, protocolIdentifier:false})]}
-												/>
-											</div>
-											<div className="row">
-												<div className="db-v2-list-form-inn-tit">
-													<h5>Data e Hora de Funcionamento:</h5>
-												</div>
-											</div>
-											<div className="row">
-												
-												<Field
-													name="diasfuncionamento"
-													component={this.renderSelect}
-													options={['Todos os dias', 'Segunda', 'Terça', 'Quarta']}
-													label="Data funcionamento"
-													classCol="s4"
-													multiple="true"
-													className="validate"
-													validate={[]}
-												/>
-												<Field
-													name="funcionamento_hora_inicial"
-													component={this.renderSelect}
-													options={['7:00','8:00','9:00','10:00','11:00','12:00','13:00','14:00',
-															'15:00','16:00','17:00','18:00','19:00','20:00','21:00','22:00','23:00','00:00',]}
-													type="text"
-													label="Horário Abertura: Ex.: 10:00"
-													value=""
-													classCol="s8"
-													className="validate"
-													validate={[]}
-												/>
-												<Field
-													name="funcionamento_hora_final"
-													component={this.renderSelect}
-													options={['7:00','8:00','9:00','10:00','11:00','12:00','13:00','14:00',
-															'15:00','16:00','17:00','18:00','19:00','20:00','21:00','22:00','23:00','00:00',]}
-													type="text"
-													label="Horário Encerramento: Ex.: 18:00"
-													value=""
-													classCol="s8"
-													className="validate"
-													validate={[]}
-												/>
-											</div>
-											
-													
-											<div className="row">
-												<div className="db-v2-list-form-inn-tit">
-													<h5>Google Map <span className="v2-db-form-note">(Informe a latitude e longitude ou o código iframe.)</span >
-													</h5>
-												</div>	
-											</div>
-											<div className="row">
-												<Field
-													name="latitude"
-													component={this.renderField}
-													type="text"
-													label="Latitude"
-													value=""
-													classCol="s6"
-													className="validate"
-													validate={[]}
-												/>
-												<Field
-													name="longitude"
-													component={this.renderField}
-													type="text"
-													label="Longitude"
-													value=""
-													classCol="s6"
-													className="validate"
-													validate={[]}
-												/>								
-											</div>									
-											<div className="row">
-												<Field
-													name="google-map-iframe"
-													component={this.renderField}
-													type="text"
-													label="Informe o seu código do iframe aqui"
-													value=""
-													classCol="s12"
-													className="validate"
-													validate={[]}
-												/>				
-											</div>
-
-											<div className="row">
-												<div className="db-v2-list-form-inn-tit">
-													<h5>Outros  <span className="v2-db-form-note">(Tipo, categorias e tags.)</span >
-													</h5>
-												</div>	
-											</div>
-
-											<div className="row">												
-													<Field
-														name="tipo"
-														component={this.renderSelect}
-														options={[{'guia comercial':'Guia Comercial'}, {'guia de serviços':'Guia de Serviços'}]}
-														label="Selecione o tipo"
-														classCol="s3"
-														className="validate"
-														validate={[required]}
-													/>
-												
-												<Field
-													name="categorias"
-													id="select-categorias"
-													label="Escolha as categorias. (Digite para filtrar)"
-													component={this.renderMultiselect}
-													textField='nome'
-													valueField='id'
-													data={categorias}
-													classCol="s9"
-													groupBy='parent_name'
-												/>
-											</div>
-
-											<div className="row">																								
-												<Field
-													name="tags"
-													id="select-tags"
-													label="Escolha as tags. (Digite para filtrar)"
-													component={this.renderMultiselect}
-													textField='nome'
-													valueField='id'
-													data={tags}
-													classCol="s8"
-													/>
-													{/*@todo implementar incluir nova tag*/}
-													<div className="input-field col s4">
-														<button  className="waves-effect waves-light btn" >Incluir nova Tag</button>
-													</div>
-											</div>			
-
-											<div className="row">
-												<div className="db-v2-list-form-inn-tit">
-													<h5>Imagem Principal <span className="v2-db-form-note">(tamanho da imagem 1350x500):</span ></h5>
-												</div>
-											</div>
-											<div className="row tz-file-upload">
-												<Field
-													name="imagem_principal"
-													component={this.renderField}
-													type="file"
-													classCol="s12"
-													className="validate"
-													validate={[myFile]}
-												/>			
-											</div>
-
-
-											<div className="row">
-												<div className="db-v2-list-form-inn-tit">
-													<h5>Photo Gallery <span className="v2-db-form-note">(upload multiple photos note:size 750x500):</span ></h5>
-												</div>
-											</div>
-
-											<div className="row tz-file-upload">
-												<Field
-													name="galeria_img[0]"
-													component={this.renderField}
-													type="file"
-													classCol="s12"
-													className="validate"
-													validate={ [myFile]}
-												/>
-												<Field
-													name="galeria_img[1]"
-													component={this.renderField}
-													type="file"
-													classCol="s12"
-													className="validate"
-													validate={ [myFile]}
-												/>
-												<Field
-													name="galeria_img[2]"
-													component={this.renderField}
-													type="file"
-													classCol="s12"
-													className="validate"
-													validate={ [myFile]}
-												/>
-												<Field
-													name="galeria_img[3]"
-													component={this.renderField}
-													type="file"
-													classCol="s12"
-													className="validate"
-													validate={ [myFile]}
-												/>
-												<Field
-													name="galeria_img[4]"
-													component={this.renderField}
-													type="file"
-													classCol="s12"
-													className="validate"
-													validate={ [myFile]}
-												/>
-												<Field
-													name="galeria_img[5]"
-													component={this.renderField}
-													type="file"
-													classCol="s12"
-													className="validate"
-													validate={ [myFile]}
-												/>
-												<Field
-													name="galeria_img[6]"
-													component={this.renderField}
-													type="file"
-													classCol="s12"
-													className="validate"
-													validate={ [myFile]}
-												/>
-												<Field
-													name="galeria_img[7]"
-													component={this.renderField}
-													type="file"
-													classCol="s12"
-													className="validate"
-													validate={ [myFile]}
-												/>
-												<Field
-													name="galeria_img[8]"
-													component={this.renderField}
-													type="file"
-													classCol="s12"
-													className="validate"
-													validate={ [myFile]}
-												/>
-												<Field
-													name="galeria_img[9]"
-													component={this.renderField}
-													type="file"
-													classCol="s12"
-													className="validate"
-													validate={ [myFile]}
-												/>
-											</div>									
-													
-											<div className="row">
-												<div className="input-field col s12 v2-mar-top-40"> 
-													<input type="submit"  value="Cadastrar" className="waves-effect waves-light no-color btn-large full-btn" /> 
-												</div>
-											</div>
-										</form>
-									</div>
-								</div>
+								{this.generalContent()}
+						
 							</div>
 						</div>
 					</div>

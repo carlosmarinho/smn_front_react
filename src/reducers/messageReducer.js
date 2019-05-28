@@ -1,4 +1,4 @@
-import { ERROR_CREATE_USER, SUCCESS_CREATE_USER, SUCCESS_CREATE_GUIA, ERROR_CREATE_GUIA,  } from "../actions/types";
+import { ERROR_CREATE_USER, SUCCESS_CREATE_USER, SUCCESS_CREATE_GUIA,  ERROR_CREATE_GUIA, SUCCESS_EDIT_GUIA,  ERROR_EDIT_GUIA  } from "../actions/types";
 
 export default function(state = null, action) {
 
@@ -36,7 +36,21 @@ export default function(state = null, action) {
             
             console.log("Retorno do payload no succcesssss create guiiiaaaaa: ", action.payload)
             message.success.guia = action.payload;
+            message.success.guia.msg = "Guia cadastrado com sucesso!"
             return message;
+        case ERROR_EDIT_GUIA:
+                message.success.user = null
+                
+                console.log("Retorno do payload no error create GUAIIIIIAAAAA: ", action.payload)
+                message.error.guia = action.payload;
+                return message;
+        case SUCCESS_EDIT_GUIA:
+                message.error.user = null;
+                
+                console.log("Retorno do payload no succcesssss create guiiiaaaaa: ", action.payload)
+                message.success.guia = action.payload;
+                message.success.guia.msg = "Guia editado com sucesso!"
+                return message;
         default: return state;
     }
 }

@@ -25,7 +25,7 @@ export const createGuia = async (guia) => {
             let jwt = user.jwt    
             let config = { headers: { 'Authorization': `Bearer ${jwt}` } };
             
-            request = await axios.post(`${process.env.REACT_APP_URL_API}guia/${guia.id}`, guiatosave, config);
+            request = await axios.post(`${process.env.REACT_APP_URL_API}guia/`, guiatosave, config);
 
             if(request.statusText == 'OK'){
                 new FormData(guia)
