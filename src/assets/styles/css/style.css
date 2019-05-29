@@ -6262,7 +6262,7 @@ footer ul li a:hover {
 
 /*end*/
 .v3-m-4 ul {
-  margin-top: 25px; }
+  margin-top: 21px; }
 
 .dropdown-content {
   overflow: visible;
@@ -7629,3 +7629,7 @@ h5 a.menu-close {
   position: relative;
   top: -120px;
   visibility: hidden; }
+
+/*ajuste do tablist carlos */
+.react-tabs__tab-list {
+  margin: 0 !important; }
