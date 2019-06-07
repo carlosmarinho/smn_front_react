@@ -77,8 +77,9 @@ class GuiaEdit extends Component{
 			userLogged: null,
 			labelMultiselect: {categorias: true, tags: true},
 			categorias: true,
-			tags: true,
-			guia: null
+			tags: [],
+			guia: null,
+			tagInput: ''
 		}
 		
 		this.handleSubmit = this.handleSubmit.bind(this);
@@ -119,6 +120,10 @@ class GuiaEdit extends Component{
         this.props.editGuia(values, this.props.match.params.id);
     }
 
+	addTag(){
+		
+	}
+
     datePtBr(date){
         //const options = {year: 'numeric', month: 'short', day: 'numeric' };
         //return date.toLocaleDateString('pt-BR', options)
@@ -158,23 +163,13 @@ class GuiaEdit extends Component{
         )
 	}
 
-	multiSelectFocus(e, name){
-		
-		if(name == 'tags')
-				this.setState({tags: false});
-		if(name == 'categorias')
-			this.setState({categorias: false});
-	}
+
 	
-	multiSelectBlur(e, itemName, itemValue){
-		if(itemValue.length <= 0)
-		{
-			
-			if(itemName == 'tags')
-				this.setState({tags: true});
-			if(itemName == 'categorias')
-				this.setState({categorias: true});
-		}
+
+	handleCreate(name){
+		let obj = {...this.props.tags.list, 'nome': name}
+		console.log("no handle create: ", obj)
+		//this.setState({tags: obj})
 	}
 
 	renderMultiselect (field){
@@ -184,10 +179,10 @@ class GuiaEdit extends Component{
 		return (
 			<div className={`react-widget input-field col ${field.classCol}`}>
 				<Multiselect {...input}
-					onBlur={(e) => {
+					/*onBlur={(e) => {
 						this.multiSelectBlur(e, input.name, input.value)}
 					}
-					onFocus={(e) => this.multiSelectFocus(e, input.name) }
+					onFocus={(e) => this.multiSelectFocus(e, input.name) }*/
 					value={input.value || []} // requires value to be an array
 					data={data}
 					valueField={valueField}
@@ -195,6 +190,8 @@ class GuiaEdit extends Component{
 					inputProps={{id:field.id}}
 					groupBy={field.groupBy}
 					placeholder={(this.state[input.name] ===true)?label:''}
+					allowCreate="onFilter"
+        			onCreate={name => this.handleCreate(name)}
 				/>
 				
 			</div>
@@ -270,7 +267,6 @@ class GuiaEdit extends Component{
 	}
 	
 	showMessage(){
-		console.log("no show message: ", this.props.message);
         if(this.props.message){
             if(this.props.message.error && this.props.message.error.guia){
                 return(
@@ -647,7 +643,12 @@ class GuiaEdit extends Component{
 		}
 
 		let tags = [];
-		if(this.props.tags){
+		console.log("aqui o length: ", this.state.tags.length)
+		if(this.state.tags.length > 0){
+			tags = this.state.tags;
+		}
+		else if(this.props.tags){
+			console.log("caiu aqui no props tags")
 			tags = this.props.tags.list;
 			tags = this.proccessJsonForMultSelect(tags);
 		}
@@ -658,7 +659,7 @@ class GuiaEdit extends Component{
 		}
 
 		let bairros = [];
-		if(this.props.tags){
+		if(this.props.bairros){
 			bairros = this.props.bairros;
 		}
 
@@ -820,10 +821,10 @@ class GuiaEdit extends Component{
 								textField='nome'
 								valueField='id'
 								data={tags}
-								classCol="s8"
+								classCol="s9"
 								/>
 								{/*@todo implementar incluir nova tag*/}
-								<div className="input-field col s4">
+								<div className="input-field col s3">
 									<button  className="waves-effect waves-light btn" >Incluir nova Tag</button>
 								</div>
 						</div>			
