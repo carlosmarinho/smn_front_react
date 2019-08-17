@@ -166,12 +166,12 @@ class Dashboard extends Component{
                             <h4>Minha Dashboard</h4>
                             <div className="tz-2-main-com">
                                 <div className="tz-2-main-1">
-                                    <div className="tz-2-main-2"> <img src="images/icon/d1.png" alt="" /><span>Guias</span>
+                                    <div className="tz-2-main-2"> <img src="images/map-marker.png" style={{width:'90px'}} alt="" /><span>Guias</span>
                                         <p>Total de guias cadastrados</p>
                                         <h2>{totalGuias}</h2> </div>
                                 </div>
                                 <div className="tz-2-main-1">
-                                    <div className="tz-2-main-2"> <img src="images/icon/d1.png" alt="" /><span>Eventos</span>
+                                    <div className="tz-2-main-2"> <img src="images/event.png" style={{width:'90px'}} alt="" /><span>Eventos</span>
                                         <p>Total de eventos cadastrados</p>
                                         <h2>{totalEventos}</h2> </div>
                                 </div>
