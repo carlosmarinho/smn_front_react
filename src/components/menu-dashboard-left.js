@@ -22,22 +22,22 @@ class MenuDashboardLeft extends Component{
                     <Link to="/dashboard" className="tz-lma"><img src="/images/icon/dbl1.png" alt="" /> Minha Dashboard</Link>
                 </li>
                 <li>
-                    <Link to="/dashboard/guias" ><img src="/images/icon/dbl2.png" alt="" /> Meus Guias</Link>
+                    <Link to="/dashboard/guias" ><i class="map marker alternate icon"></i> Meus Guias</Link>
                 </li>
                 <li>
-                    <Link to="/dashboard/guias/novo" ><img src="/images/icon/dbl3.png" alt="" /> Adicionar Guia</Link>
+                    <Link to="/dashboard/guias/novo" ><i class="plus icon"></i><i class="map marker alternate icon"></i> Adicionar Guia</Link>
                 </li>
                 <li>
-                    <Link to="/dashboard/eventos" ><img src="/images/icon/dbl14.png" alt="" /> Eventos</Link>
+                    <Link to="/dashboard/eventos" ><i class="calendar alternate outline icon"></i> Eventos</Link>
                 </li>
                 <li>
-                    <Link to="/dashboard/eventos/novo" ><img src="/images/icon/dbl3.png" alt="" /> Adicionar Evento</Link>
+                    <Link to="/dashboard/eventos/novo" ><i class="plus icon"></i><i class="calendar alternate outline icon"></i> Adicionar Evento</Link>
                 </li>
                 <li>
-                    <Link to="/dashboard/noticias" ><img src="/images/icon/dbl14.png" alt="" /> Noticias</Link>
+                    <Link to="/dashboard/noticias" ><i class="newspaper outline icon"></i> Noticias</Link>
                 </li>
                 <li>
-                    <Link to="/dashboard/noticias/novo" ><img src="/images/icon/dbl3.png" alt="" /> Adicionar Notícias</Link>
+                    <Link to="/dashboard/noticias/novo" ><i class="plus icon"></i><i class="newspaper outline icon"></i> Adicionar Notícias</Link>
                 </li>
                 {/*@todo fazer minhas revies e meus comentários 
                 <li>
@@ -48,7 +48,7 @@ class MenuDashboardLeft extends Component{
                 </li>
                 */}
                 <li>
-                    <Link to="/dashboard" ><img src="images/icon/dbl6.png" alt="" /> Meus Dados</Link>
+                    <Link to="/dashboard" ><i class="address card outline icon"></i> Meus Dados</Link>
                 </li>
                 {/*@todo pagamentos e settings 
                 <li>
@@ -67,7 +67,7 @@ class MenuDashboardLeft extends Component{
                     <a href="db-setting.html"><img src="images/icon/dbl210.png" alt="" /> Setting</a>
                 </li>*/}
                 <li>
-                    <Link to="/" onClick={(e) => this.loggout(e)}><img src="images/icon/dbl12.png" alt="" /> Logout</Link>
+                    <Link to="/" onClick={(e) => this.loggout(e)}><i class="sign-out icon"></i> Logout</Link>
                 </li>
             </ul>
             </div>
