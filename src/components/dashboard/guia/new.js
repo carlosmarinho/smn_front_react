@@ -511,7 +511,7 @@ class GuiaNew extends Component{
 		console.log("cidades: ", cidades)
 
 		let bairros = [];
-		if(this.props.tags){
+		if(this.props.bairros){
 			bairros = this.props.bairros;
 		}
 		const { pristine, reset, submitting, handleSubmit } = this.props

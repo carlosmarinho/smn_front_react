@@ -22,18 +22,17 @@ export const createGuia = async (guia) => {
             guiatosave.cidade = [guia.cidade];
             guiatosave.galeria_img = '';
             guiatosave.imagem_principal = '';
+            guiatosave.bairros = [guia.bairros];
+
             let jwt = user.jwt    
-            let config = { headers: { 'Authorization': `Bearer ${jwt}` } };
-            
+            let config = { headers: { 'Authorization': `Bearer ${jwt}` } };            
+
             request = await axios.post(`${process.env.REACT_APP_URL_API}guias/`, guiatosave, config);
 
             if(request.statusText == 'OK'){
                 new FormData(guia)
-
-                console.log("guia antes do imagem destacada", guia)
     
                 if(guia.imagem_principal){
-                    console.log("imagem destacada: ", guia.imagem_principal[0])
                     let imagem_destacada = {    
                         "files": guia.imagem_principal[0], // Buffer or stream of file(s)
                         "path": "guia/destacada", // Uploading folder of file(s).
@@ -60,7 +59,6 @@ export const createGuia = async (guia) => {
                 }
 
                 if(guia.galeria_img){
-                    console.log("guia galeria_img: ", guia.galeria_img);    
                     
                     let form1 = new FormData();
                     form1.append('path', 'guia/galeria');
@@ -126,6 +124,8 @@ export const editGuia = async (guia, id) => {
             guiatosave.cidade = [guia.cidade];
             guiatosave.galeria_img = '';
             guiatosave.imagem_principal = '';
+            guiatosave.bairros = [guia.bairros];
+
             let jwt = user.jwt    
             let config = { headers: { 'Authorization': `Bearer ${jwt}` } };
           
