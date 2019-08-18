@@ -16,9 +16,9 @@ export const fetchCategory = async (id) => {
     let config = { headers: { 'Authorization': `Bearer ${jwt}` } };
 
 
-    const request = axios.get(`${process.env.REACT_APP_URL_API}categoria/${id}`, config); */
+    const request = axios.get(`${process.env.REACT_APP_URL_API}categorias/${id}`, config); */
 
-    const request = axios.get(`${process.env.REACT_APP_URL_API}categoria/${id}`);
+    const request = axios.get(`${process.env.REACT_APP_URL_API}categorias/${id}`);
 
     return {
         type: FETCH_CATEGORY,
@@ -39,25 +39,25 @@ export const fetchCategoryBySlug = async(slug='', limit=1) => {
     }
 
 
-    let request = await axios.get(`${process.env.REACT_APP_URL_API}categoria/?${slug1}`);
+    let request = await axios.get(`${process.env.REACT_APP_URL_API}categorias/?${slug1}`);
 
     console.log("request catgoria: ", request)
 
     if(request.data.length === 0){
         slug1 = `slug=noticias/${slug}`
 
-        request = await axios.get(`${process.env.REACT_APP_URL_API}categoria/?${slug1}`);
+        request = await axios.get(`${process.env.REACT_APP_URL_API}categorias/?${slug1}`);
 
         if(request.data.length === 0){
             slug1 = `slug=guia/servicos/${slug}`
     
-            request = await axios.get(`${process.env.REACT_APP_URL_API}categoria/?${slug1}`);
+            request = await axios.get(`${process.env.REACT_APP_URL_API}categorias/?${slug1}`);
 
 
             if(request.data.length === 0){
                 slug1 = `slug=eventos/${slug}`
         
-                request = await axios.get(`${process.env.REACT_APP_URL_API}categoria/?${slug1}`);
+                request = await axios.get(`${process.env.REACT_APP_URL_API}categorias/?${slug1}`);
             }
 
         }
@@ -79,7 +79,7 @@ export const fetchCategoriesGuiaTop = async(limit='', sort=null) => {
 
     
 
-    const request = axios.get(`${process.env.REACT_APP_URL_API}categoria/?_sort=${sort}${limit}&tipo=guia comercial&parent_id=` );
+    const request = axios.get(`${process.env.REACT_APP_URL_API}categorias/?_sort=${sort}${limit}&tipo=guia comercial&parent_id=` );
 
     return {
         type: FETCH_CATEGORIES_GUIA_TOP,
@@ -94,7 +94,7 @@ export const fetchCategoriesGuiaComercialTop = async(limit='', sort=null) => {
     if(limit)
         limit = `&_limit=${limit}`
 
-    const request = axios.get(`${process.env.REACT_APP_URL_API}categoria/?_sort=${sort}${limit}&tipo=guia comercial&parent_id=`);
+    const request = axios.get(`${process.env.REACT_APP_URL_API}categorias/?_sort=${sort}${limit}&tipo=guia comercial&parent_id=`);
 
     return {
         type: FETCH_CATEGORIES_GUIA_TOP,
@@ -109,7 +109,7 @@ export const fetchCategoriesGuiaServicosTop = async(limit='', sort=null) => {
     if(limit)
         limit = `&_limit=${limit}`
 
-    const request = axios.get(`${process.env.REACT_APP_URL_API}categoria/?_sort=${sort}${limit}&tipo=guia servicos&parent_id=`);
+    const request = axios.get(`${process.env.REACT_APP_URL_API}categorias/?_sort=${sort}${limit}&tipo=guia servicos&parent_id=`);
 
     return {
         type: FETCH_CATEGORIES_GUIA_TOP,
@@ -125,7 +125,7 @@ export const fetchCategoriesEventoTop = async(limit='', sort=null) => {
     if(limit)
         limit = `&_limit=${limit}`
 
-    const request = axios.get(`${process.env.REACT_APP_URL_API}categoria/?_sort=${sort}${limit}&tipo=evento&parent_id=`);
+    const request = axios.get(`${process.env.REACT_APP_URL_API}categorias/?_sort=${sort}${limit}&tipo=evento&parent_id=`);
 
     return {
         type: FETCH_CATEGORIES_EVENTO_TOP,
@@ -147,7 +147,7 @@ export const fetchCategories = async(tipo='', limit='', sort=null) => {
         limit = `_limit=200`;
 
 
-    const request = axios.get(`${process.env.REACT_APP_URL_API}categoria/?${tipo}${sort}${limit}`);
+    const request = axios.get(`${process.env.REACT_APP_URL_API}categorias/?${tipo}${sort}${limit}`);
 
     return {
         type: FETCH_CATEGORIES,

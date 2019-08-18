@@ -5,7 +5,7 @@ import { FETCH_BAIRRO, FETCH_BAIRROS } from "./types";
 
 export const fetchBairro = (id) => {
 
-    const request = axios.get(`${process.env.REACT_APP_URL_API}bairro/${id}`);
+    const request = axios.get(`${process.env.REACT_APP_URL_API}bairros/${id}`);
 
     return {
         type: FETCH_BAIRRO,
@@ -32,9 +32,9 @@ export const fetchBairros = async(city_id, limit='', sort=null) => {
 
     let config = { headers: { 'Authorization': `Bearer ${jwt}` } };
 
-    const request = axios.get(`${process.env.REACT_APP_URL_API}bairro/?populateAssociation=false&_sort=${sort}${limit}&cidade=${city_id}`, config); */
+    const request = axios.get(`${process.env.REACT_APP_URL_API}bairros/?_sort=${sort}${limit}&cidade=${city_id}`, config); */
 
-    const request = axios.get(`${process.env.REACT_APP_URL_API}bairro/?populateAssociation=false&_sort=${sort}${limit}&cidade=${city_id}`);
+    const request = axios.get(`${process.env.REACT_APP_URL_API}bairros/?_sort=${sort}${limit}&cidade=${city_id}`);
 
     return {
         type: FETCH_BAIRROS,

@@ -485,7 +485,7 @@ class GuiaNew extends Component{
             return <Redirect to={'/'} />
 		}
 
-		if(this.props.message && this.props.message.success.guia  ){
+		if(this.props.message && this.props.message.success && this.props.message.success.guia  ){
 			console.log("guias antes de direcionar: ", this.props.guias);
 			console.log("message antes de direcionar: ", this.props.message);
 			return <Redirect to={`/dashboard/guias/edit/${this.props.message.success.guia.data._id}`} />

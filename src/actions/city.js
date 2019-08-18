@@ -5,7 +5,7 @@ import { FETCH_CITY, FETCH_CITIES } from "./types";
 
 export const fetchCity = (id) => {
 
-    const request = axios.get(`${process.env.REACT_APP_URL_API}cidade/${id}`);
+    const request = axios.get(`${process.env.REACT_APP_URL_API}cidades/${id}`);
 
     return {
         type: FETCH_CITY,
@@ -28,8 +28,8 @@ export const fetchCities = async(state='', limit='', sort=null) => {
     let jwt = localStorage.getItem('jwt');
 
     /*@todo colocar o populateAssotion p funcionar no city*/
-    //const request = axios.get(`${process.env.REACT_APP_URL_API}cidade/?populateAssociation=false&_sort=${sort}${limit}${state}`);
-    const request = axios.get(`${process.env.REACT_APP_URL_API}cidade/?_sort=${sort}${limit}${state}`);
+    //const request = axios.get(`${process.env.REACT_APP_URL_API}cidades/?populateAssociation=false&_sort=${sort}${limit}${state}`);
+    const request = axios.get(`${process.env.REACT_APP_URL_API}cidades/?_sort=${sort}${limit}${state}`);
 
     return {
         type: FETCH_CITIES,
@@ -48,9 +48,9 @@ export const fetchCityBySlug = async (slug) => {
     }
     let config = { headers: { 'Authorization': `Bearer ${jwt}` } };
 
-    const request = axios.get(`${process.env.REACT_APP_URL_API}cidade/?slug=${slug}`, config); */
+    const request = axios.get(`${process.env.REACT_APP_URL_API}cidades/?slug=${slug}`, config); */
 
-    const request = axios.get(`${process.env.REACT_APP_URL_API}cidade/?slug=${slug}`);
+    const request = axios.get(`${process.env.REACT_APP_URL_API}cidades/?slug=${slug}`);
 
     return {
         type: FETCH_CITY,

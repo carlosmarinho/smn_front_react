@@ -16,7 +16,7 @@ export const fetchTags = function (tipo='', limit='', sort=null){
 
 
 
-    let request = axios.get(`${process.env.REACT_APP_URL_API}tag/?${tipo}${sort}${limit}`);
+    let request = axios.get(`${process.env.REACT_APP_URL_API}tags/?${tipo}${sort}${limit}`);
 
     return(
         {
