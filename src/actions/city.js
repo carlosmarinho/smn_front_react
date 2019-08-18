@@ -16,7 +16,7 @@ export const fetchCity = (id) => {
 export const fetchCities = async(state='', limit='', sort=null) => {
 
     if(!sort)
-        sort = '-_id';
+        sort = '_id:desc';
     if(limit)
         limit = `&_limit=${limit}`;
     else

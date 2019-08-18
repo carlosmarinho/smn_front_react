@@ -6,7 +6,7 @@ export const fetchTags = function (tipo='', limit='', sort=null){
     if(tipo)
         tipo = `tipo=${tipo}&`
     if(!sort)
-        sort = '_sort=-_id&';
+        sort = '_sort=_id:desc&';
     else
         sort = `_sort=${sort}&`;
     if(limit)

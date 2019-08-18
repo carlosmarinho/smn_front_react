@@ -8,7 +8,7 @@ export const fetchNoticiaBySlug = async(slug='', limit=1) => {
         slug = `slug=${slug}&`
     }
 
-    const request = axios.get(`${process.env.REACT_APP_URL_API}noticias/?${slug}_sort=-_id&_limit=${limit}`);
+    const request = axios.get(`${process.env.REACT_APP_URL_API}noticias/?${slug}_sort=_id:desc&_limit=${limit}`);
     return {
         type: FETCH_NOTICIA,
         payload: request
@@ -30,7 +30,7 @@ export const fetchNoticiasByCategory = async(category='', limit=1000) => {
     
     if(categoria !== '')
     {
-        let request = await axios.get(`${process.env.REACT_APP_URL_API}noticias/?${categoria}_sort=-_id&_limit=${limit}`);
+        let request = await axios.get(`${process.env.REACT_APP_URL_API}noticias/?${categoria}_sort=_id:desc&_limit=${limit}`);
         request.categoria = req.data[0];
         return {
             type: FETCH_NOTICIAS,
@@ -49,7 +49,7 @@ export const fetchNoticiasByCategory = async(category='', limit=1000) => {
 
 export const fetchNoticiasByTag = async(tag='', limit='', sort=null) => {
     if(!sort)
-        sort = '-_id';
+        sort = '_id:desc';
 
     if(limit)
         limit = `&_limit=${limit}`;
@@ -88,7 +88,7 @@ export const fetchNoticiasByTag = async(tag='', limit='', sort=null) => {
 
 export const fetchNoticiasBySearch = async(search='', limit='', sort=null) => {
     if(!sort)
-        sort = '-_id';
+        sort = '_id:desc';
 
     if(limit)
         limit = `&_limit=${limit}`;
@@ -141,7 +141,7 @@ export const fetchNoticiasByCategoryOrSlug = async(slugOrCategory='', limit=150)
             slug = `slug=${slugOrCategory}&`;
     }
 
-    const request = axios.get(`${process.env.REACT_APP_URL_API}noticias/?${category}${slug}_sort=-_id&_limit=${limit}`);
+    const request = axios.get(`${process.env.REACT_APP_URL_API}noticias/?${category}${slug}_sort=_id:desc&_limit=${limit}`);
 
     if(slug !== ''){
         return {
@@ -167,7 +167,7 @@ export const fetchNoticias = async(id, category='', limit=150) => {
             category=`categorias=${req.data[0]._id}&`
     }
 
-    const request = axios.get(`${process.env.REACT_APP_URL_API}noticias/?${category}_sort=-_id&_limit=${limit}`);
+    const request = axios.get(`${process.env.REACT_APP_URL_API}noticias/?${category}_sort=_id:desc&_limit=${limit}`);
 
     return {
         type: FETCH_NOTICIAS,
@@ -177,7 +177,7 @@ export const fetchNoticias = async(id, category='', limit=150) => {
 
 export const fetchNoticiasByUser = async(user_id, limit=100, sort=null) => {
     if(!sort)
-        sort = '-_id';
+        sort = '_id:desc';
     if(limit)
         limit = `&_limit=${limit}`
 
@@ -191,7 +191,7 @@ export const fetchNoticiasByUser = async(user_id, limit=100, sort=null) => {
 
 export const fetchNoticiasByAdm = async(limit=100, sort=null) => {
     if(!sort)
-        sort = '-_id';
+        sort = '_id:desc';
     if(limit)
         limit = `&_limit=${limit}`
 
@@ -205,7 +205,7 @@ export const fetchNoticiasByAdm = async(limit=100, sort=null) => {
 
 export const fetchNoticiasRecentes = async(city_id, limit='', sort=null) => {
     if(!sort)
-        sort = '-_id';
+        sort = '_id:desc';
     if(limit)
         limit = `&_limit=${limit}`
 
@@ -223,7 +223,7 @@ export const fetchNoticiasRecentes = async(city_id, limit='', sort=null) => {
 
 export const fetchNoticiasFeatured = async(city_id, limit='', sort=null) => {
     if(!sort)
-        sort = '-_id';
+        sort = '_id:desc';
     if(limit)
         limit = `&_limit=${limit}`
 

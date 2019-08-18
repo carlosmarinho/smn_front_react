@@ -5,7 +5,7 @@ import { SEARCH_HOME } from "./types";
 
 export const searchHome = async(values) => {
 
-    let sort = '-_id';
+    let sort = '_id:desc';
     let limit = `&_limit=200`;
 
     /* let jwt = localStorage.getItem('jwt');

@@ -309,7 +309,7 @@ export const fetchGuiaBySlug = async (slug) => {
 
 export const fetchGuiasByAdm = async(limit=100, sort=null) => {
     if(!sort)
-        sort = '-_id';
+        sort = '_id:desc';
     if(limit)
         limit = `&_limit=${limit}`
 
@@ -326,7 +326,7 @@ export const fetchGuiasByAdm = async(limit=100, sort=null) => {
 
 export const fetchGuiasByUser = async(user_id, limit=100, sort=null) => {
     if(!sort)
-        sort = '-_id';
+        sort = '_id:desc';
     if(limit)
         limit = `&_limit=${limit}`
 
@@ -344,7 +344,7 @@ export const fetchGuiasByUser = async(user_id, limit=100, sort=null) => {
 
 export const fetchGuiasRecentes = async(city_id, limit='', sort=null) => {
     if(!sort)
-        sort = '-_id';
+        sort = '_id:desc';
     if(limit)
         limit = `&_limit=${limit}`
 
@@ -360,7 +360,7 @@ export const fetchGuiasRecentes = async(city_id, limit='', sort=null) => {
 
 export const fetchGuiasByCategoryBoth = async(category='', limit='', sort=null) => {
     if(!sort)
-        sort = '-_id';
+        sort = '_id:desc';
 
     if(limit)
         limit = `&_limit=${limit}`;
@@ -408,7 +408,7 @@ export const fetchGuiasByCategoryBoth = async(category='', limit='', sort=null) 
 
 export const fetchGuiasByCategoryComercial = async(category='', limit='', sort=null) => {
     if(!sort)
-        sort = '-_id';
+        sort = '_id:desc';
 
     if(limit)
         limit = `&_limit=${limit}`;
@@ -446,7 +446,7 @@ export const fetchGuiasByCategoryComercial = async(category='', limit='', sort=n
 
 export const fetchGuiasByCategoryServico = async(category='', limit='', sort=null) => {
     if(!sort)
-        sort = '-_id';
+        sort = '_id:desc';
 
     if(limit)
         limit = `&_limit=${limit}`;
@@ -482,7 +482,7 @@ export const fetchGuiasByCategoryServico = async(category='', limit='', sort=nul
 
 export const fetchGuiasByCategory = async(category='', limit='', sort=null) => {
     if(!sort)
-        sort = '-_id';
+        sort = '_id:desc';
 
     if(limit)
         limit = `&_limit=${limit}`;
@@ -527,7 +527,7 @@ export const fetchGuiasByCategory = async(category='', limit='', sort=null) => {
 
 export const fetchGuiasByTag = async(tag='', limit='', sort=null) => {
     if(!sort)
-        sort = '-_id';
+        sort = '_id:desc';
 
     if(limit)
         limit = `&_limit=${limit}`;
@@ -567,7 +567,7 @@ export const fetchGuiasByTag = async(tag='', limit='', sort=null) => {
 
 export const fetchGuiasBySearch = async(search='', limit='', sort=null) => {
     if(!sort)
-        sort = '-_id';
+        sort = '_id:desc';
 
     if(limit)
         limit = `&_limit=${limit}`;
@@ -617,7 +617,7 @@ export const fetchGuiasBySearch = async(search='', limit='', sort=null) => {
 
 export const fetchGuias = async(city_id, search='', limit='', sort=null) => {
     if(!sort)
-        sort = '-_id';
+        sort = '_id:desc';
 
     if(limit)
         limit = `&_limit=${limit}`;

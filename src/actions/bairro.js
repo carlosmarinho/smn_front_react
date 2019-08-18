@@ -16,7 +16,7 @@ export const fetchBairro = (id) => {
 export const fetchBairros = async(city_id, limit='', sort=null) => {
 
     if(!sort)
-        sort = '-_id';
+        sort = '_id:desc';
     if(limit)
         limit = `&_limit=${limit}`;
     else

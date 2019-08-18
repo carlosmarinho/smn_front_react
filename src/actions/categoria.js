@@ -73,7 +73,7 @@ export const fetchCategoryBySlug = async(slug='', limit=1) => {
 
 export const fetchCategoriesGuiaTop = async(limit='', sort=null) => {
     if(!sort)
-        sort = '-_id';
+        sort = '_id:desc';
     if(limit)
         limit = `&_limit=${limit}`
 
@@ -90,7 +90,7 @@ export const fetchCategoriesGuiaTop = async(limit='', sort=null) => {
 
 export const fetchCategoriesGuiaComercialTop = async(limit='', sort=null) => {
     if(!sort)
-        sort = '-_id';
+        sort = '_id:desc';
     if(limit)
         limit = `&_limit=${limit}`
 
@@ -105,7 +105,7 @@ export const fetchCategoriesGuiaComercialTop = async(limit='', sort=null) => {
 
 export const fetchCategoriesGuiaServicosTop = async(limit='', sort=null) => {
     if(!sort)
-        sort = '-_id';
+        sort = '_id:desc';
     if(limit)
         limit = `&_limit=${limit}`
 
@@ -121,7 +121,7 @@ export const fetchCategoriesGuiaServicosTop = async(limit='', sort=null) => {
 
 export const fetchCategoriesEventoTop = async(limit='', sort=null) => {
     if(!sort)
-        sort = '-_id';
+        sort = '_id:desc';
     if(limit)
         limit = `&_limit=${limit}`
 
@@ -138,7 +138,7 @@ export const fetchCategories = async(tipo='', limit='', sort=null) => {
     if(tipo)
         tipo = `tipo=${tipo}&`
     if(!sort)
-        sort = '_sort=-_id&';
+        sort = '_sort=_id:desc&';
     else
         sort = `_sort=${sort}&`;
     if(limit)

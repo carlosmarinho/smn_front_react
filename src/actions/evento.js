@@ -28,7 +28,7 @@ export const fetchEventoBySlug = async (slug) => {
 
 export const fetchEventos = async(id, limit=200) => {
 
-    const request = axios.get(`${process.env.REACT_APP_URL_API}eventos/?_sort=-_id&_limit=${limit}`);
+    const request = axios.get(`${process.env.REACT_APP_URL_API}eventos/?_sort=_id:descd&_limit=${limit}`);
 
     return {
         type: FETCH_EVENTOS,
@@ -38,7 +38,7 @@ export const fetchEventos = async(id, limit=200) => {
 
 export const fetchEventosByUser = async(user_id, limit=100, sort=null) => {
     if(!sort)
-        sort = '-_id';
+        sort = '_id:desc';
     if(limit)
         limit = `&_limit=${limit}`
 
@@ -52,7 +52,7 @@ export const fetchEventosByUser = async(user_id, limit=100, sort=null) => {
 
 export const fetchEventosByAdm = async(limit=100, sort=null) => {
     if(!sort)
-        sort = '-_id';
+        sort = '_id:desc';
     if(limit)
         limit = `&_limit=${limit}`
 
@@ -66,7 +66,7 @@ export const fetchEventosByAdm = async(limit=100, sort=null) => {
 
 export const fetchEventosByTag = async(tag='', limit='', sort=null) => {
     if(!sort)
-        sort = '-_id';
+        sort = '_id:desc';
 
     if(limit)
         limit = `&_limit=${limit}`;
@@ -105,7 +105,7 @@ export const fetchEventosByTag = async(tag='', limit='', sort=null) => {
 
 export const fetchEventosBySearch = async(search='', limit='', sort=null) => {
     if(!sort)
-        sort = '-_id';
+        sort = '_id:desc';
 
     if(limit)
         limit = `&_limit=${limit}`;
@@ -150,7 +150,7 @@ export const fetchEventosBySearch = async(search='', limit='', sort=null) => {
 
 export const fetchEventosByCategory = async(category='', limit='', sort=null) => {
     if(!sort)
-        sort = '-_id';
+        sort = '_id:desc';
 
     if(limit)
         limit = `&_limit=${limit}`;
@@ -186,7 +186,7 @@ export const fetchEventosByCategory = async(category='', limit='', sort=null) =>
 
 export const fetchEventosRecentes = async(id, limit=5) => {
 
-    const request = axios.get(`${process.env.REACT_APP_URL_API}eventos/?_sort=-_id&_limit=${limit}`);
+    const request = axios.get(`${process.env.REACT_APP_URL_API}eventos/?_sort=_id:desc&_limit=${limit}`);
 
     return {
         type: FETCH_EVENTOS_RECENTES,

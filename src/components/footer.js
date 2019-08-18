@@ -11,8 +11,8 @@ class Footer extends Component {
 
     componentDidMount() {
      
-        this.props.fetchGuiasRecentes('5ba26f813a018f42215a36a0', 7, '-_id');
-        this.props.fetchNoticiasRecentes('5ba26f813a018f42215a36a0', 5, '-_id');
+        this.props.fetchGuiasRecentes('5ba26f813a018f42215a36a0', 7, '_id:desc');
+        this.props.fetchNoticiasRecentes('5ba26f813a018f42215a36a0', 5, '_id:desc');
         
     }
 
