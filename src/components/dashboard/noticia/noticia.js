@@ -69,7 +69,10 @@ class DashboardNoticia extends Component{
             return s3_imagem_destacada;
         }
         if(old_imagem_destacada) {
-            return old_imagem_destacada;
+            if(old_imagem_destacada.includes('.amazonaws'))
+                return old_imagem_destacada;
+
+            return old_imagem_destacada.replace('http://soumaisniteroi', 'http://engenhoca.soumaisniteroi');;
         }
         else if(imagem_destacada){
             if(imagem_destacada.url){
@@ -108,24 +111,14 @@ class DashboardNoticia extends Component{
                             
                             <div className="db-list-com tz-db-table">
                                 <div className="ds-boar-title">
-                                    <h2>Noticias Comerciais/Serviços</h2>
-                                    <p>Listagem de seus noticias comercias/serviços</p>
+                                    <h2>Noticias</h2>
+                                    <p>Listagem de suas notícias</p>
                                 </div>
-                                <table className="responsive-table bordered">
-                                    <thead>
-                                        <tr>
-                                            <th></th>
-                                            <th>Nome</th>
-                                            <th>Data</th>
-                                            <th>tipo</th>
-                                            <th>Status</th>
-                                            <th>Ações</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
+                                <div className="tz-mess">
+                                    <ul>
                                         {this.showNoticias()}
-                                    </tbody>
-                                </table>                            
+                                    </ul>
+                                </div>                            
                             </div>
                         </div>
                     </div>

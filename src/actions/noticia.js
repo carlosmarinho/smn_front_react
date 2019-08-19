@@ -283,7 +283,7 @@ export const fetchNoticiasByUser = async(user_id, limit=100, sort=null) => {
     if(limit)
         limit = `&_limit=${limit}`
 
-    const request = axios.get(`${process.env.REACT_APP_URL_API}noticias/?user=${user_id}&_sort=-${sort}&${limit}`);
+    const request = axios.get(`${process.env.REACT_APP_URL_API}noticias/?user=${user_id}&_sort=${sort}:desc&${limit}`);
 
     return {
         type: FETCH_NOTICIAS_USER,
@@ -297,7 +297,7 @@ export const fetchNoticiasByAdm = async(limit=100, sort=null) => {
     if(limit)
         limit = `&_limit=${limit}`
 
-    const request = await axios.get(`${process.env.REACT_APP_URL_API}noticias/?_sort=-${sort}&${limit}`);
+    const request = await axios.get(`${process.env.REACT_APP_URL_API}noticias/?_sort=${sort}:desc&${limit}`);
     const count = await axios.get(`${process.env.REACT_APP_URL_API}noticias/count`);
     const newRequest = {data:request.data, count: count.data};
 
