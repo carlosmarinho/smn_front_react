@@ -39,18 +39,28 @@ class BairroGrid extends Component {
     }
 
     getImageSrc(bairro){
-        if(bairro.s3_imagem_destacada){
-            return bairro.old_imagem_destacada;
-        }
-        if(bairro.old_imagem_destacada) {
-            return bairro.old_imagem_destacada;
-        }
-        else if(bairro.imagem_destacada){
-            //implementar codigo
+        if(bairro) {
+
+            const { s3_imagem_destacada, old_imagem_destacada, imagem_destacada } = bairro
+            
+            if(s3_imagem_destacada){
+                return s3_imagem_destacada;
+            }
+            if(old_imagem_destacada) {
+                return old_imagem_destacada;
+            }
+            else if(imagem_destacada){
+                if(imagem_destacada.url){
+                    return imagem_destacada.url;
+                }
+    
+                //implementar codigo
+                return "http://images.soumaisniteroi.com.br/wp-content/uploads/2015/04/no-image.png";
+            }
             return "http://images.soumaisniteroi.com.br/wp-content/uploads/2015/04/no-image.png";
         }
-        return "http://images.soumaisniteroi.com.br/wp-content/uploads/2015/04/no-image.png";
     }
+
 
     dateNumberPtBr(date){
         return ( "0" +(date.getDate())).slice(-2) + '/' + ("0" + (date.getMonth() + 1)).slice(-2) + '/' + date.getFullYear();

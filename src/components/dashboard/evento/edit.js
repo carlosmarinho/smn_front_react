@@ -132,13 +132,19 @@ class GuiaEdit extends Component{
 
     
     getImageSrc(item){
-        if(item.s3_imagem_destacada){
-            return item.old_imagem_destacada;
+        const { s3_imagem_destacada, old_imagem_destacada, imagem_destacada } = item
+        
+        if(s3_imagem_destacada){
+            return s3_imagem_destacada;
         }
-        if(item.old_imagem_destacada) {
-            return item.old_imagem_destacada;
+        if(old_imagem_destacada) {
+            return old_imagem_destacada;
         }
-        else if(item.imagem_destacada){
+        else if(imagem_destacada){
+            if(imagem_destacada.url){
+                return imagem_destacada.url;
+            }
+
             //implementar codigo
             return "http://images.soumaisniteroi.com.br/wp-content/uploads/2015/04/no-image.png";
         }

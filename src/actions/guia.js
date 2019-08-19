@@ -314,12 +314,15 @@ export const fetchGuiasByAdm = async(limit=100, sort=null) => {
         limit = `&_limit=${limit}`
 
 
-    const request = axios.get(`${process.env.REACT_APP_URL_API}guias/?_sort=${sort}${limit}`);
+    const request = await axios.get(`${process.env.REACT_APP_URL_API}guias/?_sort=${sort}${limit}`);
+    const count = await axios.get(`${process.env.REACT_APP_URL_API}guias/count`);
+    const newRequest = {data:request.data, count: count.data};
 
-    console.log("aqui no fetch guias by user")
+    console.log("aqui no fetch guias by user", newRequest );
+
     return {
         type: FETCH_GUIAS_USER,
-        payload: request
+        payload: newRequest
     }
 
 }

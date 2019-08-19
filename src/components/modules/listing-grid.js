@@ -85,19 +85,28 @@ class ListingGrid extends Component {
     }
 
     getImageSrc(evento){
-        
-        if(evento && evento.s3_imagem_destacada){
-            return evento.old_imagem_destacada;
-        }
-        else if(evento && evento.old_imagem_destacada) {
-            return evento.old_imagem_destacada;
-        }
-        else if(evento && evento.imagem_destacada){
-            //implementar codigo
+        if(evento) {
+
+            const { s3_imagem_destacada, old_imagem_destacada, imagem_destacada } = evento
+            
+            if(s3_imagem_destacada){
+                return s3_imagem_destacada;
+            }
+            if(old_imagem_destacada) {
+                return old_imagem_destacada;
+            }
+            else if(imagem_destacada){
+                if(imagem_destacada.url){
+                    return imagem_destacada.url;
+                }
+    
+                //implementar codigo
+                return "http://images.soumaisniteroi.com.br/wp-content/uploads/2015/04/no-image.png";
+            }
             return "http://images.soumaisniteroi.com.br/wp-content/uploads/2015/04/no-image.png";
         }
-        return "http://images.soumaisniteroi.com.br/wp-content/uploads/2015/04/no-image.png";
     }
+
 
     getAvaliacao(evento){
         if(evento && evento.avaliacao)

@@ -14,19 +14,29 @@ class FeaturedTwoColumns extends Component {
         return (this.props.backgroundColor)? this.props.backgroundColor : '';
     }
 
-    getImageSrc(evento){
-        if(evento.s3_imagem_destacada){
-            return evento.old_imagem_destacada;
-        }
-        if(evento.old_imagem_destacada) {
-            return evento.old_imagem_destacada;
-        }
-        else if(evento.imagem_destacada){
-            //implementar codigo
+    getImageSrc(noticia){
+        if(noticia) {
+
+            const { s3_imagem_destacada, old_imagem_destacada, imagem_destacada } = noticia
+            
+            if(s3_imagem_destacada){
+                return s3_imagem_destacada;
+            }
+            if(old_imagem_destacada) {
+                return old_imagem_destacada;
+            }
+            else if(imagem_destacada){
+                if(imagem_destacada.url){
+                    return imagem_destacada.url;
+                }
+    
+                //implementar codigo
+                return "http://images.soumaisniteroi.com.br/wp-content/uploads/2015/04/no-image.png";
+            }
             return "http://images.soumaisniteroi.com.br/wp-content/uploads/2015/04/no-image.png";
         }
-        return "http://images.soumaisniteroi.com.br/wp-content/uploads/2015/04/no-image.png";
     }
+
 
     generateEvent(array) {
         const truncate = _.truncate

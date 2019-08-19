@@ -7,17 +7,26 @@ import {Collapsible, CollapsibleItem} from 'react-materialize';
 class WidgetFilterRadioCollapsable extends Component {
 
     getImageSrc(object){
-        if(object.s3_imagem_destacada){
-            return object.old_imagem_destacada;
-        }
-        if(object.old_imagem_destacada) {
-            return object.old_imagem_destacada;
-        }
-        else if(object.imagem_destacada){
-            //implementar codigo
+        if(object) {
+
+            const { s3_imagem_destacada, old_imagem_destacada, imagem_destacada } = object
+            
+            if(s3_imagem_destacada){
+                return s3_imagem_destacada;
+            }
+            if(old_imagem_destacada) {
+                return old_imagem_destacada;
+            }
+            else if(imagem_destacada){
+                if(imagem_destacada.url){
+                    return imagem_destacada.url;
+                }
+    
+                //implementar codigo
+                return "http://images.soumaisniteroi.com.br/wp-content/uploads/2015/04/no-image.png";
+            }
             return "http://images.soumaisniteroi.com.br/wp-content/uploads/2015/04/no-image.png";
         }
-        return "http://images.soumaisniteroi.com.br/wp-content/uploads/2015/04/no-image.png";
     }
 
     generateWidget(objects) {

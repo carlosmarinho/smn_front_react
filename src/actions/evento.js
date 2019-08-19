@@ -28,7 +28,7 @@ export const fetchEventoBySlug = async (slug) => {
 
 export const fetchEventos = async(id, limit=200) => {
 
-    const request = axios.get(`${process.env.REACT_APP_URL_API}eventos/?_sort=_id:descd&_limit=${limit}`);
+    const request = axios.get(`${process.env.REACT_APP_URL_API}eventos/?_sort=_id:desc&_limit=${limit}`);
 
     return {
         type: FETCH_EVENTOS,
@@ -56,11 +56,15 @@ export const fetchEventosByAdm = async(limit=100, sort=null) => {
     if(limit)
         limit = `&_limit=${limit}`
 
-    const request = axios.get(`${process.env.REACT_APP_URL_API}eventos/?_sort=${sort}${limit}`);
+    const request = await axios.get(`${process.env.REACT_APP_URL_API}eventos/?_sort=${sort}${limit}`);
+    const count = await axios.get(`${process.env.REACT_APP_URL_API}eventos/count`);
+    const newRequest = {data:request.data, count: count.data};
+
+    console.log("request de evnetos: ", newRequest);
 
     return {
         type: FETCH_EVENTOS_USER,
-        payload: request
+        payload: newRequest
     }
 }
 
