@@ -2,7 +2,7 @@ import { FETCH_EVENTO, FETCH_EVENTOS, FETCH_EVENTOS_RECENTES, FETCH_EVENTOS_USER
 
 export default function(state = null, action) {
 
-    let evento =  {erecentes: null, list: null, featured: null, fromUser: null};
+    let evento =  {erecentes: null, list: null, featured: null, fromUser: null, count: null};
     switch (action.type) {
         case FETCH_EVENTO:
             if(state){
@@ -12,8 +12,10 @@ export default function(state = null, action) {
                     evento.featured = state.featured;
                 if(state.list)
                     evento.list = state.list;
-                if(state.fromUser)
-                    evento.fromUser = state.fromUser
+                if(state.fromUser){
+                    evento.fromUser = state.fromUser;
+                    evento.count = state.count;
+                }
             }
             
             evento.evento = action.payload.data[0];
@@ -26,8 +28,10 @@ export default function(state = null, action) {
                     evento.featured = state.featured;
                 if(state.list)
                     evento.evento = state.evento;
-                if(state.fromUser)
-                    evento.fromUser = state.fromUser
+                if(state.fromUser){
+                    evento.fromUser = state.fromUser;
+                    evento.count = state.count;
+                }
             }
             
             evento.list = action.payload.data;
@@ -41,11 +45,13 @@ export default function(state = null, action) {
                     evento.featured = state.featured;
                 if(state.list)
                     evento.list = state.list
-                if(state.fromUser)
+                if(state.fromUser){
                     evento.fromUser = state.fromUser
+                    evento.count = state.count;
+                }
             }
             
-            evento.recentes = action.payload.data
+            evento.recentes = action.payload.data;
             return evento;
 
         case FETCH_EVENTOS_USER:
@@ -57,10 +63,11 @@ export default function(state = null, action) {
                 if(state.list)
                     evento.list = state.list
                 if(state.recentes)
-                    evento.recentes = state.recentes
+                    evento.recentes = state.recentes;
             }
             
-            evento.fromUser = action.payload.data
+            evento.fromUser = action.payload.data;
+            evento.count = action.payload.count;
             return evento;
         default: return state;
     }

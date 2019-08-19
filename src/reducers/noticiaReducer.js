@@ -2,7 +2,14 @@ import { FETCH_NOTICIA, FETCH_NOTICIAS, FETCH_NOTICIAS_RECENTES, FETCH_NOTICIAS_
 
 export default function(state = null, action) {
 
-    let noticia =  {noticia: null, featured: null, recentes: null, list: null, categoria: null, fromUser: null};
+    let noticia =  {noticia: null, 
+        featured: null, 
+        recentes: null, 
+        list: null, 
+        categoria: null, 
+        fromUser: null,
+        count: null
+    };
     switch (action.type) {
         case FETCH_NOTICIA:
             if(state){
@@ -24,6 +31,10 @@ export default function(state = null, action) {
                     noticia.noticia = state.noticia;
                 if(state.featured)
                     noticia.featured = state.featured;
+                if(state.fromUser){
+                    noticia.fromUser = state.fromUser;
+                    noticia.count = state.count;
+                }
             }
             
             noticia.categoria = action.payload.categoria;
@@ -37,8 +48,10 @@ export default function(state = null, action) {
                     noticia.noticia = state.noticia;
                 if(state.featured)
                     noticia.featured = state.featured;
-                if(state.fromUser)
+                if(state.fromUser){
                     noticia.fromUser = state.fromUser;
+                    noticia.count = state.count;
+                }
             }
 
             noticia.recentes = action.payload.data
@@ -52,6 +65,10 @@ export default function(state = null, action) {
                     noticia.noticia = state.noticia;
                 if(state.recentes)
                     noticia.recentes = state.recentes;
+                if(state.fromUser){
+                    noticia.fromUser = state.fromUser;
+                    noticia.count = state.count;
+                }
             }
 
             noticia.featured = action.payload.data
@@ -66,8 +83,9 @@ export default function(state = null, action) {
                 if(state.recentes)
                     noticia.recentes = state.recentes;
             }
-            console.log("na noticia reducia vai setar o from user\n\n\n");
+            
             noticia.fromUser = action.payload.data
+            noticia.count = action.payload.count
             return noticia;
         default: return state;
     }

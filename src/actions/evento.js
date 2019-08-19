@@ -15,9 +15,9 @@ export const fetchEventoBySlug = async (slug) => {
 
     let config = { headers: { 'Authorization': `Bearer ${jwt}` } };
 
-    const request = axios.get(`${process.env.REACT_APP_URL_API}evento/?slug=${slug}`, config); */
+    const request = axios.get(`${process.env.REACT_APP_URL_API}eventos/?slug=${slug}`, config); */
 
-    const request = axios.get(`${process.env.REACT_APP_URL_API}evento/?slug=${slug}`);
+    const request = axios.get(`${process.env.REACT_APP_URL_API}eventos/?slug=${slug}`);
 
     return {
         type: FETCH_EVENTO,
@@ -28,7 +28,7 @@ export const fetchEventoBySlug = async (slug) => {
 
 export const fetchEventos = async(id, limit=200) => {
 
-    const request = axios.get(`${process.env.REACT_APP_URL_API}evento/?populateAssociation=false&_sort=-_id&_limit=${limit}`);
+    const request = axios.get(`${process.env.REACT_APP_URL_API}eventos/?_sort=_id:desc&_limit=${limit}`);
 
     return {
         type: FETCH_EVENTOS,
@@ -38,11 +38,11 @@ export const fetchEventos = async(id, limit=200) => {
 
 export const fetchEventosByUser = async(user_id, limit=100, sort=null) => {
     if(!sort)
-        sort = '-_id';
+        sort = '_id:desc';
     if(limit)
         limit = `&_limit=${limit}`
 
-    const request = axios.get(`${process.env.REACT_APP_URL_API}evento/?user=${user_id}&populateAssociation=false&_sort=${sort}${limit}`);
+    const request = axios.get(`${process.env.REACT_APP_URL_API}eventos/?user=${user_id}&_sort=${sort}${limit}`);
 
     return {
         type: FETCH_EVENTOS_USER,
@@ -52,21 +52,25 @@ export const fetchEventosByUser = async(user_id, limit=100, sort=null) => {
 
 export const fetchEventosByAdm = async(limit=100, sort=null) => {
     if(!sort)
-        sort = '-_id';
+        sort = '_id:desc';
     if(limit)
         limit = `&_limit=${limit}`
 
-    const request = axios.get(`${process.env.REACT_APP_URL_API}evento/?populateAssociation=false&_sort=${sort}${limit}`);
+    const request = await axios.get(`${process.env.REACT_APP_URL_API}eventos/?_sort=${sort}${limit}`);
+    const count = await axios.get(`${process.env.REACT_APP_URL_API}eventos/count`);
+    const newRequest = {data:request.data, count: count.data};
+
+    console.log("request de evnetos: ", newRequest);
 
     return {
         type: FETCH_EVENTOS_USER,
-        payload: request
+        payload: newRequest
     }
 }
 
 export const fetchEventosByTag = async(tag='', limit='', sort=null) => {
     if(!sort)
-        sort = '-_id';
+        sort = '_id:desc';
 
     if(limit)
         limit = `&_limit=${limit}`;
@@ -88,7 +92,7 @@ export const fetchEventosByTag = async(tag='', limit='', sort=null) => {
 
     if(tags !== '')
     {
-        const request = await axios.get(`${process.env.REACT_APP_URL_API}evento/?${tags}&_sort=${sort}${limit}`);
+        const request = await axios.get(`${process.env.REACT_APP_URL_API}eventos/?${tags}&_sort=${sort}${limit}`);
         request.tag = req.data[0];
         return {
             type: FETCH_EVENTOS,
@@ -105,7 +109,7 @@ export const fetchEventosByTag = async(tag='', limit='', sort=null) => {
 
 export const fetchEventosBySearch = async(search='', limit='', sort=null) => {
     if(!sort)
-        sort = '-_id';
+        sort = '_id:desc';
 
     if(limit)
         limit = `&_limit=${limit}`;
@@ -127,7 +131,7 @@ export const fetchEventosBySearch = async(search='', limit='', sort=null) => {
 
     let keyword = '';
     if(search.keyword){
-        req = await axios.get(`${process.env.REACT_APP_URL_API}categoria/?slug=${search.keyword}&tipo=evento`);
+        req = await axios.get(`${process.env.REACT_APP_URL_API}categorias/?slug=${search.keyword}&tipo=evento`);
 
         if(req.data.length > 0){
             console.log("request do tag: ", req.data);
@@ -138,7 +142,7 @@ export const fetchEventosBySearch = async(search='', limit='', sort=null) => {
     }
 
 
-    const request = await axios.get(`${process.env.REACT_APP_URL_API}evento/?${bairros}${keyword}&_sort=${sort}${limit}`);
+    const request = await axios.get(`${process.env.REACT_APP_URL_API}eventos/?${bairros}${keyword}&_sort=${sort}${limit}`);
     
     return {
         type: FETCH_EVENTOS,
@@ -150,7 +154,7 @@ export const fetchEventosBySearch = async(search='', limit='', sort=null) => {
 
 export const fetchEventosByCategory = async(category='', limit='', sort=null) => {
     if(!sort)
-        sort = '-_id';
+        sort = '_id:desc';
 
     if(limit)
         limit = `&_limit=${limit}`;
@@ -160,7 +164,7 @@ export const fetchEventosByCategory = async(category='', limit='', sort=null) =>
     let categoria = ''
     let req;
     if(category){
-        req = await axios.get(`${process.env.REACT_APP_URL_API}categoria/?populateAssociation=false&slug=eventos/${category}`);
+        req = await axios.get(`${process.env.REACT_APP_URL_API}categorias/?slug=eventos/${category}`);
 
         if(req.data.length > 0){
             categoria=`categorias=${req.data[0]._id}&`
@@ -169,7 +173,7 @@ export const fetchEventosByCategory = async(category='', limit='', sort=null) =>
 
     if(categoria !== '')
     {
-        const request = await axios.get(`${process.env.REACT_APP_URL_API}evento/?${categoria}&_sort=${sort}${limit}`);
+        const request = await axios.get(`${process.env.REACT_APP_URL_API}eventos/?${categoria}&_sort=${sort}${limit}`);
         request.categoria = req.data[0];
         return {
             type: FETCH_EVENTOS,
@@ -186,7 +190,7 @@ export const fetchEventosByCategory = async(category='', limit='', sort=null) =>
 
 export const fetchEventosRecentes = async(id, limit=5) => {
 
-    const request = axios.get(`${process.env.REACT_APP_URL_API}evento/?_sort=-_id&_limit=${limit}`);
+    const request = axios.get(`${process.env.REACT_APP_URL_API}eventos/?_sort=_id:desc&_limit=${limit}`);
 
     return {
         type: FETCH_EVENTOS_RECENTES,

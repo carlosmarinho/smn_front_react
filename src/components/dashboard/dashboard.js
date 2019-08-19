@@ -97,13 +97,22 @@ class Dashboard extends Component{
     }
 
     getImageSrc(item){
-        if(item.s3_imagem_destacada){
-            return item.old_imagem_destacada;
+        const { s3_imagem_destacada, old_imagem_destacada, imagem_destacada } = item
+        
+        if(s3_imagem_destacada){
+            return s3_imagem_destacada;
         }
-        if(item.old_imagem_destacada) {
-            return item.old_imagem_destacada;
+        if(old_imagem_destacada) {
+            if(old_imagem_destacada.includes('.amazonaws'))
+                return old_imagem_destacada;
+
+            return old_imagem_destacada.replace('http://soumaisniteroi', 'http://engenhoca.soumaisniteroi');;
         }
-        else if(item.imagem_destacada){
+        else if(imagem_destacada){
+            if(imagem_destacada.url){
+                return imagem_destacada.url;
+            }
+
             //implementar codigo
             return "http://images.soumaisniteroi.com.br/wp-content/uploads/2015/04/no-image.png";
         }
@@ -117,7 +126,7 @@ class Dashboard extends Component{
             return this.props.noticias.fromUser.map( noticia => {
                 
                 return(
-                    <li className="view-msg">
+                    <li key={noticia._id} className="view-msg">
                         <h5><img src={this.getImageSrc(noticia)} alt="" />{noticia.titulo} <span className="tz-msg-un-read">{(noticia.status === false)?'Inativo':'Ativo'}</span></h5>
                         <p>{truncate(noticia.descricao.replace(/&#13;/g,'').replace(/<\/?[^>]+(>|$)/g, ""), { length: 200, separator: /,?\.* +/ })}</p>
                         <div className="hid-msg">
@@ -143,15 +152,27 @@ class Dashboard extends Component{
         
         
         
-        if(this.props.guias && this.props.guias.fromUser)
-            totalGuias = this.props.guias.fromUser.length;
+        if(this.props.guias && this.props.guias.fromUser){
+            if(this.props.guias.count)
+                totalGuias = this.props.guias.count;
+            else
+                totalGuias = this.props.guias.fromUser.length;
+
+        }
         
         if(this.props.eventos && this.props.eventos.fromUser){
-            totalEventos = this.props.eventos.fromUser.length;
+            if(this.props.eventos.count)
+                totalEventos = this.props.eventos.count;
+            else
+                totalEventos = this.props.eventos.fromUser.length;
         }
 
-        if(this.props.noticias && this.props.noticias.fromUser)
-            totalNoticias = this.props.noticias.fromUser.length;
+        if(this.props.noticias && this.props.noticias.fromUser){
+            if(this.props.noticias.count)
+                totalNoticias = this.props.noticias.count;
+            else
+                totalNoticias = this.props.noticias.fromUser.length;
+        }
 
 
         return(

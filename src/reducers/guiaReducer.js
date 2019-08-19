@@ -2,7 +2,14 @@ import { FETCH_GUIA, REMOVE_IMAGE_GUIA, FETCH_GUIAS, FETCH_GUIAS_RECENTES, FETCH
 
 export default function(state = null, action) {
     
-    let guia =  {guia: null, recentes: null, list: null, featured: null, categoria: null, fromUser: null};
+    let guia =  { guia: null, 
+        recentes: null, 
+        list: null, 
+        featured: null, 
+        categoria: null, 
+        fromUser: null,
+        count: null
+    };
     switch (action.type) {
         case REMOVE_IMAGE_GUIA:
             if(action.payload !== false){
@@ -18,11 +25,13 @@ export default function(state = null, action) {
                 if(state.featured)
                     guia.featured = state.featured;
                 if(state.list)
-                    guia.list = state.list
+                    guia.list = state.list;
                 if(state.categoria)
-                    guia.categoria = state.categoria
-                if(state.fromUser)
-                    guia.fromUser = state.fromUser
+                    guia.categoria = state.categoria;
+                if(state.fromUser){
+                    guia.fromUser = state.fromUser;
+                    guia.count = state.count;
+                }
             }
             
             console.log("guia no FETCH_GUIA: ", action.payload)
@@ -40,11 +49,13 @@ export default function(state = null, action) {
                 if(state.featured)
                     guia.featured = state.featured;
                 if(state.guia)
-                    guia.guia = state.guia
+                    guia.guia = state.guia;
                 if(state.categoria)
-                    guia.categoria = state.categoria
-                if(state.fromUser)
-                    guia.fromUser = state.fromUser
+                    guia.categoria = state.categoria;
+                if(state.fromUser) {
+                    guia.fromUser = state.fromUser;
+                    guia.count = state.count;
+                }
             }
             
             guia.categoria = action.payload.categoria;
@@ -58,11 +69,13 @@ export default function(state = null, action) {
                 if(state.featured)
                     guia.featured = state.featured;
                 if(state.categoria)
-                    guia.categoria = state.categoria
+                    guia.categoria = state.categoria;
                 if(state.guia)
-                    guia.guia = state.guia
-                if(state.fromUser)
-                    guia.fromUser = state.fromUser
+                    guia.guia = state.guia;
+                if(state.fromUser) {
+                    guia.fromUser = state.fromUser;
+                    guia.count = state.count;
+                }
             }
 
             guia.recentes = action.payload.data
@@ -75,11 +88,13 @@ export default function(state = null, action) {
                 if(state.list)
                     guia.list = state.list;
                 if(state.guia)
-                    guia.guia = state.guia
+                    guia.guia = state.guia;
                 if(state.categoria)
-                    guia.categoria = state.categoria
-                if(state.fromUser)
-                    guia.fromUser = state.fromUser
+                    guia.categoria = state.categoria;
+                if(state.fromUser) {
+                    guia.fromUser = state.fromUser;
+                    guia.count = state.count;
+                }
             }
 
             guia.featured = action.payload.data
@@ -92,16 +107,17 @@ export default function(state = null, action) {
                 if(state.list)
                     guia.list = state.list;
                 if(state.guia)
-                    guia.guia = state.guia
+                    guia.guia = state.guia;
                 if(state.categoria)
-                    guia.categoria = state.categoria
+                    guia.categoria = state.categoria;
                 if(state.featured)
-                    guia.featured = state.featured
+                    guia.featured = state.featured;
             }
 
-            console.log("caiu no guias user no reducer", action.payload);
+            console.log("FROM USER O PAYLOAD: ", action.payload);
 
-            guia.fromUser = action.payload.data
+            guia.fromUser = action.payload.data;
+            guia.count = action.payload.count;
             return guia;
 
         default: return state;

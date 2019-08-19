@@ -36,6 +36,11 @@ import DashboardEvento from './components/dashboard/evento/evento'
 import DashboardEventoNew from './components/dashboard/evento/new'
 import DashboardEventoEdit from './components/dashboard/evento/edit'
 
+import DashboardNoticia from './components/dashboard/noticia/noticia'
+import DashboardNoticiaNew from './components/dashboard/noticia/new'
+import DashboardNoticiaEdit from './components/dashboard/noticia/edit'
+
+
 import BairroGrid from './components/modules/bairro-grid'
 import NotFound from './components/not-found'
 
@@ -50,7 +55,6 @@ import ReactGA from 'react-ga';
 ReactGA.initialize('UA-17728772-17');
 ReactGA.pageview(window.location.pathname + window.location.search);
 
-const DashboardNoticia = () => {};
 
 let city_or_neighbor = 'city/niteroi';
 //let city_or_neighbor = 'district/engenhoca';
@@ -165,6 +169,8 @@ class App extends Component {
                                 <Route exact path="/dashboard/eventos/edit/:id" component={DashboardEventoEdit} />
                                 
                                 <Route exact path="/dashboard/noticias" component={DashboardNoticia} />
+                                <Route exact path="/dashboard/noticias/novo" component={DashboardEventoNew} />
+                                <Route exact path="/dashboard/noticias/edit/:id" component={DashboardEventoEdit} />
                                 
                                 <Route exact path="/connect/facebook/" component={Connect} />
                                 <Route exact path="/" component={Home} />

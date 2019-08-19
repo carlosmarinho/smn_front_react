@@ -26,7 +26,7 @@ class Home extends Component {
         console.log("\n\nRedirecionou para o homeeeeeeeee\n\n");
         this.props.fetchFeaturedGuias('5ba26f813a018f42215a36a0');
         this.props.fetchEventos('5ba26f813a018f42215a36a0', 4);
-        this.props.fetchNoticiasFeatured('5ba26f813a018f42215a36a0', 5, '-_id');
+        this.props.fetchNoticiasFeatured('5ba26f813a018f42215a36a0', 5, '_id:desc');
         this.props.fetchCityBySlug('niteroi');
         
     }

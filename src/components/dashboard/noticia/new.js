@@ -14,7 +14,7 @@ import { fetchCategories } from '../../../actions/categoria';
 import { fetchTags } from '../../../actions/tag';
 import { fetchCities } from '../../../actions/city';
 import { fetchBairros } from '../../../actions/bairro';
-import { SUCCESS_CREATE_GUIA } from '../../../actions/types';
+import { SUCCESS_CREATE_NOTICIA } from '../../../actions/types';
 
 
 import DropdownList from 'react-widgets/lib/DropdownList'
@@ -23,7 +23,7 @@ import Multiselect from 'react-widgets/lib/Multiselect'
 
 import 'react-widgets/dist/css/react-widgets.css'
 
-import {createGuia} from '../../../actions/guia';
+import {createNoticia} from '../../../actions/noticia';
 
 const myFile = value => {
 	if(value){
@@ -62,7 +62,7 @@ const minLength = min => value =>
     value && value.length < min ? `O campo deve conter no mínimo ${min} caracteres` : undefined;
 
 
-class GuiaNew extends Component{
+class NoticiaNew extends Component{
 
     constructor(){
         super();
@@ -84,16 +84,16 @@ class GuiaNew extends Component{
 		
         if(user !== null){
 			this.setState({userLogged:true})
-			this.props.fetchCategories('guia comercial', 250, 'parent_id');
+			this.props.fetchCategories('noticia comercial', 250, 'parent_id');
 			this.props.fetchTags();
 			this.props.fetchCities();
 			this.props.fetchBairros('5ba26f813a018f42215a36a0', 200, 'nome');
             // if(user.user.role.name == 'Administrator'){
-				//     this.props.fetchGuiasByAdm(7);
+				//     this.props.fetchNoticiasByAdm(7);
                 
 				// }
 				// else{
-            //     this.props.fetchGuiasByUser(user.user._id, 5);
+            //     this.props.fetchNoticiasByUser(user.user._id, 5);
 			// }
 			if(this.props.message){
 				this.props.message.success = null;
@@ -107,7 +107,7 @@ class GuiaNew extends Component{
 	
 	handleSubmit(values){
         
-		this.props.createGuia(values);
+		this.props.createNoticia(values);
 			
     }
 
@@ -119,22 +119,13 @@ class GuiaNew extends Component{
 
     
     getImageSrc(item){
-        const { s3_imagem_destacada, old_imagem_destacada, imagem_destacada } = item
-        
-        if(s3_imagem_destacada){
-            return s3_imagem_destacada;
+        if(item.s3_imagem_destacada){
+            return item.old_imagem_destacada;
         }
-        if(old_imagem_destacada) {
-            if(old_imagem_destacada.includes('.amazonaws'))
-                return old_imagem_destacada;
-
-            return old_imagem_destacada.replace('http://soumaisniteroi', 'http://engenhoca.soumaisniteroi');;
+        if(item.old_imagem_destacada) {
+            return item.old_imagem_destacada;
         }
-        else if(imagem_destacada){
-            if(imagem_destacada.url){
-                return imagem_destacada.url;
-            }
-
+        else if(item.imagem_destacada){
             //implementar codigo
             return "http://images.soumaisniteroi.com.br/wp-content/uploads/2015/04/no-image.png";
         }
@@ -267,14 +258,14 @@ class GuiaNew extends Component{
 	showMessage(){
 		console.log("no show message: ", this.props.message);
         if(this.props.message){
-            if(this.props.message.error && this.props.message.error.guia){
+            if(this.props.message.error && this.props.message.error.noticia){
                 return(
-                    <p className="text-danger text-center"><strong>{this.props.message.error.guia.msg}</strong></p>
+                    <p className="text-danger text-center"><strong>{this.props.message.error.noticia.msg}</strong></p>
                 )
             }
-            else if(this.props.message.success && this.props.message.success.guia){
+            else if(this.props.message.success && this.props.message.success.noticia){
                 return(
-                    <p className="text-success text-center"><strong>Guia cadastrado com sucesso!</strong></p>
+                    <p className="text-success text-center"><strong>Noticia cadastrado com sucesso!</strong></p>
                 )
             }
         }
@@ -345,7 +336,7 @@ class GuiaNew extends Component{
 							<Field
 									name="tipo"
 									component={this.renderSelect}
-									options={[{'guia comercial':'Guia Comercial'}, {'guia de serviços':'Guia de Serviços'}]}
+									options={[{'noticia comercial':'Noticia Comercial'}, {'noticia de serviços':'Noticia de Serviços'}]}
 									label="Selecione o tipo"
 									classCol="s4"
 									className="validate"
@@ -494,10 +485,10 @@ class GuiaNew extends Component{
             return <Redirect to={'/'} />
 		}
 
-		if(this.props.message && this.props.message.success.guia  ){
-			console.log("guias antes de direcionar: ", this.props.guias);
+		if(this.props.message && this.props.message.success && this.props.message.success.noticia  ){
+			console.log("noticias antes de direcionar: ", this.props.noticias);
 			console.log("message antes de direcionar: ", this.props.message);
-			return <Redirect to={`/dashboard/guias/edit/${this.props.message.success.guia.data._id}`} />
+			return <Redirect to={`/dashboard/noticias/edit/${this.props.message.success.noticia.data._id}`} />
 		}
 		
 		let categorias = [];
@@ -520,7 +511,7 @@ class GuiaNew extends Component{
 		console.log("cidades: ", cidades)
 
 		let bairros = [];
-		if(this.props.tags){
+		if(this.props.bairros){
 			bairros = this.props.bairros;
 		}
 		const { pristine, reset, submitting, handleSubmit } = this.props
@@ -537,11 +528,11 @@ class GuiaNew extends Component{
                    
                     <div className="tz-2">
 						<div className="tz-2-com tz-2-main">
-							<h4>Gerenciamento de Guias</h4>
+							<h4>Gerenciamento de Noticias</h4>
 							<div className="db-list-com tz-db-table">
 								<div className="ds-boar-title">
-									<h2>Cadastrar Novo Guia</h2>
-									<p>Cadastro de novo guia comercial/serviço</p>
+									<h2>Cadastrar Novo Noticia</h2>
+									<p>Cadastro de novo noticia comercial/serviço</p>
 									{this.showMessage()}
 								</div>
 								
@@ -563,7 +554,7 @@ function mapStateToProps(state){
     return(
         {
             user: state.users,
-			guias: state.guias,
+			noticias: state.noticias,
 			categorias: state.categorias,
 			tags: state.tags,
 			bairros: state.bairros,
@@ -574,10 +565,10 @@ function mapStateToProps(state){
     
 }
 
-const Connect = connect(mapStateToProps, {createGuia, fetchCategories, fetchTags, fetchCities, fetchBairros})(GuiaNew);
+const Connect = connect(mapStateToProps, {createNoticia, fetchCategories, fetchTags, fetchCities, fetchBairros})(NoticiaNew);
 
 export default reduxForm({
-	form: 'editGuia',
+	form: 'editNoticia',
 	initialValues: {
 		'estado': '5bce2506e8a51373aab0b047',
 		'cidade': '5ba26f813a018f42215a36a0'

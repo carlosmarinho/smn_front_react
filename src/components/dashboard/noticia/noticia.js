@@ -4,9 +4,9 @@ import MenuDashboardLeft from '../../menu-dashboard-left';
 import {connect} from 'react-redux';
 import {Link, Redirect} from 'react-router-dom';
 
-import {fetchGuiasByUser, fetchGuiasByAdm} from '../../../actions/guia';
+import {fetchNoticiasByUser, fetchNoticiasByAdm} from '../../../actions/noticia';
 
-class DashboardGuia extends Component{
+class DashboardNoticia extends Component{
 
     constructor(){
         super();
@@ -21,11 +21,11 @@ class DashboardGuia extends Component{
         if(user !== null){
             this.setState({userLogged:true})
             if(user.user.role.name == 'Administrator'){
-                this.props.fetchGuiasByAdm(10);
+                this.props.fetchNoticiasByAdm(10);
                 
             }
             else{
-                this.props.fetchGuiasByUser(user.user._id, 5);
+                this.props.fetchNoticiasByUser(user.user._id, 5);
             }
         }
         else{
@@ -39,29 +39,27 @@ class DashboardGuia extends Component{
         return date.toLocaleDateString('pt-BR')
     }
 
-    showGuias(){
-        if(this.props.guias && this.props.guias.fromUser){
-            return this.props.guias.fromUser.map( guia => {
+    showNoticias(){
+        let truncate = _.truncate;
+
+        if(this.props.noticias && this.props.noticias.fromUser){
+            return this.props.noticias.fromUser.map( noticia => {
                 
                 return(
-                    <tr key={guia.id}>
-                        <td className="td-imagem"><img src={this.getImageSrc(guia)} alt="" /></td>
-                        <td>{guia.titulo}</td>
-                        <td>{this.datePtBr(new Date(guia.createdAt))}</td>
-                        <td><span className="db-list-rat">{guia.tipo}</span>
-                        </td>
-                        <td><span className={(guia.status === false)?'db-list-ststus-na':'db-list-ststus'}>{(guia.status === false)?'Inativo':'Ativo'}</span>
-                        </td>
-                        <td className="table-information">
-                            <Link to={'/dashboard/guias/edit/' + guia._id}  ><i className="fa fa-pencil" title="edit"></i></Link>  
-                            <Link to={'/guia/' + guia.slug}  ><i className="fa fa-eye" title="view"></i></Link>
-                            <Link to={'/dashboard/guias/delete/' + guia._id}  ><i className="fa fa-trash" title="delete"></i></Link>
-                        </td>
-                    </tr>
+                    <li key={noticia._id} className="view-msg">
+                        <h5><img src={this.getImageSrc(noticia)} alt="" />{noticia.titulo} <span className="tz-msg-un-read">{(noticia.status === false)?'Inativo':'Ativo'}</span></h5>
+                        <p>{truncate(noticia.descricao.replace(/&#13;/g,'').replace(/<\/?[^>]+(>|$)/g, ""), { length: 200, separator: /,?\.* +/ })}</p>
+                        <div className="hid-msg">
+                            <Link to={'/dashboard/noticias/edit/' + noticia._id}  ><i className="fa fa-pencil" title="edit"></i></Link> 
+                            <Link to={'/noticias/' + noticia.slug}  ><i className="fa fa-eye" title="view"></i></Link>
+                            <Link to={'/dashboard/noticias/delete/' + noticia._id}  ><i className="fa fa-trash" title="delete"></i></Link>
+                        </div>
+                    </li>
                 )
                 
             })
         }
+        
     }
     
     getImageSrc(item){
@@ -94,11 +92,11 @@ class DashboardGuia extends Component{
             return <Redirect to={'/'} />
         }
 
-        let totalGuias = 0;    
+        let totalNoticias = 0;    
         
         
-        if(this.props.guias && this.props.guias.fromUser)
-            totalGuias = this.props.guias.fromUser.length;
+        if(this.props.noticias && this.props.noticias.fromUser)
+            totalNoticias = this.props.noticias.fromUser.length;
         
         return(
             <section>
@@ -109,28 +107,18 @@ class DashboardGuia extends Component{
                     { /*!--CENTER SECTION--> */}
                     <div className="tz-2">
                         <div className="tz-2-com tz-2-main">
-                            <h4>Gerenciamento de Guias</h4>
+                            <h4>Gerenciamento de Noticias</h4>
                             
                             <div className="db-list-com tz-db-table">
                                 <div className="ds-boar-title">
-                                    <h2>Guias Comerciais/Serviços</h2>
-                                    <p>Listagem de seus guias comercias/serviços</p>
+                                    <h2>Noticias</h2>
+                                    <p>Listagem de suas notícias</p>
                                 </div>
-                                <table className="responsive-table bordered">
-                                    <thead>
-                                        <tr>
-                                            <th></th>
-                                            <th>Nome</th>
-                                            <th>Data</th>
-                                            <th>tipo</th>
-                                            <th>Status</th>
-                                            <th>Ações</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        {this.showGuias()}
-                                    </tbody>
-                                </table>                            
+                                <div className="tz-mess">
+                                    <ul>
+                                        {this.showNoticias()}
+                                    </ul>
+                                </div>                            
                             </div>
                         </div>
                     </div>
@@ -146,10 +134,10 @@ function mapStateToProps(state){
     return(
         {
             user: state.users,
-            guias: state.guias,
+            noticias: state.noticias,
         }
     )
     
 }
 
-export default connect(mapStateToProps, {fetchGuiasByUser, fetchGuiasByAdm})(DashboardGuia);
+export default connect(mapStateToProps, {fetchNoticiasByUser, fetchNoticiasByAdm})(DashboardNoticia);

@@ -7,7 +7,7 @@ export const createContact = async(contact) =>  {
     console.log("vai criar o CONTATO");
     let request;
     try{
-        request = await axios.post(`${process.env.REACT_APP_URL_API}contato`, contact);
+        request = await axios.post(`${process.env.REACT_APP_URL_API}contatos`, contact);
         console.log("vai enviar o request para criar: ", request);
         if(request.statusText == 'OK'){
             return({
