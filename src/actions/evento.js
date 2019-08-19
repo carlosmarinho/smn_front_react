@@ -1,6 +1,96 @@
+import _ from 'lodash';
 import axios from 'axios';
-import { FETCH_EVENTO, FETCH_EVENTOS, FETCH_EVENTOS_RECENTES, FETCH_EVENTOS_USER } from "./types";
+import { 
+    SUCCESS_CREATE_EVENTO, 
+    ERROR_CREATE_EVENTO, 
+    FETCH_EVENTO, 
+    FETCH_EVENTOS, 
+    FETCH_EVENTOS_RECENTES, 
+    FETCH_EVENTOS_USER 
+} from "./types";
 
+export const createEvento = async (evento) => {
+
+    let user = JSON.parse(localStorage.getItem('user'));
+    console.log("evento post: ", evento);
+    let request;
+    if(user){
+        try
+        {
+            //correção para salvar uma relação no strapi
+            let eventotosave = _.clone(evento);
+            eventotosave.cidade = [evento.cidade];
+            eventotosave.galeria_img = '';
+            eventotosave.imagem_principal = '';
+            eventotosave.bairros = [evento.bairros];
+
+            let jwt = user.jwt    
+            let config = { headers: { 'Authorization': `Bearer ${jwt}` } };            
+
+            request = await axios.post(`${process.env.REACT_APP_URL_API}eventos/`, eventotosave, config);
+
+            if(request.statusText == 'OK'){
+                new FormData(evento)
+    
+                if(evento.imagem_principal){
+                    let imagem_destacada = {    
+                        "files": evento.imagem_principal[0], // Buffer or stream of file(s)
+                        "path": "evento/destacada", // Uploading folder of file(s).
+                        "refId": request.data._id, // Evento's Id.
+                        "ref": "evento", // Model name.
+                        //"source": "users-permissions", // Plugin name.
+                        "field": "imagem_destacada" // Field name in the User model.
+                    }    
+                    
+                    let form = new FormData();
+    
+                    _.map(imagem_destacada, (value, key) => {
+                        if(key == 'imagem_destacada'){
+                            console.log("key: ", key, " --- value é FIELD: ", value);
+                        }
+                        
+                        form.append(key, value);
+                    })
+                    
+                    console.log("imagem destacada: ", imagem_destacada, '----', form);
+    
+                    //let config1 = { headers: { 'Authorization': `Bearer ${jwt}`, 'Content-Type': 'multipart/form-data' } };
+                    let request_img = await axios.post(`${process.env.REACT_APP_URL_API}upload/`, form, config);
+                }
+
+                return({
+                    type: SUCCESS_CREATE_EVENTO,
+                    payload: request
+                })
+            }
+            else{
+                console.log("cadastrando o evento ver o erro: ", request);
+                return({
+                    type: ERROR_CREATE_EVENTO,
+                    payload: {msg: "Houve um erro ao cadastrar o seu evento!" }
+                })
+            }
+        }
+        catch(error){
+            console.log("ERROR DO CREATE EVENTO: ", error)
+            return({
+                type: ERROR_CREATE_EVENTO,
+                payload: {msg: "Houve um erro ao efetuar o cadastro do seu evento!" }
+            })
+        } 
+    
+    }
+    else{
+        return(
+            {
+                type: ERROR_CREATE_EVENTO,
+                payload: {msg: "Usuário não logado"}
+            }
+        )
+    }
+
+    
+}
 
 export const fetchEventoBySlug = async (slug) => {
 

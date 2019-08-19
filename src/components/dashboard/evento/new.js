@@ -14,7 +14,7 @@ import { fetchCategories } from '../../../actions/categoria';
 import { fetchTags } from '../../../actions/tag';
 import { fetchCities } from '../../../actions/city';
 import { fetchBairros } from '../../../actions/bairro';
-import { SUCCESS_CREATE_GUIA } from '../../../actions/types';
+import { SUCCESS_CREATE_EVENTO } from '../../../actions/types';
 
 
 import DropdownList from 'react-widgets/lib/DropdownList'
@@ -23,7 +23,7 @@ import Multiselect from 'react-widgets/lib/Multiselect'
 
 import 'react-widgets/dist/css/react-widgets.css'
 
-import {createGuia} from '../../../actions/guia';
+import {createEvento} from '../../../actions/evento';
 
 const myFile = value => {
 	if(value){
@@ -62,7 +62,7 @@ const minLength = min => value =>
     value && value.length < min ? `O campo deve conter no mínimo ${min} caracteres` : undefined;
 
 
-class GuiaNew extends Component{
+class EventoNew extends Component{
 
     constructor(){
         super();
@@ -84,16 +84,16 @@ class GuiaNew extends Component{
 		
         if(user !== null){
 			this.setState({userLogged:true})
-			this.props.fetchCategories('guia comercial', 250, 'parent_id');
+			this.props.fetchCategories('evento comercial', 250, 'parent_id');
 			this.props.fetchTags();
 			this.props.fetchCities();
 			this.props.fetchBairros('5ba26f813a018f42215a36a0', 200, 'nome');
             // if(user.user.role.name == 'Administrator'){
-				//     this.props.fetchGuiasByAdm(7);
+				//     this.props.fetchEventosByAdm(7);
                 
 				// }
 				// else{
-            //     this.props.fetchGuiasByUser(user.user._id, 5);
+            //     this.props.fetchEventosByUser(user.user._id, 5);
 			// }
 			if(this.props.message){
 				this.props.message.success = null;
@@ -107,7 +107,7 @@ class GuiaNew extends Component{
 	
 	handleSubmit(values){
         
-		this.props.createGuia(values);
+		this.props.createEvento(values);
 			
     }
 
@@ -267,14 +267,14 @@ class GuiaNew extends Component{
 	showMessage(){
 		console.log("no show message: ", this.props.message);
         if(this.props.message){
-            if(this.props.message.error && this.props.message.error.guia){
+            if(this.props.message.error && this.props.message.error.evento){
                 return(
-                    <p className="text-danger text-center"><strong>{this.props.message.error.guia.msg}</strong></p>
+                    <p className="text-danger text-center"><strong>{this.props.message.error.evento.msg}</strong></p>
                 )
             }
-            else if(this.props.message.success && this.props.message.success.guia){
+            else if(this.props.message.success && this.props.message.success.evento){
                 return(
-                    <p className="text-success text-center"><strong>Guia cadastrado com sucesso!</strong></p>
+                    <p className="text-success text-center"><strong>Evento cadastrado com sucesso!</strong></p>
                 )
             }
         }
@@ -343,53 +343,46 @@ class GuiaNew extends Component{
 						</div>
 						<div className="row">
 							<Field
-									name="tipo"
-									component={this.renderSelect}
-									options={[{'guia comercial':'Guia Comercial'}, {'guia de serviços':'Guia de Serviços'}]}
-									label="Selecione o tipo"
-									classCol="s4"
-									className="validate"
-									validate={[required]}
-							/>
-							<Field
-								name="telefone"
+								name="inicio"
 								component={this.renderField}
 								type="text"
-								label="Telefone"
-								classCol="s4"
-								className="validate"
-								validate={[]}
-							/>
-							<Field
-								name="celular"
-								component={this.renderField}
-								type="text"
-								label="Celular"
-								classCol="s4"
-								className="validate"
-								validate={[]}
-							/>
-						</div>
-						<div className="row">
-							<Field
-								name="email"
-								component={this.renderField}
-								type="text"
-								label="Email"
+								label="Data inicial do Evento"
 								classCol="s6"
 								className="validate"
-								validate={[email({allowBlank:true, message: "Email inválido!"})]}
+								validate={[ required ]}
 							/>
 							<Field
-								name="website"
+								name="fim"
 								component={this.renderField}
 								type="text"
-								label="Website"
+								label="Data final do Evento"
 								classCol="s6"
 								className="validate"
-								validate={[url({allowBlank:true, protocolIdentifier:false})]}
+								validate={[ required ]}
 							/>
 						</div>
+						<div className="row">							
+							<Field
+								name="hora_inicio"
+								component={this.renderField}
+								type="text"
+								label="Horário inicial do Evento"
+								classCol="s6"
+								className="validate"
+								validate={[ required ]}
+							/>
+							<Field
+								name="hora_fim"
+								component={this.renderField}
+								type="text"
+								label="Horário final do Evento"
+								classCol="s6"
+								className="validate"
+								validate={[ required ]}
+							/>
+							
+						</div>
+						
 						<div className="row">
 							<div className="input-field input-field-edit col s12">
 								<Field name="descricao" component="textarea" />
@@ -400,30 +393,10 @@ class GuiaNew extends Component{
 
 						<div className="row">
 							<div className="db-v2-list-form-inn-tit">
-								<h5>Endereço:</h5>
+								<h5>Endereço do Evento:</h5>
 							</div>
 						</div>
-						<div className="row">
-							<Field
-								name="cep"
-								component={this.renderField}
-								type="text"
-								label="Cep"
-								classCol="s6"
-								className="validate"
-								validate={[]}
-							/>
-							
-							<Field
-								name="complemento"
-								component={this.renderField}
-								type="text"
-								label="Complemento"
-								classCol="s6"
-								className="validate"
-								validate={[]}
-							/>
-						</div>
+						
 						
 						<div className="row">
 							<Field
@@ -494,10 +467,10 @@ class GuiaNew extends Component{
             return <Redirect to={'/'} />
 		}
 
-		if(this.props.message && this.props.message.success.guia  ){
-			console.log("guias antes de direcionar: ", this.props.guias);
+		if(this.props.message && this.props.message.success.evento  ){
+			console.log("eventos antes de direcionar: ", this.props.eventos);
 			console.log("message antes de direcionar: ", this.props.message);
-			return <Redirect to={`/dashboard/guias/edit/${this.props.message.success.guia.data._id}`} />
+			return <Redirect to={`/dashboard/eventos/edit/${this.props.message.success.evento.data._id}`} />
 		}
 		
 		let categorias = [];
@@ -537,11 +510,11 @@ class GuiaNew extends Component{
                    
                     <div className="tz-2">
 						<div className="tz-2-com tz-2-main">
-							<h4>Gerenciamento de Guias</h4>
+							<h4>Gerenciamento de Eventos</h4>
 							<div className="db-list-com tz-db-table">
 								<div className="ds-boar-title">
-									<h2>Cadastrar Novo Guia</h2>
-									<p>Cadastro de novo guia comercial/serviço</p>
+									<h2>Cadastrar Novo Evento</h2>
+									<p>Cadastro de novo evento comercial/serviço</p>
 									{this.showMessage()}
 								</div>
 								
@@ -563,7 +536,7 @@ function mapStateToProps(state){
     return(
         {
             user: state.users,
-			guias: state.guias,
+			eventos: state.eventos,
 			categorias: state.categorias,
 			tags: state.tags,
 			bairros: state.bairros,
@@ -574,10 +547,10 @@ function mapStateToProps(state){
     
 }
 
-const Connect = connect(mapStateToProps, {createGuia, fetchCategories, fetchTags, fetchCities, fetchBairros})(GuiaNew);
+const Connect = connect(mapStateToProps, {createEvento, fetchCategories, fetchTags, fetchCities, fetchBairros})(EventoNew);
 
 export default reduxForm({
-	form: 'editGuia',
+	form: 'editEvento',
 	initialValues: {
 		'estado': '5bce2506e8a51373aab0b047',
 		'cidade': '5ba26f813a018f42215a36a0'
