@@ -47,7 +47,7 @@ class BairroGrid extends Component {
                 return s3_imagem_destacada;
             }
             if(old_imagem_destacada) {
-                return old_imagem_destacada.replace('http://soumaisniteroi', 'http://engenhoca.soumaisniteroi');
+                return old_imagem_destacada.replace('http://soumaisniteroi', 'http://images.soumaisniteroi');
             }
             else if(imagem_destacada){
                 if(imagem_destacada.url){
