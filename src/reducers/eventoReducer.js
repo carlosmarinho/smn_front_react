@@ -1,9 +1,21 @@
-import { FETCH_EVENTO, FETCH_EVENTOS, FETCH_EVENTOS_RECENTES, FETCH_EVENTOS_USER } from "../actions/types";
+import { FETCH_EVENTO, 
+    FETCH_EVENTOS, 
+    FETCH_EVENTOS_RECENTES, 
+    FETCH_EVENTOS_USER,
+    REMOVE_IMAGE_EVENTO, 
+} from "../actions/types";
 
 export default function(state = null, action) {
 
-    let evento =  {erecentes: null, list: null, featured: null, fromUser: null, count: null};
+    let evento =  {recentes: null, list: null, featured: null, fromUser: null, count: null, evento: null};
     switch (action.type) {
+        case REMOVE_IMAGE_EVENTO:
+            if(action.payload !== false){
+                evento.evento = state.evento;
+                evento.evento.imagem_destacada = [];
+            }
+
+            return evento;
         case FETCH_EVENTO:
             if(state){
                 if(state.recentes)
@@ -18,7 +30,8 @@ export default function(state = null, action) {
                 }
             }
             
-            evento.evento = action.payload.data[0];
+            evento.evento = action.payload.data;
+            console.log("evento no reducer", action.payload);
             return evento;
         case FETCH_EVENTOS:
             if(state){
@@ -26,7 +39,7 @@ export default function(state = null, action) {
                     evento.recentes = state.recentes;
                 if(state.featured)
                     evento.featured = state.featured;
-                if(state.list)
+                if(state.evento)
                     evento.evento = state.evento;
                 if(state.fromUser){
                     evento.fromUser = state.fromUser;

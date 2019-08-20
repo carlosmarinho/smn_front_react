@@ -91,7 +91,6 @@ class GuiaEdit extends Component{
 		let user = JSON.parse(localStorage.getItem('user'));
 		
         if(user !== null){
-			console.log("user aqui no dashboard: ", this.props.match.params.id);
 			this.setState({userLogged:true})
 			this.props.fetchCategories('guia comercial', 250, 'parent_id');
 			this.props.fetchTags();
@@ -293,7 +292,7 @@ class GuiaEdit extends Component{
 		if(this.props.guias && this.props.guias.guia && this.props.guias.guia.imagem_destacada){
 			return(
 				<div className="file-input">
-					<img src={this.props.guias.guia.imagem_destacada.url} /><a href="#" onClick={e => this.removeImage(e, this.props.guias.guia.imagem_destacada._id)}>Remover</a>
+					<img src={this.getImageSrc(this.props.eventos.evento)} /><a href="#" onClick={e => this.removeImage(e, this.props.guias.guia.imagem_destacada._id)}>Remover</a>
 				</div>
 			)
 		}
@@ -645,12 +644,10 @@ class GuiaEdit extends Component{
 		}
 
 		let tags = [];
-		console.log("aqui o length: ", this.state.tags.length)
 		if(this.state.tags.length > 0){
 			tags = this.state.tags;
 		}
 		else if(this.props.tags){
-			console.log("caiu aqui no props tags")
 			tags = this.props.tags.list;
 			tags = this.proccessJsonForMultSelect(tags);
 		}
@@ -911,8 +908,13 @@ function mapStateToProps(state, ownProps){
 		
 		guiaInit.estado = '5bce2506e8a51373aab0b047';
 		
-		if(guiaInit.cidade && _.isArray(guiaInit.cidade)){
-			guiaInit.cidade = guiaInit.cidade[0]._id;
+		if(guiaInit.cidade){
+			if(_.isArray(guiaInit.cidade) && guiaInit.cidade._id){
+				guiaInit.cidade = guiaInit.cidade[0]._id;
+			}
+			else if(guiaInit.cidade._id){
+				guiaInit.cidade = guiaInit.cidade._id;
+			}
 		}
 
 		if(guiaInit.bairros && _.isArray(guiaInit.bairros) && guiaInit.bairros.length > 0){

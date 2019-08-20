@@ -80,7 +80,6 @@ class GuiaNew extends Component{
 	
     componentDidMount(){
 		let user = JSON.parse(localStorage.getItem('user'));
-        console.log("user aqui no dashboard: ", user);
 		
         if(user !== null){
 			this.setState({userLogged:true})
@@ -507,8 +506,6 @@ class GuiaNew extends Component{
 		if(this.props.cidades){
 			cidades = this.props.cidades;
 		}
-
-		console.log("cidades: ", cidades)
 
 		let bairros = [];
 		if(this.props.bairros){

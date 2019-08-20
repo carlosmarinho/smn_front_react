@@ -53,16 +53,16 @@ export default function(state = null, action) {
             message.success.guia.msg = "Guia cadastrado com sucesso!"
             return message;
         case ERROR_EDIT_GUIA:
-                message.success.user = null
-                
-                message.error.guia = action.payload;
-                return message;
+            message.success.user = null
+            
+            message.error.guia = action.payload;
+            return message;
         case SUCCESS_EDIT_GUIA:
-                message.error.user = null;
-                
-                message.success.guia = action.payload;
-                message.success.guia.msg = "Guia editado com sucesso!"
-                return message;
+            message.error.user = null;
+            
+            message.success.guia = action.payload;
+            message.success.guia.msg = "Guia editado com sucesso!"
+            return message;
         case ERROR_CREATE_EVENTO:
             message.success.user = null
             
@@ -77,18 +77,18 @@ export default function(state = null, action) {
             message.success.evento.msg = "Evento cadastrado com sucesso!"
             return message;
         case ERROR_EDIT_EVENTO:
-                message.success.user = null
-                
-                console.log("Retorno do payload no error create EVENTO: ", action.payload)
-                message.error.evento = action.payload;
-                return message;
+            message.success.user = null
+            
+            console.log("Retorno do payload no error create EVENTO: ", action.payload)
+            message.error.evento = action.payload;
+            return message;
         case SUCCESS_EDIT_EVENTO:
-                message.error.user = null;
-                
-                console.log("Retorno do payload no succcesssss create EVENTO: ", action.payload)
-                message.success.evento = action.payload;
-                message.success.evento.msg = "Evento editado com sucesso!"
-                return message;
+            message.error.user = null;
+            
+            console.log("Retorno do payload no succcesssss create EVENTO: ", action.payload)
+            message.success.evento = action.payload;
+            message.success.evento.msg = "Evento editado com sucesso!"
+            return message;
         case ERROR_CREATE_NOTICIA:
             message.success.user = null
             

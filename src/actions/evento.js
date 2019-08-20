@@ -2,11 +2,14 @@ import _ from 'lodash';
 import axios from 'axios';
 import { 
     SUCCESS_CREATE_EVENTO, 
-    ERROR_CREATE_EVENTO, 
+    ERROR_CREATE_EVENTO,
+    SUCCESS_EDIT_EVENTO, 
+    ERROR_EDIT_EVENTO,  
     FETCH_EVENTO, 
     FETCH_EVENTOS, 
     FETCH_EVENTOS_RECENTES, 
-    FETCH_EVENTOS_USER 
+    FETCH_EVENTOS_USER,
+    REMOVE_IMAGE_EVENTO,
 } from "./types";
 
 export const createEvento = async (evento) => {
@@ -88,9 +91,108 @@ export const createEvento = async (evento) => {
             }
         )
     }
-
-    
 }
+
+export const editEvento = async (evento, id) => {
+
+    let user = JSON.parse(localStorage.getItem('user'));
+    console.log("evento post editar: id: ", id, ' --- ', evento);
+    let request;
+    if(user){
+        try
+        {
+            //correção para salvar uma relação no strapi
+            let eventotosave = _.clone(evento);
+            eventotosave.cidade = [evento.cidade];
+            eventotosave.galeria_img = '';
+            eventotosave.imagem_principal = '';
+            eventotosave.bairros = [evento.bairros];
+
+            let jwt = user.jwt    
+            let config = { headers: { 'Authorization': `Bearer ${jwt}` } };
+          
+            request = await axios.put(`${process.env.REACT_APP_URL_API}eventos/${id}`, eventotosave, config);
+
+            if(request.statusText == 'OK'){
+                //new FormData(evento)
+    
+                if(evento.imagem_principal){
+                    console.log("imagem destacada: ", evento.imagem_principal[0])
+                    let imagem_destacada = {    
+                        "files": evento.imagem_principal[0], // Buffer or stream of file(s)
+                        "path": "evento/destacada", // Uploading folder of file(s).
+                        "refId": request.data._id, // Evento's Id.
+                        "ref": "evento", // Model name.
+                        //"source": "users-permissions", // Plugin name.
+                        "field": "imagem_destacada" // Field name in the User model.
+                    }  
+    
+                    
+                    let form = new FormData();
+    
+                    _.map(imagem_destacada, (value, key) => {
+                        if(key == 'imagem_destacada'){
+                            console.log("key: ", key, " --- value é FIELD: ", value);
+                        }
+                        
+                        form.append(key, value);
+                    })
+                    
+                    console.log("imagem destacada: ", imagem_destacada, '----', form);
+    
+                    //let config1 = { headers: { 'Authorization': `Bearer ${jwt}`, 'Content-Type': 'multipart/form-data' } };
+                    let request_img = await axios.post(`${process.env.REACT_APP_URL_API}upload/`, form, config);
+                }
+
+                if(evento.galeria_img){
+                    console.log("evento galeria_img: ", evento.galeria_img);    
+                    
+                    let form1 = new FormData();
+                    form1.append('path', 'evento/galeria');
+                    form1.append('refId', request.data._id);
+                    form1.append('ref', 'evento');
+                    form1.append('field', 'galeria_imagens');
+        
+                    evento.galeria_img.map( (value, key) => {
+                        //return value[0];
+                        form1.append(`files`, value[0])
+                    })
+    
+                    let request_gal = await axios.post(`${process.env.REACT_APP_URL_API}upload/`, form1, config);
+                }
+
+                return({
+                    type: SUCCESS_EDIT_EVENTO,
+                    payload: request
+                })
+            }
+            else{
+                console.log("Editando o evento ver o erro: ", request);
+                return({
+                    type: ERROR_EDIT_EVENTO,
+                    payload: {msg: "Houve um erro ao editar o seu evento!" }
+                })
+            }
+        }
+        catch(error){
+            console.log("ERROR DO EDIT EVENTO: ", error)
+            return({
+                type: ERROR_EDIT_EVENTO,
+                payload: {msg: "Houve um erro ao editar o seu evento!" }
+            })
+        } 
+    
+    }
+    else{
+        return(
+            {
+                type: ERROR_EDIT_EVENTO,
+                payload: {msg: "Usuário não logado"}
+            }
+        )
+    }    
+}
+
 
 export const fetchEventoBySlug = async (slug) => {
 
@@ -150,11 +252,17 @@ export const fetchEventosByAdm = async(limit=100, sort=null) => {
     const count = await axios.get(`${process.env.REACT_APP_URL_API}eventos/count`);
     const newRequest = {data:request.data, count: count.data};
 
-    console.log("request de evnetos: ", newRequest);
-
     return {
         type: FETCH_EVENTOS_USER,
         payload: newRequest
+    }
+}
+
+export const fetchEvento = (id) => {
+    const request = axios.get(`${process.env.REACT_APP_URL_API}eventos/${id}`);
+    return {
+        type: FETCH_EVENTO,
+        payload: request
     }
 }
 
@@ -286,4 +394,23 @@ export const fetchEventosRecentes = async(id, limit=5) => {
         type: FETCH_EVENTOS_RECENTES,
         payload: request
     }
+}
+
+export const removeImageAssociation = async (id, id_evento) => {
+    let related = {related: []}
+    const request = await axios.put(`${process.env.REACT_APP_URL_API}uploadfile/${id}`, related);
+    console.log("request: ", request)
+    if(request.statusText == 'OK'){
+        console.log("conseguiu atualizar a imagem.....");
+        return {
+            type: REMOVE_IMAGE_EVENTO,
+            payload: []
+        }
+    }
+
+    return {
+        type: REMOVE_IMAGE_EVENTO,
+        payload: false
+    }
+    
 }
