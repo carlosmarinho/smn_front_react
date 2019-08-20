@@ -91,7 +91,6 @@ class GuiaEdit extends Component{
 		let user = JSON.parse(localStorage.getItem('user'));
 		
         if(user !== null){
-			console.log("user aqui no dashboard: ", this.props.match.params.id);
 			this.setState({userLogged:true})
 			this.props.fetchCategories('guia comercial', 250, 'parent_id');
 			this.props.fetchTags();
@@ -645,12 +644,10 @@ class GuiaEdit extends Component{
 		}
 
 		let tags = [];
-		console.log("aqui o length: ", this.state.tags.length)
 		if(this.state.tags.length > 0){
 			tags = this.state.tags;
 		}
 		else if(this.props.tags){
-			console.log("caiu aqui no props tags")
 			tags = this.props.tags.list;
 			tags = this.proccessJsonForMultSelect(tags);
 		}

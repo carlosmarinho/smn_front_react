@@ -71,7 +71,8 @@ class EventoNew extends Component{
 			userLogged: null,
 			labelMultiselect: {categorias: true, tags: true},
 			categorias: true,
-			tags: true
+			tags: true,
+			redirect: false,
 		}
 		
 		this.handleSubmit = this.handleSubmit.bind(this);
@@ -80,7 +81,6 @@ class EventoNew extends Component{
 	
     componentDidMount(){
 		let user = JSON.parse(localStorage.getItem('user'));
-        console.log("user aqui no dashboard: ", user);
 		
         if(user !== null){
 			this.setState({userLogged:true})
@@ -105,10 +105,13 @@ class EventoNew extends Component{
         }
 	}
 	
-	handleSubmit(values){
+	async handleSubmit(values){
         
-		this.props.createEvento(values);
-			
+		let ret = await this.props.createEvento(values);
+		
+		if(ret.payload && ret.payload.data && ret.payload.data._id)
+			this.setState({redirect: true});
+		
     }
 
     datePtBr(date){
@@ -343,6 +346,25 @@ class EventoNew extends Component{
 						</div>
 						<div className="row">
 							<Field
+									name="classificacao_indicativa"
+									component={this.renderSelect}
+									options={[
+										{'sem classificação indicativa':'Sem classificação indicativa'},
+										{'livre':'Livre'},
+										{'10 anos':'10 anos'},
+										{'12 anos':'12 anos'},
+										{'14 anos':'14 anos'},
+										{'16 anos':'16 anos'},
+										{'18 anos':'18 anos'},
+									]}
+									label="Selecione a Classificação Indicativa"
+									classCol="s12"
+									className="validate"
+									validate={[required]}
+							/>
+						</div>
+						<div className="row">
+							<Field
 								name="inicio"
 								component={this.renderField}
 								type="text"
@@ -467,9 +489,9 @@ class EventoNew extends Component{
             return <Redirect to={'/'} />
 		}
 
-		if(this.props.message && this.props.message.success.evento  ){
-			console.log("eventos antes de direcionar: ", this.props.eventos);
-			console.log("message antes de direcionar: ", this.props.message);
+		//console.log("props message MESSAGE: ", this.props.message && this.props.message.success);
+
+		if(this.state.redirect){
 			return <Redirect to={`/dashboard/eventos/edit/${this.props.message.success.evento.data._id}`} />
 		}
 		
@@ -489,8 +511,6 @@ class EventoNew extends Component{
 		if(this.props.cidades){
 			cidades = this.props.cidades;
 		}
-
-		console.log("cidades: ", cidades)
 
 		let bairros = [];
 		if(this.props.tags){

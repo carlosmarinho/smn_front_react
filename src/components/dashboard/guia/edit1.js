@@ -59,7 +59,6 @@ class GuiaEdit extends Component{
 
     componentDidMount(){
         let user = JSON.parse(localStorage.getItem('user'));
-        console.log("user aqui no dashboard: ", user);
 
         if(user !== null){
             this.setState({userLogged:true})

@@ -7,7 +7,7 @@ import {Link, Redirect} from 'react-router-dom';
 import {absence, url, email} from 'redux-form-validators';
 
 
-import { fetchGuia, removeImageAssociation } from '../../../actions/guia';
+import { fetchEvento, removeImageAssociation } from '../../../actions/evento';
 import { fetchCategories } from '../../../actions/categoria';
 import { fetchTags } from '../../../actions/tag';
 import { fetchCities } from '../../../actions/city';
@@ -16,12 +16,9 @@ import { fetchBairros } from '../../../actions/bairro';
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import "react-tabs/style/react-tabs.css";
 
-
-import DropdownList from 'react-widgets/lib/DropdownList'
-import SelectList from 'react-widgets/lib/SelectList'
 import Multiselect from 'react-widgets/lib/Multiselect'
 
-import {editGuia} from '../../../actions/guia';
+import {editEvento} from '../../../actions/evento';
 
 import 'react-widgets/dist/css/react-widgets.css'
 import '../../../assets/styles/css/custom-materialize-edit.css';
@@ -68,7 +65,7 @@ const minLength = min => value =>
     value && value.length < min ? `O campo deve conter no mínimo ${min} caracteres` : undefined;
 
 
-class GuiaEdit extends Component{
+class EventoEdit extends Component{
 
     constructor(){
         super();
@@ -78,7 +75,7 @@ class GuiaEdit extends Component{
 			labelMultiselect: {categorias: true, tags: true},
 			categorias: true,
 			tags: [],
-			guia: null,
+			evento: null,
 			tagInput: ''
 		}
 		
@@ -91,19 +88,18 @@ class GuiaEdit extends Component{
 		let user = JSON.parse(localStorage.getItem('user'));
 		
         if(user !== null){
-			console.log("user aqui no dashboard: ", this.props.match.params.id);
 			this.setState({userLogged:true})
-			this.props.fetchCategories('guia comercial', 250, 'parent_id');
+			this.props.fetchCategories('evento comercial', 250, 'parent_id');
 			this.props.fetchTags();
 			this.props.fetchCities();
 			this.props.fetchBairros('5ba26f813a018f42215a36a0', 200, 'nome');
-			this.props.fetchGuia(this.props.match.params.id)
+			this.props.fetchEvento(this.props.match.params.id)
             // if(user.user.role.name == 'Administrator'){
-				//     this.props.fetchGuiasByAdm(7);
+				//     this.props.fetchEventosByAdm(7);
                 
 				// }
 				// else{
-					//     this.props.fetchGuiasByUser(user.user._id, 5);
+					//     this.props.fetchEventosByUser(user.user._id, 5);
 					// }
 				}
 				else{
@@ -112,12 +108,12 @@ class GuiaEdit extends Component{
 			}
 			
 	componentWillMount(){
-		this.props.fetchGuia(this.props.match.params.id)
+		this.props.fetchEvento(this.props.match.params.id)
 	}
 	
 	handleSubmit(values){
         console.log("aqui no valllllllvalues vai enviar ", values);
-        this.props.editGuia(values, this.props.match.params.id);
+        this.props.editEvento(values, this.props.match.params.id);
     }
 
 	addTag(){
@@ -177,21 +173,14 @@ class GuiaEdit extends Component{
 
 	handleCreate(name){
 		let obj = {...this.props.tags.list, 'nome': name}
-		console.log("no handle create: ", obj)
-		//this.setState({tags: obj})
 	}
 
 	renderMultiselect (field){
 		const { input, data, valueField, textField, label } = field;
 
-		//console.log("state do multiselect no multselect ", input.name, ": ", this.state.labelMultiselect[input.name]);
 		return (
 			<div className={`react-widget input-field col ${field.classCol}`}>
 				<Multiselect {...input}
-					/*onBlur={(e) => {
-						this.multiSelectBlur(e, input.name, input.value)}
-					}
-					onFocus={(e) => this.multiSelectFocus(e, input.name) }*/
 					value={input.value || []} // requires value to be an array
 					data={data}
 					valueField={valueField}
@@ -211,7 +200,6 @@ class GuiaEdit extends Component{
 
 	renderSelect(field){
 		const {input, label, type, meta: {touched, error, warning} } = field;
-
 		
 		return(
 			
@@ -277,14 +265,14 @@ class GuiaEdit extends Component{
 	
 	showMessage(){
         if(this.props.message){
-            if(this.props.message.error && this.props.message.error.guia){
+            if(this.props.message.error && this.props.message.error.evento){
                 return(
-                    <p className="text-danger text-center"><strong>{this.props.message.error.guia.msg}</strong></p>
+                    <p className="text-danger text-center"><strong>{this.props.message.error.evento.msg}</strong></p>
                 )
             }
-            else if(this.props.message.success && this.props.message.success.guia){
+            else if(this.props.message.success && this.props.message.success.evento){
                 return(
-                    <p className="text-success text-center"><strong>{this.props.message.success.guia.msg}</strong></p>
+                    <p className="text-success text-center"><strong>{this.props.message.success.evento.msg}</strong></p>
                 )
             }
         }
@@ -297,20 +285,20 @@ class GuiaEdit extends Component{
 	}
 
 	showImagemDestacada(){
-		if(this.props.guias && this.props.guias.guia && this.props.guias.guia.imagem_destacada){
+		if(this.props.eventos && this.props.eventos.evento && this.props.eventos.evento.imagem_destacada){
 			return(
 				<div className="file-input">
-					<img src={this.props.guias.guia.imagem_destacada.url} /><a href="#" onClick={e => this.removeImage(e, this.props.guias.guia.imagem_destacada._id)}>Remover</a>
+					<img src={this.getImageSrc(this.props.eventos.evento)} /><a href="#" onClick={e => this.removeImage(e, this.props.eventos.evento.imagem_destacada._id)}>Remover</a>
 				</div>
 			)
 		}
 	}			
 
 	showImagemGaleria(i){
-		if(this.props.guias && this.props.guias.guia && this.props.guias.guia.galeria_imagens[i]){
+		if(this.props.eventos && this.props.eventos.evento && this.props.eventos.evento.galeria_imagens){
 			return(
 				<div className="file-input">
-					<img src={this.props.guias.guia.galeria_imagens[i].url} /><a href="#" onClick={e => this.removeImage(e, this.props.guias.guia.galeria_imagens[i]._id)}>Remover</a>
+					<img src={this.props.eventos.evento.galeria_imagens[i].url} /><a href="#" onClick={e => this.removeImage(e, this.props.eventos.evento.galeria_imagens[i]._id)}>Remover</a>
 				</div>
 			)
 		}
@@ -477,6 +465,7 @@ class GuiaEdit extends Component{
 								validate={[myFile]}
 							/>
 							{this.showImagemDestacada()}
+
 							
 						</div>
 						<div className="row">
@@ -497,53 +486,65 @@ class GuiaEdit extends Component{
 						</div>
 						<div className="row">
 							<Field
-									name="tipo"
+									name="classificacao_indicativa"
 									component={this.renderSelect}
-									options={[{'guia comercial':'Guia Comercial'}, {'guia de serviços':'Guia de Serviços'}]}
-									label="Selecione o tipo"
-									classCol="s4"
+									options={[
+										{'sem classificação indicativa':'Sem classificação indicativa'},
+										{'livre':'Livre'},
+										{'10 anos':'10 anos'},
+										{'12 anos':'12 anos'},
+										{'14 anos':'14 anos'},
+										{'16 anos':'16 anos'},
+										{'18 anos':'18 anos'},
+									]}
+									label="Selecione a Classificação Indicativa"
+									classCol="s12"
 									className="validate"
 									validate={[required]}
-							/>
-							<Field
-								name="telefone"
-								component={this.renderField}
-								type="text"
-								label="Telefone"
-								classCol="s4"
-								className="validate"
-								validate={[]}
-							/>
-							<Field
-								name="celular"
-								component={this.renderField}
-								type="text"
-								label="Celular"
-								classCol="s4"
-								className="validate"
-								validate={[]}
 							/>
 						</div>
 						<div className="row">
 							<Field
-								name="email"
+								name="inicio"
 								component={this.renderField}
 								type="text"
-								label="Email"
+								label="Data inicial do Evento"
 								classCol="s6"
 								className="validate"
-								validate={[email({allowBlank:true, message: "Email inválido!"})]}
+								validate={[ required ]}
 							/>
 							<Field
-								name="website"
+								name="fim"
 								component={this.renderField}
 								type="text"
-								label="Website"
+								label="Data final do Evento"
 								classCol="s6"
 								className="validate"
-								validate={[url({allowBlank:true, protocolIdentifier:false})]}
+								validate={[ required ]}
 							/>
 						</div>
+						<div className="row">							
+							<Field
+								name="hora_inicio"
+								component={this.renderField}
+								type="text"
+								label="Horário inicial do Evento"
+								classCol="s6"
+								className="validate"
+								validate={[ required ]}
+							/>
+							<Field
+								name="hora_fim"
+								component={this.renderField}
+								type="text"
+								label="Horário final do Evento"
+								classCol="s6"
+								className="validate"
+								validate={[ required ]}
+							/>
+							
+						</div>
+						
 						<div className="row">
 							<div className="input-field input-field-edit col s12">
 								<Field name="descricao" component="textarea" />
@@ -554,30 +555,10 @@ class GuiaEdit extends Component{
 
 						<div className="row">
 							<div className="db-v2-list-form-inn-tit">
-								<h5>Endereço:</h5>
+								<h5>Endereço do Evento:</h5>
 							</div>
 						</div>
-						<div className="row">
-							<Field
-								name="cep"
-								component={this.renderField}
-								type="text"
-								label="Cep"
-								classCol="s6"
-								className="validate"
-								validate={[]}
-							/>
-							
-							<Field
-								name="complemento"
-								component={this.renderField}
-								type="text"
-								label="Complemento"
-								classCol="s6"
-								className="validate"
-								validate={[]}
-							/>
-						</div>
+						
 						
 						<div className="row">
 							<Field
@@ -652,12 +633,10 @@ class GuiaEdit extends Component{
 		}
 
 		let tags = [];
-		console.log("aqui o length: ", this.state.tags.length)
 		if(this.state.tags.length > 0){
 			tags = this.state.tags;
 		}
 		else if(this.props.tags){
-			console.log("caiu aqui no props tags")
 			tags = this.props.tags.list;
 			tags = this.proccessJsonForMultSelect(tags);
 		}
@@ -857,10 +836,6 @@ class GuiaEdit extends Component{
 		}
 
 		
-		
-		
-		
-		
         return(
 
             <section>
@@ -873,11 +848,11 @@ class GuiaEdit extends Component{
                    
                     <div className="tz-2">
 						<div className="tz-2-com tz-2-main">
-							<h4>Gerenciamento de Guias</h4>
+							<h4>Gerenciamento de Eventos</h4>
 							<div className="db-list-com tz-db-table">
 								<div className="ds-boar-title">
-									<h2>Editar Novo Guia</h2>
-									<p>Cadastro de novo guia comercial/serviço</p>
+									<h2>Editar Novo Evento</h2>
+									<p>Cadastro de novo evento comercial/serviço</p>
 									{this.showMessage()}
 								</div>
 								<Tabs>
@@ -911,42 +886,45 @@ class GuiaEdit extends Component{
 
 
 function mapStateToProps(state, ownProps){
-	let guiaInit = {}
-	if(state.guias && state.guias.guia){
-		guiaInit = state.guias.guia;
+	let eventoInit = {}
+	if(state.eventos && state.eventos.evento){
+		eventoInit = state.eventos.evento;
+				
+		eventoInit.estado = '5bce2506e8a51373aab0b047';
 		
-		
-		guiaInit.estado = '5bce2506e8a51373aab0b047';
-		
-		if(guiaInit.cidade && _.isArray(guiaInit.cidade)){
-			guiaInit.cidade = guiaInit.cidade[0]._id;
+		if(eventoInit.cidade){
+			if(_.isArray(eventoInit.cidade)){	
+				eventoInit.cidade = eventoInit.cidade[0]._id;
+			}
+			else if(eventoInit.cidade._id){
+				eventoInit.cidade = eventoInit.cidade._id;
+			}
 		}
 
-		if(guiaInit.bairros && _.isArray(guiaInit.bairros) && guiaInit.bairros.length > 0){
-			console.log("\n\n\n guia init no map: ", guiaInit.bairros);
-			guiaInit.bairros = guiaInit.bairros[0]._id;
+		if(eventoInit.bairros && _.isArray(eventoInit.bairros) && eventoInit.bairros.length > 0){
+			console.log("\n\n\n evento init no map: ", eventoInit.bairros);
+			eventoInit.bairros = eventoInit.bairros[0]._id;
 		}
-	
 	}
     return(
         {
             user: state.users,
-			guias: state.guias,
+			eventos: state.eventos,
 			categorias: state.categorias,
 			tags: state.tags,
 			bairros: state.bairros,
 			cidades: state.city,
 			message: state.message,
-			initialValues: guiaInit
+			initialValues: eventoInit
         }
     )
 }
 
 
 const myForm = reduxForm({
-	form: 'editGuia',
+	form: 'editEvento',
 	enableReinitialize: true
 	
-})(GuiaEdit)
+})(EventoEdit)
 
-export default connect(mapStateToProps, {editGuia, fetchGuia, removeImageAssociation, fetchCategories, fetchTags, fetchCities, fetchBairros})(myForm);
+export default connect(mapStateToProps, {editEvento, fetchEvento, removeImageAssociation, fetchCategories, fetchTags, fetchCities, fetchBairros})(myForm);

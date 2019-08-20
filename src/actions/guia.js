@@ -116,7 +116,6 @@ export const createGuia = async (guia) => {
     
 }
 
-
 export const editGuia = async (guia, id) => {
 
     let user = JSON.parse(localStorage.getItem('user'));
