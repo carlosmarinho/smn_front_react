@@ -21,6 +21,7 @@ import DropdownList from 'react-widgets/lib/DropdownList'
 import SelectList from 'react-widgets/lib/SelectList'
 import Multiselect from 'react-widgets/lib/Multiselect'
 
+
 import 'react-widgets/dist/css/react-widgets.css'
 
 import {createGuia} from '../../../actions/guia';
@@ -105,9 +106,9 @@ class GuiaNew extends Component{
         }
 	}
 	
-	handleSubmit(values){
+	async handleSubmit(values){
         
-		this.props.createGuia(values);
+		let ret = await this.props.createGuia(values);
 		
 		if(ret.payload && ret.payload.data && ret.payload.data._id)
 			this.setState({redirect: true});
