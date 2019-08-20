@@ -5,6 +5,7 @@ import {connect} from 'react-redux';
 import {Field, reduxForm} from 'redux-form';
 import {Link, Redirect} from 'react-router-dom';
 import {absence, url, email} from 'redux-form-validators';
+import DatePicker from "react-datepicker";
 
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import "react-tabs/style/react-tabs.css";
@@ -22,6 +23,7 @@ import SelectList from 'react-widgets/lib/SelectList'
 import Multiselect from 'react-widgets/lib/Multiselect'
 
 import 'react-widgets/dist/css/react-widgets.css'
+import "react-datepicker/dist/react-datepicker.css";
 
 import {createEvento} from '../../../actions/evento';
 
@@ -73,6 +75,8 @@ class EventoNew extends Component{
 			categorias: true,
 			tags: true,
 			redirect: false,
+			inicio: new Date(),
+			fim: null,
 		}
 		
 		this.handleSubmit = this.handleSubmit.bind(this);
@@ -107,7 +111,7 @@ class EventoNew extends Component{
 	
 	async handleSubmit(values){
         
-		let ret = await this.props.createEvento(values);
+		let ret = await this.props.createEvento({...values, inicio: this.state.inicio, fim: this.state.fim});
 		
 		if(ret.payload && ret.payload.data && ret.payload.data._id)
 			this.setState({redirect: true});
@@ -364,24 +368,21 @@ class EventoNew extends Component{
 							/>
 						</div>
 						<div className="row">
-							<Field
-								name="inicio"
-								component={this.renderField}
-								type="text"
-								label="Data inicial do Evento"
-								classCol="s6"
-								className="validate"
-								validate={[ required ]}
-							/>
-							<Field
-								name="fim"
-								component={this.renderField}
-								type="text"
-								label="Data final do Evento"
-								classCol="s6"
-								className="validate"
-								validate={[ required ]}
-							/>
+							<div className={`input-field-edit input-field col s6`}>
+								<DatePicker
+									selected={this.state.inicio}
+									onChange={this.handleChangeInicio}
+									dateFormat="dd/MM/yyyy"
+								/>
+							</div>
+							<div className={`input-field-edit input-field col s6`}>
+								<DatePicker
+									selected={this.state.fim}
+									onChange={this.handleChangeFim}
+									dateFormat="dd/MM/yyyy"
+								/>
+							</div>
+
 						</div>
 						<div className="row">							
 							<Field
@@ -482,6 +483,17 @@ class EventoNew extends Component{
 	}
 
 
+	handleChangeInicio = (date) => {
+		this.setState({
+			inicio: date
+		});
+	}
+
+	handleChangeFim = (date) => {
+		this.setState({
+			fim: date
+		});
+	}
 
     render(){
 

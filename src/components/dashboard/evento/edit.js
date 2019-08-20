@@ -129,7 +129,6 @@ class EventoEdit extends Component{
 	}
 	
 	handleSubmit(values){
-        console.log("aqui no valllllllvalues vai enviar ",values, {...values, inicio: this.state.inicio, fim: this.state.fim});
 		
         this.props.editEvento({...values, inicio: this.state.inicio, fim: this.state.fim}, this.props.match.params.id);
     }
@@ -215,6 +214,30 @@ class EventoEdit extends Component{
 		)
 	}
 
+	renderCheckbox(field){
+		const {input, label, type, meta: {touched, error, warning} } = field;
+
+
+		let className = `col ${field.classCol}`
+
+        return(
+			<div>
+				<div className={`react-widget input-field col s4`} style={{marginBottom: '50px'}}>
+					<div className="sans-serif">{label}</div>
+				</div>
+				<div className={`react-widget input-field col s3`}>
+					<input
+						{...input}
+						className="mr2"
+						type="checkbox"
+						checked={input.value}
+						style={{ left: '0px', opacity: '1'}}
+					/>
+				</div>
+			</div>
+            
+        )
+	}
 
 	renderSelect(field){
 		const {input, label, type, meta: {touched, error, warning} } = field;
@@ -654,7 +677,7 @@ class EventoEdit extends Component{
 
 
 	
-	midiaAndOtherContent(){
+	priceTagsAndOtherContent(){
 		const { pristine, reset, submitting, handleSubmit } = this.props
 
 		let categorias = [];
@@ -688,20 +711,19 @@ class EventoEdit extends Component{
 					<form className="" onSubmit={handleSubmit(this.handleSubmit)}>
 						<div className="row">
 							<div className="db-v2-list-form-inn-tit-top">
-								<h5>Informações de Mídia Social:</h5>
+								<h5>Informações de Preço:</h5>
 							</div>
 						</div>
 						<div className="row">
 							<Field
-								name="facebook"
-								component={this.renderField}
-								type="text"
-								label="Facebook"
-								value="https://www.facebook.com/"
-								classCol="s4"
-								className="validate"
-								validate={[url({allowBlank:true, protocolIdentifier:false})]}
+									name="classificacao_indicativa"
+									component={this.renderCheckbox}
+									options={['gratuito']}
+									label="Evento é Gratuíto?"
+									classCol="s12"
 							/>
+						</div>
+						<div className="row">
 							<Field
 								name="googleplus"
 								component={this.renderField}
@@ -889,7 +911,7 @@ class EventoEdit extends Component{
 								<Tabs>
 									<TabList>
 									<Tab>Geral</Tab>
-									<Tab>Midia Social & Outros</Tab>
+									<Tab>Valores, Tags & Outros</Tab>
 									<Tab>Galeria de fotos</Tab>
 									</TabList>
 
@@ -897,7 +919,7 @@ class EventoEdit extends Component{
 										{this.generalContent()}
 									</TabPanel>
 									<TabPanel>
-										{this.midiaAndOtherContent()}
+										{this.priceTagsAndOtherContent()}
 									</TabPanel>
 									<TabPanel>
 										{this.galleryContent()}
