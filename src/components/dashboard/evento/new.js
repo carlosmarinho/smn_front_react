@@ -109,7 +109,6 @@ class EventoNew extends Component{
         
 		let ret = await this.props.createEvento(values);
 		
-		console.log(ret.payload.data);
 		if(ret.payload && ret.payload.data && ret.payload.data._id)
 			this.setState({redirect: true});
 		

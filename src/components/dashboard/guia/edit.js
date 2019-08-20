@@ -292,7 +292,7 @@ class GuiaEdit extends Component{
 		if(this.props.guias && this.props.guias.guia && this.props.guias.guia.imagem_destacada){
 			return(
 				<div className="file-input">
-					<img src={this.getImageSrc(this.props.eventos.evento)} /><a href="#" onClick={e => this.removeImage(e, this.props.guias.guia.imagem_destacada._id)}>Remover</a>
+					<img src={this.getImageSrc(this.props.guias.guia)} /><a href="#" onClick={e => this.removeImage(e, this.props.guias.guia.imagem_destacada._id)}>Remover</a>
 				</div>
 			)
 		}

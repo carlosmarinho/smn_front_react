@@ -71,7 +71,8 @@ class GuiaNew extends Component{
 			userLogged: null,
 			labelMultiselect: {categorias: true, tags: true},
 			categorias: true,
-			tags: true
+			tags: true,
+			redirect: false,
 		}
 		
 		this.handleSubmit = this.handleSubmit.bind(this);
@@ -107,7 +108,10 @@ class GuiaNew extends Component{
 	handleSubmit(values){
         
 		this.props.createGuia(values);
-			
+		
+		if(ret.payload && ret.payload.data && ret.payload.data._id)
+			this.setState({redirect: true});
+
     }
 
     datePtBr(date){
@@ -484,9 +488,7 @@ class GuiaNew extends Component{
             return <Redirect to={'/'} />
 		}
 
-		if(this.props.message && this.props.message.success && this.props.message.success.guia  ){
-			console.log("guias antes de direcionar: ", this.props.guias);
-			console.log("message antes de direcionar: ", this.props.message);
+		if(this.state.redirect){
 			return <Redirect to={`/dashboard/guias/edit/${this.props.message.success.guia.data._id}`} />
 		}
 		
