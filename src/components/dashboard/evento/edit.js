@@ -5,6 +5,7 @@ import {connect} from 'react-redux';
 import {Field, reduxForm} from 'redux-form';
 import {Link, Redirect} from 'react-router-dom';
 import {absence, url, email} from 'redux-form-validators';
+import DatePicker from "react-datepicker";
 
 
 import { fetchEvento, removeImageAssociation } from '../../../actions/evento';
@@ -14,11 +15,14 @@ import { fetchCities } from '../../../actions/city';
 import { fetchBairros } from '../../../actions/bairro';
 
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
-import "react-tabs/style/react-tabs.css";
+
 
 import Multiselect from 'react-widgets/lib/Multiselect'
 
 import {editEvento} from '../../../actions/evento';
+
+import "react-tabs/style/react-tabs.css";
+import "react-datepicker/dist/react-datepicker.css";
 
 import 'react-widgets/dist/css/react-widgets.css'
 import '../../../assets/styles/css/custom-materialize-edit.css';
@@ -76,7 +80,10 @@ class EventoEdit extends Component{
 			categorias: true,
 			tags: [],
 			evento: null,
-			tagInput: ''
+			tagInput: '',
+	        inicio: new Date(),
+			fim: new Date(),
+
 		}
 		
 		this.handleSubmit = this.handleSubmit.bind(this);
@@ -84,7 +91,7 @@ class EventoEdit extends Component{
 		this.renderMultiselect = this.renderMultiselect.bind(this);
     }
 	
-    componentDidMount(){
+    async componentDidMount(){
 		let user = JSON.parse(localStorage.getItem('user'));
 		
         if(user !== null){
@@ -93,7 +100,11 @@ class EventoEdit extends Component{
 			this.props.fetchTags();
 			this.props.fetchCities();
 			this.props.fetchBairros('5ba26f813a018f42215a36a0', 200, 'nome');
-			this.props.fetchEvento(this.props.match.params.id)
+			await this.props.fetchEvento(this.props.match.params.id)
+
+			this.setState({inicio: new Date(this.props.eventos.evento.inicio)});
+			this.setState({fim: new Date(this.props.eventos.evento.fim)});
+
             // if(user.user.role.name == 'Administrator'){
 				//     this.props.fetchEventosByAdm(7);
                 
@@ -106,14 +117,21 @@ class EventoEdit extends Component{
 					this.setState({userLogged:false})
 				}
 			}
+	componentWillReceiveProps(nextProps){
+		if(nextProps && nextProps.eventos && this.state.inicio != null){
+			console.log("recebendo as props de novo c valor antigo?", nextProps.eventos)
 			
+		}
+	}
+
 	componentWillMount(){
 		this.props.fetchEvento(this.props.match.params.id)
 	}
 	
 	handleSubmit(values){
-        console.log("aqui no valllllllvalues vai enviar ", values);
-        this.props.editEvento(values, this.props.match.params.id);
+        console.log("aqui no valllllllvalues vai enviar ",values, {...values, inicio: this.state.inicio, fim: this.state.fim});
+		
+        this.props.editEvento({...values, inicio: this.state.inicio, fim: this.state.fim}, this.props.match.params.id);
     }
 
 	addTag(){
@@ -261,6 +279,19 @@ class EventoEdit extends Component{
 				return tag;
 			})
 		}
+	}
+
+
+	handleChangeInicio = (date) => {
+		this.setState({
+			inicio: date
+		});
+	}
+
+	handleChangeFim = (date) => {
+		this.setState({
+			fim: date
+		});
 	}
 	
 	showMessage(){
@@ -424,7 +455,7 @@ class EventoEdit extends Component{
 	generalContent(){
 		const { pristine, reset, submitting, handleSubmit } = this.props
 
-		let categorias = [];
+		let categorias = [];							
 		if(this.props.categorias){
 			categorias = this.props.categorias.list;
 			categorias = this.setCategoryParentName(categorias);
@@ -456,6 +487,7 @@ class EventoEdit extends Component{
 							</div>
 						</div>
 						<div className="row tz-file-upload">
+							
 							<Field
 								name="imagem_principal"
 								component={this.renderField}
@@ -474,6 +506,8 @@ class EventoEdit extends Component{
 							</div>
 						</div>
 						<div className="row">
+							
+							
 							<Field
 								name="titulo"
 								component={this.renderField}
@@ -504,24 +538,21 @@ class EventoEdit extends Component{
 							/>
 						</div>
 						<div className="row">
-							<Field
-								name="inicio"
-								component={this.renderField}
-								type="text"
-								label="Data inicial do Evento"
-								classCol="s6"
-								className="validate"
-								validate={[ required ]}
-							/>
-							<Field
-								name="fim"
-								component={this.renderField}
-								type="text"
-								label="Data final do Evento"
-								classCol="s6"
-								className="validate"
-								validate={[ required ]}
-							/>
+							<div className={`input-field-edit input-field col s6`}>
+								<DatePicker
+									selected={this.state.inicio}
+									onChange={this.handleChangeInicio}
+									dateFormat="dd/MM/yyyy"
+								/>
+							</div>
+							<div className={`input-field-edit input-field col s6`}>
+								<DatePicker
+									selected={this.state.fim}
+									onChange={this.handleChangeFim}
+									dateFormat="dd/MM/yyyy"
+								/>
+							</div>
+
 						</div>
 						<div className="row">							
 							<Field
@@ -900,6 +931,10 @@ function mapStateToProps(state, ownProps){
 				eventoInit.cidade = eventoInit.cidade._id;
 			}
 		}
+
+		console.log("stateeeeee: ", state)
+
+		//this.setState({'inicio': eventoInit.inicio});
 
 		if(eventoInit.bairros && _.isArray(eventoInit.bairros) && eventoInit.bairros.length > 0){
 			console.log("\n\n\n evento init no map: ", eventoInit.bairros);
