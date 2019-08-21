@@ -6,6 +6,8 @@ import {Field, reduxForm} from 'redux-form';
 import {Link, Redirect} from 'react-router-dom';
 import {absence, url, email} from 'redux-form-validators';
 import DatePicker from "react-datepicker";
+import { createTextMask } from 'redux-form-input-masks';
+
 
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import "react-tabs/style/react-tabs.css";
@@ -62,6 +64,11 @@ const maxLength15 = maxLength(15)
 
 const minLength = min => value =>
     value && value.length < min ? `O campo deve conter no mínimo ${min} caracteres` : undefined;
+
+const horaMask = createTextMask({
+	pattern: '99:99',
+	suffix: ' hs',
+});
 
 
 class EventoNew extends Component{
@@ -393,6 +400,7 @@ class EventoNew extends Component{
 								classCol="s6"
 								className="validate"
 								validate={[ required ]}
+								{...horaMask}
 							/>
 							<Field
 								name="hora_fim"
@@ -402,6 +410,7 @@ class EventoNew extends Component{
 								classCol="s6"
 								className="validate"
 								validate={[ required ]}
+								{...horaMask}
 							/>
 							
 						</div>

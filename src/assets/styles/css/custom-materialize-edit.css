@@ -1,10 +1,14 @@
 .input-field-edit label {
-  top: 0 !important;
-  color: #c0c0c0 !important;
+  top: 2px !important;
+  position: relative;
+  margin-top:20px;
+  font-size: 12px;
 }
 
 .input-field-edit label:not(.label-icon).active {
-  top: 14px !important;
 }
   
+.hom-cre-acc-right form input[type="checkbox"]{
+  height: 30px;
+}
   

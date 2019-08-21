@@ -6,6 +6,8 @@ import {Field, reduxForm} from 'redux-form';
 import {Link, Redirect} from 'react-router-dom';
 import {absence, url, email} from 'redux-form-validators';
 import DatePicker from "react-datepicker";
+import { createNumberMask, createTextMask } from 'redux-form-input-masks';
+
 
 
 import { fetchEvento, removeImageAssociation } from '../../../actions/evento';
@@ -26,6 +28,18 @@ import "react-datepicker/dist/react-datepicker.css";
 
 import 'react-widgets/dist/css/react-widgets.css'
 import '../../../assets/styles/css/custom-materialize-edit.css';
+
+const currencyMask = createNumberMask({
+  prefix: 'R$ ',
+  /*suffix: ' per item',*/
+  decimalPlaces: 2,
+  locale: 'pt-BR',
+});
+
+const horaMask = createTextMask({
+	pattern: '99:99',
+	suffix: ' hs',
+});
 
 const myFile = value => {
 	if(value){
@@ -83,7 +97,7 @@ class EventoEdit extends Component{
 			tagInput: '',
 	        inicio: new Date(),
 			fim: new Date(),
-
+			gratis: true,
 		}
 		
 		this.handleSubmit = this.handleSubmit.bind(this);
@@ -129,7 +143,13 @@ class EventoEdit extends Component{
 	}
 	
 	handleSubmit(values){
-		
+		console.log("values antes: ", values);
+		if(values.gratuito){
+			values.preco = '';
+		}
+
+		console.log("values depois: ", values);
+
         this.props.editEvento({...values, inicio: this.state.inicio, fim: this.state.fim}, this.props.match.params.id);
     }
 
@@ -176,8 +196,9 @@ class EventoEdit extends Component{
 
         return(
 			
-			<div className={`input-field-edit input-field ${className}`}>
-				<input {...input}  type={type} className="validate" placeholder={label}  />
+			<div className={`input-field-edit  ${className}`}>
+				<label>{label}</label>	
+				<input {...input}  type={type} disabled={field.disabled} className="validate"  />
 				{touched && ((error && <span className="text-danger">{error}</span>) || (warning && <span>{warning}</span>))}
 				
 			</div>
@@ -196,7 +217,8 @@ class EventoEdit extends Component{
 		const { input, data, valueField, textField, label } = field;
 
 		return (
-			<div className={`react-widget input-field col ${field.classCol}`}>
+			<div className={`react-widget input-field-edit col ${field.classCol}`}>
+				<label>{label}</label>
 				<Multiselect {...input}
 					value={input.value || []} // requires value to be an array
 					data={data}
@@ -217,21 +239,21 @@ class EventoEdit extends Component{
 	renderCheckbox(field){
 		const {input, label, type, meta: {touched, error, warning} } = field;
 
-
 		let className = `col ${field.classCol}`
-
+		console.log("Meu field: ", field);
         return(
 			<div>
-				<div className={`react-widget input-field col s4`} style={{marginBottom: '50px'}}>
-					<div className="sans-serif">{label}</div>
+				<div className={`react-widget input-field col s3`} style={{marginBottom: '30px'}}>
+					<div ><h5>{label}</h5></div>
 				</div>
-				<div className={`react-widget input-field col s3`}>
+				<div className={`col s3`}>
 					<input
 						{...input}
 						className="mr2"
 						type="checkbox"
-						checked={input.value}
-						style={{ left: '0px', opacity: '1'}}
+						defaultChecked={field.input.value}						
+						style={{ left: '-250px', opacity: '1', marginTop: '7px'}}
+						
 					/>
 				</div>
 			</div>
@@ -239,13 +261,13 @@ class EventoEdit extends Component{
         )
 	}
 
-	renderSelect(field){
+	renderSelect = (field) => {
 		const {input, label, type, meta: {touched, error, warning} } = field;
 		
 		return(
 			
-			<div className={`input-field col ${field.classCol}`}>
-			
+			<div className={`input-field-edit col ${field.classCol}`}>
+				<label>{label}</label>
 				{ <Field {...input} style={{display:'block',paddingTop:'0px', paddingBottom:'0px', height:(field.multiple)?'90px':'40px'}}  
 					component="select" className="native" native="true" multiple={(field.multiple)?'multiple':''} disabled={field.disabled}>
 					
@@ -561,14 +583,20 @@ class EventoEdit extends Component{
 							/>
 						</div>
 						<div className="row">
-							<div className={`input-field-edit input-field col s6`}>
+							<div className="input-field-edit col s6">
+								<label>Data Inicial do Evento</label>
+							</div>
+							<div className="input-field-edit col s6">
+								<label>Data Final do Evento</label>
+							</div>
+							<div className={`input-field-edit  col s6`}>
 								<DatePicker
 									selected={this.state.inicio}
 									onChange={this.handleChangeInicio}
 									dateFormat="dd/MM/yyyy"
 								/>
 							</div>
-							<div className={`input-field-edit input-field col s6`}>
+							<div className={`input-field-edit col s6`}>
 								<DatePicker
 									selected={this.state.fim}
 									onChange={this.handleChangeFim}
@@ -586,6 +614,7 @@ class EventoEdit extends Component{
 								classCol="s6"
 								className="validate"
 								validate={[ required ]}
+								{...horaMask}
 							/>
 							<Field
 								name="hora_fim"
@@ -595,15 +624,16 @@ class EventoEdit extends Component{
 								classCol="s6"
 								className="validate"
 								validate={[ required ]}
+								{...horaMask}
 							/>
 							
 						</div>
 						
 						<div className="row">
-							<div className="input-field input-field-edit col s12">
+							<div className="input-field-edit col s12">
+								<label htmlFor="descricao">Descrição</label>
 								<Field name="descricao" component="textarea" />
 									
-								<label htmlFor="descricao">Descrição</label>
 							</div>
 						</div>
 
@@ -709,126 +739,74 @@ class EventoEdit extends Component{
 			<div className="hom-cre-acc-left hom-cre-acc-right">
 				<div className="">
 					<form className="" onSubmit={handleSubmit(this.handleSubmit)}>
-						<div className="row">
-							<div className="db-v2-list-form-inn-tit-top">
-								<h5>Informações de Preço:</h5>
-							</div>
-						</div>
+						
 						<div className="row">
 							<Field
-									name="classificacao_indicativa"
+									name="gratuito"
 									component={this.renderCheckbox}
-									options={['gratuito']}
 									label="Evento é Gratuíto?"
 									classCol="s12"
+									
+									onChange={e => { this.setState({ gratis: !e.target.checked }) }}
 							/>
 						</div>
 						<div className="row">
 							<Field
-								name="googleplus"
+								name="preco"
 								component={this.renderField}
 								type="text"
-								label="Google"
-								value="https://www.googleplus.com/"
-								classCol="s4"
+								label="Valor do Evento"
+								classCol="s6"
+								disabled={!this.state.gratis}
 								className="validate"
-								validate={[url({allowBlank:true, protocolIdentifier:false})]}
+								{...currencyMask}
 							/>
 							<Field
-								name="twitter"
+								name="couvert"
 								component={this.renderField}
 								type="text"
-								label="Twitter"
-								value="https://www.twitter.com/"
-								classCol="s4"
+								label="Couvert Artístico"
+								classCol="s6"
 								className="validate"
-								validate={[url({allowBlank:true, protocolIdentifier:false})]}
+								{...currencyMask}
 							/>
 						</div>
 						<div className="row">
 							<div className="db-v2-list-form-inn-tit">
-								<h5>Data e Hora de Funcionamento:</h5>
+								<h5>Recorrência do Evento:</h5>
 							</div>
 						</div>
 						<div className="row">
 							
 							<Field
-								name="diasfuncionamento"
+								name="recorrencia"
 								component={this.renderSelect}
-								options={['Todos os dias', 'Segunda', 'Terça', 'Quarta']}
-								label="Data funcionamento"
-								classCol="s4"
-								multiple="true"
-								className="validate"
-								validate={[]}
-							/>
-							<Field
-								name="funcionamento_hora_inicial"
-								component={this.renderSelect}
-								options={['7:00','8:00','9:00','10:00','11:00','12:00','13:00','14:00',
-										'15:00','16:00','17:00','18:00','19:00','20:00','21:00','22:00','23:00','00:00',]}
-								type="text"
-								label="Horário Abertura: Ex.: 10:00"
-								value=""
-								classCol="s8"
-								className="validate"
-								validate={[]}
-							/>
-							<Field
-								name="funcionamento_hora_final"
-								component={this.renderSelect}
-								options={['7:00','8:00','9:00','10:00','11:00','12:00','13:00','14:00',
-										'15:00','16:00','17:00','18:00','19:00','20:00','21:00','22:00','23:00','00:00',]}
-								type="text"
-								label="Horário Encerramento: Ex.: 18:00"
-								value=""
-								classCol="s8"
-								className="validate"
-								validate={[]}
-							/>
-						</div>
-						
-								
-						<div className="row">
-							<div className="db-v2-list-form-inn-tit">
-								<h5>Google Map <span className="v2-db-form-note">(Informe a latitude e longitude ou o código iframe.)</span >
-								</h5>
-							</div>	
-						</div>
-						<div className="row">
-							<Field
-								name="latitude"
-								component={this.renderField}
-								type="text"
-								label="Latitude"
-								value=""
-								classCol="s6"
-								className="validate"
-								validate={[]}
-							/>
-							<Field
-								name="longitude"
-								component={this.renderField}
-								type="text"
-								label="Longitude"
-								value=""
-								classCol="s6"
-								className="validate"
-								validate={[]}
-							/>								
-						</div>									
-						<div className="row">
-							<Field
-								name="google-map-iframe"
-								component={this.renderField}
-								type="text"
-								label="Informe o seu código do iframe aqui"
-								value=""
+								options={[
+									'sem recorrência',
+									'diária',
+									'semanal',
+									'quinzenal',
+									'mensal',
+									'anual',
+								]}
+								label="Recorrência do Evento"
 								classCol="s12"
 								className="validate"
 								validate={[]}
-							/>				
+							/>
 						</div>
+
+						<div>
+							<Field
+								name="texto_recorrencia"
+								component={this.renderField}
+								type="text"
+								label="Texto da Recorrência"
+								classCol="s12"
+								className="validate"
+							/>
+						</div>
+								
 
 						<div className="row">
 							<div className="db-v2-list-form-inn-tit">
@@ -953,13 +931,15 @@ function mapStateToProps(state, ownProps){
 				eventoInit.cidade = eventoInit.cidade._id;
 			}
 		}
-
-		console.log("stateeeeee: ", state)
-
+		
+		console.log("no precooooooooo: ", eventoInit.p);
+		if( eventoInit.preco === 0 || eventoInit.preco === '')
+		{
+			eventoInit.gratuito = true;
+		}
 		//this.setState({'inicio': eventoInit.inicio});
-
+		console.log("INITTTTT: ", eventoInit);
 		if(eventoInit.bairros && _.isArray(eventoInit.bairros) && eventoInit.bairros.length > 0){
-			console.log("\n\n\n evento init no map: ", eventoInit.bairros);
 			eventoInit.bairros = eventoInit.bairros[0]._id;
 		}
 	}

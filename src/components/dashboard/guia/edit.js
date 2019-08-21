@@ -713,7 +713,7 @@ class GuiaEdit extends Component{
 							<Field
 								name="diasfuncionamento"
 								component={this.renderSelect}
-								options={['Todos os dias', 'Segunda', 'Terça', 'Quarta']}
+								options={['Todos os dias', 'Segunda', 'Terça', 'Quarta','Quinta','Sexta','Sábado','Domingo']}
 								label="Data funcionamento"
 								classCol="s4"
 								multiple="true"
