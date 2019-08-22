@@ -118,25 +118,24 @@ class EventoEdit extends Component{
 
 			this.setState({inicio: new Date(this.props.eventos.evento.inicio)});
 			this.setState({fim: new Date(this.props.eventos.evento.fim)});
-
-            // if(user.user.role.name == 'Administrator'){
-				//     this.props.fetchEventosByAdm(7);
-                
-				// }
-				// else{
-					//     this.props.fetchEventosByUser(user.user._id, 5);
-					// }
-				}
-				else{
-					this.setState({userLogged:false})
-				}
+			if(this.props.eventos && (this.props.eventos.preco != '' || this.props.eventos.preco != 0 )){
+				this.setState({gratis: false})
 			}
-	componentWillReceiveProps(nextProps){
-		if(nextProps && nextProps.eventos && this.state.inicio != null){
-			console.log("recebendo as props de novo c valor antigo?", nextProps.eventos)
 			
+		// if(user.user.role.name == 'Administrator'){
+		//     this.props.fetchEventosByAdm(7);
+		
+		// }
+		// else{
+			//     this.props.fetchEventosByUser(user.user._id, 5);
+			// }
+		}
+		else{
+			this.setState({userLogged:false})
 		}
 	}
+
+	
 
 	componentWillMount(){
 		this.props.fetchEvento(this.props.match.params.id)
@@ -197,10 +196,9 @@ class EventoEdit extends Component{
         return(
 			
 			<div className={`input-field-edit  ${className}`}>
-				<label>{label}</label>	
-				<input {...input}  type={type} disabled={field.disabled} className="validate"  />
+				<label htmlFor={label}>{label}</label>	
+				<input {...input} id={label}  type={type} disabled={field.disabled} className="validate"  />
 				{touched && ((error && <span className="text-danger">{error}</span>) || (warning && <span>{warning}</span>))}
-				
 			</div>
             
         )
@@ -371,7 +369,8 @@ class EventoEdit extends Component{
 	}			
 
 	showImagemGaleria(i){
-		if(this.props.eventos && this.props.eventos.evento && this.props.eventos.evento.galeria_imagens){
+		if(this.props.eventos && this.props.eventos.evento && this.props.eventos.evento.galeria_imagens[i]){
+			
 			return(
 				<div className="file-input">
 					<img src={this.props.eventos.evento.galeria_imagens[i].url} /><a href="#" onClick={e => this.removeImage(e, this.props.eventos.evento.galeria_imagens[i]._id)}>Remover</a>
@@ -843,7 +842,7 @@ class EventoEdit extends Component{
 								classCol="s9"
 								/>
 								{/*@todo implementar incluir nova tag*/}
-								<div className="input-field col s3">
+								<div className="input-field col s3" style={{marginTop: '40px'}}>
 									<button  className="waves-effect waves-light btn" >Incluir nova Tag</button>
 								</div>
 						</div>			
@@ -932,13 +931,12 @@ function mapStateToProps(state, ownProps){
 			}
 		}
 		
-		console.log("no precooooooooo: ", eventoInit.p);
 		if( eventoInit.preco === 0 || eventoInit.preco === '')
 		{
 			eventoInit.gratuito = true;
 		}
+
 		//this.setState({'inicio': eventoInit.inicio});
-		console.log("INITTTTT: ", eventoInit);
 		if(eventoInit.bairros && _.isArray(eventoInit.bairros) && eventoInit.bairros.length > 0){
 			eventoInit.bairros = eventoInit.bairros[0]._id;
 		}

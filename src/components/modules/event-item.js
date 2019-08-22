@@ -1,3 +1,4 @@
+import _ from 'lodash';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
@@ -44,9 +45,14 @@ class EventItem extends Component {
 
     render(){
         let item = {};
-        if(this.props.eventos)
+        if(this.props.eventos){
             item = this.props.eventos.evento
-            
+            if(_.isArray(item))
+                item = item[0];
+        }
+        
+        console.log("iiiitemmm aqui: ", item)
+
         return(
             <div>
                 

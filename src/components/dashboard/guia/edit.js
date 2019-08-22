@@ -153,10 +153,10 @@ class GuiaEdit extends Component{
 
         return(
 			
-			<div className={`input-field-edit input-field ${className}`}>
-				<input {...input}  type={type} className="validate" placeholder={label}  />
+			<div className={`input-field-edit ${className}`}>
+				<label htmlFor={label}>{label}</label>	
+				<input {...input} id={label}  type={type} className="validate" placeholder={label}  />
 				{touched && ((error && <span className="text-danger">{error}</span>) || (warning && <span>{warning}</span>))}
-				
 			</div>
             
         )
@@ -176,7 +176,8 @@ class GuiaEdit extends Component{
 
 		//console.log("state do multiselect no multselect ", input.name, ": ", this.state.labelMultiselect[input.name]);
 		return (
-			<div className={`react-widget input-field col ${field.classCol}`}>
+			<div className={`react-widget input-field-edit col ${field.classCol}`}>
+				<label>{label}</label>
 				<Multiselect {...input}
 					/*onBlur={(e) => {
 						this.multiSelectBlur(e, input.name, input.value)}
@@ -205,9 +206,9 @@ class GuiaEdit extends Component{
 		
 		return(
 			
-			<div className={`input-field col ${field.classCol}`}>
-			
-				{ <Field {...input} style={{display:'block',paddingTop:'0px', paddingBottom:'0px', height:(field.multiple)?'90px':'40px'}}  
+			<div className={`input-field-edit col ${field.classCol}`}>
+				<label htmlFor="label">{label}</label>					
+				<Field {...input} id={label} style={{display:'block',paddingTop:'0px', paddingBottom:'0px', height:(field.multiple)?'90px':'40px'}}  
 					component="select" className="native" native="true" multiple={(field.multiple)?'multiple':''} disabled={field.disabled}>
 					
 					{(!field.multiple)?<option>{label}</option>:''}
@@ -231,7 +232,7 @@ class GuiaEdit extends Component{
 						}
 					}):''}
 					
-				</Field>}
+				</Field>
 				
 				{touched && ((error && <span className="text-danger">{error}</span>) || (warning && <span>{warning}</span>))} 
 			</div>
@@ -415,7 +416,7 @@ class GuiaEdit extends Component{
 						</div>									
 								
 						<div className="row">
-							<div className="input-field col s12 v2-mar-top-40"> 
+							<div className="input-field-edit col s12 v2-mar-top-40"> 
 								<input type="submit"  value="Editar" className="waves-effect waves-light no-color btn-large full-btn" /> 
 							</div>
 						</div>
@@ -537,10 +538,9 @@ class GuiaEdit extends Component{
 							/>
 						</div>
 						<div className="row">
-							<div className="input-field input-field-edit col s12">
-								<Field name="descricao" component="textarea" />
-									
+							<div className="input-field-edit col s12">
 								<label htmlFor="descricao">Descrição</label>
+								<Field name="descricao" component="textarea" />
 							</div>
 						</div>
 
@@ -622,7 +622,7 @@ class GuiaEdit extends Component{
 
 								
 						<div className="row">
-							<div className="input-field col s12 v2-mar-top-40"> 
+							<div className="input-field-edit col s12 v2-mar-top-40"> 
 								<input type="submit"  value="Editar" className="waves-effect waves-light no-color btn-large full-btn" /> 
 							</div>
 						</div>
@@ -823,13 +823,13 @@ class GuiaEdit extends Component{
 								classCol="s9"
 								/>
 								{/*@todo implementar incluir nova tag*/}
-								<div className="input-field col s3">
+								<div className="input-field-edit col s3 " style={{marginTop: '40px'}}>
 									<button  className="waves-effect waves-light btn" >Incluir nova Tag</button>
 								</div>
 						</div>			
 								
 						<div className="row">
-							<div className="input-field col s12 v2-mar-top-40"> 
+							<div className="input-field-edit col s12 v2-mar-top-40"> 
 								<input type="submit"  value="Editar" className="waves-effect waves-light no-color btn-large full-btn" /> 
 							</div>
 						</div>

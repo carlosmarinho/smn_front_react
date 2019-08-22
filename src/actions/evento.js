@@ -26,6 +26,7 @@ export const createEvento = async (evento) => {
             eventotosave.galeria_img = '';
             eventotosave.imagem_principal = '';
             eventotosave.bairros = [evento.bairros];
+            eventotosave.slug = _.kebabCase(evento.titulo);
 
             let jwt = user.jwt    
             let config = { headers: { 'Authorization': `Bearer ${jwt}` } };            
@@ -107,6 +108,8 @@ export const editEvento = async (evento, id) => {
             eventotosave.galeria_img = '';
             eventotosave.imagem_principal = '';
             eventotosave.bairros = [evento.bairros];
+            if(evento.slug == '')
+                eventotosave.slug = _.kebabCase(evento.titulo);
 
             let jwt = user.jwt    
             let config = { headers: { 'Authorization': `Bearer ${jwt}` } };
