@@ -29,6 +29,7 @@ export const createGuia = async (guia) => {
             guiatosave.galeria_img = '';
             guiatosave.imagem_principal = '';
             guiatosave.bairros = [guia.bairros];
+            guiatosave.slug = _.kebabCase(guia.titulo);
 
             let jwt = user.jwt    
             let config = { headers: { 'Authorization': `Bearer ${jwt}` } };            
@@ -130,6 +131,8 @@ export const editGuia = async (guia, id) => {
             guiatosave.galeria_img = '';
             guiatosave.imagem_principal = '';
             guiatosave.bairros = [guia.bairros];
+            if(guia.slug == '')
+                guiatosave.slug = _.kebabCase(guia.titulo);
 
             let jwt = user.jwt    
             let config = { headers: { 'Authorization': `Bearer ${jwt}` } };

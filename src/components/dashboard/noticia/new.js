@@ -5,9 +5,7 @@ import {connect} from 'react-redux';
 import {Field, reduxForm} from 'redux-form';
 import {Link, Redirect} from 'react-router-dom';
 import {absence, url, email} from 'redux-form-validators';
-
-import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
-import "react-tabs/style/react-tabs.css";
+import DatePicker from "react-datepicker";
 
 
 import { fetchCategories } from '../../../actions/categoria';
@@ -21,7 +19,7 @@ import DropdownList from 'react-widgets/lib/DropdownList'
 import SelectList from 'react-widgets/lib/SelectList'
 import Multiselect from 'react-widgets/lib/Multiselect'
 
-import 'react-widgets/dist/css/react-widgets.css'
+
 
 import {createNoticia} from '../../../actions/noticia';
 
@@ -71,7 +69,10 @@ class NoticiaNew extends Component{
 			userLogged: null,
 			labelMultiselect: {categorias: true, tags: true},
 			categorias: true,
-			tags: true
+			tags: true,
+			redirect: false,
+			inicio: new Date(),
+			fim: null,
 		}
 		
 		this.handleSubmit = this.handleSubmit.bind(this);
@@ -83,10 +84,7 @@ class NoticiaNew extends Component{
 		
         if(user !== null){
 			this.setState({userLogged:true})
-			this.props.fetchCategories('noticia comercial', 250, 'parent_id');
-			this.props.fetchTags();
-			this.props.fetchCities();
-			this.props.fetchBairros('5ba26f813a018f42215a36a0', 200, 'nome');
+			
             // if(user.user.role.name == 'Administrator'){
 				//     this.props.fetchNoticiasByAdm(7);
                 
@@ -104,10 +102,13 @@ class NoticiaNew extends Component{
         }
 	}
 	
-	handleSubmit(values){
+	async handleSubmit(values){
         
-		this.props.createNoticia(values);
-			
+		let ret = await this.props.createNoticia({...values, inicio: this.state.inicio, fim: this.state.fim});
+		
+		if(ret.payload && ret.payload.data && ret.payload.data._id)
+			this.setState({redirect: true});
+		
     }
 
     datePtBr(date){
@@ -118,13 +119,22 @@ class NoticiaNew extends Component{
 
     
     getImageSrc(item){
-        if(item.s3_imagem_destacada){
-            return item.old_imagem_destacada;
+        const { s3_imagem_destacada, old_imagem_destacada, imagem_destacada } = item
+        
+        if(s3_imagem_destacada){
+            return s3_imagem_destacada;
         }
-        if(item.old_imagem_destacada) {
-            return item.old_imagem_destacada;
+        if(old_imagem_destacada) {
+            if(old_imagem_destacada.includes('.amazonaws'))
+                return old_imagem_destacada;
+
+            return old_imagem_destacada.replace('http://soumaisniteroi', 'http://engenhoca.soumaisniteroi');;
         }
-        else if(item.imagem_destacada){
+        else if(imagem_destacada){
+            if(imagem_destacada.url){
+                return imagem_destacada.url;
+            }
+
             //implementar codigo
             return "http://images.soumaisniteroi.com.br/wp-content/uploads/2015/04/no-image.png";
         }
@@ -285,15 +295,7 @@ class NoticiaNew extends Component{
 			tags = this.proccessJsonForMultSelect(tags);
 		}
 		
-		let cidades = [];
-		if(this.props.cidades){
-			cidades = this.props.cidades;
-		}
-
-		let bairros = [];
-		if(this.props.tags){
-			bairros = this.props.bairros;
-		}
+		
 
 		return(
 			<div className="hom-cre-acc-left hom-cre-acc-right">
@@ -332,54 +334,12 @@ class NoticiaNew extends Component{
 							/>
 						</div>
 						<div className="row">
-							<Field
-									name="tipo"
-									component={this.renderSelect}
-									options={[{'noticia comercial':'Noticia Comercial'}, {'noticia de serviços':'Noticia de Serviços'}]}
-									label="Selecione o tipo"
-									classCol="s4"
-									className="validate"
-									validate={[required]}
-							/>
-							<Field
-								name="telefone"
-								component={this.renderField}
-								type="text"
-								label="Telefone"
-								classCol="s4"
-								className="validate"
-								validate={[]}
-							/>
-							<Field
-								name="celular"
-								component={this.renderField}
-								type="text"
-								label="Celular"
-								classCol="s4"
-								className="validate"
-								validate={[]}
-							/>
+							<div className="input-field input-field-edit col s12">
+								<Field name="introducao" component="textarea" />
+								<label htmlFor="introducao">Resumo</label>
+							</div>
 						</div>
-						<div className="row">
-							<Field
-								name="email"
-								component={this.renderField}
-								type="text"
-								label="Email"
-								classCol="s6"
-								className="validate"
-								validate={[email({allowBlank:true, message: "Email inválido!"})]}
-							/>
-							<Field
-								name="website"
-								component={this.renderField}
-								type="text"
-								label="Website"
-								classCol="s6"
-								className="validate"
-								validate={[url({allowBlank:true, protocolIdentifier:false})]}
-							/>
-						</div>
+						
 						<div className="row">
 							<div className="input-field input-field-edit col s12">
 								<Field name="descricao" component="textarea" />
@@ -387,84 +347,7 @@ class NoticiaNew extends Component{
 								<label htmlFor="descricao">Descrição</label>
 							</div>
 						</div>
-
-						<div className="row">
-							<div className="db-v2-list-form-inn-tit">
-								<h5>Endereço:</h5>
-							</div>
-						</div>
-						<div className="row">
-							<Field
-								name="cep"
-								component={this.renderField}
-								type="text"
-								label="Cep"
-								classCol="s6"
-								className="validate"
-								validate={[]}
-							/>
-							
-							<Field
-								name="complemento"
-								component={this.renderField}
-								type="text"
-								label="Complemento"
-								classCol="s6"
-								className="validate"
-								validate={[]}
-							/>
-						</div>
-						
-						<div className="row">
-							<Field
-								name="estado"
-								component={this.renderSelect}
-								options={[{'5bce2506e8a51373aab0b047':'Rio de Janeiro'}]}
-								type="text"
-								label="Estado"
-								disabled={true}
-								defaultValue="5bce2506e8a51373aab0b047"
-								classCol="s4"
-								className="validate"
-								validate={[ ]}
-							/>
-							<Field
-								name="cidade"
-								component={this.renderSelect}
-								options={cidades}
-								label="Cidade"
-								classCol="s4"
-								className="validate"
-								validate={[required]}
-							/>
-							<Field
-								name="bairros"
-								component={this.renderSelect}
-								options={bairros}
-								type="text"
-								label="Bairro"
-								classCol="s4"
-								className="validate"
-								validate={[  ]}
-							/>
-						</div>
-						<div className="row">
-						
-
-							<Field
-								name="endereco"
-								component={this.renderField}
-								type="text"
-								label="Endereço"
-								classCol="s12"
-								className="validate"
-								validate={[ required ]}
-							/>
-						</div>
-						
-						
-
-								
+													
 						<div className="row">
 							<div className="input-field col s12 v2-mar-top-40"> 
 								<input type="submit"  value="Cadastrar" className="waves-effect waves-light no-color btn-large full-btn" /> 
@@ -477,6 +360,17 @@ class NoticiaNew extends Component{
 	}
 
 
+	handleChangeInicio = (date) => {
+		this.setState({
+			inicio: date
+		});
+	}
+
+	handleChangeFim = (date) => {
+		this.setState({
+			fim: date
+		});
+	}
 
     render(){
 
@@ -484,9 +378,9 @@ class NoticiaNew extends Component{
             return <Redirect to={'/'} />
 		}
 
-		if(this.props.message && this.props.message.success && this.props.message.success.noticia  ){
-			console.log("noticias antes de direcionar: ", this.props.noticias);
-			console.log("message antes de direcionar: ", this.props.message);
+		//console.log("props message MESSAGE: ", this.props.message && this.props.message.success);
+
+		if(this.state.redirect){
 			return <Redirect to={`/dashboard/noticias/edit/${this.props.message.success.noticia.data._id}`} />
 		}
 		
@@ -508,7 +402,7 @@ class NoticiaNew extends Component{
 		}
 
 		let bairros = [];
-		if(this.props.bairros){
+		if(this.props.tags){
 			bairros = this.props.bairros;
 		}
 		const { pristine, reset, submitting, handleSubmit } = this.props
@@ -528,8 +422,8 @@ class NoticiaNew extends Component{
 							<h4>Gerenciamento de Noticias</h4>
 							<div className="db-list-com tz-db-table">
 								<div className="ds-boar-title">
-									<h2>Cadastrar Novo Noticia</h2>
-									<p>Cadastro de novo noticia comercial/serviço</p>
+									<h2>Cadastrar Nova Notícia</h2>
+									<p>Cadastro de nova Notícia </p>
 									{this.showMessage()}
 								</div>
 								

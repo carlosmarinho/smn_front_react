@@ -169,8 +169,8 @@ class App extends Component {
                                 <Route exact path="/dashboard/eventos/edit/:id" component={DashboardEventoEdit} />
                                 
                                 <Route exact path="/dashboard/noticias" component={DashboardNoticia} />
-                                <Route exact path="/dashboard/noticias/novo" component={DashboardEventoNew} />
-                                <Route exact path="/dashboard/noticias/edit/:id" component={DashboardEventoEdit} />
+                                <Route exact path="/dashboard/noticias/novo" component={DashboardNoticiaNew} />
+                                <Route exact path="/dashboard/noticias/edit/:id" component={DashboardNoticiaEdit} />
                                 
                                 <Route exact path="/connect/facebook/" component={Connect} />
                                 <Route exact path="/" component={Home} />

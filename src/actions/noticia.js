@@ -1,6 +1,14 @@
 import _ from 'lodash';
 import axios from 'axios';
-import { SUCCESS_CREATE_NOTICIA, ERROR_CREATE_NOTICIA, FETCH_NOTICIA, FETCH_NOTICIAS, FETCH_NOTICIAS_RECENTES, FETCH_NOTICIAS_FEATURED, FETCH_NOTICIAS_USER } from "./types";
+import { SUCCESS_CREATE_NOTICIA, 
+    ERROR_CREATE_NOTICIA, 
+    SUCCESS_EDIT_NOTICIA, 
+    ERROR_EDIT_NOTICIA,
+    FETCH_NOTICIA, 
+    FETCH_NOTICIAS, 
+    FETCH_NOTICIAS_RECENTES, 
+    FETCH_NOTICIAS_FEATURED, 
+    FETCH_NOTICIAS_USER } from "./types";
 
 export const createNoticia = async (noticia) => {
 
@@ -15,7 +23,8 @@ export const createNoticia = async (noticia) => {
             noticiatosave.cidade = [noticia.cidade];
             noticiatosave.galeria_img = '';
             noticiatosave.imagem_principal = '';
-            noticiatosave.bairros = [noticia.bairros];
+            noticiatosave.slug = _.kebabCase(noticia.titulo);
+
 
             let jwt = user.jwt    
             let config = { headers: { 'Authorization': `Bearer ${jwt}` } };            
@@ -51,24 +60,6 @@ export const createNoticia = async (noticia) => {
                     let request_img = await axios.post(`${process.env.REACT_APP_URL_API}upload/`, form, config);
                 }
 
-                if(noticia.galeria_img){
-                    
-                    let form1 = new FormData();
-                    form1.append('path', 'noticia/galeria');
-                    form1.append('refId', request.data._id);
-                    form1.append('ref', 'noticia');
-                    form1.append('field', 'galeria_imagens');
-    
-    
-                    noticia.galeria_img.map( (value, key) => {
-                        //return value[0];
-                        form1.append(`files`, value[0])
-                    })
-    
-                    let request_gal = await axios.post(`${process.env.REACT_APP_URL_API}upload/`, form1, config);
-                }
-
-
                 return({
                     type: SUCCESS_CREATE_NOTICIA,
                     payload: request
@@ -86,7 +77,7 @@ export const createNoticia = async (noticia) => {
             console.log("ERROR DO CREATE NOTICIA: ", error)
             return({
                 type: ERROR_CREATE_NOTICIA,
-                payload: {msg: "Houve um erro ao efetuar o cadastro do seu noticia!" }
+                payload: {msg: "Houve um erro ao efetuar o cadastro da sua noticia!" }
             })
         } 
     
@@ -95,6 +86,111 @@ export const createNoticia = async (noticia) => {
         return(
             {
                 type: ERROR_CREATE_NOTICIA,
+                payload: {msg: "Usuário não logado"}
+            }
+        )
+    }
+
+    
+}
+
+
+export const editNoticia = async (noticia, id) => {
+
+    let user = JSON.parse(localStorage.getItem('user'));
+    console.log("noticia post editar: ", noticia);
+    let request;
+    if(user){
+        try
+        {
+            //correção para salvar uma relação no strapi
+            let noticiatosave = _.clone(noticia);
+            noticiatosave.cidade = [noticia.cidade];
+            noticiatosave.imagem_principal = '';
+            noticiatosave.bairros = [noticia.bairros];
+            if(noticia.slug == '')
+                noticiatosave.slug = _.kebabCase(noticia.titulo);
+
+            let jwt = user.jwt    
+            let config = { headers: { 'Authorization': `Bearer ${jwt}` } };
+          
+            request = await axios.put(`${process.env.REACT_APP_URL_API}noticias/${id}`, noticiatosave, config);
+
+            if(request.statusText == 'OK'){
+                //new FormData(noticia)
+    
+                if(noticia.imagem_principal){
+                    console.log("imagem destacada: ", noticia.imagem_principal[0])
+                    let imagem_destacada = {    
+                        "files": noticia.imagem_principal[0], // Buffer or stream of file(s)
+                        "path": "noticia/destacada", // Uploading folder of file(s).
+                        "refId": request.data._id, // Noticia's Id.
+                        "ref": "noticia", // Model name.
+                        //"source": "users-permissions", // Plugin name.
+                        "field": "imagem_destacada" // Field name in the User model.
+                    }  
+    
+                    
+                    let form = new FormData();
+    
+                    _.map(imagem_destacada, (value, key) => {
+                        if(key == 'imagem_destacada'){
+                            console.log("key: ", key, " --- value é FIELD: ", value);
+                        }
+                        
+                        form.append(key, value);
+                    })
+                    
+                    console.log("imagem destacada: ", imagem_destacada, '----', form);
+    
+                    //let config1 = { headers: { 'Authorization': `Bearer ${jwt}`, 'Content-Type': 'multipart/form-data' } };
+                    let request_img = await axios.post(`${process.env.REACT_APP_URL_API}upload/`, form, config);
+                }
+
+                if(noticia.galeria_img){
+                    console.log("noticia galeria_img: ", noticia.galeria_img);    
+                    
+                    let form1 = new FormData();
+                    form1.append('path', 'noticia/galeria');
+                    form1.append('refId', request.data._id);
+                    form1.append('ref', 'noticia');
+                    form1.append('field', 'galeria_imagens');
+        
+                    noticia.galeria_img.map( (value, key) => {
+                        //return value[0];
+                        form1.append(`files`, value[0])
+                    })
+    
+                    let request_gal = await axios.post(`${process.env.REACT_APP_URL_API}upload/`, form1, config);
+                }
+
+
+                return({
+                    type: SUCCESS_EDIT_NOTICIA,
+                    payload: request
+                })
+            }
+            else{
+                console.log("Editando o noticia ver o erro: ", request);
+                return({
+                    type: ERROR_EDIT_NOTICIA,
+                    payload: {msg: "Houve um erro ao editar o seu noticia!" }
+                })
+            }
+        }
+        catch(error){
+            console.log("ERROR DO EDIT NOTICIA: ", error)
+            return({
+                type: ERROR_EDIT_NOTICIA,
+                payload: {msg: "Houve um erro ao editar o seu noticia!" }
+            })
+        } 
+    
+    }
+    else{
+        return(
+            {
+                type: ERROR_EDIT_NOTICIA,
                 payload: {msg: "Usuário não logado"}
             }
         )
