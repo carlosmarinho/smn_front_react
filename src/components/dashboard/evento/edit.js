@@ -110,7 +110,7 @@ class EventoEdit extends Component{
 		
         if(user !== null){
 			this.setState({userLogged:true})
-			this.props.fetchCategories('evento comercial', 250, 'parent_id');
+			this.props.fetchCategories('evento', 250, 'parent_id');
 			this.props.fetchTags();
 			this.props.fetchCities();
 			this.props.fetchBairros('5ba26f813a018f42215a36a0', 200, 'nome');
@@ -218,6 +218,10 @@ class EventoEdit extends Component{
 			<div className={`react-widget input-field-edit col ${field.classCol}`}>
 				<label>{label}</label>
 				<Multiselect {...input}
+					onBlur={(e) => {
+						//this.multiSelectBlur(e, input.name, input.value)
+						}
+					}
 					value={input.value || []} // requires value to be an array
 					data={data}
 					valueField={valueField}
@@ -250,7 +254,7 @@ class EventoEdit extends Component{
 						className="mr2"
 						type="checkbox"
 						defaultChecked={field.input.value}						
-						style={{ left: '-250px', opacity: '1', marginTop: '7px'}}
+						style={{ left: '-200px', opacity: '1', marginTop: '7px'}}
 						
 					/>
 				</div>
@@ -266,9 +270,15 @@ class EventoEdit extends Component{
 			
 			<div className={`input-field-edit col ${field.classCol}`}>
 				<label>{label}</label>
-				{ <Field {...input} style={{display:'block',paddingTop:'0px', paddingBottom:'0px', height:(field.multiple)?'90px':'40px'}}  
-					component="select" className="native" native="true" multiple={(field.multiple)?'multiple':''} disabled={field.disabled}>
-					
+				<Field 
+					{...input} 
+					style={{display:'block',paddingTop:'0px', paddingBottom:'0px', height:(field.multiple)?'90px':'40px'}}  
+					component="select" 
+					className="native" 
+					native="true" 
+					multiple={(field.multiple)?'multiple':''} 
+					disabled={field.disabled}
+				>
 					{(!field.multiple)?<option>{label}</option>:''}
 					{(field.options)?field.options.map((option, key) => {
 						if(_.isObject(option)){
@@ -288,9 +298,8 @@ class EventoEdit extends Component{
 								<option key={`key-${label}-${option}`} value={option}>{option}</option>
 							)
 						}
-					}):''}
-					
-				</Field>}
+					}):''}	
+				</Field>
 				
 				{touched && ((error && <span className="text-danger">{error}</span>) || (warning && <span>{warning}</span>))} 
 			</div>
@@ -369,7 +378,7 @@ class EventoEdit extends Component{
 	}			
 
 	showImagemGaleria(i){
-		if(this.props.eventos && this.props.eventos.evento && this.props.eventos.evento.galeria_imagens[i]){
+		if(this.props.eventos && this.props.eventos.evento && this.props.eventos.evento.galeria_imagens && this.props.eventos.evento.galeria_imagens[i]){
 			
 			return(
 				<div className="file-input">
@@ -882,7 +891,7 @@ class EventoEdit extends Component{
 							<div className="db-list-com tz-db-table">
 								<div className="ds-boar-title">
 									<h2>Editar Novo Evento</h2>
-									<p>Cadastro de novo evento comercial/serviço</p>
+									<p>Cadastro de novo evento</p>
 									{this.showMessage()}
 								</div>
 								<Tabs>

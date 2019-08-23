@@ -10,7 +10,9 @@ import {
     FETCH_NOTICIAS, 
     FETCH_NOTICIAS_RECENTES, 
     FETCH_NOTICIAS_FEATURED, 
-    FETCH_NOTICIAS_USER } from "./types";
+    FETCH_NOTICIAS_USER,
+    REMOVE_IMAGE_NOTICIA
+ } from "./types";
 
 export const createNoticia = async (noticia) => {
 
@@ -24,6 +26,7 @@ export const createNoticia = async (noticia) => {
             let noticiatosave = _.clone(noticia);
             noticiatosave.cidade = [noticia.cidade];
             noticiatosave.galeria_img = '';
+            
             noticiatosave.imagem_principal = '';
             noticiatosave.slug = _.kebabCase(noticia.titulo);
 
@@ -68,10 +71,10 @@ export const createNoticia = async (noticia) => {
                 })
             }
             else{
-                console.log("cadastrando o noticia ver o erro: ", request);
+                console.log("cadastrando a noticia ver o erro: ", request);
                 return({
                     type: ERROR_CREATE_NOTICIA,
-                    payload: {msg: "Houve um erro ao cadastrar o seu noticia!" }
+                    payload: {msg: "Houve um erro ao cadastrar a noticia!" }
                 })
             }
         }
@@ -483,4 +486,31 @@ export const fetchNoticiasFeatured = async(city_id, limit='', sort=null) => {
         payload: request
     }
 
+}
+
+export const fetchNoticia = (id) => {
+    const request = axios.get(`${process.env.REACT_APP_URL_API}noticias/${id}`);
+    return {
+        type: FETCH_NOTICIA,
+        payload: request
+    }
+}
+
+export const removeImageAssociation = async (id, id_evento) => {
+    let related = {related: []}
+    const request = await axios.put(`${process.env.REACT_APP_URL_API}uploadfile/${id}`, related);
+    console.log("request: ", request)
+    if(request.statusText == 'OK'){
+        console.log("conseguiu atualizar a imagem.....");
+        return {
+            type: REMOVE_IMAGE_NOTICIA,
+            payload: []
+        }
+    }
+
+    return {
+        type: REMOVE_IMAGE_NOTICIA,
+        payload: false
+    }
+    
 }

@@ -1,4 +1,4 @@
-import { FETCH_NOTICIA, FETCH_NOTICIAS, FETCH_NOTICIAS_RECENTES, FETCH_NOTICIAS_FEATURED, FETCH_NOTICIAS_USER } from "../actions/types";
+import { REMOVE_IMAGE_NOTICIA, FETCH_NOTICIA, FETCH_NOTICIAS, FETCH_NOTICIAS_RECENTES, FETCH_NOTICIAS_FEATURED, FETCH_NOTICIAS_USER } from "../actions/types";
 
 export default function(state = null, action) {
 
@@ -11,6 +11,13 @@ export default function(state = null, action) {
         count: null
     };
     switch (action.type) {
+        case REMOVE_IMAGE_NOTICIA:
+            if(action.payload !== false){
+                noticia.noticia = state.noticia;
+                noticia.noticia.imagem_destacada = [];
+            }
+
+            return noticia;
         case FETCH_NOTICIA:
             if(state){
                 if(state.recentes)
@@ -20,8 +27,12 @@ export default function(state = null, action) {
                 if(state.featured)
                     noticia.featured = state.featured;
             }
-                        
-            noticia.noticia = action.payload.data[0];
+            
+            console.log("payload:: ", action.payload)
+            if(action.payload && action.payload.data && action.payload.data[0]) 
+                noticia.noticia = action.payload.data[0];  
+            else
+                noticia.noticia = action.payload.data
             return noticia;
         case FETCH_NOTICIAS:
             if(state){
