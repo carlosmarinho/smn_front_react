@@ -211,6 +211,10 @@ class NoticiaEdit extends Component{
 			<div className={`react-widget input-field-edit col ${field.classCol}`}>
 				<label>{label}</label>
 				<Multiselect {...input}
+					onBlur={(e) => {
+							//this.multiSelectBlur(e, input.name, input.value)
+						}
+					}
 					value={input.value || []} // requires value to be an array
 					data={data}
 					valueField={valueField}
@@ -259,8 +263,15 @@ class NoticiaEdit extends Component{
 			
 			<div className={`input-field-edit col ${field.classCol}`}>
 				<label>{label}</label>
-				{ <Field {...input} style={{display:'block',paddingTop:'0px', paddingBottom:'0px', height:(field.multiple)?'90px':'40px'}}  
-					component="select" className="native" native="true" multiple={(field.multiple)?'multiple':''} disabled={field.disabled}>
+				<Field 
+					{...input} 
+					style={{display:'block',paddingTop:'0px', paddingBottom:'0px', height:(field.multiple)?'90px':'40px'}}  
+					component="select" 
+					className="native" 
+					native="true" 
+					multiple={(field.multiple)?'multiple':''} 
+					disabled={field.disabled}
+				>
 					
 					{(!field.multiple)?<option>{label}</option>:''}
 					{(field.options)?field.options.map((option, key) => {
@@ -283,7 +294,7 @@ class NoticiaEdit extends Component{
 						}
 					}):''}
 					
-				</Field>}
+				</Field>
 				
 				{touched && ((error && <span className="text-danger">{error}</span>) || (warning && <span>{warning}</span>))} 
 			</div>

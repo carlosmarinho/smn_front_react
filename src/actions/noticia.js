@@ -24,7 +24,6 @@ export const createNoticia = async (noticia) => {
             let noticiatosave = _.clone(noticia);
             noticiatosave.cidade = [noticia.cidade];
             noticiatosave.galeria_img = '';
-            noticiatosave.bairros = [noticia.bairros];
             
             noticiatosave.imagem_principal = '';
             noticiatosave.slug = _.kebabCase(noticia.titulo);

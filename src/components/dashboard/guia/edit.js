@@ -175,14 +175,17 @@ class GuiaEdit extends Component{
 		const { input, data, valueField, textField, label } = field;
 
 		//console.log("state do multiselect no multselect ", input.name, ": ", this.state.labelMultiselect[input.name]);
+		
+		console.log("input::: ", input.value)
 		return (
 			<div className={`react-widget input-field-edit col ${field.classCol}`}>
 				<label>{label}</label>
 				<Multiselect {...input}
-					/*onBlur={(e) => {
-						this.multiSelectBlur(e, input.name, input.value)}
+					onBlur={(e) => {
+							//this.multiSelectBlur(e, input.name, input.value)
+						}
 					}
-					onFocus={(e) => this.multiSelectFocus(e, input.name) }*/
+					/*onFocus={(e) => this.multiSelectFocus(e, input.name) }*/
 					value={input.value || []} // requires value to be an array
 					data={data}
 					valueField={valueField}
@@ -203,13 +206,20 @@ class GuiaEdit extends Component{
 	renderSelect(field){
 		const {input, label, type, meta: {touched, error, warning} } = field;
 
-		
 		return(
 			
 			<div className={`input-field-edit col ${field.classCol}`}>
 				<label htmlFor="label">{label}</label>					
-				<Field {...input} id={label} style={{display:'block',paddingTop:'0px', paddingBottom:'0px', height:(field.multiple)?'90px':'40px'}}  
-					component="select" className="native" native="true" multiple={(field.multiple)?'multiple':''} disabled={field.disabled}>
+				<Field 
+					{...input} 
+					id={label} 
+					style={{display:'block',paddingTop:'0px', paddingBottom:'0px', height:(field.multiple)?'90px':'40px'}}  
+					component="select" 
+					className="native" 
+					native="true" 
+					multiple={(field.multiple)?'multiple':''} 
+					disabled={field.disabled}
+				>
 					
 					{(!field.multiple)?<option>{label}</option>:''}
 					{(field.options)?field.options.map((option, key) => {
