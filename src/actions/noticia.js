@@ -1,6 +1,8 @@
 import _ from 'lodash';
 import axios from 'axios';
-import { SUCCESS_CREATE_NOTICIA, 
+import { 
+    DELETE_NOTICIA
+    SUCCESS_CREATE_NOTICIA, 
     ERROR_CREATE_NOTICIA, 
     SUCCESS_EDIT_NOTICIA, 
     ERROR_EDIT_NOTICIA,
@@ -199,6 +201,50 @@ export const editNoticia = async (noticia, id) => {
     
 }
 
+export const deleteNoticia = async (id) => {
+    let user = JSON.parse(localStorage.getItem('user'));
+    
+    if(user){
+        let config = { headers: { 'Authorization': `Bearer ${user.jwt}` } };
+        const request = await axios.delete(`${process.env.REACT_APP_URL_API}noticias/${id}`, config);
+        if(request.statusText == 'OK'){
+            return {
+                type: DELETE_NOTICIA,
+                payload: id
+            }
+        }
+
+        return {
+            type: DELETE_NOTICIA,
+            payload: false
+        }
+    }
+    else{
+        return({
+            type: ERROR_EDIT_NOTICIA,
+            payload: {msg: "Usuário não logado"}
+        })
+    }
+}
+
+export const removeImageAssociation = async (id, id_evento) => {
+    let related = {related: []}
+    const request = await axios.put(`${process.env.REACT_APP_URL_API}uploadfile/${id}`, related);
+    console.log("request: ", request)
+    if(request.statusText == 'OK'){
+        console.log("conseguiu atualizar a imagem.....");
+        return {
+            type: REMOVE_IMAGE_NOTICIA,
+            payload: []
+        }
+    }
+
+    return {
+        type: REMOVE_IMAGE_NOTICIA,
+        payload: false
+    }
+    
+}
 
 export const fetchNoticiaBySlug = async(slug='', limit=1) => {
     

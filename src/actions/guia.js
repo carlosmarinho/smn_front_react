@@ -5,7 +5,8 @@ import {
     REMOVE_IMAGE_GUIA, 
     ERROR_CREATE_GUIA, 
     SUCCESS_EDIT_GUIA, 
-    ERROR_EDIT_GUIA, 
+    ERROR_EDIT_GUIA,
+    DELETE_GUIA,
     FETCH_FEATURED_GUIAS, 
     FETCH_GUIA, 
     FETCH_GUIAS, 
@@ -270,6 +271,32 @@ export const fetchGuia = (id) => {
     return {
         type: FETCH_GUIA,
         payload: request
+    }
+}
+
+export const deleteGuia = async (id) => {
+    let user = JSON.parse(localStorage.getItem('user'));
+    
+    if(user){
+        let config = { headers: { 'Authorization': `Bearer ${user.jwt}` } };
+        const request = await axios.delete(`${process.env.REACT_APP_URL_API}guias/${id}`, config);
+        if(request.statusText == 'OK'){
+            return {
+                type: DELETE_GUIA,
+                payload: []
+            }
+        }
+
+        return {
+            type: DELETE_GUIA,
+            payload: false
+        }
+    }
+    else{
+        return({
+            type: ERROR_EDIT_GUIA,
+            payload: {msg: "Usuário não logado"}
+        })
     }
 }
 

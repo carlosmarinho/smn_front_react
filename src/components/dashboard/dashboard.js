@@ -3,8 +3,11 @@ import React, { Component } from 'react';
 import MenuDashboardLeft from '../menu-dashboard-left';
 import {connect} from 'react-redux';
 import {Link, Redirect} from 'react-router-dom';
+import Confirm from 'react-confirm-bootstrap';
 
-import {fetchGuiasByUser, fetchGuiasByAdm} from '../../actions/guia';
+
+
+import {fetchGuiasByUser, fetchGuiasByAdm, deleteGuia} from '../../actions/guia';
 import {fetchEventosByUser, fetchEventosByAdm} from '../../actions/evento';
 import {fetchNoticiasByUser, fetchNoticiasByAdm} from '../../actions/noticia';
 
@@ -44,6 +47,11 @@ class Dashboard extends Component{
         return date.toLocaleDateString('pt-BR')
     }
 
+    deleteGuia(id) {
+        console.log("id: ", id)
+        this.props.deleteGuia(id);
+    }
+
     showGuias(){
         if(this.props.guias && this.props.guias.fromUser){
             return this.props.guias.fromUser.map( guia => {
@@ -60,7 +68,13 @@ class Dashboard extends Component{
                         <td className="table-information">
                             <Link to={'/dashboard/guias/edit/' + guia._id}  ><i className="fa fa-pencil" title="edit"></i></Link>  
                             <Link to={'/guia/' + guia.slug}  ><i className="fa fa-eye" title="view"></i></Link>
-                            <Link to={'/dashboard/guias/edit/' + guia._id}  ><i className="fa fa-trash" title="delete"></i></Link>
+                            <a href="javascript: void(0)"><Confirm
+                                onConfirm={() => this.deleteGuia(guia._id)}
+                                body="Are you sure you want to delete this?"
+                                confirmText="Confirm Delete"
+                                title="Deleting Stuff">
+                                <i className="fa fa-trash" title="delete"></i>
+                            </Confirm></a>
                         </td>
                     </tr>
                 )
@@ -118,6 +132,10 @@ class Dashboard extends Component{
         return "http://images.soumaisniteroi.com.br/wp-content/uploads/2015/04/no-image.png";
     }
 
+    deleteNew(id) {
+        console.log("id: ", id)
+    }
+
     showNoticias(){
         let truncate = _.truncate;
         console.log("noticias:::: ", this.props.noticias);
@@ -131,7 +149,7 @@ class Dashboard extends Component{
                         <div className="hid-msg">
                             <Link to={'/dashboard/noticias/edit/' + noticia._id}  ><i className="fa fa-pencil" title="edit"></i></Link> 
                             <Link to={'/noticias/' + noticia.slug}  ><i className="fa fa-eye" title="view"></i></Link>
-                            <Link to={'/dashboard/noticias/delete/' + noticia._id}  ><i className="fa fa-trash" title="delete"></i></Link>
+                            <a href="javascript: void(0)" onClick={() => this.deleteNew(noticia._id)}  ><i className="fa fa-trash" title="delete"></i></a>
                         </div>
                     </li>
                 )
@@ -375,4 +393,4 @@ function mapStateToProps(state){
     
 }
 
-export default connect(mapStateToProps, {fetchGuiasByUser, fetchGuiasByAdm, fetchEventosByUser, fetchEventosByAdm, fetchNoticiasByUser, fetchNoticiasByAdm})(Dashboard);
+export default connect(mapStateToProps, {deleteGuia, fetchGuiasByUser, fetchGuiasByAdm, fetchEventosByUser, fetchEventosByAdm, fetchNoticiasByUser, fetchNoticiasByAdm})(Dashboard);

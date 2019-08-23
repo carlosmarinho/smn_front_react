@@ -1,6 +1,7 @@
 import _ from 'lodash';
 import axios from 'axios';
 import { 
+    DELETE_EVENTO,
     SUCCESS_CREATE_EVENTO, 
     ERROR_CREATE_EVENTO,
     SUCCESS_EDIT_EVENTO, 
@@ -396,6 +397,32 @@ export const fetchEventosRecentes = async(id, limit=5) => {
     return {
         type: FETCH_EVENTOS_RECENTES,
         payload: request
+    }
+}
+
+export const deleteEvento = async (id) => {
+    let user = JSON.parse(localStorage.getItem('user'));
+    
+    if(user){
+        let config = { headers: { 'Authorization': `Bearer ${user.jwt}` } };
+        const request = await axios.delete(`${process.env.REACT_APP_URL_API}eventos/${id}`, config);
+        if(request.statusText == 'OK'){
+            return {
+                type: DELETE_EVENTO,
+                payload: []
+            }
+        }
+
+        return {
+            type: DELETE_EVENTO,
+            payload: false
+        }
+    }
+    else{
+        return({
+            type: ERROR_EDIT_EVENTO,
+            payload: {msg: "Usuário não logado"}
+        })
     }
 }
 
