@@ -12,8 +12,16 @@ export default function(state = null, action) {
     };
     switch (action.type) {
         case DELETE_GUIA:
-            console("guias: ", guia.guias);
-            return guia;
+            if(action.payload !== false ){
+
+                let fromUser = state.fromUser.filter( fromUser => {
+                    return fromUser._id != action.payload
+                }); 
+                
+                guia = {...state.guia, fromUser, count: (state.count-1)}
+                return guia;
+            }
+            return state;
         case REMOVE_IMAGE_GUIA:
             if(action.payload !== false){
                 guia.guia = state.guia;

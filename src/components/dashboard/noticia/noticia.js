@@ -3,8 +3,10 @@ import React, { Component } from 'react';
 import MenuDashboardLeft from '../../menu-dashboard-left';
 import {connect} from 'react-redux';
 import {Link, Redirect} from 'react-router-dom';
+import Confirm from 'react-confirm-bootstrap';
 
-import {fetchNoticiasByUser, fetchNoticiasByAdm} from '../../../actions/noticia';
+
+import {fetchNoticiasByUser, fetchNoticiasByAdm, deleteNoticia} from '../../../actions/noticia';
 
 class DashboardNoticia extends Component{
 
@@ -32,6 +34,10 @@ class DashboardNoticia extends Component{
         }
     }
 
+    deleteNoticia(id) {
+        this.props.deleteNoticia(id);
+    }
+
     datePtBr(date){
         //const options = {year: 'numeric', month: 'short', day: 'numeric' };
         //return date.toLocaleDateString('pt-BR', options)
@@ -51,7 +57,13 @@ class DashboardNoticia extends Component{
                         <div className="hid-msg">
                             <Link to={'/dashboard/noticias/edit/' + noticia._id}  ><i className="fa fa-pencil" title="edit"></i></Link> 
                             <Link to={'/noticias/' + noticia.slug}  ><i className="fa fa-eye" title="view"></i></Link>
-                            <Link to={'/dashboard/noticias/delete/' + noticia._id}  ><i className="fa fa-trash" title="delete"></i></Link>
+                            <a href="javascript: void(0)"><Confirm
+                                onConfirm={() => this.deleteNoticia(noticia._id)}
+                                body={`Tem certeza que deseja excluir a notícia '${noticia.titulo}'?`}
+                                confirmText="Confirmar Exclusão"
+                                title="Exclusão de Notícia">
+                                <i className="fa fa-trash" title="delete"></i>
+                            </Confirm></a>
                         </div>
                     </li>
                 )
@@ -139,4 +151,4 @@ function mapStateToProps(state){
     
 }
 
-export default connect(mapStateToProps, {fetchNoticiasByUser, fetchNoticiasByAdm})(DashboardNoticia);
+export default connect(mapStateToProps, {deleteNoticia, fetchNoticiasByUser, fetchNoticiasByAdm})(DashboardNoticia);

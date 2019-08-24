@@ -8,8 +8,8 @@ import Confirm from 'react-confirm-bootstrap';
 
 
 import {fetchGuiasByUser, fetchGuiasByAdm, deleteGuia} from '../../actions/guia';
-import {fetchEventosByUser, fetchEventosByAdm} from '../../actions/evento';
-import {fetchNoticiasByUser, fetchNoticiasByAdm} from '../../actions/noticia';
+import {fetchEventosByUser, fetchEventosByAdm, deleteEvento} from '../../actions/evento';
+import {fetchNoticiasByUser, fetchNoticiasByAdm, deleteNoticia} from '../../actions/noticia';
 
 
 class Dashboard extends Component{
@@ -48,8 +48,15 @@ class Dashboard extends Component{
     }
 
     deleteGuia(id) {
-        console.log("id: ", id)
         this.props.deleteGuia(id);
+    }
+
+    deleteEvento(id) {
+        this.props.deleteEvento(id);
+    }
+
+    deleteNoticia(id) {
+        this.props.deleteNoticia(id);
     }
 
     showGuias(){
@@ -70,9 +77,9 @@ class Dashboard extends Component{
                             <Link to={'/guia/' + guia.slug}  ><i className="fa fa-eye" title="view"></i></Link>
                             <a href="javascript: void(0)"><Confirm
                                 onConfirm={() => this.deleteGuia(guia._id)}
-                                body="Are you sure you want to delete this?"
-                                confirmText="Confirm Delete"
-                                title="Deleting Stuff">
+                                body={`Tem certeza que deseja excluir o Guia '${guia.titulo}'?`}
+                                confirmText="Confirmar Exclusão"
+                                title="Exclusão de Guia">
                                 <i className="fa fa-trash" title="delete"></i>
                             </Confirm></a>
                         </td>
@@ -100,7 +107,15 @@ class Dashboard extends Component{
                         <td className="table-information">
                             <Link to={'/dashboard/eventos/edit/' + evento._id}  ><i className="fa fa-pencil" title="edit"></i></Link>  
                             <Link to={'/eventos/' + evento.slug}  ><i className="fa fa-eye" title="view"></i></Link>
-                            <Link to={'/dashboard/eventos/delete/' + evento._id}  ><i className="fa fa-trash" title="delete"></i></Link>
+                            <a href="javascript: void(0)">
+                                <Confirm
+                                    onConfirm={() => this.deleteEvento(evento._id)}
+                                    body={`Tem certeza que deseja excluir o Evento '${evento.titulo}'?`}
+                                    confirmText="Confirmar exclusão"
+                                    title="Exclusão de Evento">
+                                    <i className="fa fa-trash" title="delete"></i>
+                                </Confirm>
+                            </a>  
                         </td>
                     </tr>
                 )
@@ -149,7 +164,13 @@ class Dashboard extends Component{
                         <div className="hid-msg">
                             <Link to={'/dashboard/noticias/edit/' + noticia._id}  ><i className="fa fa-pencil" title="edit"></i></Link> 
                             <Link to={'/noticias/' + noticia.slug}  ><i className="fa fa-eye" title="view"></i></Link>
-                            <a href="javascript: void(0)" onClick={() => this.deleteNew(noticia._id)}  ><i className="fa fa-trash" title="delete"></i></a>
+                            <a href="javascript: void(0)"><Confirm
+                                onConfirm={() => this.deleteNoticia(noticia._id)}
+                                body={`Tem certeza que deseja excluir a notícia '${noticia.titulo}'?`}
+                                confirmText="Confirmar Exclusão"
+                                title="Exclusão de Notícia">
+                                <i className="fa fa-trash" title="delete"></i>
+                            </Confirm></a>
                         </div>
                     </li>
                 )
@@ -393,4 +414,4 @@ function mapStateToProps(state){
     
 }
 
-export default connect(mapStateToProps, {deleteGuia, fetchGuiasByUser, fetchGuiasByAdm, fetchEventosByUser, fetchEventosByAdm, fetchNoticiasByUser, fetchNoticiasByAdm})(Dashboard);
+export default connect(mapStateToProps, {deleteGuia, deleteEvento, deleteNoticia, fetchGuiasByUser, fetchGuiasByAdm, fetchEventosByUser, fetchEventosByAdm, fetchNoticiasByUser, fetchNoticiasByAdm})(Dashboard);

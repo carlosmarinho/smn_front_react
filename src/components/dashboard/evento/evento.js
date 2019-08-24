@@ -3,8 +3,10 @@ import React, { Component } from 'react';
 import MenuDashboardLeft from '../../menu-dashboard-left';
 import {connect} from 'react-redux';
 import {Link, Redirect} from 'react-router-dom';
+import Confirm from 'react-confirm-bootstrap';
 
-import {fetchEventosByUser, fetchEventosByAdm} from '../../../actions/evento';
+
+import {fetchEventosByUser, fetchEventosByAdm, deleteEvento} from '../../../actions/evento';
 
 class DashboardEvento extends Component{
 
@@ -32,6 +34,10 @@ class DashboardEvento extends Component{
         }
     }
 
+    deleteEvento(id) {
+        this.props.deleteEvento(id);
+    }
+
     datePtBr(date){
         //const options = {year: 'numeric', month: 'short', day: 'numeric' };
         //return date.toLocaleDateString('pt-BR', options)
@@ -55,7 +61,15 @@ class DashboardEvento extends Component{
                         <td className="table-information">
                             <Link to={'/dashboard/eventos/edit/' + evento._id}  ><i className="fa fa-pencil" title="edit"></i></Link>  
                             <Link to={'/eventos/' + evento.slug}  ><i className="fa fa-eye" title="view"></i></Link>
-                            <Link to={'/dashboard/eventos/delete/' + evento._id}  ><i className="fa fa-trash" title="delete"></i></Link>
+                            <a href="javascript: void(0)">
+                                <Confirm
+                                    onConfirm={() => this.deleteEvento(evento._id)}
+                                    body={`Tem certeza que deseja excluir o Evento '${evento.titulo}'?`}
+                                    confirmText="Confirmar exclusão"
+                                    title="Exclusão de Evento">
+                                    <i className="fa fa-trash" title="delete"></i>
+                                </Confirm>
+                            </a>  
                         </td>
                     </tr>
                 )
@@ -154,4 +168,4 @@ function mapStateToProps(state){
     
 }
 
-export default connect(mapStateToProps, {fetchEventosByUser, fetchEventosByAdm})(DashboardEvento);
+export default connect(mapStateToProps, {deleteEvento, fetchEventosByUser, fetchEventosByAdm})(DashboardEvento);

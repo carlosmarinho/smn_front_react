@@ -1,4 +1,6 @@
-import { FETCH_EVENTO, 
+import { 
+    DELETE_EVENTO,
+    FETCH_EVENTO, 
     FETCH_EVENTOS, 
     FETCH_EVENTOS_RECENTES, 
     FETCH_EVENTOS_USER,
@@ -9,6 +11,20 @@ export default function(state = null, action) {
 
     let evento =  {recentes: null, list: null, featured: null, fromUser: null, count: null, evento: null};
     switch (action.type) {
+        case DELETE_EVENTO:
+        if(action.payload !== false ){
+            console.log("state eventos: ", state)
+            let fromUser = state.fromUser.filter( fromUser => {
+                return fromUser._id != action.payload
+            }); 
+            
+            evento = {...state.evento, fromUser, count: (state.count-1)}
+            console.log("state depois    eventos: ", state)
+            return evento;
+        }
+        
+        return evento;
+
         case REMOVE_IMAGE_EVENTO:
             if(action.payload !== false){
                 evento.evento = state.evento;

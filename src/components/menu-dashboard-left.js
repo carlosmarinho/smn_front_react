@@ -48,7 +48,7 @@ class MenuDashboardLeft extends Component{
                 </li>
                 */}
                 <li>
-                    <Link to="/dashboard" ><i className="address card outline icon"></i> Meus Dados</Link>
+                    <Link to="/dashboard/profile" ><i className="address card outline icon"></i> Meus Dados</Link>
                 </li>
                 {/*@todo pagamentos e settings 
                 <li>

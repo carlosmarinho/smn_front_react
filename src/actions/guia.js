@@ -283,7 +283,7 @@ export const deleteGuia = async (id) => {
         if(request.statusText == 'OK'){
             return {
                 type: DELETE_GUIA,
-                payload: []
+                payload: id
             }
         }
 

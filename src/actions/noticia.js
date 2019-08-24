@@ -1,7 +1,7 @@
 import _ from 'lodash';
 import axios from 'axios';
 import { 
-    DELETE_NOTICIA
+    DELETE_NOTICIA,
     SUCCESS_CREATE_NOTICIA, 
     ERROR_CREATE_NOTICIA, 
     SUCCESS_EDIT_NOTICIA, 
@@ -230,7 +230,7 @@ export const deleteNoticia = async (id) => {
     }
 }
 
-export const removeImageAssociation = async (id, id_evento) => {
+export const removeImageAssociation = async (id) => {
     let related = {related: []}
     const request = await axios.put(`${process.env.REACT_APP_URL_API}uploadfile/${id}`, related);
     console.log("request: ", request)
@@ -238,7 +238,7 @@ export const removeImageAssociation = async (id, id_evento) => {
         console.log("conseguiu atualizar a imagem.....");
         return {
             type: REMOVE_IMAGE_NOTICIA,
-            payload: []
+            payload: id
         }
     }
 
@@ -494,23 +494,4 @@ export const fetchNoticia = (id) => {
         type: FETCH_NOTICIA,
         payload: request
     }
-}
-
-export const removeImageAssociation = async (id, id_evento) => {
-    let related = {related: []}
-    const request = await axios.put(`${process.env.REACT_APP_URL_API}uploadfile/${id}`, related);
-    console.log("request: ", request)
-    if(request.statusText == 'OK'){
-        console.log("conseguiu atualizar a imagem.....");
-        return {
-            type: REMOVE_IMAGE_NOTICIA,
-            payload: []
-        }
-    }
-
-    return {
-        type: REMOVE_IMAGE_NOTICIA,
-        payload: false
-    }
-    
 }

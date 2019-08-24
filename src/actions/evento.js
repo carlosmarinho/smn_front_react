@@ -409,7 +409,7 @@ export const deleteEvento = async (id) => {
         if(request.statusText == 'OK'){
             return {
                 type: DELETE_EVENTO,
-                payload: []
+                payload: id
             }
         }
 

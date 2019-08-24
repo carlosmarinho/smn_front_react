@@ -223,7 +223,7 @@ class EventoNew extends Component{
 				{ <Field {...input} style={{display:'block',paddingTop:'0px', paddingBottom:'0px', height:(field.multiple)?'90px':'40px'}}  
 					component="select" className="native" native="true" multiple={(field.multiple)?'multiple':''} disabled={field.disabled}>
 					
-					{(!field.multiple)?<option>{label}</option>:''}
+					{(!field.multiple)?<option value="">{label}</option>:''}
 					{(field.options)?field.options.map((option, key) => {
 						if(_.isObject(option)){
 							if(option._id && option.nome){
@@ -315,7 +315,7 @@ class EventoNew extends Component{
 		}
 
 		let bairros = [];
-		if(this.props.tags){
+		if(this.props.bairros){
 			bairros = this.props.bairros;
 		}
 
@@ -534,7 +534,7 @@ class EventoNew extends Component{
 		}
 
 		let bairros = [];
-		if(this.props.tags){
+		if(this.props.bairros){
 			bairros = this.props.bairros;
 		}
 		const { pristine, reset, submitting, handleSubmit } = this.props

@@ -279,7 +279,7 @@ class EventoEdit extends Component{
 					multiple={(field.multiple)?'multiple':''} 
 					disabled={field.disabled}
 				>
-					{(!field.multiple)?<option>{label}</option>:''}
+					{(!field.multiple)?<option value="">{label}</option>:''}
 					{(field.options)?field.options.map((option, key) => {
 						if(_.isObject(option)){
 							if(option._id && option.nome){
@@ -526,7 +526,7 @@ class EventoEdit extends Component{
 		}
 
 		let bairros = [];
-		if(this.props.tags){
+		if(this.props.bairros){
 			bairros = this.props.bairros;
 		}
 

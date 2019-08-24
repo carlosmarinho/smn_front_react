@@ -3,8 +3,10 @@ import React, { Component } from 'react';
 import MenuDashboardLeft from '../../menu-dashboard-left';
 import {connect} from 'react-redux';
 import {Link, Redirect} from 'react-router-dom';
+import Confirm from 'react-confirm-bootstrap';
 
-import {fetchGuiasByUser, fetchGuiasByAdm} from '../../../actions/guia';
+
+import {fetchGuiasByUser, fetchGuiasByAdm, deleteGuia} from '../../../actions/guia';
 
 class DashboardGuia extends Component{
 
@@ -32,6 +34,10 @@ class DashboardGuia extends Component{
         }
     }
 
+    deleteGuia(id) {
+        this.props.deleteGuia(id);
+    }
+
     datePtBr(date){
         //const options = {year: 'numeric', month: 'short', day: 'numeric' };
         //return date.toLocaleDateString('pt-BR', options)
@@ -54,7 +60,15 @@ class DashboardGuia extends Component{
                         <td className="table-information">
                             <Link to={'/dashboard/guias/edit/' + guia._id}  ><i className="fa fa-pencil" title="edit"></i></Link>  
                             <Link to={'/guia/' + guia.slug}  ><i className="fa fa-eye" title="view"></i></Link>
-                            <Link to={'/dashboard/guias/delete/' + guia._id}  ><i className="fa fa-trash" title="delete"></i></Link>
+                            <a href="javascript: void(0)">
+                                <Confirm
+                                onConfirm={() => this.deleteGuia(guia._id)}
+                                body={`Tem certeza que deseja excluir o Guia '${guia.titulo}'?`}
+                                confirmText="Confirmar Exclusão"
+                                title="Exclusão de Guia">
+                                <i className="fa fa-trash" title="delete"></i>
+                                </Confirm>
+                            </a>
                         </td>
                     </tr>
                 )
@@ -151,4 +165,4 @@ function mapStateToProps(state){
     
 }
 
-export default connect(mapStateToProps, {fetchGuiasByUser, fetchGuiasByAdm})(DashboardGuia);
+export default connect(mapStateToProps, { deleteGuia, fetchGuiasByUser, fetchGuiasByAdm})(DashboardGuia);
