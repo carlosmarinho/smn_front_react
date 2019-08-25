@@ -50,7 +50,9 @@ class Register extends Component {
             }
             else if(this.props.message.success && this.props.message.success.user){
                 return(
-                    <p className="text-success">Usuário cadastrado com sucesso! Valide o seu cadastro através do email que foi enviado.</p>
+                    <p className="text-success">Usuário cadastrado com sucesso! 
+                    Valide o seu cadastro através do email que foi enviado.<br />
+                    <strong>Não esquece de olhar a caixa de Spam/Lixeira no seu email.</strong></p>
                 )
             }
         }
