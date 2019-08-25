@@ -7,7 +7,7 @@ import {Link, Redirect} from 'react-router-dom';
 import {absence, url, email} from 'redux-form-validators';
 import DatePicker from "react-datepicker";
 
-
+import { fetchMe } from '../../../actions/user';
 import { fetchCategories } from '../../../actions/categoria';
 import { fetchTags } from '../../../actions/tag';
 import { fetchCities } from '../../../actions/city';
@@ -84,7 +84,7 @@ class NoticiaNew extends Component{
 		
         if(user !== null){
 			this.setState({userLogged:true})
-			
+			this.props.fetchMe();
             // if(user.user.role.name == 'Administrator'){
 				//     this.props.fetchNoticiasByAdm(7);
                 
@@ -402,7 +402,7 @@ class NoticiaNew extends Component{
 		}
 
 		let bairros = [];
-		if(this.props.bairros+){
+		if(this.props.bairros){
 			bairros = this.props.bairros;
 		}
 		const { pristine, reset, submitting, handleSubmit } = this.props
@@ -413,7 +413,7 @@ class NoticiaNew extends Component{
             <section>
                 <div className="tz">
                     {/* <!--LEFT SECTION--> */}
-                    <MenuDashboardLeft />
+                    <MenuDashboardLeft user={this.props.user}/>
                     
                     { /*!--CENTER SECTION--> */}
                    
@@ -442,6 +442,7 @@ class NoticiaNew extends Component{
 
 
 function mapStateToProps(state){
+	console.log("stateeeee: ", state);
     return(
         {
             user: state.users,
@@ -456,7 +457,7 @@ function mapStateToProps(state){
     
 }
 
-const Connect = connect(mapStateToProps, {createNoticia, fetchCategories, fetchTags, fetchCities, fetchBairros})(NoticiaNew);
+const Connect = connect(mapStateToProps, {fetchMe, createNoticia, fetchCategories, fetchTags, fetchCities, fetchBairros})(NoticiaNew);
 
 export default reduxForm({
 	form: 'editNoticia',

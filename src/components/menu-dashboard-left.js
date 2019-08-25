@@ -1,15 +1,31 @@
 import React, {Component} from 'react';
-import {Link} from 'react-router-dom';
+import {Link, withRouter} from 'react-router-dom';
+
 
 class MenuDashboardLeft extends Component{
 
+    
+
+    getImageSrc(){
+        console.log("prorrrrPs: ", this.props);
+        const { user } = this.props;
+
+        if(user && user.imagem_perfil){
+            return user.imagem_perfil.url;
+		}
+		
+        return "/images/users/user-default-160x160.png";
+    }
+
     render(){
+        console.log(this.props.location.pathname);
+
         return(
             <div className="tz-l">
             <div className="tz-l-1">
                 <ul>
                     {/* @todo mudar para imagem quadrada */}
-                    <li><img src="/images/users/user-default-160x160.png" alt="" /> </li>
+                    <li><img src={this.getImageSrc()} alt="" /> </li>
                     {/* @todo do calculation of profile
                     <li><span>80%</span> profile compl</li>
                     <li><span>18</span> Notifications</li>
@@ -19,25 +35,25 @@ class MenuDashboardLeft extends Component{
             <div className="tz-l-2">
             <ul>
                 <li>
-                    <Link to="/dashboard" className="tz-lma"><img src="/images/icon/dbl1.png" alt="" /> Minha Dashboard</Link>
+                    <Link to="/dashboard" className={(this.props.location.pathname == '/dashboard') ? 'tz-lma' : ''}><img src="/images/icon/dbl1.png" alt="" /> Minha Dashboard</Link>
                 </li>
                 <li>
-                    <Link to="/dashboard/guias" ><i className="map marker alternate icon"></i> Meus Guias</Link>
+                    <Link to="/dashboard/guias" className={(this.props.location.pathname == '/dashboard/guias') ? 'tz-lma' : ''}><i className="map marker alternate icon"></i> Meus Guias</Link>
                 </li>
                 <li>
-                    <Link to="/dashboard/guias/novo" ><i className="plus icon"></i><i className="map marker alternate icon"></i> Adicionar Guia</Link>
+                    <Link to="/dashboard/guias/novo" className={(this.props.location.pathname == '/dashboard/guias/novo') ? 'tz-lma' : ''}><i className="plus icon"></i><i className="map marker alternate icon"></i> Adicionar Guia</Link>
                 </li>
                 <li>
-                    <Link to="/dashboard/eventos" ><i className="calendar alternate outline icon"></i> Eventos</Link>
+                    <Link to="/dashboard/eventos" className={(this.props.location.pathname == '/dashboard/evento') ? 'tz-lma' : ''}><i className="calendar alternate outline icon"></i> Eventos</Link>
                 </li>
                 <li>
-                    <Link to="/dashboard/eventos/novo" ><i className="plus icon"></i><i className="calendar alternate outline icon"></i> Adicionar Evento</Link>
+                    <Link to="/dashboard/eventos/novo" className={(this.props.location.pathname == '/dashboard/eventos/novo') ? 'tz-lma' : ''} ><i className="plus icon"></i><i className="calendar alternate outline icon"></i> Adicionar Evento</Link>
                 </li>
                 <li>
-                    <Link to="/dashboard/noticias" ><i className="newspaper outline icon"></i> Noticias</Link>
+                    <Link to="/dashboard/noticias" className={(this.props.location.pathname == '/dashboard/noticias') ? 'tz-lma' : ''} ><i className="newspaper outline icon"></i> Noticias</Link>
                 </li>
                 <li>
-                    <Link to="/dashboard/noticias/novo" ><i className="plus icon"></i><i className="newspaper outline icon"></i> Adicionar Notícias</Link>
+                    <Link to="/dashboard/noticias/novo" className={(this.props.location.pathname == '/dashboard/noticias/novo') ? 'tz-lma' : ''}><i className="plus icon"></i><i className="newspaper outline icon"></i> Adicionar Notícias</Link>
                 </li>
                 {/*@todo fazer minhas revies e meus comentários 
                 <li>
@@ -48,7 +64,7 @@ class MenuDashboardLeft extends Component{
                 </li>
                 */}
                 <li>
-                    <Link to="/dashboard/profile" ><i className="address card outline icon"></i> Meus Dados</Link>
+                    <Link to="/dashboard/profile" className={(this.props.location.pathname == '/dashboard/profile') ? 'tz-lma' : ''} ><i className="address card outline icon"></i> Meus Dados</Link>
                 </li>
                 {/*@todo pagamentos e settings 
                 <li>
@@ -77,4 +93,4 @@ class MenuDashboardLeft extends Component{
 
 }
 
-export default MenuDashboardLeft
+export default withRouter(MenuDashboardLeft)

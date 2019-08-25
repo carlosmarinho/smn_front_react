@@ -5,7 +5,7 @@ import {connect} from 'react-redux';
 import {Link, Redirect} from 'react-router-dom';
 import Confirm from 'react-confirm-bootstrap';
 
-
+import {fetchMe} from '../../../actions/user';
 import {fetchGuiasByUser, fetchGuiasByAdm, deleteGuia} from '../../../actions/guia';
 
 class DashboardGuia extends Component{
@@ -21,6 +21,7 @@ class DashboardGuia extends Component{
 
         if(user !== null){
             this.setState({userLogged:true})
+            this.props.fetchMe();
             if(user.user.role.name == 'Administrator'){
                 this.props.fetchGuiasByAdm(10);
                 
@@ -104,6 +105,8 @@ class DashboardGuia extends Component{
 
     render(){
         if(this.state.userLogged === false){
+            localStorage.removeItem('user');
+
             return <Redirect to={'/'} />
         }
 
@@ -117,7 +120,7 @@ class DashboardGuia extends Component{
             <section>
                 <div className="tz">
                     {/* <!--LEFT SECTION--> */}
-                    <MenuDashboardLeft />
+                    <MenuDashboardLeft user={this.props.user}/>
                     
                     { /*!--CENTER SECTION--> */}
                     <div className="tz-2">
@@ -165,4 +168,4 @@ function mapStateToProps(state){
     
 }
 
-export default connect(mapStateToProps, { deleteGuia, fetchGuiasByUser, fetchGuiasByAdm})(DashboardGuia);
+export default connect(mapStateToProps, { fetchMe, deleteGuia, fetchGuiasByUser, fetchGuiasByAdm})(DashboardGuia);

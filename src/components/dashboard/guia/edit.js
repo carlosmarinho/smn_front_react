@@ -6,7 +6,7 @@ import {Field, reduxForm} from 'redux-form';
 import {Link, Redirect} from 'react-router-dom';
 import {absence, url, email} from 'redux-form-validators';
 
-
+import {fetchMe} from '../../../actions/user';
 import { fetchGuia, removeImageAssociation } from '../../../actions/guia';
 import { fetchCategories } from '../../../actions/categoria';
 import { fetchTags } from '../../../actions/tag';
@@ -954,4 +954,4 @@ const myForm = reduxForm({
 	
 })(GuiaEdit)
 
-export default connect(mapStateToProps, {editGuia, fetchGuia, removeImageAssociation, fetchCategories, fetchTags, fetchCities, fetchBairros})(myForm);
+export default connect(mapStateToProps, {fetchMe, editGuia, fetchGuia, removeImageAssociation, fetchCategories, fetchTags, fetchCities, fetchBairros})(myForm);

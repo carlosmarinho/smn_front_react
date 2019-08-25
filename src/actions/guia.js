@@ -60,7 +60,6 @@ export const createGuia = async (guia) => {
                         form.append(key, value);
                     })
                     
-                    console.log("imagem destacada: ", imagem_destacada, '----', form);
     
                     //let config1 = { headers: { 'Authorization': `Bearer ${jwt}`, 'Content-Type': 'multipart/form-data' } };
                     let request_img = await axios.post(`${process.env.REACT_APP_URL_API}upload/`, form, config);
@@ -144,7 +143,6 @@ export const editGuia = async (guia, id) => {
                 //new FormData(guia)
     
                 if(guia.imagem_principal){
-                    console.log("imagem destacada: ", guia.imagem_principal[0])
                     let imagem_destacada = {    
                         "files": guia.imagem_principal[0], // Buffer or stream of file(s)
                         "path": "guia/destacada", // Uploading folder of file(s).
@@ -165,7 +163,8 @@ export const editGuia = async (guia, id) => {
                         form.append(key, value);
                     })
                     
-                    console.log("imagem destacada: ", imagem_destacada, '----', form);
+                    console.log("formmmmmmmmm userrr: ", form);
+
     
                     //let config1 = { headers: { 'Authorization': `Bearer ${jwt}`, 'Content-Type': 'multipart/form-data' } };
                     let request_img = await axios.post(`${process.env.REACT_APP_URL_API}upload/`, form, config);

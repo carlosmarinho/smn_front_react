@@ -9,7 +9,7 @@ import {absence, url, email} from 'redux-form-validators';
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import "react-tabs/style/react-tabs.css";
 
-
+import {fetchMe} from '../../../actions/user';
 import { fetchCategories } from '../../../actions/categoria';
 import { fetchTags } from '../../../actions/tag';
 import { fetchCities } from '../../../actions/city';
@@ -522,7 +522,7 @@ class GuiaNew extends Component{
             <section>
                 <div className="tz">
                     {/* <!--LEFT SECTION--> */}
-                    <MenuDashboardLeft />
+                    <MenuDashboardLeft user={this.props.user}/>
                     
                     { /*!--CENTER SECTION--> */}
                    
@@ -565,7 +565,7 @@ function mapStateToProps(state){
     
 }
 
-const Connect = connect(mapStateToProps, {createGuia, fetchCategories, fetchTags, fetchCities, fetchBairros})(GuiaNew);
+const Connect = connect(mapStateToProps, {fetchMe, createGuia, fetchCategories, fetchTags, fetchCities, fetchBairros})(GuiaNew);
 
 export default reduxForm({
 	form: 'editGuia',

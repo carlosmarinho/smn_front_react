@@ -6,7 +6,7 @@ import {Link, Redirect} from 'react-router-dom';
 import Confirm from 'react-confirm-bootstrap';
 
 
-
+import {fetchMe} from '../../actions/user';
 import {fetchGuiasByUser, fetchGuiasByAdm, deleteGuia} from '../../actions/guia';
 import {fetchEventosByUser, fetchEventosByAdm, deleteEvento} from '../../actions/evento';
 import {fetchNoticiasByUser, fetchNoticiasByAdm, deleteNoticia} from '../../actions/noticia';
@@ -25,6 +25,7 @@ class Dashboard extends Component{
 
         if(user !== null){
             this.setState({userLogged:true})
+            this.props.fetchMe();
             if(user.user.role.name == 'Administrator'){
                 this.props.fetchGuiasByAdm(7);
                 this.props.fetchEventosByAdm(7);
@@ -147,9 +148,6 @@ class Dashboard extends Component{
         return "http://images.soumaisniteroi.com.br/wp-content/uploads/2015/04/no-image.png";
     }
 
-    deleteNew(id) {
-        console.log("id: ", id)
-    }
 
     showNoticias(){
         let truncate = _.truncate;
@@ -180,8 +178,14 @@ class Dashboard extends Component{
     }
 
     render(){
+        console.log("this.props.user", this.props.user);
+        if(this.props.user && this.props.user.token && this.props.user.token == 'invalid')
+            this.setState({userLogged: false});
+
         if(this.state.userLogged === false){
-            return <Redirect to={'/'} />
+            localStorage.removeItem('user');
+
+            return <Redirect to={'/login'} />
         }
 
         let totalGuias = 0;
@@ -212,12 +216,12 @@ class Dashboard extends Component{
                 totalNoticias = this.props.noticias.fromUser.length;
         }
 
-
+        console.log("no dashhhhhhhhhhhhhhhhhhhhhhh: ", this.props.user);
         return(
             <section>
                 <div className="tz">
                     {/* <!--LEFT SECTION--> */}
-                    <MenuDashboardLeft />
+                    <MenuDashboardLeft user={this.props.user} />
                     
                     { /*!--CENTER SECTION--> */}
                     <div className="tz-2">
@@ -403,6 +407,7 @@ class Dashboard extends Component{
 
 
 function mapStateToProps(state){
+    console.log("stattte no props: ", state)
     return(
         {
             user: state.users,
@@ -414,4 +419,4 @@ function mapStateToProps(state){
     
 }
 
-export default connect(mapStateToProps, {deleteGuia, deleteEvento, deleteNoticia, fetchGuiasByUser, fetchGuiasByAdm, fetchEventosByUser, fetchEventosByAdm, fetchNoticiasByUser, fetchNoticiasByAdm})(Dashboard);
+export default connect(mapStateToProps, {fetchMe, deleteGuia, deleteEvento, deleteNoticia, fetchGuiasByUser, fetchGuiasByAdm, fetchEventosByUser, fetchEventosByAdm, fetchNoticiasByUser, fetchNoticiasByAdm})(Dashboard);

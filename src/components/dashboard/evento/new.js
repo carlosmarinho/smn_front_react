@@ -8,20 +8,11 @@ import {absence, url, email} from 'redux-form-validators';
 import DatePicker from "react-datepicker";
 import { createTextMask } from 'redux-form-input-masks';
 
-
-import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
-import "react-tabs/style/react-tabs.css";
-
-
+import {fetchMe} from '../../../actions/user';
 import { fetchCategories } from '../../../actions/categoria';
 import { fetchTags } from '../../../actions/tag';
 import { fetchCities } from '../../../actions/city';
 import { fetchBairros } from '../../../actions/bairro';
-import { SUCCESS_CREATE_EVENTO } from '../../../actions/types';
-
-
-import DropdownList from 'react-widgets/lib/DropdownList'
-import SelectList from 'react-widgets/lib/SelectList'
 import Multiselect from 'react-widgets/lib/Multiselect'
 
 import 'react-widgets/dist/css/react-widgets.css'
@@ -94,7 +85,8 @@ class EventoNew extends Component{
 		let user = JSON.parse(localStorage.getItem('user'));
 		
         if(user !== null){
-			this.setState({userLogged:true})
+			this.setState({userLogged:true});
+			this.props.fetchMe();
 			this.props.fetchCategories('evento comercial', 250, 'parent_id');
 			this.props.fetchTags();
 			this.props.fetchCities();
@@ -545,7 +537,7 @@ class EventoNew extends Component{
             <section>
                 <div className="tz">
                     {/* <!--LEFT SECTION--> */}
-                    <MenuDashboardLeft />
+                    <MenuDashboardLeft user={this.props.user}/>
                     
                     { /*!--CENTER SECTION--> */}
                    
@@ -574,7 +566,7 @@ class EventoNew extends Component{
 
 
 function mapStateToProps(state){
-    return(
+	return(
         {
             user: state.users,
 			eventos: state.eventos,
@@ -588,7 +580,7 @@ function mapStateToProps(state){
     
 }
 
-const Connect = connect(mapStateToProps, {createEvento, fetchCategories, fetchTags, fetchCities, fetchBairros})(EventoNew);
+const Connect = connect(mapStateToProps, {fetchMe, createEvento, fetchCategories, fetchTags, fetchCities, fetchBairros})(EventoNew);
 
 export default reduxForm({
 	form: 'editEvento',

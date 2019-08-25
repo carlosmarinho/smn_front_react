@@ -9,7 +9,8 @@ export default function(state = null, action) {
         case EDIT_USER:
             return action.payload;
         case FETCH_ME:
-            return action.payload.data;  
+            console.log("action.payload data", state);
+            return (action.payload.data)? action.payload.data : action.payload;  
         case FETCH_USER:
             return action.payload.data;
         case LOGIN_USER:

@@ -6,6 +6,8 @@ import {Field, reduxForm} from 'redux-form';
 import {Redirect} from 'react-router-dom';
 import {url, email} from 'redux-form-validators';
 import {  createTextMask } from 'redux-form-input-masks';
+import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
+import "react-tabs/style/react-tabs.css";
 
 
 import { fetchCities } from '../../actions/city';
@@ -28,6 +30,7 @@ const myFile = value => {
 	if(value){
 		if(value.length == 0)
 			return undefined;
+			
 		
 		if(!value[0].type.includes('image'))
 			return "O arquivo deve ser do tipo imagem";
@@ -83,7 +86,7 @@ class Profile extends Component{
 		console.log("user didmount: ", user );
         if(user !== null){
 			this.setState({userLogged:true})
-			this.props.fetchMe(user.user._id);
+			this.props.fetchMe();
 			this.props.fetchCities();
 			this.props.fetchBairros('5ba26f813a018f42215a36a0', 200, 'nome');
             // if(user.user.role.name == 'Administrator'){
@@ -111,6 +114,7 @@ class Profile extends Component{
 	
 
 	handleSubmit = (values) => {
+		console.log("submiting values: ", values)
         this.props.editUser(values, this.props.user._id);
 	}
 	
@@ -124,11 +128,21 @@ class Profile extends Component{
     
     getImageSrc(item){
         if(item.imagem_perfil){
-            return item.imagem_perfil;
+            return item.imagem_perfil.url;
 		}
 		
         return "http://images.soumaisniteroi.com.br/wp-content/uploads/2015/04/no-image.png";
     }
+
+	showImagemDestacada(){
+		if(this.props.user && this.props.user.imagem_perfil){
+			return(
+				<div className="file-input">
+					<img src={this.getImageSrc(this.props.user)} /><a href="#" onClick={e => this.removeImage(e, this.props.user.imagem_perfil._id)}>Remover</a>
+				</div>
+			)
+		}
+	}
 
     renderField(field){
 		const {input, label, type, meta: {touched, error, warning} } = field;
@@ -216,7 +230,6 @@ class Profile extends Component{
 	}
 	
 	showMessage(){
-		console.log("no show message: ", this.props.message);
         if(this.props.message){
             if(this.props.message.error && this.props.message.error.user){
                 return(
@@ -225,7 +238,7 @@ class Profile extends Component{
             }
             else if(this.props.message.success && this.props.message.success.user){
                 return(
-                    <p className="text-success text-center"><strong>Perfil cadastrado com sucesso!</strong></p>
+                    <p className="text-success text-center"><strong>Perfil atualizado com sucesso!</strong></p>
                 )
             }
         }
@@ -283,14 +296,15 @@ class Profile extends Component{
 						</div>
 						<div className="row tz-file-upload">
 							<Field
-								name="imagem_perfil"
+								name="imagem_principal"
 								component={this.renderField}
 								type="file"
 								classCol="s12"
 								className="validate"
 								validate={[myFile]}
 							/>
-							
+							{this.showImagemDestacada()}
+
 						</div>
 						<div className="row">
 							<div className="db-v2-list-form-inn-tit">
@@ -321,26 +335,7 @@ class Profile extends Component{
 							/>
 						</div>
 						
-						<div className="row">
-							<Field
-								name="password"
-								component={this.renderField}
-								type="password"
-								label="Senha"
-								classCol="s6"
-								className="validate"
-								validate={[]}
-							/>
-							<Field
-								name="confirm-password"
-								component={this.renderField}
-								type="password"
-								label="Confirm a Senha"
-								classCol="s6"
-								className="validate"
-								validate={[]}
-							/>
-						</div>
+						
 						<div className="row">
 							
 							<Field
@@ -432,7 +427,7 @@ class Profile extends Component{
 								validate={[]}
 							/>
 							<Field
-								name="bairros"
+								name="bairro"
 								component={this.renderSelect}
 								options={bairros}
 								type="text"
@@ -493,7 +488,7 @@ class Profile extends Component{
             <section>
                 <div className="tz">
                     {/* <!--LEFT SECTION--> */}
-                    <MenuDashboardLeft />
+                    <MenuDashboardLeft user={this.props.user} />
                     
                     { /*!--CENTER SECTION--> */}
                    
@@ -506,8 +501,24 @@ class Profile extends Component{
 									<p>Editar dados do meu perfil</p>
 									{this.showMessage()}
 								</div>
+								<Tabs>
+									<TabList>
+									<Tab>Meus Dados</Tab>
+									<Tab>Senha</Tab>
+									
+									</TabList>
+
+									<TabPanel>
+										{this.generalContent()}
+									</TabPanel>
+									<TabPanel>
+										<div>
+											<h3>Clique aqui para resetar a sua senha</h3>
+										</div>
+									</TabPanel>
 								
-								{this.generalContent()}
+								</Tabs>
+								
 						
 							</div>
 						</div>
@@ -522,7 +533,6 @@ class Profile extends Component{
 
 
 function mapStateToProps(state){
-	console.log("sateteee: ", state.users);
 	let userInit = {}
 	if(state.users){
 		userInit = state.users;
@@ -539,11 +549,10 @@ function mapStateToProps(state){
 			}
 		}
 		
-		if(userInit.bairros && _.isArray(userInit.bairros) && userInit.bairros.length > 0){
-			console.log("\n\n\n user init no map: ", userInit.bairros);
-			userInit.bairros = userInit.bairros[0]._id;
-		}
-	}
+		if(userInit.bairros)
+			userInit.bairro = userInit.bairros;
+
+ 	}
     return(	
         {
             user: state.users,

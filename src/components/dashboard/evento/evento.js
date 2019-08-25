@@ -5,7 +5,7 @@ import {connect} from 'react-redux';
 import {Link, Redirect} from 'react-router-dom';
 import Confirm from 'react-confirm-bootstrap';
 
-
+import {fetchMe} from '../../../actions/user';
 import {fetchEventosByUser, fetchEventosByAdm, deleteEvento} from '../../../actions/evento';
 
 class DashboardEvento extends Component{
@@ -21,6 +21,7 @@ class DashboardEvento extends Component{
 
         if(user !== null){
             this.setState({userLogged:true})
+            this.props.fetchMe();
             if(user.user.role.name == 'Administrator'){
                 this.props.fetchEventosByAdm(10);
                 
@@ -119,7 +120,7 @@ class DashboardEvento extends Component{
             <section>
                 <div className="tz">
                     {/* <!--LEFT SECTION--> */}
-                    <MenuDashboardLeft />
+                    <MenuDashboardLeft user={this.props.user} />
                     
                     { /*!--CENTER SECTION--> */}
                     <div className="tz-2">
@@ -168,4 +169,4 @@ function mapStateToProps(state){
     
 }
 
-export default connect(mapStateToProps, {deleteEvento, fetchEventosByUser, fetchEventosByAdm})(DashboardEvento);
+export default connect(mapStateToProps, {fetchMe, deleteEvento, fetchEventosByUser, fetchEventosByAdm})(DashboardEvento);

@@ -8,8 +8,7 @@ import {absence, url, email} from 'redux-form-validators';
 import DatePicker from "react-datepicker";
 import { createNumberMask, createTextMask } from 'redux-form-input-masks';
 
-
-
+import { fetchMe } from '../../../actions/user';
 import { fetchEvento, removeImageAssociation } from '../../../actions/evento';
 import { fetchCategories } from '../../../actions/categoria';
 import { fetchTags } from '../../../actions/tag';
@@ -110,6 +109,7 @@ class EventoEdit extends Component{
 		
         if(user !== null){
 			this.setState({userLogged:true})
+			this.props.fetchMe();
 			this.props.fetchCategories('evento', 250, 'parent_id');
 			this.props.fetchTags();
 			this.props.fetchCities();
@@ -881,7 +881,7 @@ class EventoEdit extends Component{
 				
                 <div className="tz">
                     {/* <!--LEFT SECTION--> */}
-                    <MenuDashboardLeft />
+                    <MenuDashboardLeft user={this.props.user}/>
                     
                     { /*!--CENTER SECTION--> */}
                    
@@ -890,8 +890,8 @@ class EventoEdit extends Component{
 							<h4>Gerenciamento de Eventos</h4>
 							<div className="db-list-com tz-db-table">
 								<div className="ds-boar-title">
-									<h2>Editar Novo Evento</h2>
-									<p>Cadastro de novo evento</p>
+									<h2>Editar  Evento</h2>
+									<p>Edição de evento</p>
 									{this.showMessage()}
 								</div>
 								<Tabs>
@@ -925,6 +925,8 @@ class EventoEdit extends Component{
 
 
 function mapStateToProps(state, ownProps){
+	console.log("stattatatatata: ", state);
+
 	let eventoInit = {}
 	if(state.eventos && state.eventos.evento){
 		eventoInit = state.eventos.evento;
@@ -971,4 +973,4 @@ const myForm = reduxForm({
 	
 })(EventoEdit)
 
-export default connect(mapStateToProps, {editEvento, fetchEvento, removeImageAssociation, fetchCategories, fetchTags, fetchCities, fetchBairros})(myForm);
+export default connect(mapStateToProps, {fetchMe, editEvento, fetchEvento, removeImageAssociation, fetchCategories, fetchTags, fetchCities, fetchBairros})(myForm);

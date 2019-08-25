@@ -59,7 +59,6 @@ export const createNoticia = async (noticia) => {
                         form.append(key, value);
                     })
                     
-                    console.log("imagem destacada: ", imagem_destacada, '----', form);
     
                     //let config1 = { headers: { 'Authorization': `Bearer ${jwt}`, 'Content-Type': 'multipart/form-data' } };
                     let request_img = await axios.post(`${process.env.REACT_APP_URL_API}upload/`, form, config);
@@ -125,7 +124,6 @@ export const editNoticia = async (noticia, id) => {
                 //new FormData(noticia)
     
                 if(noticia.imagem_principal){
-                    console.log("imagem destacada: ", noticia.imagem_principal[0])
                     let imagem_destacada = {    
                         "files": noticia.imagem_principal[0], // Buffer or stream of file(s)
                         "path": "noticia/destacada", // Uploading folder of file(s).
@@ -146,7 +144,6 @@ export const editNoticia = async (noticia, id) => {
                         form.append(key, value);
                     })
                     
-                    console.log("imagem destacada: ", imagem_destacada, '----', form);
     
                     //let config1 = { headers: { 'Authorization': `Bearer ${jwt}`, 'Content-Type': 'multipart/form-data' } };
                     let request_img = await axios.post(`${process.env.REACT_APP_URL_API}upload/`, form, config);

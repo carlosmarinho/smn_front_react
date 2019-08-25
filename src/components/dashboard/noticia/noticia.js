@@ -5,7 +5,7 @@ import {connect} from 'react-redux';
 import {Link, Redirect} from 'react-router-dom';
 import Confirm from 'react-confirm-bootstrap';
 
-
+import {fetchMe} from '../../../actions/user';
 import {fetchNoticiasByUser, fetchNoticiasByAdm, deleteNoticia} from '../../../actions/noticia';
 
 class DashboardNoticia extends Component{
@@ -21,6 +21,7 @@ class DashboardNoticia extends Component{
 
         if(user !== null){
             this.setState({userLogged:true})
+            this.props.fetchMe();
             if(user.user.role.name == 'Administrator'){
                 this.props.fetchNoticiasByAdm(10);
                 
@@ -109,11 +110,14 @@ class DashboardNoticia extends Component{
         if(this.props.noticias && this.props.noticias.fromUser)
             totalNoticias = this.props.noticias.fromUser.length;
         
+            console.log("this props user::::::: ", this.props)
+
+
         return(
             <section>
                 <div className="tz">
                     {/* <!--LEFT SECTION--> */}
-                    <MenuDashboardLeft />
+                    <MenuDashboardLeft user={this.props.user}/>
                     
                     { /*!--CENTER SECTION--> */}
                     <div className="tz-2">
@@ -151,4 +155,4 @@ function mapStateToProps(state){
     
 }
 
-export default connect(mapStateToProps, {deleteNoticia, fetchNoticiasByUser, fetchNoticiasByAdm})(DashboardNoticia);
+export default connect(mapStateToProps, {fetchMe, deleteNoticia, fetchNoticiasByUser, fetchNoticiasByAdm})(DashboardNoticia);

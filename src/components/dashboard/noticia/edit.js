@@ -9,7 +9,7 @@ import DatePicker from "react-datepicker";
 import { createNumberMask, createTextMask } from 'redux-form-input-masks';
 
 
-
+import { fetchMe } from '../../../actions/user';
 import { fetchNoticia, removeImageAssociation } from '../../../actions/noticia';
 import { fetchCategories } from '../../../actions/categoria';
 import { fetchTags } from '../../../actions/tag';
@@ -107,6 +107,7 @@ class NoticiaEdit extends Component{
 		
         if(user !== null){
 			this.setState({userLogged:true})
+			this.props.fetchMe();
 			this.props.fetchCategories('notícia', 250, 'parent_id');
 			this.props.fetchTags();
 			this.props.fetchCities();
@@ -633,7 +634,7 @@ class NoticiaEdit extends Component{
 				
                 <div className="tz">
                     {/* <!--LEFT SECTION--> */}
-                    <MenuDashboardLeft />
+                    <MenuDashboardLeft user={this.props.user} />
                     
                     { /*!--CENTER SECTION--> */}
                    
@@ -718,4 +719,4 @@ const myForm = reduxForm({
 	
 })(NoticiaEdit)
 
-export default connect(mapStateToProps, {editNoticia, fetchNoticia, removeImageAssociation, fetchCategories, fetchTags, fetchCities, fetchBairros})(myForm);
+export default connect(mapStateToProps, {fetchMe, editNoticia, fetchNoticia, removeImageAssociation, fetchCategories, fetchTags, fetchCities, fetchBairros})(myForm);
