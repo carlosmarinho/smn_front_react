@@ -44,7 +44,7 @@ class FeaturedListingThreeColumns extends Component {
             const { s3_imagem_destacada, old_imagem_destacada, imagem_destacada } = guia
             
             if(s3_imagem_destacada){
-                return s3_imagem_destacada;
+                return s3_imagem_destacada.replace('images.soumaisniteroi', 'soumaisniteroi');
             }
             if(old_imagem_destacada) {
                 return old_imagem_destacada.replace('http://soumaisniteroi', 'http://images.soumaisniteroi');
