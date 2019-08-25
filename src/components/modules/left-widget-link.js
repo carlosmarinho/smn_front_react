@@ -14,7 +14,7 @@ class LeftWidgetLink extends Component {
             if(old_imagem_destacada.includes('.amazonaws'))
                 return old_imagem_destacada;
 
-            return old_imagem_destacada.replace('http://soumaisniteroi', 'http://engenhoca.soumaisniteroi');;
+            return old_imagem_destacada.replace('http://soumaisniteroi.com', 'http://images.soumaisniteroi.com');;
         }
         else if(imagem_destacada){
             if(imagem_destacada.url){
