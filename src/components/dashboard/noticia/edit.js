@@ -9,7 +9,7 @@ import DatePicker from "react-datepicker";
 import { createNumberMask, createTextMask } from 'redux-form-input-masks';
 
 
-
+import { fetchMe } from '../../../actions/user';
 import { fetchNoticia, removeImageAssociation } from '../../../actions/noticia';
 import { fetchCategories } from '../../../actions/categoria';
 import { fetchTags } from '../../../actions/tag';
@@ -107,6 +107,7 @@ class NoticiaEdit extends Component{
 		
         if(user !== null){
 			this.setState({userLogged:true})
+			this.props.fetchMe();
 			this.props.fetchCategories('notícia', 250, 'parent_id');
 			this.props.fetchTags();
 			this.props.fetchCities();
@@ -166,7 +167,7 @@ class NoticiaEdit extends Component{
             if(old_imagem_destacada.includes('.amazonaws'))
                 return old_imagem_destacada;
 
-            return old_imagem_destacada.replace('http://soumaisniteroi', 'http://engenhoca.soumaisniteroi');;
+			return old_imagem_destacada.replace('http://soumaisniteroi.com', 'http://images.soumaisniteroi.com');
         }
         else if(imagem_destacada){
             if(imagem_destacada.url){
@@ -273,7 +274,7 @@ class NoticiaEdit extends Component{
 					disabled={field.disabled}
 				>
 					
-					{(!field.multiple)?<option>{label}</option>:''}
+					{(!field.multiple)?<option value="">{label}</option>:''}
 					{(field.options)?field.options.map((option, key) => {
 						if(_.isObject(option)){
 							if(option._id && option.nome){
@@ -392,7 +393,7 @@ class NoticiaEdit extends Component{
 		}
 
 		let bairros = [];
-		if(this.props.tags){
+		if(this.props.bairros){
 			bairros = this.props.bairros;
 		}
 
@@ -633,7 +634,7 @@ class NoticiaEdit extends Component{
 				
                 <div className="tz">
                     {/* <!--LEFT SECTION--> */}
-                    <MenuDashboardLeft />
+                    <MenuDashboardLeft user={this.props.user} />
                     
                     { /*!--CENTER SECTION--> */}
                    
@@ -718,4 +719,4 @@ const myForm = reduxForm({
 	
 })(NoticiaEdit)
 
-export default connect(mapStateToProps, {editNoticia, fetchNoticia, removeImageAssociation, fetchCategories, fetchTags, fetchCities, fetchBairros})(myForm);
+export default connect(mapStateToProps, {fetchMe, editNoticia, fetchNoticia, removeImageAssociation, fetchCategories, fetchTags, fetchCities, fetchBairros})(myForm);

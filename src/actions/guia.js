@@ -19,7 +19,7 @@ import {
 export const createGuia = async (guia) => {
 
     let user = JSON.parse(localStorage.getItem('user'));
-    console.log("guia post: ", guia);
+    console.log("user ao criar post: ", user);
     let request;
     if(user){
         try
@@ -31,6 +31,8 @@ export const createGuia = async (guia) => {
             guiatosave.imagem_principal = '';
             guiatosave.bairros = [guia.bairros];
             guiatosave.slug = _.kebabCase(guia.titulo);
+            guiatosave.user = [user.user._id];
+            guiatosave.approved = false;
 
             let jwt = user.jwt    
             let config = { headers: { 'Authorization': `Bearer ${jwt}` } };            
@@ -60,7 +62,6 @@ export const createGuia = async (guia) => {
                         form.append(key, value);
                     })
                     
-                    console.log("imagem destacada: ", imagem_destacada, '----', form);
     
                     //let config1 = { headers: { 'Authorization': `Bearer ${jwt}`, 'Content-Type': 'multipart/form-data' } };
                     let request_img = await axios.post(`${process.env.REACT_APP_URL_API}upload/`, form, config);
@@ -144,7 +145,6 @@ export const editGuia = async (guia, id) => {
                 //new FormData(guia)
     
                 if(guia.imagem_principal){
-                    console.log("imagem destacada: ", guia.imagem_principal[0])
                     let imagem_destacada = {    
                         "files": guia.imagem_principal[0], // Buffer or stream of file(s)
                         "path": "guia/destacada", // Uploading folder of file(s).
@@ -165,7 +165,8 @@ export const editGuia = async (guia, id) => {
                         form.append(key, value);
                     })
                     
-                    console.log("imagem destacada: ", imagem_destacada, '----', form);
+                    console.log("formmmmmmmmm userrr: ", form);
+
     
                     //let config1 = { headers: { 'Authorization': `Bearer ${jwt}`, 'Content-Type': 'multipart/form-data' } };
                     let request_img = await axios.post(`${process.env.REACT_APP_URL_API}upload/`, form, config);
@@ -283,7 +284,7 @@ export const deleteGuia = async (id) => {
         if(request.statusText == 'OK'){
             return {
                 type: DELETE_GUIA,
-                payload: []
+                payload: id
             }
         }
 
@@ -387,7 +388,7 @@ export const fetchGuiasRecentes = async(city_id, limit='', sort=null) => {
         limit = `&_limit=${limit}`
 
 
-    const request = axios.get(`${process.env.REACT_APP_URL_API}guias/?_sort=${sort}${limit}&cidade=${city_id}`);
+    const request = axios.get(`${process.env.REACT_APP_URL_API}guias/?_sort=${sort}&approved=true${limit}&cidade=${city_id}`);
 
     return {
         type: FETCH_GUIAS_RECENTES,
@@ -426,8 +427,8 @@ export const fetchGuiasByCategoryBoth = async(category='', limit='', sort=null) 
 
     if(categoria !== '')
     {
-        let request = await axios.get(`${process.env.REACT_APP_URL_API}guias/?${categoria}&_sort=${sort}${limit}`);
-        const request1 = await axios.get(`${process.env.REACT_APP_URL_API}guias/?${categoriaServico}&_sort=${sort}${limit}`);
+        let request = await axios.get(`${process.env.REACT_APP_URL_API}guias/?${categoria}&approved=true&_sort=${sort}${limit}`);
+        const request1 = await axios.get(`${process.env.REACT_APP_URL_API}guias/?${categoriaServico}&approved=true&_sort=${sort}${limit}`);
         console.log("O request: ", request);
         request.categoria = req.data[0];
         request.data = [...request.data, ...request1.data];
@@ -467,7 +468,7 @@ export const fetchGuiasByCategoryComercial = async(category='', limit='', sort=n
 
     if(categoria !== '')
     {
-        const request = await axios.get(`${process.env.REACT_APP_URL_API}guias/?${categoria}&_sort=${sort}${limit}`);
+        const request = await axios.get(`${process.env.REACT_APP_URL_API}guias/?${categoria}&approved=true&_sort=${sort}${limit}`);
         request.categoria = req.data[0];
         return {
             type: FETCH_GUIAS,
@@ -503,7 +504,7 @@ export const fetchGuiasByCategoryServico = async(category='', limit='', sort=nul
 
     if(categoria !== '')
     {
-        const request = await axios.get(`${process.env.REACT_APP_URL_API}guias/?${categoria}&_sort=${sort}${limit}`);
+        const request = await axios.get(`${process.env.REACT_APP_URL_API}guias/?${categoria}&approved=true&_sort=${sort}${limit}`);
         request.categoria = req.data[0];
         return {
             type: FETCH_GUIAS,
@@ -547,7 +548,7 @@ export const fetchGuiasByCategory = async(category='', limit='', sort=null) => {
 
     if(categoria !== '')
     {
-        const request = await axios.get(`${process.env.REACT_APP_URL_API}guias/?${categoria}&_sort=${sort}${limit}`);
+        const request = await axios.get(`${process.env.REACT_APP_URL_API}guias/?${categoria}&approved=true&_sort=${sort}${limit}`);
         request.categoria = req.data[0];
         return {
             type: FETCH_GUIAS,
@@ -587,7 +588,7 @@ export const fetchGuiasByTag = async(tag='', limit='', sort=null) => {
 
     if(tags !== '')
     {
-        const request = await axios.get(`${process.env.REACT_APP_URL_API}guias/?${tags}&_sort=${sort}${limit}`);
+        const request = await axios.get(`${process.env.REACT_APP_URL_API}guias/?${tags}&_sort=${sort}&approved=true${limit}`);
         request.tag = req.data[0];
         return {
             type: FETCH_GUIAS,
@@ -644,7 +645,7 @@ export const fetchGuiasBySearch = async(search='', limit='', sort=null) => {
         keyword=`titulo_contains=${search.keyword}&`
     }
 
-    const request = await axios.get(`${process.env.REACT_APP_URL_API}guias/?${bairros}${keyword}_sort=${sort}${limit}`);
+    const request = await axios.get(`${process.env.REACT_APP_URL_API}guias/?approved=true&${bairros}${keyword}_sort=${sort}${limit}`);
     
     return {
         type: FETCH_GUIAS,
@@ -662,7 +663,7 @@ export const fetchGuias = async(city_id, search='', limit='', sort=null) => {
     else
         limit = `&_limit=500`;
   
-    const request = axios.get(`${process.env.REACT_APP_URL_API}guias/?${search}&_sort=${sort}${limit}&cidade=${city_id}`);
+    const request = axios.get(`${process.env.REACT_APP_URL_API}guias/?${search}&approved=true&_sort=${sort}${limit}&cidade=${city_id}`);
 
     return {
         type: FETCH_GUIAS,
@@ -672,7 +673,7 @@ export const fetchGuias = async(city_id, search='', limit='', sort=null) => {
 
 export const fetchFeaturedGuias = async(city_id) => {
 
-    let request = await axios.get(`${process.env.REACT_APP_URL_API}guias/?cidade_destaque=${city_id}`);
+    let request = await axios.get(`${process.env.REACT_APP_URL_API}guias/?approved=true&cidade_destaque=${city_id}`);
     
 
     return {
@@ -683,7 +684,7 @@ export const fetchFeaturedGuias = async(city_id) => {
 
 export const fetchGuiasFeatured = async(city_id) => {
 
-    const request = axios.get(`${process.env.REACT_APP_URL_API}guias/?cidade_destaque=${city_id}`);
+    const request = axios.get(`${process.env.REACT_APP_URL_API}guias/?approved=true&cidade_destaque=${city_id}`);
 
     return {
         type: FETCH_GUIAS_FEATURED,

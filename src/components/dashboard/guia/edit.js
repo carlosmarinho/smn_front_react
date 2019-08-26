@@ -6,7 +6,7 @@ import {Field, reduxForm} from 'redux-form';
 import {Link, Redirect} from 'react-router-dom';
 import {absence, url, email} from 'redux-form-validators';
 
-
+import {fetchMe} from '../../../actions/user';
 import { fetchGuia, removeImageAssociation } from '../../../actions/guia';
 import { fetchCategories } from '../../../actions/categoria';
 import { fetchTags } from '../../../actions/tag';
@@ -221,7 +221,7 @@ class GuiaEdit extends Component{
 					disabled={field.disabled}
 				>
 					
-					{(!field.multiple)?<option>{label}</option>:''}
+					{(!field.multiple)?<option value="">{label}</option>:''}
 					{(field.options)?field.options.map((option, key) => {
 						if(_.isObject(option)){
 							if(option._id && option.nome){
@@ -457,7 +457,7 @@ class GuiaEdit extends Component{
 		}
 
 		let bairros = [];
-		if(this.props.tags){
+		if(this.props.bairros){
 			bairros = this.props.bairros;
 		}
 
@@ -954,4 +954,4 @@ const myForm = reduxForm({
 	
 })(GuiaEdit)
 
-export default connect(mapStateToProps, {editGuia, fetchGuia, removeImageAssociation, fetchCategories, fetchTags, fetchCities, fetchBairros})(myForm);
+export default connect(mapStateToProps, {fetchMe, editGuia, fetchGuia, removeImageAssociation, fetchCategories, fetchTags, fetchCities, fetchBairros})(myForm);

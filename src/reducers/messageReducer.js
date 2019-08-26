@@ -1,5 +1,7 @@
 import { ERROR_CREATE_USER, 
     SUCCESS_CREATE_USER, 
+    ERROR_EDIT_USER, 
+    SUCCESS_EDIT_USER, 
     SUCCESS_CREATE_GUIA,  
     ERROR_CREATE_GUIA, 
     SUCCESS_EDIT_GUIA,  
@@ -40,6 +42,19 @@ export default function(state = null, action) {
             
             message.success.user = action.payload;
             return message;
+
+        case ERROR_EDIT_USER:
+            message.success.user = null
+            
+            message.error.user = action.payload;
+            return message;
+        case SUCCESS_EDIT_USER:
+            message.error.user = null;
+            
+            message.success.user = action.payload;
+            return message;
+
+
 
         case ERROR_CREATE_GUIA:
             message.success.user = null

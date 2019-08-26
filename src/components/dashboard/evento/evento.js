@@ -3,8 +3,10 @@ import React, { Component } from 'react';
 import MenuDashboardLeft from '../../menu-dashboard-left';
 import {connect} from 'react-redux';
 import {Link, Redirect} from 'react-router-dom';
+import Confirm from 'react-confirm-bootstrap';
 
-import {fetchEventosByUser, fetchEventosByAdm} from '../../../actions/evento';
+import {fetchMe} from '../../../actions/user';
+import {fetchEventosByUser, fetchEventosByAdm, deleteEvento} from '../../../actions/evento';
 
 class DashboardEvento extends Component{
 
@@ -19,6 +21,7 @@ class DashboardEvento extends Component{
 
         if(user !== null){
             this.setState({userLogged:true})
+            this.props.fetchMe();
             if(user.user.role.name == 'Administrator'){
                 this.props.fetchEventosByAdm(10);
                 
@@ -30,6 +33,10 @@ class DashboardEvento extends Component{
         else{
             this.setState({userLogged:false})
         }
+    }
+
+    deleteEvento(id) {
+        this.props.deleteEvento(id);
     }
 
     datePtBr(date){
@@ -55,7 +62,15 @@ class DashboardEvento extends Component{
                         <td className="table-information">
                             <Link to={'/dashboard/eventos/edit/' + evento._id}  ><i className="fa fa-pencil" title="edit"></i></Link>  
                             <Link to={'/eventos/' + evento.slug}  ><i className="fa fa-eye" title="view"></i></Link>
-                            <Link to={'/dashboard/eventos/delete/' + evento._id}  ><i className="fa fa-trash" title="delete"></i></Link>
+                            <a href="javascript: void(0)">
+                                <Confirm
+                                    onConfirm={() => this.deleteEvento(evento._id)}
+                                    body={`Tem certeza que deseja excluir o Evento '${evento.titulo}'?`}
+                                    confirmText="Confirmar exclusão"
+                                    title="Exclusão de Evento">
+                                    <i className="fa fa-trash" title="delete"></i>
+                                </Confirm>
+                            </a>  
                         </td>
                     </tr>
                 )
@@ -74,7 +89,8 @@ class DashboardEvento extends Component{
             if(old_imagem_destacada.includes('.amazonaws'))
                 return old_imagem_destacada;
 
-            return old_imagem_destacada.replace('http://soumaisniteroi', 'http://images.soumaisniteroi');
+            return old_imagem_destacada.replace('http://soumaisniteroi.com', 'http://images.soumaisniteroi.com');
+
         }
         else if(imagem_destacada){
             if(imagem_destacada.url){
@@ -105,7 +121,7 @@ class DashboardEvento extends Component{
             <section>
                 <div className="tz">
                     {/* <!--LEFT SECTION--> */}
-                    <MenuDashboardLeft />
+                    <MenuDashboardLeft user={this.props.user} />
                     
                     { /*!--CENTER SECTION--> */}
                     <div className="tz-2">
@@ -154,4 +170,4 @@ function mapStateToProps(state){
     
 }
 
-export default connect(mapStateToProps, {fetchEventosByUser, fetchEventosByAdm})(DashboardEvento);
+export default connect(mapStateToProps, {fetchMe, deleteEvento, fetchEventosByUser, fetchEventosByAdm})(DashboardEvento);

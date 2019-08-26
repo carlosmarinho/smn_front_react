@@ -1,35 +1,36 @@
 import _ from 'lodash';
 import React, { Component } from 'react';
-import MenuDashboardLeft from '../../menu-dashboard-left';
+import MenuDashboardLeft from '../menu-dashboard-left';
 import {connect} from 'react-redux';
 import {Field, reduxForm} from 'redux-form';
-import {Link, Redirect} from 'react-router-dom';
-import {absence, url, email} from 'redux-form-validators';
-
+import {Redirect} from 'react-router-dom';
+import {url, email} from 'redux-form-validators';
+import {  createTextMask } from 'redux-form-input-masks';
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import "react-tabs/style/react-tabs.css";
 
-import {fetchMe} from '../../../actions/user';
-import { fetchCategories } from '../../../actions/categoria';
-import { fetchTags } from '../../../actions/tag';
-import { fetchCities } from '../../../actions/city';
-import { fetchBairros } from '../../../actions/bairro';
-import { SUCCESS_CREATE_GUIA } from '../../../actions/types';
 
+import { fetchCities } from '../../actions/city';
+import { fetchBairros } from '../../actions/bairro';
+import { SUCCESS_EDIT_USER } from '../../actions/types';
 
-import DropdownList from 'react-widgets/lib/DropdownList'
-import SelectList from 'react-widgets/lib/SelectList'
 import Multiselect from 'react-widgets/lib/Multiselect'
-
 
 import 'react-widgets/dist/css/react-widgets.css'
 
-import {createGuia} from '../../../actions/guia';
+import {fetchMe, editUser} from '../../actions/user';
+
+const dateMask = createTextMask({
+	pattern: '99/99/9999',
+	suffix: '',
+});
+
 
 const myFile = value => {
 	if(value){
 		if(value.length == 0)
 			return undefined;
+			
 		
 		if(!value[0].type.includes('image'))
 			return "O arquivo deve ser do tipo imagem";
@@ -63,7 +64,7 @@ const minLength = min => value =>
     value && value.length < min ? `O campo deve conter no mínimo ${min} caracteres` : undefined;
 
 
-class GuiaNew extends Component{
+class Profile extends Component{
 
     constructor(){
         super();
@@ -82,19 +83,18 @@ class GuiaNew extends Component{
 	
     componentDidMount(){
 		let user = JSON.parse(localStorage.getItem('user'));
-		
+		console.log("user didmount: ", user );
         if(user !== null){
 			this.setState({userLogged:true})
-			this.props.fetchCategories('guia comercial', 250, 'parent_id');
-			this.props.fetchTags();
+			this.props.fetchMe();
 			this.props.fetchCities();
 			this.props.fetchBairros('5ba26f813a018f42215a36a0', 200, 'nome');
             // if(user.user.role.name == 'Administrator'){
-				//     this.props.fetchGuiasByAdm(7);
+				//     this.props.fetchPerfilsByAdm(7);
                 
 				// }
 				// else{
-            //     this.props.fetchGuiasByUser(user.user._id, 5);
+            //     this.props.fetchPerfilsByUser(user.user._id, 5);
 			// }
 			if(this.props.message){
 				this.props.message.success = null;
@@ -105,15 +105,19 @@ class GuiaNew extends Component{
             this.setState({userLogged:false})
         }
 	}
-	
-	async handleSubmit(values){
-        
-		let ret = await this.props.createGuia(values);
+	componentWillMount(){
+		let user = JSON.parse(localStorage.getItem('user'));
 		
-		if(ret.payload && ret.payload.data && ret.payload.data._id)
-			this.setState({redirect: true});
+		if(user !== null)
+			this.props.fetchMe(user.user._id);
+	}
+	
 
-    }
+	handleSubmit = (values) => {
+		console.log("submiting values: ", values)
+        this.props.editUser(values, this.props.user._id);
+	}
+	
 
     datePtBr(date){
         //const options = {year: 'numeric', month: 'short', day: 'numeric' };
@@ -123,18 +127,22 @@ class GuiaNew extends Component{
 
     
     getImageSrc(item){
-        if(item.s3_imagem_destacada){
-            return item.old_imagem_destacada;
-        }
-        if(item.old_imagem_destacada) {
-            return item.old_imagem_destacada;
-        }
-        else if(item.imagem_destacada){
-            //implementar codigo
-            return "http://images.soumaisniteroi.com.br/wp-content/uploads/2015/04/no-image.png";
-        }
+        if(item.imagem_perfil){
+            return item.imagem_perfil.url;
+		}
+		
         return "http://images.soumaisniteroi.com.br/wp-content/uploads/2015/04/no-image.png";
     }
+
+	showImagemDestacada(){
+		if(this.props.user && this.props.user.imagem_perfil){
+			return(
+				<div className="file-input">
+					<img src={this.getImageSrc(this.props.user)} /><a href="#" onClick={e => this.removeImage(e, this.props.user.imagem_perfil._id)}>Remover</a>
+				</div>
+			)
+		}
+	}
 
     renderField(field){
 		const {input, label, type, meta: {touched, error, warning} } = field;
@@ -143,63 +151,25 @@ class GuiaNew extends Component{
 
         return(
 			
-			<div className={`input-field col ${field.classCol}`}>
-				<input {...input}  type={type} className="validate" />
-				{touched && ((error && <span className="text-danger">{error}</span>) || (warning && <span>{warning}</span>))}
+			<div className={`input-field-edit col ${field.classCol}`}>
 				<label>{label}</label> 
+				<input 
+					{...input}  
+					type={type} 
+					disabled={field.disabled}
+					className="validate" 
+				/>
+				{touched && ((error && <span className="text-danger">{error}</span>) || (warning && <span>{warning}</span>))}
 			</div>
             
         )
 	}
 
-	multiSelectFocus(e, name){
-		
-		if(name == 'tags')
-				this.setState({tags: false});
-		if(name == 'categorias')
-			this.setState({categorias: false});
-	}
-	
-	multiSelectBlur(e, itemName, itemValue){
-		if(itemValue.length <= 0)
-		{
-			
-			if(itemName == 'tags')
-				this.setState({tags: true});
-			if(itemName == 'categorias')
-				this.setState({categorias: true});
-		}
-	}
-
-	renderMultiselect (field){
-		const { input, data, valueField, textField, label } = field;
-
-		//console.log("state do multiselect no multselect ", input.name, ": ", this.state.labelMultiselect[input.name]);
-		return (
-			<div className={`react-widget input-field col ${field.classCol}`}>
-				<Multiselect {...input}
-					onBlur={(e) => {
-						 this.multiSelectBlur(e, input.name, input.value)}
-					}
-					onFocus={(e) => this.multiSelectFocus(e, input.name) }
-					value={input.value || []} // requires value to be an array
-					data={data}
-					valueField={valueField}
-					textField={textField}
-					inputProps={{id:field.id}}
-					groupBy={field.groupBy}
-				/>
-				<label htmlFor={field.id} >{(this.state[input.name] ===true)?label:''}</label>
-			</div>
-		)
-	}
-
-
 	renderSelect(field){
 		const {input, label, type, meta: {touched, error, warning} } = field;
 		return(
 			
-			<div className={`input-field col ${field.classCol}`}>
+			<div className={`input-field-edit col ${field.classCol}`}>
 			
 				{ <Field {...input} style={{display:'block',paddingTop:'0px', paddingBottom:'0px', height:(field.multiple)?'90px':'40px'}}  
 					component="select" className="native" native="true" multiple={(field.multiple)?'multiple':''} disabled={field.disabled}>
@@ -234,9 +204,6 @@ class GuiaNew extends Component{
 	}
 
 	setCategoryParentName(categories){
-		if(! categories)
-			return null;
-			
 		let newCat = categories.map(category => {
 			if(category.parent_id && category.parent_id !== null){
 				let pai = categories.filter(catFilter =>{
@@ -264,33 +231,49 @@ class GuiaNew extends Component{
 	
 	showMessage(){
         if(this.props.message){
-            if(this.props.message.error && this.props.message.error.guia){
+            if(this.props.message.error && this.props.message.error.user){
                 return(
-                    <p className="text-danger text-center"><strong>{this.props.message.error.guia.msg}</strong></p>
+                    <p className="text-danger text-center"><strong>{this.props.message.error.user.msg}</strong></p>
                 )
             }
-            else if(this.props.message.success && this.props.message.success.guia){
+            else if(this.props.message.success && this.props.message.success.user){
                 return(
-                    <p className="text-success text-center"><strong>Guia cadastrado com sucesso!</strong></p>
+                    <p className="text-success text-center"><strong>Perfil atualizado com sucesso!</strong></p>
                 )
             }
         }
-    }
+	}
+	
+	renderMultiselect (field){
+		const { input, data, valueField, textField, label } = field;
+
+		return (
+			<div className={`react-widget input-field-edit col ${field.classCol}`}>
+				<label>{label}</label>
+				<Multiselect {...input}
+					onBlur={(e) => {
+							//this.multiSelectBlur(e, input.name, input.value)
+						}
+					}
+					value={input.value || []} // requires value to be an array
+					data={data}
+					valueField={valueField}
+					textField={textField}
+					inputProps={{id:field.id}}
+					groupBy={field.groupBy}
+					placeholder={(this.state[input.name] ===true)?label:''}
+					allowCreate="onFilter"
+        			onCreate={name => this.handleCreate(name)}
+				/>
+				
+			</div>
+
+		)
+	}
+
 
 	generalContent(){
 		const { pristine, reset, submitting, handleSubmit } = this.props
-
-		let categorias = [];
-		if(this.props.categorias){
-			categorias = this.props.categorias.list;
-			categorias = this.setCategoryParentName(categorias);
-		}
-
-		let tags = [];
-		if(this.props.tags){
-			tags = this.props.tags.list;
-			tags = this.proccessJsonForMultSelect(tags);
-		}
 		
 		let cidades = [];
 		if(this.props.cidades){
@@ -308,7 +291,7 @@ class GuiaNew extends Component{
 					<form className="" onSubmit={handleSubmit(this.handleSubmit)}>
 					<div className="row">
 							<div className="db-v2-list-form-inn-tit-top">
-								<h5>Imagem Principal <span className="v2-db-form-note">(tamanho da imagem 1350x500):</span ></h5>
+								<h5>Imagem de Perfil <span className="v2-db-form-note">(tamanho da imagem 1000x1000):</span ></h5>
 							</div>
 						</div>
 						<div className="row tz-file-upload">
@@ -320,7 +303,8 @@ class GuiaNew extends Component{
 								className="validate"
 								validate={[myFile]}
 							/>
-							
+							{this.showImagemDestacada()}
+
 						</div>
 						<div className="row">
 							<div className="db-v2-list-form-inn-tit">
@@ -329,27 +313,33 @@ class GuiaNew extends Component{
 						</div>
 						<div className="row">
 							<Field
-								name="titulo"
+								name="name"
 								component={this.renderField}
 								type="text"
-								label="Título"
+								label="Nome"
 								classCol="s12"
 								className="validate"
 								validate={[ required ]}
 							/>
 						</div>
+						
 						<div className="row">
 							<Field
-									name="tipo"
-									component={this.renderSelect}
-									options={[{'guia comercial':'Guia Comercial'}, {'guia de serviços':'Guia de Serviços'}]}
-									label="Selecione o tipo"
-									classCol="s4"
-									className="validate"
-									validate={[required]}
+								name="username"
+								component={this.renderField}
+								type="text"
+								label="Usuário"
+								classCol="s12"
+								className="validate"
+								validate={[ required ]}
 							/>
+						</div>
+						
+						
+						<div className="row">
+							
 							<Field
-								name="telefone"
+								name="phone"
 								component={this.renderField}
 								type="text"
 								label="Telefone"
@@ -358,13 +348,22 @@ class GuiaNew extends Component{
 								validate={[]}
 							/>
 							<Field
-								name="celular"
+								name="mobile"
 								component={this.renderField}
 								type="text"
 								label="Celular"
 								classCol="s4"
 								className="validate"
 								validate={[]}
+							/>
+							<Field
+								name="birthday"
+								component={this.renderField}
+								type="text"
+								label="Data de Nascimento"
+								classCol="s4"
+								className="validate"
+								{...dateMask}
 							/>
 						</div>
 						<div className="row">
@@ -375,6 +374,7 @@ class GuiaNew extends Component{
 								label="Email"
 								classCol="s6"
 								className="validate"
+								disabled={true}
 								validate={[email({allowBlank:true, message: "Email inválido!"})]}
 							/>
 							<Field
@@ -388,93 +388,73 @@ class GuiaNew extends Component{
 							/>
 						</div>
 						<div className="row">
-							<div className="input-field input-field-edit col s12">
-								<Field name="descricao" component="textarea" />
-									
-								<label htmlFor="descricao">Descrição</label>
-							</div>
-						</div>
-
-						<div className="row">
 							<div className="db-v2-list-form-inn-tit">
 								<h5>Endereço:</h5>
 							</div>
 						</div>
+						
 						<div className="row">
 							<Field
 								name="cep"
 								component={this.renderField}
 								type="text"
 								label="Cep"
-								classCol="s6"
+								classCol="s3"
 								className="validate"
 								validate={[]}
 							/>
-							
+						
 							<Field
-								name="complemento"
+								name="address"
 								component={this.renderField}
 								type="text"
-								label="Complemento"
-								classCol="s6"
-								className="validate"
-								validate={[]}
-							/>
-						</div>
-						
-						<div className="row">
-							<Field
-								name="estado"
-								component={this.renderSelect}
-								options={[{'5bce2506e8a51373aab0b047':'Rio de Janeiro'}]}
-								type="text"
-								label="Estado"
-								disabled={true}
-								defaultValue="5bce2506e8a51373aab0b047"
-								classCol="s4"
+								label="Endereço"
+								classCol="s9"
 								className="validate"
 								validate={[ ]}
 							/>
+						</div>
+							
+						<div className="row" style={{marginTop:'20px'}}>
+							
 							<Field
 								name="cidade"
 								component={this.renderSelect}
 								options={cidades}
-								label="Cidade"
-								classCol="s4"
+								label="Selecione a Cidade"
+								classCol="s6"
 								className="validate"
-								validate={[required]}
+								validate={[]}
 							/>
 							<Field
-								name="bairros"
+								name="bairro"
 								component={this.renderSelect}
 								options={bairros}
 								type="text"
-								label="Bairro"
-								classCol="s4"
+								label="Selecione o Bairro"
+								classCol="s6"
 								className="validate"
 								validate={[  ]}
 							/>
+							
 						</div>
 						<div className="row">
-						
-
 							<Field
-								name="endereco"
-								component={this.renderField}
-								type="text"
-								label="Endereço"
-								classCol="s12"
-								className="validate"
-								validate={[ required ]}
-							/>
+									name="complement"
+									component={this.renderField}
+									type="text"
+									label="Complemento"
+									classCol="s12"
+									className="validate"
+									validate={[]}
+								/>
+							
 						</div>
-						
-						
 
 								
 						<div className="row">
 							<div className="input-field col s12 v2-mar-top-40"> 
-								<input type="submit"  value="Cadastrar" className="waves-effect waves-light no-color btn-large full-btn" /> 
+								<input type="submit"  value="Editar" className="waves-effect waves-light no-color btn-large full-btn" /> 
 							</div>
 						</div>
 					</form>
@@ -489,22 +469,6 @@ class GuiaNew extends Component{
 
         if(this.state.userLogged === false){
             return <Redirect to={'/'} />
-		}
-
-		if(this.state.redirect){
-			return <Redirect to={`/dashboard/guias/edit/${this.props.message.success.guia.data._id}`} />
-		}
-		
-		let categorias = [];
-		if(this.props.categorias){
-			categorias = this.props.categorias.list;
-			categorias = this.setCategoryParentName(categorias);
-		}
-
-		let tags = [];
-		if(this.props.tags){
-			tags = this.props.tags.list;
-			tags = this.proccessJsonForMultSelect(tags);
 		}
 		
 		let cidades = [];
@@ -524,21 +488,37 @@ class GuiaNew extends Component{
             <section>
                 <div className="tz">
                     {/* <!--LEFT SECTION--> */}
-                    <MenuDashboardLeft user={this.props.user}/>
+                    <MenuDashboardLeft user={this.props.user} />
                     
                     { /*!--CENTER SECTION--> */}
                    
                     <div className="tz-2">
 						<div className="tz-2-com tz-2-main">
-							<h4>Gerenciamento de Guias</h4>
+							<h4>Meu Perfil</h4>
 							<div className="db-list-com tz-db-table">
 								<div className="ds-boar-title">
-									<h2>Cadastrar Novo Guia</h2>
-									<p>Cadastro de novo guia comercial/serviço</p>
+									<h2>Gerenciar Perfil</h2>
+									<p>Editar dados do meu perfil</p>
 									{this.showMessage()}
 								</div>
+								<Tabs>
+									<TabList>
+									<Tab>Meus Dados</Tab>
+									<Tab>Senha</Tab>
+									
+									</TabList>
+
+									<TabPanel>
+										{this.generalContent()}
+									</TabPanel>
+									<TabPanel>
+										<div>
+											<h3>Clique aqui para resetar a sua senha</h3>
+										</div>
+									</TabPanel>
 								
-								{this.generalContent()}
+								</Tabs>
+								
 						
 							</div>
 						</div>
@@ -553,7 +533,27 @@ class GuiaNew extends Component{
 
 
 function mapStateToProps(state){
-    return(
+	let userInit = {}
+	if(state.users){
+		userInit = state.users;
+		
+		
+		userInit.estado = '5bce2506e8a51373aab0b047';
+		
+		if(userInit.cidade){
+			if(_.isArray(userInit.cidade) && userInit.cidade._id){
+				userInit.cidade = userInit.cidade[0]._id;
+			}
+			else if(userInit.cidade._id){
+				userInit.cidade = userInit.cidade._id;
+			}
+		}
+		
+		if(userInit.bairros)
+			userInit.bairro = userInit.bairros;
+
+ 	}
+    return(	
         {
             user: state.users,
 			guias: state.guias,
@@ -561,18 +561,17 @@ function mapStateToProps(state){
 			tags: state.tags,
 			bairros: state.bairros,
 			cidades: state.city,
-			message: state.message
+			message: state.message,
+			initialValues: userInit
         }
     )
     
 }
 
-const Connect = connect(mapStateToProps, {fetchMe, createGuia, fetchCategories, fetchTags, fetchCities, fetchBairros})(GuiaNew);
+const myForm = reduxForm({
+	form: 'editProfile',
+	enableReinitialize: true
+	
+})(Profile)
 
-export default reduxForm({
-	form: 'editGuia',
-	initialValues: {
-		'estado': '5bce2506e8a51373aab0b047',
-		'cidade': '5ba26f813a018f42215a36a0'
-	}
-})(Connect)
+export default connect(mapStateToProps, {fetchMe, editUser, fetchCities, fetchBairros})(myForm);

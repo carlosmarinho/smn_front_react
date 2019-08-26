@@ -1,4 +1,4 @@
-import { REMOVE_IMAGE_NOTICIA, FETCH_NOTICIA, FETCH_NOTICIAS, FETCH_NOTICIAS_RECENTES, FETCH_NOTICIAS_FEATURED, FETCH_NOTICIAS_USER } from "../actions/types";
+import { DELETE_NOTICIA, REMOVE_IMAGE_NOTICIA, FETCH_NOTICIA, FETCH_NOTICIAS, FETCH_NOTICIAS_RECENTES, FETCH_NOTICIAS_FEATURED, FETCH_NOTICIAS_USER } from "../actions/types";
 
 export default function(state = null, action) {
 
@@ -11,6 +11,19 @@ export default function(state = null, action) {
         count: null
     };
     switch (action.type) {
+        case DELETE_NOTICIA:
+            if(action.payload !== false ){
+                console.log("state noticias: ", state)
+                let fromUser = state.fromUser.filter( fromUser => {
+                    return fromUser._id != action.payload
+                }); 
+                
+                noticia = {...state.evento, fromUser, count: (state.count-1)}
+                console.log("state depois    noticias: ", state)
+                return noticia;
+            }
+            
+            return noticia;
         case REMOVE_IMAGE_NOTICIA:
             if(action.payload !== false){
                 noticia.noticia = state.noticia;

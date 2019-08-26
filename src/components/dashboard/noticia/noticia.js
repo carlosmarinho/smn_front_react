@@ -3,8 +3,10 @@ import React, { Component } from 'react';
 import MenuDashboardLeft from '../../menu-dashboard-left';
 import {connect} from 'react-redux';
 import {Link, Redirect} from 'react-router-dom';
+import Confirm from 'react-confirm-bootstrap';
 
-import {fetchNoticiasByUser, fetchNoticiasByAdm} from '../../../actions/noticia';
+import {fetchMe} from '../../../actions/user';
+import {fetchNoticiasByUser, fetchNoticiasByAdm, deleteNoticia} from '../../../actions/noticia';
 
 class DashboardNoticia extends Component{
 
@@ -19,6 +21,7 @@ class DashboardNoticia extends Component{
 
         if(user !== null){
             this.setState({userLogged:true})
+            this.props.fetchMe();
             if(user.user.role.name == 'Administrator'){
                 this.props.fetchNoticiasByAdm(10);
                 
@@ -30,6 +33,10 @@ class DashboardNoticia extends Component{
         else{
             this.setState({userLogged:false})
         }
+    }
+
+    deleteNoticia(id) {
+        this.props.deleteNoticia(id);
     }
 
     datePtBr(date){
@@ -51,7 +58,13 @@ class DashboardNoticia extends Component{
                         <div className="hid-msg">
                             <Link to={'/dashboard/noticias/edit/' + noticia._id}  ><i className="fa fa-pencil" title="edit"></i></Link> 
                             <Link to={'/noticias/' + noticia.slug}  ><i className="fa fa-eye" title="view"></i></Link>
-                            <Link to={'/dashboard/noticias/delete/' + noticia._id}  ><i className="fa fa-trash" title="delete"></i></Link>
+                            <a href="javascript: void(0)"><Confirm
+                                onConfirm={() => this.deleteNoticia(noticia._id)}
+                                body={`Tem certeza que deseja excluir a notícia '${noticia.titulo}'?`}
+                                confirmText="Confirmar Exclusão"
+                                title="Exclusão de Notícia">
+                                <i className="fa fa-trash" title="delete"></i>
+                            </Confirm></a>
                         </div>
                     </li>
                 )
@@ -71,7 +84,7 @@ class DashboardNoticia extends Component{
             if(old_imagem_destacada.includes('.amazonaws'))
                 return old_imagem_destacada;
 
-            return old_imagem_destacada.replace('http://soumaisniteroi', 'http://engenhoca.soumaisniteroi');;
+            return old_imagem_destacada.replace('http://soumaisniteroi.com', 'http://images.soumaisniteroi.com');;
         }
         else if(imagem_destacada){
             if(imagem_destacada.url){
@@ -97,11 +110,14 @@ class DashboardNoticia extends Component{
         if(this.props.noticias && this.props.noticias.fromUser)
             totalNoticias = this.props.noticias.fromUser.length;
         
+            console.log("this props user::::::: ", this.props)
+
+
         return(
             <section>
                 <div className="tz">
                     {/* <!--LEFT SECTION--> */}
-                    <MenuDashboardLeft />
+                    <MenuDashboardLeft user={this.props.user}/>
                     
                     { /*!--CENTER SECTION--> */}
                     <div className="tz-2">
@@ -139,4 +155,4 @@ function mapStateToProps(state){
     
 }
 
-export default connect(mapStateToProps, {fetchNoticiasByUser, fetchNoticiasByAdm})(DashboardNoticia);
+export default connect(mapStateToProps, {fetchMe, deleteNoticia, fetchNoticiasByUser, fetchNoticiasByAdm})(DashboardNoticia);

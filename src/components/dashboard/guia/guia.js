@@ -3,8 +3,10 @@ import React, { Component } from 'react';
 import MenuDashboardLeft from '../../menu-dashboard-left';
 import {connect} from 'react-redux';
 import {Link, Redirect} from 'react-router-dom';
+import Confirm from 'react-confirm-bootstrap';
 
-import {fetchGuiasByUser, fetchGuiasByAdm} from '../../../actions/guia';
+import {fetchMe} from '../../../actions/user';
+import {fetchGuiasByUser, fetchGuiasByAdm, deleteGuia} from '../../../actions/guia';
 
 class DashboardGuia extends Component{
 
@@ -19,6 +21,7 @@ class DashboardGuia extends Component{
 
         if(user !== null){
             this.setState({userLogged:true})
+            this.props.fetchMe();
             if(user.user.role.name == 'Administrator'){
                 this.props.fetchGuiasByAdm(10);
                 
@@ -30,6 +33,10 @@ class DashboardGuia extends Component{
         else{
             this.setState({userLogged:false})
         }
+    }
+
+    deleteGuia(id) {
+        this.props.deleteGuia(id);
     }
 
     datePtBr(date){
@@ -54,7 +61,15 @@ class DashboardGuia extends Component{
                         <td className="table-information">
                             <Link to={'/dashboard/guias/edit/' + guia._id}  ><i className="fa fa-pencil" title="edit"></i></Link>  
                             <Link to={'/guia/' + guia.slug}  ><i className="fa fa-eye" title="view"></i></Link>
-                            <Link to={'/dashboard/guias/delete/' + guia._id}  ><i className="fa fa-trash" title="delete"></i></Link>
+                            <a href="javascript: void(0)">
+                                <Confirm
+                                onConfirm={() => this.deleteGuia(guia._id)}
+                                body={`Tem certeza que deseja excluir o Guia '${guia.titulo}'?`}
+                                confirmText="Confirmar Exclusão"
+                                title="Exclusão de Guia">
+                                <i className="fa fa-trash" title="delete"></i>
+                                </Confirm>
+                            </a>
                         </td>
                     </tr>
                 )
@@ -73,7 +88,7 @@ class DashboardGuia extends Component{
             if(old_imagem_destacada.includes('.amazonaws'))
                 return old_imagem_destacada;
 
-            return old_imagem_destacada.replace('http://soumaisniteroi', 'http://engenhoca.soumaisniteroi');;
+            return old_imagem_destacada.replace('http://soumaisniteroi.com', 'http://images.soumaisniteroi.com');
         }
         else if(imagem_destacada){
             if(imagem_destacada.url){
@@ -90,6 +105,8 @@ class DashboardGuia extends Component{
 
     render(){
         if(this.state.userLogged === false){
+            localStorage.removeItem('user');
+
             return <Redirect to={'/'} />
         }
 
@@ -103,7 +120,7 @@ class DashboardGuia extends Component{
             <section>
                 <div className="tz">
                     {/* <!--LEFT SECTION--> */}
-                    <MenuDashboardLeft />
+                    <MenuDashboardLeft user={this.props.user}/>
                     
                     { /*!--CENTER SECTION--> */}
                     <div className="tz-2">
@@ -151,4 +168,4 @@ function mapStateToProps(state){
     
 }
 
-export default connect(mapStateToProps, {fetchGuiasByUser, fetchGuiasByAdm})(DashboardGuia);
+export default connect(mapStateToProps, { fetchMe, deleteGuia, fetchGuiasByUser, fetchGuiasByAdm})(DashboardGuia);

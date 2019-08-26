@@ -7,42 +7,43 @@ import promise from 'redux-promise';
 
 import reducers from './reducers';
 
-import Home from './components/home'
-import Header from './components/header'
-import Footer from './components/footer'
-import PageItem from './components/modules/page-item'
-import CategoryOrItem from './components/modules/category-or-item'
-import NewsItem from './components/modules/news-item'
-import BlogList from './components/modules/blog-list'
+import Home from './components/home';
+import Header from './components/header';
+import Footer from './components/footer';
+import PageItem from './components/modules/page-item';
+import CategoryOrItem from './components/modules/category-or-item';
+import NewsItem from './components/modules/news-item';
+import BlogList from './components/modules/blog-list';
 //import ListingItem from './components/modules/listing-item'
-import EventItem from './components/modules/event-item'
-import ListingList from './components/modules/listing-list'
-import TagList from './components/modules/tag-list'
-import SearchList from './components/modules/search-list'
+import EventItem from './components/modules/event-item';
+import ListingList from './components/modules/listing-list';
+import TagList from './components/modules/tag-list';
+import SearchList from './components/modules/search-list';
 
-import ListingGrid from './components/modules/listing-grid'
-//import Gallery from './components/modules/gallery'
-import Contact from './components/modules/contact'
-import Login from './components/modules/login'
-import Connect from './components/modules/connect'
-import Register from './components/modules/register'
+import ListingGrid from './components/modules/listing-grid';
+//import Gallery from './components/modules/gallery';
+import Contact from './components/modules/contact';
+import Login from './components/modules/login';
+import Connect from './components/modules/connect';
+import Register from './components/modules/register';
 
-import Dashboard from './components/dashboard/dashboard'
-import DashboardGuia from './components/dashboard/guia/guia'
-import DashboardGuiaNew from './components/dashboard/guia/new'
-import DashboardGuiaEdit from './components/dashboard/guia/edit'
+import Dashboard from './components/dashboard/dashboard';
+import Profile from './components/dashboard/profile';
+import DashboardGuia from './components/dashboard/guia/guia';
+import DashboardGuiaNew from './components/dashboard/guia/new';
+import DashboardGuiaEdit from './components/dashboard/guia/edit';
 
-import DashboardEvento from './components/dashboard/evento/evento'
-import DashboardEventoNew from './components/dashboard/evento/new'
-import DashboardEventoEdit from './components/dashboard/evento/edit'
+import DashboardEvento from './components/dashboard/evento/evento';
+import DashboardEventoNew from './components/dashboard/evento/new';
+import DashboardEventoEdit from './components/dashboard/evento/edit';
 
-import DashboardNoticia from './components/dashboard/noticia/noticia'
-import DashboardNoticiaNew from './components/dashboard/noticia/new'
-import DashboardNoticiaEdit from './components/dashboard/noticia/edit'
+import DashboardNoticia from './components/dashboard/noticia/noticia';
+import DashboardNoticiaNew from './components/dashboard/noticia/new';
+import DashboardNoticiaEdit from './components/dashboard/noticia/edit';
 
 
-import BairroGrid from './components/modules/bairro-grid'
-import NotFound from './components/not-found'
+import BairroGrid from './components/modules/bairro-grid';
+import NotFound from './components/not-found';
 
 
 /* Importing css */
@@ -160,6 +161,7 @@ class App extends Component {
                                 <Redirect from="/guia_comercial_category/:slug/" to="/guia/comercial/:slug/" state={ { status: 301 } } />
                                 
                                 <Route exact path="/dashboard" component={Dashboard} />
+                                <Route exact path="/dashboard/profile" component={Profile} />
                                 <Route exact path="/dashboard/guias" component={DashboardGuia} />
                                 <Route exact path="/dashboard/guias/novo" component={DashboardGuiaNew} />
                                 <Route exact path="/dashboard/guias/edit/:id" component={DashboardGuiaEdit} />

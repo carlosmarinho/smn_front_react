@@ -8,20 +8,11 @@ import {absence, url, email} from 'redux-form-validators';
 import DatePicker from "react-datepicker";
 import { createTextMask } from 'redux-form-input-masks';
 
-
-import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
-import "react-tabs/style/react-tabs.css";
-
-
+import {fetchMe} from '../../../actions/user';
 import { fetchCategories } from '../../../actions/categoria';
 import { fetchTags } from '../../../actions/tag';
 import { fetchCities } from '../../../actions/city';
 import { fetchBairros } from '../../../actions/bairro';
-import { SUCCESS_CREATE_EVENTO } from '../../../actions/types';
-
-
-import DropdownList from 'react-widgets/lib/DropdownList'
-import SelectList from 'react-widgets/lib/SelectList'
 import Multiselect from 'react-widgets/lib/Multiselect'
 
 import 'react-widgets/dist/css/react-widgets.css'
@@ -94,7 +85,8 @@ class EventoNew extends Component{
 		let user = JSON.parse(localStorage.getItem('user'));
 		
         if(user !== null){
-			this.setState({userLogged:true})
+			this.setState({userLogged:true});
+			this.props.fetchMe();
 			this.props.fetchCategories('evento comercial', 250, 'parent_id');
 			this.props.fetchTags();
 			this.props.fetchCities();
@@ -142,7 +134,7 @@ class EventoNew extends Component{
             if(old_imagem_destacada.includes('.amazonaws'))
                 return old_imagem_destacada;
 
-            return old_imagem_destacada.replace('http://soumaisniteroi', 'http://engenhoca.soumaisniteroi');;
+				return old_imagem_destacada.replace('http://soumaisniteroi.com', 'http://images.soumaisniteroi.com');
         }
         else if(imagem_destacada){
             if(imagem_destacada.url){
@@ -223,7 +215,7 @@ class EventoNew extends Component{
 				{ <Field {...input} style={{display:'block',paddingTop:'0px', paddingBottom:'0px', height:(field.multiple)?'90px':'40px'}}  
 					component="select" className="native" native="true" multiple={(field.multiple)?'multiple':''} disabled={field.disabled}>
 					
-					{(!field.multiple)?<option>{label}</option>:''}
+					{(!field.multiple)?<option value="">{label}</option>:''}
 					{(field.options)?field.options.map((option, key) => {
 						if(_.isObject(option)){
 							if(option._id && option.nome){
@@ -279,7 +271,6 @@ class EventoNew extends Component{
 	}
 	
 	showMessage(){
-		console.log("no show message: ", this.props.message);
         if(this.props.message){
             if(this.props.message.error && this.props.message.error.evento){
                 return(
@@ -315,7 +306,7 @@ class EventoNew extends Component{
 		}
 
 		let bairros = [];
-		if(this.props.tags){
+		if(this.props.bairros){
 			bairros = this.props.bairros;
 		}
 
@@ -534,7 +525,7 @@ class EventoNew extends Component{
 		}
 
 		let bairros = [];
-		if(this.props.tags){
+		if(this.props.bairros){
 			bairros = this.props.bairros;
 		}
 		const { pristine, reset, submitting, handleSubmit } = this.props
@@ -545,7 +536,7 @@ class EventoNew extends Component{
             <section>
                 <div className="tz">
                     {/* <!--LEFT SECTION--> */}
-                    <MenuDashboardLeft />
+                    <MenuDashboardLeft user={this.props.user}/>
                     
                     { /*!--CENTER SECTION--> */}
                    
@@ -574,7 +565,7 @@ class EventoNew extends Component{
 
 
 function mapStateToProps(state){
-    return(
+	return(
         {
             user: state.users,
 			eventos: state.eventos,
@@ -588,7 +579,7 @@ function mapStateToProps(state){
     
 }
 
-const Connect = connect(mapStateToProps, {createEvento, fetchCategories, fetchTags, fetchCities, fetchBairros})(EventoNew);
+const Connect = connect(mapStateToProps, {fetchMe, createEvento, fetchCategories, fetchTags, fetchCities, fetchBairros})(EventoNew);
 
 export default reduxForm({
 	form: 'editEvento',

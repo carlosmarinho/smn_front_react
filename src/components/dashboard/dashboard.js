@@ -6,10 +6,10 @@ import {Link, Redirect} from 'react-router-dom';
 import Confirm from 'react-confirm-bootstrap';
 
 
-
+import {fetchMe} from '../../actions/user';
 import {fetchGuiasByUser, fetchGuiasByAdm, deleteGuia} from '../../actions/guia';
-import {fetchEventosByUser, fetchEventosByAdm} from '../../actions/evento';
-import {fetchNoticiasByUser, fetchNoticiasByAdm} from '../../actions/noticia';
+import {fetchEventosByUser, fetchEventosByAdm, deleteEvento} from '../../actions/evento';
+import {fetchNoticiasByUser, fetchNoticiasByAdm, deleteNoticia} from '../../actions/noticia';
 
 
 class Dashboard extends Component{
@@ -25,6 +25,7 @@ class Dashboard extends Component{
 
         if(user !== null){
             this.setState({userLogged:true})
+            this.props.fetchMe();
             if(user.user.role.name == 'Administrator'){
                 this.props.fetchGuiasByAdm(7);
                 this.props.fetchEventosByAdm(7);
@@ -48,8 +49,15 @@ class Dashboard extends Component{
     }
 
     deleteGuia(id) {
-        console.log("id: ", id)
         this.props.deleteGuia(id);
+    }
+
+    deleteEvento(id) {
+        this.props.deleteEvento(id);
+    }
+
+    deleteNoticia(id) {
+        this.props.deleteNoticia(id);
     }
 
     showGuias(){
@@ -70,9 +78,9 @@ class Dashboard extends Component{
                             <Link to={'/guia/' + guia.slug}  ><i className="fa fa-eye" title="view"></i></Link>
                             <a href="javascript: void(0)"><Confirm
                                 onConfirm={() => this.deleteGuia(guia._id)}
-                                body="Are you sure you want to delete this?"
-                                confirmText="Confirm Delete"
-                                title="Deleting Stuff">
+                                body={`Tem certeza que deseja excluir o Guia '${guia.titulo}'?`}
+                                confirmText="Confirmar Exclusão"
+                                title="Exclusão de Guia">
                                 <i className="fa fa-trash" title="delete"></i>
                             </Confirm></a>
                         </td>
@@ -100,7 +108,15 @@ class Dashboard extends Component{
                         <td className="table-information">
                             <Link to={'/dashboard/eventos/edit/' + evento._id}  ><i className="fa fa-pencil" title="edit"></i></Link>  
                             <Link to={'/eventos/' + evento.slug}  ><i className="fa fa-eye" title="view"></i></Link>
-                            <Link to={'/dashboard/eventos/delete/' + evento._id}  ><i className="fa fa-trash" title="delete"></i></Link>
+                            <a href="javascript: void(0)">
+                                <Confirm
+                                    onConfirm={() => this.deleteEvento(evento._id)}
+                                    body={`Tem certeza que deseja excluir o Evento '${evento.titulo}'?`}
+                                    confirmText="Confirmar exclusão"
+                                    title="Exclusão de Evento">
+                                    <i className="fa fa-trash" title="delete"></i>
+                                </Confirm>
+                            </a>  
                         </td>
                     </tr>
                 )
@@ -119,7 +135,7 @@ class Dashboard extends Component{
             if(old_imagem_destacada.includes('.amazonaws'))
                 return old_imagem_destacada;
 
-            return old_imagem_destacada.replace('http://soumaisniteroi', 'http://engenhoca.soumaisniteroi');;
+            return old_imagem_destacada.replace('http://soumaisniteroi.com', 'http://images.soumaisniteroi.com');
         }
         else if(imagem_destacada){
             if(imagem_destacada.url){
@@ -132,9 +148,6 @@ class Dashboard extends Component{
         return "http://images.soumaisniteroi.com.br/wp-content/uploads/2015/04/no-image.png";
     }
 
-    deleteNew(id) {
-        console.log("id: ", id)
-    }
 
     showNoticias(){
         let truncate = _.truncate;
@@ -149,7 +162,13 @@ class Dashboard extends Component{
                         <div className="hid-msg">
                             <Link to={'/dashboard/noticias/edit/' + noticia._id}  ><i className="fa fa-pencil" title="edit"></i></Link> 
                             <Link to={'/noticias/' + noticia.slug}  ><i className="fa fa-eye" title="view"></i></Link>
-                            <a href="javascript: void(0)" onClick={() => this.deleteNew(noticia._id)}  ><i className="fa fa-trash" title="delete"></i></a>
+                            <a href="javascript: void(0)"><Confirm
+                                onConfirm={() => this.deleteNoticia(noticia._id)}
+                                body={`Tem certeza que deseja excluir a notícia '${noticia.titulo}'?`}
+                                confirmText="Confirmar Exclusão"
+                                title="Exclusão de Notícia">
+                                <i className="fa fa-trash" title="delete"></i>
+                            </Confirm></a>
                         </div>
                     </li>
                 )
@@ -159,8 +178,14 @@ class Dashboard extends Component{
     }
 
     render(){
+        console.log("this.props.user", this.props.user);
+        if(this.props.user && this.props.user.token && this.props.user.token == 'invalid')
+            this.setState({userLogged: false});
+
         if(this.state.userLogged === false){
-            return <Redirect to={'/'} />
+            localStorage.removeItem('user');
+
+            return <Redirect to={'/login'} />
         }
 
         let totalGuias = 0;
@@ -191,12 +216,12 @@ class Dashboard extends Component{
                 totalNoticias = this.props.noticias.fromUser.length;
         }
 
-
+        console.log("no dashhhhhhhhhhhhhhhhhhhhhhh: ", this.props.user);
         return(
             <section>
                 <div className="tz">
                     {/* <!--LEFT SECTION--> */}
-                    <MenuDashboardLeft />
+                    <MenuDashboardLeft user={this.props.user} />
                     
                     { /*!--CENTER SECTION--> */}
                     <div className="tz-2">
@@ -382,6 +407,7 @@ class Dashboard extends Component{
 
 
 function mapStateToProps(state){
+    console.log("stattte no props: ", state)
     return(
         {
             user: state.users,
@@ -393,4 +419,4 @@ function mapStateToProps(state){
     
 }
 
-export default connect(mapStateToProps, {deleteGuia, fetchGuiasByUser, fetchGuiasByAdm, fetchEventosByUser, fetchEventosByAdm, fetchNoticiasByUser, fetchNoticiasByAdm})(Dashboard);
+export default connect(mapStateToProps, {fetchMe, deleteGuia, deleteEvento, deleteNoticia, fetchGuiasByUser, fetchGuiasByAdm, fetchEventosByUser, fetchEventosByAdm, fetchNoticiasByUser, fetchNoticiasByAdm})(Dashboard);

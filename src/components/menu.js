@@ -162,7 +162,6 @@ class Menu extends Component {
                                 <li><a href="#" className="waves-effect"><i className="fa fa-calendar" aria-hidden="true"></i> Meus Eventos</a> </li>
                                 <li><a href="#" className="waves-effect"><i className="fa fa-rss" aria-hidden="true"></i> Minhas Notícias</a> </li>
                                 <li className="divider"></li>
-                                <li><Link to="/cadastro" className="ho-dr-con-last waves-effect"><i className="fa fa-sign-in" aria-hidden="true"></i> Login p teste</Link> </li>
                                 <li><Link to="/" onClick={(e) => this.loggout(e)} className="ho-dr-con-last waves-effect"><i className="fa fa-sign-in" aria-hidden="true"></i> Logout</Link> </li>
                             </ul> 
                         </div>

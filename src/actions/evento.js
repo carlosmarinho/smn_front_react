@@ -56,9 +56,7 @@ export const createEvento = async (evento) => {
                         
                         form.append(key, value);
                     })
-                    
-                    console.log("imagem destacada: ", imagem_destacada, '----', form);
-    
+                        
                     //let config1 = { headers: { 'Authorization': `Bearer ${jwt}`, 'Content-Type': 'multipart/form-data' } };
                     let request_img = await axios.post(`${process.env.REACT_APP_URL_API}upload/`, form, config);
                 }
@@ -121,7 +119,6 @@ export const editEvento = async (evento, id) => {
                 //new FormData(evento)
     
                 if(evento.imagem_principal){
-                    console.log("imagem destacada: ", evento.imagem_principal[0])
                     let imagem_destacada = {    
                         "files": evento.imagem_principal[0], // Buffer or stream of file(s)
                         "path": "evento/destacada", // Uploading folder of file(s).
@@ -142,7 +139,6 @@ export const editEvento = async (evento, id) => {
                         form.append(key, value);
                     })
                     
-                    console.log("imagem destacada: ", imagem_destacada, '----', form);
     
                     //let config1 = { headers: { 'Authorization': `Bearer ${jwt}`, 'Content-Type': 'multipart/form-data' } };
                     let request_img = await axios.post(`${process.env.REACT_APP_URL_API}upload/`, form, config);
@@ -213,7 +209,7 @@ export const fetchEventoBySlug = async (slug) => {
 
     const request = axios.get(`${process.env.REACT_APP_URL_API}eventos/?slug=${slug}`, config); */
 
-    const request = axios.get(`${process.env.REACT_APP_URL_API}eventos/?slug=${slug}`);
+    const request = axios.get(`${process.env.REACT_APP_URL_API}eventos/?approved=true&slug=${slug}`);
 
     return {
         type: FETCH_EVENTO,
@@ -224,7 +220,7 @@ export const fetchEventoBySlug = async (slug) => {
 
 export const fetchEventos = async(id, limit=200) => {
 
-    const request = axios.get(`${process.env.REACT_APP_URL_API}eventos/?_sort=_id:desc&_limit=${limit}`);
+    const request = axios.get(`${process.env.REACT_APP_URL_API}eventos/?approved=true&_sort=_id:desc&_limit=${limit}`);
 
     return {
         type: FETCH_EVENTOS,
@@ -283,7 +279,7 @@ export const fetchEventosByTag = async(tag='', limit='', sort=null) => {
     let tags = '';
     let req;
     if(tag){
-        req = await axios.get(`${process.env.REACT_APP_URL_API}tag/?slug=${tag}`);
+        req = await axios.get(`${process.env.REACT_APP_URL_API}tag/?approved=true&slug=${tag}`);
 
         if(req.data.length > 0){
             console.log("request do tag: ", req.data);
@@ -294,7 +290,7 @@ export const fetchEventosByTag = async(tag='', limit='', sort=null) => {
 
     if(tags !== '')
     {
-        const request = await axios.get(`${process.env.REACT_APP_URL_API}eventos/?${tags}&_sort=${sort}${limit}`);
+        const request = await axios.get(`${process.env.REACT_APP_URL_API}eventos/?approved=true&${tags}&_sort=${sort}${limit}`);
         request.tag = req.data[0];
         return {
             type: FETCH_EVENTOS,
@@ -322,7 +318,7 @@ export const fetchEventosBySearch = async(search='', limit='', sort=null) => {
     let bairros = '';
     let req;
     if(search.bairro){
-        req = await axios.get(`${process.env.REACT_APP_URL_API}bairro/?slug=${search.bairro}`);
+        req = await axios.get(`${process.env.REACT_APP_URL_API}bairro/?approved=true&slug=${search.bairro}`);
 
         if(req.data.length > 0){
             console.log("request do tag: ", req.data);
@@ -344,7 +340,7 @@ export const fetchEventosBySearch = async(search='', limit='', sort=null) => {
     }
 
 
-    const request = await axios.get(`${process.env.REACT_APP_URL_API}eventos/?${bairros}${keyword}&_sort=${sort}${limit}`);
+    const request = await axios.get(`${process.env.REACT_APP_URL_API}eventos/?approved=true&${bairros}${keyword}&_sort=${sort}${limit}`);
     
     return {
         type: FETCH_EVENTOS,
@@ -375,7 +371,7 @@ export const fetchEventosByCategory = async(category='', limit='', sort=null) =>
 
     if(categoria !== '')
     {
-        const request = await axios.get(`${process.env.REACT_APP_URL_API}eventos/?${categoria}&_sort=${sort}${limit}`);
+        const request = await axios.get(`${process.env.REACT_APP_URL_API}eventos/?approved=true&${categoria}&_sort=${sort}${limit}`);
         request.categoria = req.data[0];
         return {
             type: FETCH_EVENTOS,
@@ -392,7 +388,7 @@ export const fetchEventosByCategory = async(category='', limit='', sort=null) =>
 
 export const fetchEventosRecentes = async(id, limit=5) => {
 
-    const request = axios.get(`${process.env.REACT_APP_URL_API}eventos/?_sort=_id:desc&_limit=${limit}`);
+    const request = axios.get(`${process.env.REACT_APP_URL_API}eventos/?approved=true&_sort=_id:desc&_limit=${limit}`);
 
     return {
         type: FETCH_EVENTOS_RECENTES,
@@ -409,7 +405,7 @@ export const deleteEvento = async (id) => {
         if(request.statusText == 'OK'){
             return {
                 type: DELETE_EVENTO,
-                payload: []
+                payload: id
             }
         }
 

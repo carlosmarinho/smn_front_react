@@ -1,4 +1,4 @@
-import { FETCH_USER, CREATE_USER, EDIT_USER, LOGIN_USER } from "../actions/types";
+import { FETCH_ME, FETCH_USER, CREATE_USER, EDIT_USER, LOGIN_USER } from "../actions/types";
 
 export default function(state = null, action) {
 
@@ -8,6 +8,9 @@ export default function(state = null, action) {
             return action.payload;
         case EDIT_USER:
             return action.payload;
+        case FETCH_ME:
+            console.log("action.payload data", state);
+            return (action.payload.data)? action.payload.data : action.payload;  
         case FETCH_USER:
             return action.payload.data;
         case LOGIN_USER:

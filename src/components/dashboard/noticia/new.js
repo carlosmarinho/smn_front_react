@@ -7,7 +7,7 @@ import {Link, Redirect} from 'react-router-dom';
 import {absence, url, email} from 'redux-form-validators';
 import DatePicker from "react-datepicker";
 
-
+import { fetchMe } from '../../../actions/user';
 import { fetchCategories } from '../../../actions/categoria';
 import { fetchTags } from '../../../actions/tag';
 import { fetchCities } from '../../../actions/city';
@@ -84,7 +84,7 @@ class NoticiaNew extends Component{
 		
         if(user !== null){
 			this.setState({userLogged:true})
-			
+			this.props.fetchMe();
             // if(user.user.role.name == 'Administrator'){
 				//     this.props.fetchNoticiasByAdm(7);
                 
@@ -128,7 +128,7 @@ class NoticiaNew extends Component{
             if(old_imagem_destacada.includes('.amazonaws'))
                 return old_imagem_destacada;
 
-            return old_imagem_destacada.replace('http://soumaisniteroi', 'http://engenhoca.soumaisniteroi');;
+			return old_imagem_destacada.replace('http://soumaisniteroi.com', 'http://images.soumaisniteroi.com');
         }
         else if(imagem_destacada){
             if(imagem_destacada.url){
@@ -209,7 +209,7 @@ class NoticiaNew extends Component{
 				{ <Field {...input} style={{display:'block',paddingTop:'0px', paddingBottom:'0px', height:(field.multiple)?'90px':'40px'}}  
 					component="select" className="native" native="true" multiple={(field.multiple)?'multiple':''} disabled={field.disabled}>
 					
-					{(!field.multiple)?<option>{label}</option>:''}
+					{(!field.multiple)?<option value="">{label}</option>:''}
 					{(field.options)?field.options.map((option, key) => {
 						if(_.isObject(option)){
 							if(option._id && option.nome){
@@ -265,7 +265,6 @@ class NoticiaNew extends Component{
 	}
 	
 	showMessage(){
-		console.log("no show message: ", this.props.message);
         if(this.props.message){
             if(this.props.message.error && this.props.message.error.noticia){
                 return(
@@ -402,7 +401,7 @@ class NoticiaNew extends Component{
 		}
 
 		let bairros = [];
-		if(this.props.tags){
+		if(this.props.bairros){
 			bairros = this.props.bairros;
 		}
 		const { pristine, reset, submitting, handleSubmit } = this.props
@@ -413,7 +412,7 @@ class NoticiaNew extends Component{
             <section>
                 <div className="tz">
                     {/* <!--LEFT SECTION--> */}
-                    <MenuDashboardLeft />
+                    <MenuDashboardLeft user={this.props.user}/>
                     
                     { /*!--CENTER SECTION--> */}
                    
@@ -442,6 +441,7 @@ class NoticiaNew extends Component{
 
 
 function mapStateToProps(state){
+	console.log("stateeeee: ", state);
     return(
         {
             user: state.users,
@@ -456,7 +456,7 @@ function mapStateToProps(state){
     
 }
 
-const Connect = connect(mapStateToProps, {createNoticia, fetchCategories, fetchTags, fetchCities, fetchBairros})(NoticiaNew);
+const Connect = connect(mapStateToProps, {fetchMe, createNoticia, fetchCategories, fetchTags, fetchCities, fetchBairros})(NoticiaNew);
 
 export default reduxForm({
 	form: 'editNoticia',
