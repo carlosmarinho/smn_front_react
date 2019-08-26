@@ -54,8 +54,6 @@ class ListingList extends Component {
 
     componentWillReceiveProps(nextProps) {
 
-        console.log("next props aqui: ", nextProps);
-
         if(nextProps.match && nextProps.match.params.slug){
             let search = '';
             if(nextProps.type){

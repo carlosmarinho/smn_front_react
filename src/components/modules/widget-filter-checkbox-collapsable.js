@@ -1,8 +1,15 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import {Collapsible, CollapsibleItem} from 'react-materialize';
+
+import { fetchGuiasByCategoryId } from '../../actions/guia';
 
 
 class WidgetFilterCheckboxCollapsable extends Component {
+
+    state = {
+        checked: [],
+    }
 
     getImageSrc(object){
         if(object) {
@@ -30,14 +37,19 @@ class WidgetFilterCheckboxCollapsable extends Component {
         }
     }
 
+    filterObject(e){
+        this.props.fetchGuiasByCategoryId(e.target.value)
+        //this.setState({checked: [...this.state.checked, e.target.value]})
+        //console.log("aqui no filter object: ", this.state.checked);
+    }
 
     generateWidget(objects) {
         if(objects.length>0){
             return objects.map((object, ind) => {
                 return (
                     <li key={ind}>
-                        <input type="checkbox" id={`filter-check-collap-${object.id}`} />
-                        <label htmlFor={`filter-collap-check-${object.id}`}>{object.nome}</label>
+                        <input type="checkbox" value={object.id} id={`filter-check-collap-${object.id}`} onChange={e => this.filterObject(e)} />
+                        <label htmlFor={`filter-check-collap-${object.id}`} >{object.nome}</label>
                     </li>
                 )
             })
@@ -68,4 +80,10 @@ class WidgetFilterCheckboxCollapsable extends Component {
     }
 }
 
-export default WidgetFilterCheckboxCollapsable;
+const mapStateToProps = (state) => {
+    return{
+        guias: state.guias
+    }
+}
+
+export default connect(mapStateToProps, { fetchGuiasByCategoryId })(WidgetFilterCheckboxCollapsable);

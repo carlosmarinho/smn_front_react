@@ -427,8 +427,8 @@ export const fetchGuiasByCategoryBoth = async(category='', limit='', sort=null) 
 
     if(categoria !== '')
     {
-        let request = await axios.get(`${process.env.REACT_APP_URL_API}guias/?${categoria}&approved=true&_sort=${sort}${limit}`);
-        const request1 = await axios.get(`${process.env.REACT_APP_URL_API}guias/?${categoriaServico}&approved=true&_sort=${sort}${limit}`);
+        let request = await axios.get(`${process.env.REACT_APP_URL_API}guias/?approved=true&${categoria}_sort=${sort}${limit}`);
+        const request1 = await axios.get(`${process.env.REACT_APP_URL_API}guias/?approved=true&${categoriaServico}&_sort=${sort}${limit}`);
         console.log("O request: ", request);
         request.categoria = req.data[0];
         request.data = [...request.data, ...request1.data];
@@ -517,6 +517,25 @@ export const fetchGuiasByCategoryServico = async(category='', limit='', sort=nul
             payload: []
         }
     }
+}
+
+export const fetchGuiasByCategoryId = async(category='', limit='', sort=null) => {
+    if(!sort)
+        sort = '_id:desc';
+
+    if(limit)
+        limit = `&_limit=${limit}`;
+    else
+        limit = `&_limit=500`;
+
+    
+    const request = await axios.get(`${process.env.REACT_APP_URL_API}guias/?categorias=${category}&approved=true&_sort=${sort}${limit}`);
+    console.log("request do novo fetch guias by id", request.data)
+    return {
+        type: FETCH_GUIAS,
+        payload: request
+    }
+   
 }
 
 export const fetchGuiasByCategory = async(category='', limit='', sort=null) => {
