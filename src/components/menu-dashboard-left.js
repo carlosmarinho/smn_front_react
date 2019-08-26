@@ -7,7 +7,6 @@ class MenuDashboardLeft extends Component{
     
 
     getImageSrc(){
-        console.log("prorrrrPs: ", this.props);
         const { user } = this.props;
 
         if(user && user.imagem_perfil){

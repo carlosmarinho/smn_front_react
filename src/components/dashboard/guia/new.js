@@ -234,6 +234,9 @@ class GuiaNew extends Component{
 	}
 
 	setCategoryParentName(categories){
+		if(! categories)
+			return null;
+			
 		let newCat = categories.map(category => {
 			if(category.parent_id && category.parent_id !== null){
 				let pai = categories.filter(catFilter =>{
@@ -260,7 +263,6 @@ class GuiaNew extends Component{
 	}
 	
 	showMessage(){
-		console.log("no show message: ", this.props.message);
         if(this.props.message){
             if(this.props.message.error && this.props.message.error.guia){
                 return(

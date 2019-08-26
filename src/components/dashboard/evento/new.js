@@ -271,7 +271,6 @@ class EventoNew extends Component{
 	}
 	
 	showMessage(){
-		console.log("no show message: ", this.props.message);
         if(this.props.message){
             if(this.props.message.error && this.props.message.error.evento){
                 return(
