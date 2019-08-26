@@ -36,8 +36,8 @@ class WidgetFilterCheckboxCollapsable extends Component {
             return objects.map((object, ind) => {
                 return (
                     <li key={ind}>
-                        <input type="checkbox" id="scf1" />
-                        <label htmlFor="scf1">{object.nome}</label>
+                        <input type="checkbox" id={`filter-check-collap-${object.id}`} />
+                        <label htmlFor={`filter-collap-check-${object.id}`}>{object.nome}</label>
                     </li>
                 )
             })

@@ -37,8 +37,8 @@ class WidgetFilterRadioCollapsable extends Component {
             return objects.map((object, ind) => {
                 return (
                     <li key={ind}>
-                        <input className="with-gap" name="group1" type="radio" id="ldis1" />
-                        <label htmlFor="ldis1">{object.nome}</label>
+                        <input className="with-gap" name="group1" type="radio" id={`filter-radio-coolla-${object.id}`} />
+                        <label htmlFor={`filter-radio-colla-${object.id}`}>{object.nome}</label>
                     </li>
                 )
             })
