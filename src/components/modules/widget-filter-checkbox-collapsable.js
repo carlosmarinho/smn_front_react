@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import {Collapsible, CollapsibleItem} from 'react-materialize';
 
-import { fetchGuiasByCategoryId } from '../../actions/guia';
+import { fetchGuias, fetchGuiasByCategoryId } from '../../actions/guia';
 
 
 class WidgetFilterCheckboxCollapsable extends Component {
@@ -38,9 +38,20 @@ class WidgetFilterCheckboxCollapsable extends Component {
     }
 
     filterObject(e){
-        this.props.fetchGuiasByCategoryId(e.target.value)
+        if(! this.state.checked.includes(e.target.value)) {
+            this.setState({checked: [...this.state.checked, e.target.value]});
+            this.props.fetchGuiasByCategoryId(e.target.value);
+        }
+
+        else{
+            this.setState({
+                checked: this.state.checked.filter(item => item != e.target.value)
+            })
+            //@todo buscar array de guias e não uma só
+            this.props.fetchGuias('5ba26f813a018f42215a36a0');
+        }
         //this.setState({checked: [...this.state.checked, e.target.value]})
-        //console.log("aqui no filter object: ", this.state.checked);
+        console.log("aqui no filter object: ", this.state.checked);
     }
 
     generateWidget(objects) {
@@ -86,4 +97,4 @@ const mapStateToProps = (state) => {
     }
 }
 
-export default connect(mapStateToProps, { fetchGuiasByCategoryId })(WidgetFilterCheckboxCollapsable);
+export default connect(mapStateToProps, { fetchGuias, fetchGuiasByCategoryId })(WidgetFilterCheckboxCollapsable);
