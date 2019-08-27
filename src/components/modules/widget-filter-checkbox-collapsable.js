@@ -3,6 +3,8 @@ import { connect } from 'react-redux';
 import {Collapsible, CollapsibleItem} from 'react-materialize';
 
 import { fetchGuias, fetchGuiasByCategoryId } from '../../actions/guia';
+import { fetchEventos, fetchEventosByCategoryId } from '../../actions/evento';
+import { stat } from 'fs';
 
 
 class WidgetFilterCheckboxCollapsable extends Component {
@@ -37,21 +39,47 @@ class WidgetFilterCheckboxCollapsable extends Component {
         }
     }
 
-    filterObject(e){
-        if(! this.state.checked.includes(e.target.value)) {
-            this.setState({checked: [...this.state.checked, e.target.value]});
-            this.props.fetchGuiasByCategoryId(e.target.value);
+    filterGuia(id){
+        if(! this.state.checked.includes(id)) {
+            this.setState({checked: [...this.state.checked, id]});
+            this.props.fetchGuiasByCategoryId(id);
         }
-
+    
         else{
             this.setState({
-                checked: this.state.checked.filter(item => item != e.target.value)
+                checked: this.state.checked.filter(item => item != id)
             })
             //@todo buscar array de guias e não uma só
             this.props.fetchGuias('5ba26f813a018f42215a36a0');
         }
         //this.setState({checked: [...this.state.checked, e.target.value]})
-        console.log("aqui no filter object: ", this.state.checked);
+        console.log("aquiaaaa no filter object: ", this.state.checked);
+    }
+
+    filterEvento(id){
+        if(! this.state.checked.includes(id)) {
+            this.setState({checked: [...this.state.checked, id]});
+            this.props.fetchEventosByCategoryId(id);
+        }
+    
+        else{
+            this.setState({
+                checked: this.state.checked.filter(item => item != id)
+            })
+            //@todo buscar array de guias e não uma só
+            this.props.fetchEventos('5ba26f813a018f42215a36a0');
+        }
+        //this.setState({checked: [...this.state.checked, e.target.value]})
+        console.log("aquiaaaa no filter object: ", this.state.checked);
+    }
+
+    filterObject(e){
+        switch(this.props.type){
+            case 'guia':
+                this.filterGuia(e.target.value)
+            case 'evento':
+                this.filterEvento(e.target.value)
+        }
     }
 
     generateWidget(objects) {
@@ -59,7 +87,12 @@ class WidgetFilterCheckboxCollapsable extends Component {
             return objects.map((object, ind) => {
                 return (
                     <li key={ind}>
-                        <input type="checkbox" value={object.id} id={`filter-check-collap-${object.id}`} onChange={e => this.filterObject(e)} />
+                        <input 
+                            type="checkbox" 
+                            value={object.id} 
+                            id={`filter-check-collap-${object.id}`} 
+                            onChange={e => this.filterObject(e)} 
+                        />
                         <label htmlFor={`filter-check-collap-${object.id}`} >{object.nome}</label>
                     </li>
                 )
@@ -93,8 +126,17 @@ class WidgetFilterCheckboxCollapsable extends Component {
 
 const mapStateToProps = (state) => {
     return{
-        guias: state.guias
+        guias: state.guias,
+        eventos: state.eventos
     }
 }
 
-export default connect(mapStateToProps, { fetchGuias, fetchGuiasByCategoryId })(WidgetFilterCheckboxCollapsable);
+export default connect(
+    mapStateToProps, 
+    { 
+        fetchGuias, 
+        fetchGuiasByCategoryId,
+        fetchEventos, 
+        fetchEventosByCategoryId  
+    }
+)(WidgetFilterCheckboxCollapsable);

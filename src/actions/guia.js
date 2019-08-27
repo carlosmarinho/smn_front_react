@@ -519,6 +519,25 @@ export const fetchGuiasByCategoryServico = async(category='', limit='', sort=nul
     }
 }
 
+export const fetchGuiasByBairroId = async(bairro='', limit='', sort=null) => {
+    if(!sort)
+        sort = '_id:desc';
+
+    if(limit)
+        limit = `&_limit=${limit}`;
+    else
+        limit = `&_limit=500`;
+
+    
+    const request = await axios.get(`${process.env.REACT_APP_URL_API}guias/?bairros=${bairro}&approved=true&_sort=${sort}${limit}`);
+    console.log("request do novo fetch eventos by id", request.data)
+    return {
+        type: FETCH_GUIAS,
+        payload: request
+    }
+
+}
+
 export const fetchGuiasByCategoryId = async(category='', limit='', sort=null) => {
     if(!sort)
         sort = '_id:desc';

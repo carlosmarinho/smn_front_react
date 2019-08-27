@@ -46,7 +46,7 @@ class ListingList extends Component {
         }
  */
         this.props.fetchCategoriesGuiaTop();
-        this.props.fetchBairros('5ba26f813a018f42215a36a0');
+        this.props.fetchBairros('5ba26f813a018f42215a36a0', 50, 'nome:asc');
 
         //this.setState({data: this.props.guias.list, pageCount: Math.ceil(  this.props.guias.list.lenght / evento)});
     }
@@ -103,7 +103,6 @@ class ListingList extends Component {
         }
         else{
             if(this.state.slug !== '/'){
-                console.log("caiu aqui nesse page:::: ", nextProps)
                 let search = '';
                 if(nextProps.type){
                     search = `tipo=${nextProps.type}`
@@ -366,7 +365,7 @@ class ListingList extends Component {
                         </div>
                         <div className="row">
                             <div className="dir-alp-con">
-                                {(leftColumn)?<ListingLeftColumn objects={(this.props.guias)?this.props.guias.recentes:[]} categories={(this.props.categorias)?this.props.categorias.guia:[]} bairros={(this.props.bairros)?this.props.bairros:[]} />:''}
+                                {(leftColumn)?<ListingLeftColumn type="guia" objects={(this.props.guias)?this.props.guias.recentes:[]} categories={(this.props.categorias)?this.props.categorias.guia:[]} bairros={(this.props.bairros)?this.props.bairros:[]} />:''}
 
                                 <div className={(leftColumn)? 'col-md-9 dir-alp-con-right': 'col-md-12 dir-alp-con-right'}>
                                     <div className="dir-alp-con-right-1">

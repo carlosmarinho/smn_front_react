@@ -1,10 +1,19 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import {Collapsible, CollapsibleItem} from 'react-materialize';
+
+import { fetchGuias, fetchGuiasByCategoryId, fetchGuiasByBairroId } from '../../actions/guia';
+import { fetchEventos, fetchEventosByCategoryId, fetchEventosByBairroId } from '../../actions/evento';
 //@todo verify if this widget is still working with this line commented 
 //import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 
 
+
 class WidgetFilterRadioCollapsable extends Component {
+
+    state = {
+        checked: [],
+    }
 
     getImageSrc(object){
         if(object) {
@@ -37,13 +46,69 @@ class WidgetFilterRadioCollapsable extends Component {
             return objects.map((object, ind) => {
                 return (
                     <li key={ind}>
-                        <input className="with-gap" name="group1" type="radio" id={`filter-radio-colla-${object.id}`} />
+                        <input 
+                            className="with-gap" 
+                            name="filter-group" 
+                            type="radio" 
+                            value={object.id} 
+                            id={`filter-radio-colla-${object.id}`}
+                            onChange={e => this.filterObject(e)}  
+                        />
                         <label htmlFor={`filter-radio-colla-${object.id}`}>{object.nome}</label>
                     </li>
                 )
             })
         }
         
+    }
+
+    filterGuia(id, filterType){
+        if(! this.state.checked.includes(id)) {
+            this.setState({checked: [...this.state.checked, id]});
+            if(filterType == 'categoria')
+                this.props.fetchGuiasByCategoryId(id);
+            else if(filterType=='bairro')
+                this.props.fetchGuiasByBairroId(id);
+        }
+    
+        else{
+            this.setState({
+                checked: this.state.checked.filter(item => item != id)
+            })
+            //@todo buscar array de guias e não uma só
+            this.props.fetchGuias('5ba26f813a018f42215a36a0');
+        }
+        //this.setState({checked: [...this.state.checked, e.target.value]})
+        console.log("aquiaaaa no filter object: ", this.state.checked);
+    }
+
+    filterEvento(id, filterType){
+        if(! this.state.checked.includes(id)) {
+            this.setState({checked: [...this.state.checked, id]});
+            if(filterType == 'categoria')
+                this.props.fetchEventosByCategoryId(id);
+            else if(filterType=='bairro') 
+                this.props.fetchEventosByBairroId(id);
+        }else{
+            this.setState({
+                checked: this.state.checked.filter(item => item != id)
+            })
+            //@todo buscar array de guias e não uma só
+            
+            this.props.fetchEventos('5ba26f813a018f42215a36a0');
+        }
+        //this.setState({checked: [...this.state.checked, e.target.value]})
+        console.log("aquiaaaa no filter object: ", this.state.checked);
+    }
+
+    filterObject(e){
+        console.log("filterobject no radio: ", e);
+        switch(this.props.type){
+            case 'guia':
+                this.filterGuia(e.target.value, this.props.filterType)
+            case 'evento':
+                this.filterEvento(e.target.value, this.props.filterType)
+        }
     }
 
     render(){
@@ -69,4 +134,21 @@ class WidgetFilterRadioCollapsable extends Component {
     }
 }
 
-export default WidgetFilterRadioCollapsable;
+const mapStateToProps = (state) => {
+    return{
+        guias: state.guias,
+        eventos: state.eventos
+    }
+}
+
+export default connect(
+    mapStateToProps, 
+    { 
+        fetchGuias, 
+        fetchGuiasByCategoryId,
+        fetchEventosByBairroId,
+        fetchEventos, 
+        fetchEventosByCategoryId,
+        fetchEventosByBairroId
+    }
+)(WidgetFilterRadioCollapsable);

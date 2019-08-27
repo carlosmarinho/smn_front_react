@@ -346,9 +346,46 @@ export const fetchEventosBySearch = async(search='', limit='', sort=null) => {
         type: FETCH_EVENTOS,
         payload: request
     }
-    
-}
+        
+    }
 
+    export const fetchEventosByBairroId = async(bairro='', limit='', sort=null) => {
+        if(!sort)
+            sort = '_id:desc';
+
+        if(limit)
+            limit = `&_limit=${limit}`;
+        else
+            limit = `&_limit=500`;
+
+        
+        const request = await axios.get(`${process.env.REACT_APP_URL_API}eventos/?bairros=${bairro}&approved=true&_sort=${sort}${limit}`);
+        console.log("request do novo fetch eventos by id", request.data)
+        return {
+            type: FETCH_EVENTOS,
+            payload: request
+        }
+    
+    }
+
+export const fetchEventosByCategoryId = async(category='', limit='', sort=null) => {
+    if(!sort)
+        sort = '_id:desc';
+
+    if(limit)
+        limit = `&_limit=${limit}`;
+    else
+        limit = `&_limit=500`;
+
+    
+    const request = await axios.get(`${process.env.REACT_APP_URL_API}eventos/?categorias=${category}&approved=true&_sort=${sort}${limit}`);
+    console.log("request do novo fetch eventos by id", request.data)
+    return {
+        type: FETCH_EVENTOS,
+        payload: request
+    }
+   
+}
 
 export const fetchEventosByCategory = async(category='', limit='', sort=null) => {
     if(!sort)

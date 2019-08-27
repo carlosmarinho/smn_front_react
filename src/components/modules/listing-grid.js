@@ -170,8 +170,6 @@ class ListingGrid extends Component {
             </div>
         )
 
-        console.log("eventos: ", eventos);
-
         let itemCount = 0;
         if(this.props && this.props.eventos && this.props.eventos.list)
             itemCount = this.props.eventos.list.length
@@ -289,7 +287,7 @@ class ListingGrid extends Component {
                         </div>
                         <div className="row">
                             <div className="dir-alp-con">
-                                {(leftColumn)?<ListingLeftColumn objects={(this.props.guias)?this.props.guias.recentes:[]} categories={(this.props.categorias)?this.props.categorias.evento:[]} bairros={(this.props.bairros)?this.props.bairros:[]} />:''}
+                                {(leftColumn)?<ListingLeftColumn type="evento" objects={(this.props.guias)?this.props.guias.recentes:[]} categories={(this.props.categorias)?this.props.categorias.evento:[]} bairros={(this.props.bairros)?this.props.bairros:[]} />:''}
                                 
                                 <div className={(leftColumn)?'col-md-9 dir-alp-con-right list-grid-rig-pad':'col-md-12 dir-alp-con-right list-grid-rig-pad'}>
                                     <div className="dir-alp-con-right-1">
