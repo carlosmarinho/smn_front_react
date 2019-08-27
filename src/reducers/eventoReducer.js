@@ -47,8 +47,8 @@ export default function(state = null, action) {
             }
             
             evento.evento = action.payload.data;
-            console.log("evento no reducer", action.payload);
             return evento;
+
         case FETCH_EVENTOS:
             if(state){
                 if(state.recentes)
@@ -62,8 +62,11 @@ export default function(state = null, action) {
                     evento.count = state.count;
                 }
             }
-            
-            evento.list = action.payload.data;
+            if(action.payload.data1)
+                evento.list = [...action.payload.data, ...action.payload.data1];    
+            else
+                evento.list = action.payload.data;
+
             return evento;
         
         case FETCH_EVENTOS_RECENTES:

@@ -70,7 +70,11 @@ export default function(state = null, action) {
             }
             
             guia.categoria = action.payload.categoria;
-            guia.list = action.payload.data;
+
+            if(action.payload.data1)
+                guia.list = [...action.payload.data, ...action.payload.data1];    
+            else
+                guia.list = action.payload.data;
             return guia;
 
         case FETCH_GUIAS_RECENTES:

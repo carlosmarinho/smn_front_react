@@ -41,36 +41,60 @@ class WidgetFilterCheckboxCollapsable extends Component {
 
     filterGuia(id){
         if(! this.state.checked.includes(id)) {
+            if(this.state.checked.length >= 1)
+                this.props.fetchGuiasByCategoryId(id, this.props.guias.list);
+            else
+                this.props.fetchGuiasByCategoryId(id);
             this.setState({checked: [...this.state.checked, id]});
-            this.props.fetchGuiasByCategoryId(id);
         }
-    
         else{
+            if(this.state.checked.length > 1){   
+                this.props.fetchGuiasByCategoryId(0, this.props.guias.list.filter(guia => {
+                    const cat = guia.categorias.find( categoria => categoria._id === id );
+                    if(!cat)
+                        return  guia;
+                }
+                ))
+            }
+            else{
+                this.props.fetchGuias('5ba26f813a018f42215a36a0');
+            }
+
             this.setState({
                 checked: this.state.checked.filter(item => item != id)
             })
-            //@todo buscar array de guias e não uma só
-            this.props.fetchGuias('5ba26f813a018f42215a36a0');
+            
         }
         //this.setState({checked: [...this.state.checked, e.target.value]})
-        console.log("aquiaaaa no filter object: ", this.state.checked);
     }
 
     filterEvento(id){
         if(! this.state.checked.includes(id)) {
+            if(this.state.checked.length >= 1)
+                this.props.fetchEventosByCategoryId(id, this.props.eventos.list);
+            else
+                this.props.fetchEventosByCategoryId(id);
             this.setState({checked: [...this.state.checked, id]});
-            this.props.fetchEventosByCategoryId(id);
         }
-    
         else{
+            if(this.state.checked.length > 1){   
+                this.props.fetchEventosByCategoryId(0, this.props.eventos.list.filter(evento => {
+                    const cat = evento.categorias.find( categoria => categoria._id === id );
+                    if(!cat)
+                        return  evento;
+                }
+                ))
+            }
+            else{
+                this.props.fetchEventos('5ba26f813a018f42215a36a0');
+            }
+
             this.setState({
                 checked: this.state.checked.filter(item => item != id)
             })
-            //@todo buscar array de guias e não uma só
-            this.props.fetchEventos('5ba26f813a018f42215a36a0');
+            
         }
         //this.setState({checked: [...this.state.checked, e.target.value]})
-        console.log("aquiaaaa no filter object: ", this.state.checked);
     }
 
     filterObject(e){

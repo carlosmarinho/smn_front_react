@@ -368,7 +368,8 @@ export const fetchEventosBySearch = async(search='', limit='', sort=null) => {
     
     }
 
-export const fetchEventosByCategoryId = async(category='', limit='', sort=null) => {
+export const fetchEventosByCategoryId = async(category='', eventos=[], limit='', sort=null) => {
+
     if(!sort)
         sort = '_id:desc';
 
@@ -377,12 +378,15 @@ export const fetchEventosByCategoryId = async(category='', limit='', sort=null) 
     else
         limit = `&_limit=500`;
 
+    let request = {data:[]};
+    if(category !== 0)
+        request = await axios.get(`${process.env.REACT_APP_URL_API}eventos/?categorias=${category}&approved=true&_sort=${sort}${limit}`);
     
-    const request = await axios.get(`${process.env.REACT_APP_URL_API}eventos/?categorias=${category}&approved=true&_sort=${sort}${limit}`);
-    console.log("request do novo fetch eventos by id", request.data)
+    const newRequest = {data: request.data, data1: eventos}
+    console.log("new request::: ", newRequest)
     return {
         type: FETCH_EVENTOS,
-        payload: request
+        payload: newRequest
     }
    
 }

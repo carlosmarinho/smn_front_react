@@ -538,7 +538,7 @@ export const fetchGuiasByBairroId = async(bairro='', limit='', sort=null) => {
 
 }
 
-export const fetchGuiasByCategoryId = async(category='', limit='', sort=null) => {
+export const fetchGuiasByCategoryId = async(category='', guias=[], limit='', sort=null) => {
     if(!sort)
         sort = '_id:desc';
 
@@ -547,12 +547,15 @@ export const fetchGuiasByCategoryId = async(category='', limit='', sort=null) =>
     else
         limit = `&_limit=500`;
 
-    
-    const request = await axios.get(`${process.env.REACT_APP_URL_API}guias/?categorias=${category}&approved=true&_sort=${sort}${limit}`);
-    console.log("request do novo fetch guias by id", request.data)
+    let request = {data:[]};
+    if(category !== 0)
+        request = await axios.get(`${process.env.REACT_APP_URL_API}guias/?categorias=${category}&approved=true&_sort=${sort}${limit}`);
+
+    const newRequest = {data: request.data, data1: guias}
+
     return {
         type: FETCH_GUIAS,
-        payload: request
+        payload: newRequest
     }
 }
 

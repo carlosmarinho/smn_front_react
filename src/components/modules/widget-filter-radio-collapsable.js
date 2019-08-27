@@ -79,7 +79,6 @@ class WidgetFilterRadioCollapsable extends Component {
             this.props.fetchGuias('5ba26f813a018f42215a36a0');
         }
         //this.setState({checked: [...this.state.checked, e.target.value]})
-        console.log("aquiaaaa no filter object: ", this.state.checked);
     }
 
     filterEvento(id, filterType){
@@ -98,7 +97,6 @@ class WidgetFilterRadioCollapsable extends Component {
             this.props.fetchEventos('5ba26f813a018f42215a36a0');
         }
         //this.setState({checked: [...this.state.checked, e.target.value]})
-        console.log("aquiaaaa no filter object: ", this.state.checked);
     }
 
     filterObject(e){

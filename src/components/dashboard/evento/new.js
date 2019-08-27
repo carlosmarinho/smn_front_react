@@ -245,6 +245,9 @@ class EventoNew extends Component{
 	}
 
 	setCategoryParentName(categories){
+		if(categories.length <= 0)
+			return null;
+			
 		let newCat = categories.map(category => {
 			if(category.parent_id && category.parent_id !== null){
 				let pai = categories.filter(catFilter =>{
