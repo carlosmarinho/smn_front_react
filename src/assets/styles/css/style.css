@@ -1737,15 +1737,19 @@ footer ul li a:hover {
   padding: 10px 0px;
   border-bottom: 1px solid #e4e4e4; }
 
-.dir-alp-p3 ul li:nth-child(1n+10) {
-  display: none; }
+.collapsible-body {
+  max-height: 1000px;
+  overflow: auto; }
 
-.dir-alp-p3-btn-h {
-  display: none; }
-
-.dir-alp-p4-btn-h {
-  display: none; }
-
+/* .dir-alp-p3 ul li:nth-child(1n+10) {
+     display: none;
+}
+ .dir-alp-p3-btn-h {
+     display: none;
+}
+ .dir-alp-p4-btn-h {
+     display: none;
+}*/
 .dir-alp-p4 ul li:nth-child(1n+6) {
   display: none; }
 
@@ -7430,6 +7434,17 @@ h5 a.menu-close {
     font-size: 9px; }
   .share-btn ul li a span {
     display: none; } }
+
+@media screen and (max-width: 727px) {
+  .share-btn ul li a {
+    margin-right: 1px;
+    padding: 4px;
+    font-size: 9px; }
+  .share-btn ul li a span {
+    display: none; }
+  .collapsible-body {
+    max-height: 400px;
+    overflow: auto; } }
 
 @media screen and (min-width: 0px) and (max-width: 149px) {
   .adsense-tablet,
