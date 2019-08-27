@@ -46,7 +46,7 @@ class ListingList extends Component {
         }
  */
         this.props.fetchCategoriesGuiaTop();
-        this.props.fetchBairros('5ba26f813a018f42215a36a0');
+        this.props.fetchBairros('5ba26f813a018f42215a36a0', 50, 'nome:asc');
 
         //this.setState({data: this.props.guias.list, pageCount: Math.ceil(  this.props.guias.list.lenght / evento)});
     }
@@ -103,7 +103,6 @@ class ListingList extends Component {
         }
         else{
             if(this.state.slug !== '/'){
-                console.log("caiu aqui nesse page:::: ", nextProps)
                 let search = '';
                 if(nextProps.type){
                     search = `tipo=${nextProps.type}`

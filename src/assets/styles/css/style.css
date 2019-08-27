@@ -1737,7 +1737,7 @@ footer ul li a:hover {
   padding: 10px 0px;
   border-bottom: 1px solid #e4e4e4; }
 
-.dir-alp-p3 ul li:nth-child(1n+6) {
+.dir-alp-p3 ul li:nth-child(1n+10) {
   display: none; }
 
 .dir-alp-p3-btn-h {

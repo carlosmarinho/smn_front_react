@@ -4,6 +4,7 @@ import {Collapsible, CollapsibleItem} from 'react-materialize';
 
 import { fetchGuias, fetchGuiasByCategoryId } from '../../actions/guia';
 import { fetchEventos, fetchEventosByCategoryId } from '../../actions/evento';
+import { stat } from 'fs';
 
 
 class WidgetFilterCheckboxCollapsable extends Component {
@@ -86,7 +87,12 @@ class WidgetFilterCheckboxCollapsable extends Component {
             return objects.map((object, ind) => {
                 return (
                     <li key={ind}>
-                        <input type="checkbox" value={object.id} id={`filter-check-collap-${object.id}`} onChange={e => this.filterObject(e)} />
+                        <input 
+                            type="checkbox" 
+                            value={object.id} 
+                            id={`filter-check-collap-${object.id}`} 
+                            onChange={e => this.filterObject(e)} 
+                        />
                         <label htmlFor={`filter-check-collap-${object.id}`} >{object.nome}</label>
                     </li>
                 )
@@ -120,7 +126,8 @@ class WidgetFilterCheckboxCollapsable extends Component {
 
 const mapStateToProps = (state) => {
     return{
-        guias: state.guias
+        guias: state.guias,
+        eventos: state.eventos
     }
 }
 
