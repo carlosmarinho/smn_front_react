@@ -133,7 +133,6 @@ const BairrosGrid = (props) => {
 }*/               
                     
 const GridEvents = (props) => {
-    console.log("meu prop aqui: ", props)
     return(
         <ListingGrid 
             listName="Eventos em Niterói"
@@ -148,7 +147,6 @@ class App extends Component {
 
     
     render() {
-        console.log("\n\n\n\nlocal storage no app: ", localStorage.getItem('user'));
         return (
         <Provider store={createStoreWithMiddleware(reducers)}>
             <BrowserRouter onUpdate={() => window.scrollTo(0, 0)}>
