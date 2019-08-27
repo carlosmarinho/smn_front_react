@@ -146,7 +146,7 @@ export default connect(
     { 
         fetchGuias, 
         fetchGuiasByCategoryId,
-        fetchEventosByBairroId,
+        fetchGuiasByBairroId,
         fetchEventos, 
         fetchEventosByCategoryId,
         fetchEventosByBairroId

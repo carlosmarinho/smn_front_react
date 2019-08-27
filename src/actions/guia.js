@@ -554,8 +554,8 @@ export const fetchGuiasByCategoryId = async(category='', limit='', sort=null) =>
         type: FETCH_GUIAS,
         payload: request
     }
-   
 }
+
 
 export const fetchGuiasByCategory = async(category='', limit='', sort=null) => {
     if(!sort)
