@@ -4,6 +4,10 @@ import MenuDashboardLeft from '../../menu-dashboard-left';
 import {connect} from 'react-redux';
 import {Field, reduxForm} from 'redux-form';
 import {Link, Redirect} from 'react-router-dom';
+import { EditorState } from 'draft-js';
+import { Editor } from 'react-draft-wysiwyg';
+import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
+
 import {absence, url, email} from 'redux-form-validators';
 import DatePicker from "react-datepicker";
 
@@ -67,12 +71,12 @@ class NoticiaNew extends Component{
 
 		this.state = {
 			userLogged: null,
-			labelMultiselect: {categorias: true, tags: true},
 			categorias: true,
 			tags: true,
 			redirect: false,
 			inicio: new Date(),
 			fim: null,
+			editorStateDescricao: EditorState.createEmpty(),
 		}
 		
 		this.handleSubmit = this.handleSubmit.bind(this);
@@ -104,7 +108,7 @@ class NoticiaNew extends Component{
 	
 	async handleSubmit(values){
         
-		let ret = await this.props.createNoticia({...values, inicio: this.state.inicio, fim: this.state.fim});
+		let ret = await this.props.createNoticia({...values, descricao: this.state.editorStateDescricao, inicio: this.state.inicio, fim: this.state.fim});
 		
 		if(ret.payload && ret.payload.data && ret.payload.data._id)
 			this.setState({redirect: true});
@@ -277,7 +281,13 @@ class NoticiaNew extends Component{
                 )
             }
         }
-    }
+	}
+	
+	onEditorDescricaoStateChange = (editorState) => {
+		this.setState({
+			editorState,
+		});
+	};
 
 	generalContent(){
 		const { pristine, reset, submitting, handleSubmit } = this.props
@@ -333,6 +343,9 @@ class NoticiaNew extends Component{
 							/>
 						</div>
 						<div className="row">
+						
+						</div>
+						<div className="row">
 							<div className="input-field input-field-edit col s12">
 								<Field name="introducao" component="textarea" />
 								<label htmlFor="introducao">Resumo</label>
@@ -341,8 +354,13 @@ class NoticiaNew extends Component{
 						
 						<div className="row">
 							<div className="input-field input-field-edit col s12">
-								<Field name="descricao" component="textarea" />
-									
+								<Editor
+									editorState={this.state.editorStateDescricao}
+									toolbarClassName="toolbarClassName"
+									wrapperClassName="wrapperClassName"
+									editorClassName="editorClassName"
+									onEditorStateChange={this.onEditorDescricaoStateChange}
+								/>	
 								<label htmlFor="descricao">Descrição</label>
 							</div>
 						</div>
@@ -441,7 +459,6 @@ class NoticiaNew extends Component{
 
 
 function mapStateToProps(state){
-	console.log("stateeeee: ", state);
     return(
         {
             user: state.users,
