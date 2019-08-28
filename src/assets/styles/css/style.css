@@ -1738,7 +1738,7 @@ footer ul li a:hover {
   border-bottom: 1px solid #e4e4e4; }
 
 .collapsible-body {
-  max-height: 1000px;
+  max-height: 800px;
   overflow: auto; }
 
 /* .dir-alp-p3 ul li:nth-child(1n+10) {
