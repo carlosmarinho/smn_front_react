@@ -4,7 +4,7 @@ import MenuDashboardLeft from '../../menu-dashboard-left';
 import {connect} from 'react-redux';
 import {Field, reduxForm} from 'redux-form';
 import {Link, Redirect} from 'react-router-dom';
-import { EditorState } from 'draft-js';
+import { EditorState, convertToRaw } from 'draft-js';
 import { Editor } from 'react-draft-wysiwyg';
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 
@@ -107,8 +107,15 @@ class NoticiaNew extends Component{
 	}
 	
 	async handleSubmit(values){
-        
-		let ret = await this.props.createNoticia({...values, descricao: this.state.editorStateDescricao, inicio: this.state.inicio, fim: this.state.fim});
+		console.log('state: ', this.state);
+		console.log("json: ", this.state.editorStateDescricao.getCurrentContent());
+		let ret = await this.props.createNoticia(
+			{...values, 
+			descricaoJson: convertToRaw(this.state.editorStateDescricao.getCurrentContent()), 
+			inicio: this.state.inicio, 
+			fim: this.state.fim}
+		);
+		
 		
 		if(ret.payload && ret.payload.data && ret.payload.data._id)
 			this.setState({redirect: true});
@@ -243,6 +250,8 @@ class NoticiaNew extends Component{
 	}
 
 	setCategoryParentName(categories){
+		if(!categories)
+			return null;
 		let newCat = categories.map(category => {
 			if(category.parent_id && category.parent_id !== null){
 				let pai = categories.filter(catFilter =>{
@@ -285,7 +294,7 @@ class NoticiaNew extends Component{
 	
 	onEditorDescricaoStateChange = (editorState) => {
 		this.setState({
-			editorState,
+			editorStateDescricao: editorState,
 		});
 	};
 
@@ -355,13 +364,13 @@ class NoticiaNew extends Component{
 						<div className="row">
 							<div className="input-field input-field-edit col s12">
 								<Editor
-									editorState={this.state.editorStateDescricao}
+									initialEditorState={this.state.editorStateDescricao}
 									toolbarClassName="toolbarClassName"
 									wrapperClassName="wrapperClassName"
 									editorClassName="editorClassName"
 									onEditorStateChange={this.onEditorDescricaoStateChange}
 								/>	
-								<label htmlFor="descricao">Descrição</label>
+								{/*<label htmlFor="descricao">Descrição</label>*/}
 							</div>
 						</div>
 													

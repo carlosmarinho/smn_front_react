@@ -7,6 +7,8 @@ import {Link, Redirect} from 'react-router-dom';
 import {absence, url, email} from 'redux-form-validators';
 import DatePicker from "react-datepicker";
 import { createNumberMask, createTextMask } from 'redux-form-input-masks';
+import { EditorState, ContentState } from 'draft-js';
+import { Editor } from 'react-draft-wysiwyg';
 
 
 import { fetchMe } from '../../../actions/user';
@@ -95,6 +97,8 @@ class NoticiaEdit extends Component{
 			tags: [],
 			noticia: null,
 			tagInput: '',
+			editorStateDescricao: EditorState.createEmpty(),
+
 		}
 		
 		this.handleSubmit = this.handleSubmit.bind(this);
@@ -114,8 +118,11 @@ class NoticiaEdit extends Component{
 			this.props.fetchBairros('5ba26f813a018f42215a36a0', 200, 'nome');
 			await this.props.fetchNoticia(this.props.match.params.id)
 
-			console.log("this props: ", this.props)
-			
+			const plainText = 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit.';
+			const content = ContentState.createFromText(plainText);
+			  
+			this.setState({ editorStateDescricao: EditorState.createWithContent(content) })
+			//this.setState({editorStateDescricao: EditorState.createWithContent(this.props.noticias.noticia.descricaoJson)})
 		// if(user.user.role.name == 'Administrator'){
 		//     this.props.fetchNoticiasByAdm(7);
 		
@@ -134,6 +141,12 @@ class NoticiaEdit extends Component{
 	componentWillMount(){
 		this.props.fetchNoticia(this.props.match.params.id)
 	}
+
+	onEditorDescricaoStateChange = (editorState) => {
+		this.setState({
+			editorStateDescricao: editorState,
+		});
+	};
 	
 	handleSubmit(values){
 		console.log("values antes: ", values);
@@ -304,6 +317,8 @@ class NoticiaEdit extends Component{
 	}
 
 	setCategoryParentName(categories){
+		if(!categories)
+			return null;
 		let newCat = categories.map(category => {
 			if(category.parent_id && category.parent_id !== null){
 				let pai = categories.filter(catFilter =>{
@@ -476,9 +491,15 @@ class NoticiaEdit extends Component{
 						
 						<div className="row">
 							<div className="input-field-edit col s12">
-								<label htmlFor="descricao">Descrição</label>
-								<Field name="descricao" component="textarea" />
-									
+								
+								{/*<label htmlFor="descricao">Descrição</label>*/}
+								<Editor
+									editorState={this.state.editorStateDescricao}
+									toolbarClassName="toolbarClassName"
+									wrapperClassName="wrapperClassName"
+									editorClassName="editorClassName"
+									onEditorStateChange={this.onEditorDescricaoStateChange}
+								/>		
 							</div>
 						</div>
 													
@@ -688,6 +709,10 @@ function mapStateToProps(state, ownProps){
 			else if(noticiaInit.cidade._id){
 				noticiaInit.cidade = noticiaInit.cidade._id;
 			}
+		}
+
+		if(noticiaInit.descricaoJson){
+			//this.setState({ editorStateDescricao: noticiaInit.editorStateDescricao });
 		}
 
 		//this.setState({'inicio': noticiaInit.inicio});
