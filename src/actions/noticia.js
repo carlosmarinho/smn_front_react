@@ -1,6 +1,7 @@
 import _ from 'lodash';
 import axios from 'axios';
 import { 
+    APPROVE_NOTICIA,
     DELETE_NOTICIA,
     SUCCESS_CREATE_NOTICIA, 
     ERROR_CREATE_NOTICIA, 
@@ -199,6 +200,32 @@ export const editNoticia = async (noticia, id) => {
     }
 
     
+}
+
+export const approveReproveNoticia = async (id, approve) => {
+    let user = JSON.parse(localStorage.getItem('user'));
+    
+    if(user){
+        let config = { headers: { 'Authorization': `Bearer ${user.jwt}` } };
+        const request = await axios.put(`${process.env.REACT_APP_URL_API}noticias/${id}`, {approved: approve}, config);
+        if(request.statusText == 'OK'){
+            return {
+                type: APPROVE_NOTICIA,
+                payload: {id, approved: approve}
+            }
+        }
+
+        return {
+            type: APPROVE_NOTICIA,
+            payload: false
+        }
+    }
+    else{
+        return({
+            type: ERROR_EDIT_NOTICIA,
+            payload: {msg: "Usuário não logado"}
+        })
+    }
 }
 
 export const deleteNoticia = async (id) => {

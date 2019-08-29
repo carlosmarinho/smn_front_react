@@ -6,7 +6,7 @@ import {Link, Redirect} from 'react-router-dom';
 import Confirm from 'react-confirm-bootstrap';
 
 import {fetchMe} from '../../../actions/user';
-import {fetchNoticiasByUser, fetchNoticiasByAdm, deleteNoticia} from '../../../actions/noticia';
+import {fetchNoticiasByUser, fetchNoticiasByAdm, deleteNoticia, approveReproveNoticia} from '../../../actions/noticia';
 
 class DashboardNoticia extends Component{
 
@@ -20,7 +20,7 @@ class DashboardNoticia extends Component{
         let user = JSON.parse(localStorage.getItem('user'));
 
         if(user !== null){
-            this.setState({userLogged:true})
+            this.setState({userLogged:user.user})
             this.props.fetchMe();
             if(user.user.role.name == 'Administrator'){
                 this.props.fetchNoticiasByAdm(10);
@@ -39,10 +39,45 @@ class DashboardNoticia extends Component{
         this.props.deleteNoticia(id);
     }
 
+    approveReproveNoticia(id, approve) {
+        this.props.approveReproveNoticia(id, approve);
+    }
+
     datePtBr(date){
         //const options = {year: 'numeric', month: 'short', day: 'numeric' };
         //return date.toLocaleDateString('pt-BR', options)
         return date.toLocaleDateString('pt-BR')
+    }
+
+    showApprove(noticia){
+        if(this.state.userLogged && this.state.userLogged.role.name == 'Administrator'){
+            if(noticia.approved){
+                return (
+                    <a href="javascript: void(0)">
+                        <Confirm
+                            onConfirm={() => this.approveReproveNoticia(noticia._id, false)}
+                            body={`Tem certeza que deseja reprovar a notícia '${noticia.titulo}'?`}
+                            confirmText="Confirmar Reprovação"
+                            title="Aprovação de Notícia">
+                            <i className="fa fa-thumbs-down" title="Reprovar"></i>
+                        </Confirm>
+                    </a>
+                )
+            }
+            else{
+                return (
+                    <a href="javascript: void(0)">
+                        <Confirm
+                            onConfirm={() => this.approveReproveNoticia(noticia._id, true)}
+                            body={`Tem certeza que deseja aprovar a notícia '${noticia.titulo}'?`}
+                            confirmText="Confirmar Aprovação"
+                            title="Aprovação de Notícia">
+                            <i className="fa fa-thumbs-up" title="Aprovar"></i>
+                        </Confirm>
+                    </a>
+                )
+            }
+        }
     }
 
     showNoticias(){
@@ -52,12 +87,12 @@ class DashboardNoticia extends Component{
             return this.props.noticias.fromUser.map( noticia => {
                 
                 return(
-                    <li key={noticia._id} className="view-msg">
+                    <li key={noticia._id} className="view-msg" style={ noticia.approved ? {} : { backgroundColor: '#ffe6e6'}}>
                         <h5><img src={this.getImageSrc(noticia)} alt="" />{noticia.titulo} <span className="tz-msg-un-read">{(noticia.status === false)?'Inativo':'Ativo'}</span></h5>
                         <p>{truncate(noticia.descricao.replace(/&#13;/g,'').replace(/<\/?[^>]+(>|$)/g, ""), { length: 200, separator: /,?\.* +/ })}</p>
                         <div className="hid-msg">
-                            <Link to={'/dashboard/noticias/edit/' + noticia._id}  ><i className="fa fa-pencil" title="edit"></i></Link> 
-                            <Link to={'/noticias/' + noticia.slug}  ><i className="fa fa-eye" title="view"></i></Link>
+                            <Link to={'/dashboard/noticias/edit/' + noticia._id}  ><i className="fa fa-pencil" title="Editar"></i></Link> 
+                            <Link to={'/noticias/' + noticia.slug}  ><i className="fa fa-eye" title="Visualizar"></i></Link>
                             <a href="javascript: void(0)"><Confirm
                                 onConfirm={() => this.deleteNoticia(noticia._id)}
                                 body={`Tem certeza que deseja excluir a notícia '${noticia.titulo}'?`}
@@ -65,6 +100,8 @@ class DashboardNoticia extends Component{
                                 title="Exclusão de Notícia">
                                 <i className="fa fa-trash" title="delete"></i>
                             </Confirm></a>
+                            {this.showApprove(noticia)}
+                            
                         </div>
                     </li>
                 )
@@ -155,4 +192,4 @@ function mapStateToProps(state){
     
 }
 
-export default connect(mapStateToProps, {fetchMe, deleteNoticia, fetchNoticiasByUser, fetchNoticiasByAdm})(DashboardNoticia);
+export default connect(mapStateToProps, {fetchMe, deleteNoticia, approveReproveNoticia, fetchNoticiasByUser, fetchNoticiasByAdm})(DashboardNoticia);

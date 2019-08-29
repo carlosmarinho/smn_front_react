@@ -1,6 +1,7 @@
 import _ from 'lodash';
 import axios from 'axios';
 import { 
+    APPROVE_EVENTO,
     DELETE_EVENTO,
     SUCCESS_CREATE_EVENTO, 
     ERROR_CREATE_EVENTO,
@@ -434,6 +435,32 @@ export const fetchEventosRecentes = async(id, limit=5) => {
     return {
         type: FETCH_EVENTOS_RECENTES,
         payload: request
+    }
+}
+
+export const approveReproveEvento = async (id, approve) => {
+    let user = JSON.parse(localStorage.getItem('user'));
+    
+    if(user){
+        let config = { headers: { 'Authorization': `Bearer ${user.jwt}` } };
+        const request = await axios.put(`${process.env.REACT_APP_URL_API}eventos/${id}`, {approved: approve}, config);
+        if(request.statusText == 'OK'){
+            return {
+                type: APPROVE_EVENTO,
+                payload: {id, approved: approve}
+            }
+        }
+
+        return {
+            type: APPROVE_EVENTO,
+            payload: false
+        }
+    }
+    else{
+        return({
+            type: ERROR_EDIT_EVENTO,
+            payload: {msg: "Usuário não logado"}
+        })
     }
 }
 

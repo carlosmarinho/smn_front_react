@@ -41,11 +41,16 @@ h1, h2, h3, h4, h5, h6 {
   margin-top: 0px;
   margin-bottom: 0px; }
 
-p, a, li, span, label, tr, td, th, input {
+p, a, li, label, tr, td, th, input {
   color: #636363;
   font-size: 15px;
   font-family: 'Poppins', sans-serif;
   font-weight: 400; }
+
+span {
+  color: #636363;
+  font-size: 15px;
+  font-family: 'Poppins', sans-serif; }
 
 small, .small {
   font-size: 13px; }

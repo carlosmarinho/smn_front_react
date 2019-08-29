@@ -1,4 +1,4 @@
-import { DELETE_GUIA, FETCH_GUIA, REMOVE_IMAGE_GUIA, FETCH_GUIAS, FETCH_GUIAS_RECENTES, FETCH_GUIAS_FEATURED, FETCH_GUIAS_USER} from "../actions/types";
+import { DELETE_GUIA, APPROVE_GUIA, FETCH_GUIA, REMOVE_IMAGE_GUIA, FETCH_GUIAS, FETCH_GUIAS_RECENTES, FETCH_GUIAS_FEATURED, FETCH_GUIAS_USER} from "../actions/types";
 
 export default function(state = null, action) {
     
@@ -11,6 +11,21 @@ export default function(state = null, action) {
         count: null
     };
     switch (action.type) {
+        case APPROVE_GUIA:
+            if(action.payload !== false ){                
+                let fromUser = state.fromUser.map(guia => {
+                    if(guia._id == action.payload.id)
+                        return { ...guia, approved: action.payload.approved }
+                    else 
+                        return guia;
+                })
+
+                console.log("no frommm user: ", fromUser)
+                
+                return { ...state, fromUser: fromUser };
+            }
+            return state;
+
         case DELETE_GUIA:
             if(action.payload !== false ){
 

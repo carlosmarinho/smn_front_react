@@ -1,5 +1,6 @@
 import { 
     DELETE_EVENTO,
+    APPROVE_EVENTO,
     FETCH_EVENTO, 
     FETCH_EVENTOS, 
     FETCH_EVENTOS_RECENTES, 
@@ -11,19 +12,32 @@ export default function(state = null, action) {
 
     let evento =  {recentes: null, list: null, featured: null, fromUser: null, count: null, evento: null};
     switch (action.type) {
+        case APPROVE_EVENTO:
+            if(action.payload !== false ){
+                let fromUser = state.fromUser.map(evento => {
+                    if(evento._id == action.payload.id)
+                        return { ...evento, approved: action.payload.approved }
+                    else 
+                        return evento;
+                })
+                
+                return { ...state, fromUser: fromUser };
+            }
+            return state;
+
         case DELETE_EVENTO:
-        if(action.payload !== false ){
-            console.log("state eventos: ", state)
-            let fromUser = state.fromUser.filter( fromUser => {
-                return fromUser._id != action.payload
-            }); 
+            if(action.payload !== false ){
+                console.log("state eventos: ", state)
+                let fromUser = state.fromUser.filter( fromUser => {
+                    return fromUser._id != action.payload
+                }); 
+                
+                evento = {...state.evento, fromUser, count: (state.count-1)}
+                console.log("state depois    eventos: ", state)
+                return evento;
+            }
             
-            evento = {...state.evento, fromUser, count: (state.count-1)}
-            console.log("state depois    eventos: ", state)
-            return evento;
-        }
-        
-        return evento;
+            return state;
 
         case REMOVE_IMAGE_EVENTO:
             if(action.payload !== false){

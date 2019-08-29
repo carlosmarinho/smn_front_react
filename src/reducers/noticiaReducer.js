@@ -1,4 +1,4 @@
-import { DELETE_NOTICIA, REMOVE_IMAGE_NOTICIA, FETCH_NOTICIA, FETCH_NOTICIAS, FETCH_NOTICIAS_RECENTES, FETCH_NOTICIAS_FEATURED, FETCH_NOTICIAS_USER } from "../actions/types";
+import { DELETE_NOTICIA, APPROVE_NOTICIA, REMOVE_IMAGE_NOTICIA, FETCH_NOTICIA, FETCH_NOTICIAS, FETCH_NOTICIAS_RECENTES, FETCH_NOTICIAS_FEATURED, FETCH_NOTICIAS_USER } from "../actions/types";
 
 export default function(state = null, action) {
 
@@ -11,6 +11,23 @@ export default function(state = null, action) {
         count: null
     };
     switch (action.type) {
+        case APPROVE_NOTICIA:
+            if(action.payload !== false ){
+                
+                //let new = {...state.fromUser.find(noticia => noticia._id == action.payload.id ), approved: action.payload.approved}
+                let fromUser = state.fromUser.map(noticia => {
+                    if(noticia._id == action.payload.id)
+                        return { ...noticia, approved: action.payload.approved }
+                    else 
+                        return noticia;
+                })
+
+                console.log("no frommm user: ", fromUser)
+                
+                return { ...state, fromUser: fromUser };
+            }
+            
+            return noticia;
         case DELETE_NOTICIA:
             if(action.payload !== false ){
                 console.log("state noticias: ", state)
@@ -18,7 +35,7 @@ export default function(state = null, action) {
                     return fromUser._id != action.payload
                 }); 
                 
-                noticia = {...state.evento, fromUser, count: (state.count-1)}
+                noticia = {...state.noticia, fromUser, count: (state.count-1)}
                 console.log("state depois    noticias: ", state)
                 return noticia;
             }
@@ -41,7 +58,6 @@ export default function(state = null, action) {
                     noticia.featured = state.featured;
             }
             
-            console.log("payload:: ", action.payload)
             if(action.payload && action.payload.data && action.payload.data[0]) 
                 noticia.noticia = action.payload.data[0];  
             else

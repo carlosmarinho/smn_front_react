@@ -7,7 +7,7 @@ import {Link, Redirect} from 'react-router-dom';
 import {absence, url, email} from 'redux-form-validators';
 import DatePicker from "react-datepicker";
 import { createNumberMask, createTextMask } from 'redux-form-input-masks';
-import { EditorState, ContentState } from 'draft-js';
+import { EditorState, ContentState, convertToRaw, convertFromRaw } from 'draft-js';
 import { Editor } from 'react-draft-wysiwyg';
 
 
@@ -118,10 +118,14 @@ class NoticiaEdit extends Component{
 			this.props.fetchBairros('5ba26f813a018f42215a36a0', 200, 'nome');
 			await this.props.fetchNoticia(this.props.match.params.id)
 
-			const plainText = 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit.';
-			const content = ContentState.createFromText(plainText);
-			  
-			this.setState({ editorStateDescricao: EditorState.createWithContent(content) })
+			//const plainText = 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit.';
+			//const content = ContentState.createFromText(plainText);
+			const content = EditorState.createWithContent(convertFromRaw(this.props.noticias.noticia.descricaoJson))
+			
+
+			console.log("content convertido: ", content, ' ==== ', this.props.noticias.noticia.descricaoJson);
+
+			this.setState({ editorStateDescricao: content })
 			//this.setState({editorStateDescricao: EditorState.createWithContent(this.props.noticias.noticia.descricaoJson)})
 		// if(user.user.role.name == 'Administrator'){
 		//     this.props.fetchNoticiasByAdm(7);
@@ -154,9 +158,14 @@ class NoticiaEdit extends Component{
 			values.preco = '';
 		}
 
-		console.log("values depois: ", values);
-
-        this.props.editNoticia({...values, inicio: this.state.inicio, fim: this.state.fim}, this.props.match.params.id);
+		this.props.editNoticia(
+			{...values, 
+				inicio: this.state.inicio,
+				descricaoJson: convertToRaw(this.state.editorStateDescricao.getCurrentContent()),
+				fim: this.state.fim
+			}, 
+			this.props.match.params.id
+		);
     }
 
 	addTag(){
@@ -505,7 +514,7 @@ class NoticiaEdit extends Component{
 													
 						<div className="row">
 							<div className="input-field col s12 v2-mar-top-40"> 
-								<input type="submit"  value="Cadastrar" className="waves-effect waves-light no-color btn-large full-btn" /> 
+								<input type="submit"  value="Editar" className="waves-effect waves-light no-color btn-large full-btn" /> 
 							</div>
 						</div>
 					</form>
@@ -719,9 +728,6 @@ function mapStateToProps(state, ownProps){
 		if(noticiaInit.bairros && _.isArray(noticiaInit.bairros) && noticiaInit.bairros.length > 0){
 			noticiaInit.bairros = noticiaInit.bairros[0]._id;
 		}
-
-		console.log("noticiaaaaa::: ", noticiaInit)
-
 	}
     return(
         {

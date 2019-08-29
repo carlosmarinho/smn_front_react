@@ -107,8 +107,7 @@ class NoticiaNew extends Component{
 	}
 	
 	async handleSubmit(values){
-		console.log('state: ', this.state);
-		console.log("json: ", this.state.editorStateDescricao.getCurrentContent());
+
 		let ret = await this.props.createNoticia(
 			{...values, 
 			descricaoJson: convertToRaw(this.state.editorStateDescricao.getCurrentContent()), 

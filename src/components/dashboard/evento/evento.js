@@ -6,7 +6,7 @@ import {Link, Redirect} from 'react-router-dom';
 import Confirm from 'react-confirm-bootstrap';
 
 import {fetchMe} from '../../../actions/user';
-import {fetchEventosByUser, fetchEventosByAdm, deleteEvento} from '../../../actions/evento';
+import {fetchEventosByUser, fetchEventosByAdm, deleteEvento, approveReproveEvento} from '../../../actions/evento';
 
 class DashboardEvento extends Component{
 
@@ -20,7 +20,7 @@ class DashboardEvento extends Component{
         let user = JSON.parse(localStorage.getItem('user'));
 
         if(user !== null){
-            this.setState({userLogged:true})
+            this.setState({userLogged:user.user})
             this.props.fetchMe();
             if(user.user.role.name == 'Administrator'){
                 this.props.fetchEventosByAdm(10);
@@ -34,6 +34,44 @@ class DashboardEvento extends Component{
             this.setState({userLogged:false})
         }
     }
+
+    showApprove(evento){
+        console.log('this userlogged', this.state)
+        if(this.state.userLogged && this.state.userLogged.role.name == 'Administrator'){
+
+            if(evento.approved){
+                return (
+                    <a href="javascript: void(0)">
+                        <Confirm
+                            onConfirm={() => this.approveReproveEvento(evento._id, false)}
+                            body={`Tem certeza que deseja reprovar o evento '${evento.titulo}'?`}
+                            confirmText="Confirmar Reprovação"
+                            title="Aprovação do Evento">
+                            <i className="fa fa-thumbs-down" title="Reprovar"></i>
+                        </Confirm>
+                    </a>
+                )
+            }
+            else{
+                return (
+                    <a href="javascript: void(0)">
+                        <Confirm
+                            onConfirm={() => this.approveReproveEvento(evento._id, true)}
+                            body={`Tem certeza que deseja aprovar o evento '${evento.titulo}'?`}
+                            confirmText="Confirmar Aprovação"
+                            title="Aprovação do Evento">
+                            <i className="fa fa-thumbs-up" title="Aprovar"></i>
+                        </Confirm>
+                    </a>
+                )
+            }
+        }
+    }
+
+    approveReproveEvento(id, approve) {
+        this.props.approveReproveEvento(id, approve);
+    }
+
 
     deleteEvento(id) {
         this.props.deleteEvento(id);
@@ -50,7 +88,7 @@ class DashboardEvento extends Component{
             return this.props.eventos.fromUser.map( evento => {
 
                 return(
-                    <tr key={evento.id}>
+                    <tr key={evento.id} style={ evento.approved ? {} : { backgroundColor: '#ffe6e6'}}>
                         <td className="td-imagem"><img src={this.getImageSrc(evento)} alt="" /></td>
                         <td>{evento.titulo}</td>
                         <td>{(evento.array_bairros[0])?evento.array_bairros[0].nome:''}</td>
@@ -71,6 +109,7 @@ class DashboardEvento extends Component{
                                     <i className="fa fa-trash" title="delete"></i>
                                 </Confirm>
                             </a>  
+                            {this.showApprove(evento)}
                         </td>
                     </tr>
                 )
@@ -167,7 +206,6 @@ function mapStateToProps(state){
             eventos: state.eventos,
         }
     )
-    
 }
 
-export default connect(mapStateToProps, {fetchMe, deleteEvento, fetchEventosByUser, fetchEventosByAdm})(DashboardEvento);
+export default connect(mapStateToProps, {fetchMe, deleteEvento, approveReproveEvento, fetchEventosByUser, fetchEventosByAdm})(DashboardEvento);

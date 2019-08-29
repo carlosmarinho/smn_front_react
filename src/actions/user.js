@@ -141,7 +141,6 @@ export const fetchMe = async () => {
     if(user){
         let jwt = user.jwt    
         let config = { headers: { 'Authorization': `Bearer ${jwt}` } };
-        console.log("vai chamar o fetch MMMMMEEEE: ", `${process.env.REACT_APP_URL_API}users/me`, config)
         
         try{
             request = await axios.get(`${process.env.REACT_APP_URL_API}users/me`, config);
@@ -169,7 +168,6 @@ export const fetchMe = async () => {
 }
 
 export const fetchUser = (id) => {
-    console.log("vai chamar o fetch user: ", `${process.env.REACT_APP_URL_API}users/${id}`)
     const request = axios.get(`${process.env.REACT_APP_URL_API}users/${id}`);
     return {
         type: FETCH_USER,

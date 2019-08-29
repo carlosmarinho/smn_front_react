@@ -1,6 +1,7 @@
 import _ from 'lodash';
 import axios from 'axios';
 import { 
+    APPROVE_GUIA,
     SUCCESS_CREATE_GUIA, 
     REMOVE_IMAGE_GUIA, 
     ERROR_CREATE_GUIA, 
@@ -267,11 +268,36 @@ export const createGuiabkp = async (guia) => {
 }
 
 export const fetchGuia = (id) => {
-    console.log("vai chamar o fetch guia: ", `${process.env.REACT_APP_URL_API}guias/${id}`)
     const request = axios.get(`${process.env.REACT_APP_URL_API}guias/${id}`);
     return {
         type: FETCH_GUIA,
         payload: request
+    }
+}
+
+export const approveReproveGuia = async (id, approve) => {
+    let user = JSON.parse(localStorage.getItem('user'));
+    
+    if(user){
+        let config = { headers: { 'Authorization': `Bearer ${user.jwt}` } };
+        const request = await axios.put(`${process.env.REACT_APP_URL_API}guias/${id}`, {approved: approve}, config);
+        if(request.statusText == 'OK'){
+            return {
+                type: APPROVE_GUIA,
+                payload: {id, approved: approve}
+            }
+        }
+
+        return {
+            type: APPROVE_GUIA,
+            payload: false
+        }
+    }
+    else{
+        return({
+            type: ERROR_EDIT_GUIA,
+            payload: {msg: "Usuário não logado"}
+        })
     }
 }
 

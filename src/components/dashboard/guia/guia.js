@@ -6,7 +6,7 @@ import {Link, Redirect} from 'react-router-dom';
 import Confirm from 'react-confirm-bootstrap';
 
 import {fetchMe} from '../../../actions/user';
-import {fetchGuiasByUser, fetchGuiasByAdm, deleteGuia} from '../../../actions/guia';
+import {fetchGuiasByUser, fetchGuiasByAdm, deleteGuia, approveReproveGuia} from '../../../actions/guia';
 
 class DashboardGuia extends Component{
 
@@ -20,7 +20,7 @@ class DashboardGuia extends Component{
         let user = JSON.parse(localStorage.getItem('user'));
 
         if(user !== null){
-            this.setState({userLogged:true})
+            this.setState({userLogged:user.user})
             this.props.fetchMe();
             if(user.user.role.name == 'Administrator'){
                 this.props.fetchGuiasByAdm(10);
@@ -33,6 +33,43 @@ class DashboardGuia extends Component{
         else{
             this.setState({userLogged:false})
         }
+    }
+
+    showApprove(guia){
+        console.log('this userlogged', this.state)
+        if(this.state.userLogged && this.state.userLogged.role.name == 'Administrator'){
+
+            if(guia.approved){
+                return (
+                    <a href="javascript: void(0)">
+                        <Confirm
+                            onConfirm={() => this.approveReproveGuia(guia._id, false)}
+                            body={`Tem certeza que deseja reprovar o guia '${guia.titulo}'?`}
+                            confirmText="Confirmar Reprovação"
+                            title="Aprovação do Guia">
+                            <i className="fa fa-thumbs-down" title="Reprovar"></i>
+                        </Confirm>
+                    </a>
+                )
+            }
+            else{
+                return (
+                    <a href="javascript: void(0)">
+                        <Confirm
+                            onConfirm={() => this.approveReproveGuia(guia._id, true)}
+                            body={`Tem certeza que deseja aprovar o guia '${guia.titulo}'?`}
+                            confirmText="Confirmar Aprovação"
+                            title="Aprovação do Guia">
+                            <i className="fa fa-thumbs-up" title="Aprovar"></i>
+                        </Confirm>
+                    </a>
+                )
+            }
+        }
+    }
+
+    approveReproveGuia(id, approve) {
+        this.props.approveReproveGuia(id, approve);
     }
 
     deleteGuia(id) {
@@ -50,7 +87,7 @@ class DashboardGuia extends Component{
             return this.props.guias.fromUser.map( guia => {
                 
                 return(
-                    <tr key={guia.id}>
+                    <tr key={guia.id} style={ guia.approved ? {} : { backgroundColor: '#ffe6e6'}}>
                         <td className="td-imagem"><img src={this.getImageSrc(guia)} alt="" /></td>
                         <td>{guia.titulo}</td>
                         <td>{this.datePtBr(new Date(guia.createdAt))}</td>
@@ -70,6 +107,7 @@ class DashboardGuia extends Component{
                                 <i className="fa fa-trash" title="delete"></i>
                                 </Confirm>
                             </a>
+                            {this.showApprove(guia)}
                         </td>
                     </tr>
                 )
@@ -168,4 +206,4 @@ function mapStateToProps(state){
     
 }
 
-export default connect(mapStateToProps, { fetchMe, deleteGuia, fetchGuiasByUser, fetchGuiasByAdm})(DashboardGuia);
+export default connect(mapStateToProps, { fetchMe, deleteGuia, approveReproveGuia, fetchGuiasByUser, fetchGuiasByAdm})(DashboardGuia);
