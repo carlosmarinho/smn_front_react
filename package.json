@@ -7,6 +7,7 @@
     "@material-ui/icons": "^3.0.2",
     "axios": "^0.18.0",
     "draft-js": "^0.11.0",
+    "draftjs-to-html": "^0.8.4",
     "express": "^4.16.4",
     "lodash": "^4.17.11",
     "material-ui": "^0.20.2",

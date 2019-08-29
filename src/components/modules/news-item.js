@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux'
+import { connect } from 'react-redux';
+import draftToHtml from 'draftjs-to-html';
+
 import RightColumn from '../right-column';
 import HeaderBlog from '../header-destaque-blog';
 import PreFooter from './pre-footer'
@@ -93,6 +95,22 @@ class NewsItem extends Component {
         return <img src={imageSrc} alt="" style={{maxHeight:300, marginBottom: 30}} />
     }
 
+    showNoticiaContent(item) {
+        if(! item)
+            return <div>Carregando...</div>
+
+        if(item.descricaoJson){
+            return(
+                <div dangerouslySetInnerHTML={{__html: draftToHtml(item.descricaoJson)}} ></div>
+            );
+        }
+        else{
+            return(
+                <div dangerouslySetInnerHTML={{__html: item.descricao}} ></div>
+            )
+        }
+    }
+
     getContent(item){
         let url = "http://soumaisniteroi.com.br/noticias/" + item.slug
         return(
@@ -110,7 +128,7 @@ class NewsItem extends Component {
                     <h3 className="text-center">{(item)?item.titulo:'Carregando...'}</h3> 
                     <span>{this.datePtBr(new Date(item.createdAt))}</span>
                     
-                    <div dangerouslySetInnerHTML={{__html: (item)?item.descricao:'Carregando ...'}} ></div>
+                    {this.showNoticiaContent(item)}
 
                     <FormComment />
                     

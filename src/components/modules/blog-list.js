@@ -1,6 +1,8 @@
 import _ from 'lodash';
 import React, { Component } from 'react';
 import { connect } from 'react-redux'
+import draftToHtml from 'draftjs-to-html';
+
 import HeaderBlog from '../header-destaque-blog';
 import { fetchNoticias, fetchNoticiasByCategory } from '../../actions/noticia';
 import { fetchEventosRecentes } from '../../actions/evento';
@@ -127,9 +129,32 @@ class BlogList extends Component {
         }
     }
 
+    getResumo(noticia){
+        const truncate = _.truncate
+
+        if(noticia.resumo){
+            return(
+                truncate(noticia.descricao.replace(/&#13;/g,'').replace(/<\/?[^>]+(>|$)/g, ""), { length: 150, separator: /,?\.* +/ })
+                
+            )
+        }
+        if(noticia.descricaoJson){
+            return(
+                truncate(draftToHtml(noticia.descricaoJson).replace(/&#13;/g,'').replace(/<\/?[^>]+(>|$)/g, ""), { length: 150, separator: /,?\.* +/ })                
+            )
+        }
+        else{
+            return(
+                truncate(noticia.descricao.replace(/&#13;/g,'').replace(/<\/?[^>]+(>|$)/g, ""), { length: 150, separator: /,?\.* +/ })
+            )
+        }
+    }
+
     generateNoticias() {
         const truncate = _.truncate
         let noticias = this.state.data.map( (noticia, ind) => {
+            if(noticia.descricaoJson)
+                console.log("Noticia convertida: ", " --- ", draftToHtml(noticia.descricaoJson));
             
             return (
                 <div className="row blog-single" key={ind}>
@@ -138,9 +163,11 @@ class BlogList extends Component {
                     </div>
                     <div className="col-md-8">
                         <div className="page-blog">
+                            
                             <Link to={'/noticias/' + noticia.slug}  ><h3>{noticia.titulo}</h3></Link>
                             <span>{this.datePtBr(new Date(noticia.createdAt))} </span>
-                            <p>{truncate(noticia.descricao.replace(/&#13;/g,'').replace(/<\/?[^>]+(>|$)/g, ""), { length: 150, separator: /,?\.* +/ })}</p> 
+                            <p>{this.getResumo(noticia)}</p>
+                            <p>{}</p> 
                             {this.getCategorias(noticia.array_categorias)}
                             <Link to={'/noticias/' + noticia.slug} className="waves-effect waves-light btn-large full-btn" >Leia Mais</Link> </div>
                     </div>

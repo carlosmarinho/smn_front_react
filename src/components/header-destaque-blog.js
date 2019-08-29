@@ -17,7 +17,6 @@ class HeaderDestaqueBlog extends Component {
         if(this.props.description)
             description = truncate(this.props.description.replace(/<\/?[^>]+(>|$)/g, ""), { length: 100, separator: /,?\.* +/ })
         
-        console.log("description: .... ", this.props.description)
 
         let image = '';
         if(this.props.image)
