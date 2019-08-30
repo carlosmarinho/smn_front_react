@@ -83,6 +83,18 @@ class DashboardEvento extends Component{
         return date.toLocaleDateString('pt-BR')
     }
 
+    itemApproved(item){
+
+        switch(item.approved){
+            case true:
+                return <span className="db-list-ststus">Aprovado</span>
+            case false:
+                return <span className="db-list-ststus-na">Reprovado</span>
+            default:
+                return <span className="db-list-ststus-wa">Aguardando Aprovação</span>
+        }
+    }
+
     showEventos(){
         if(this.props.eventos && this.props.eventos.fromUser){
             return this.props.eventos.fromUser.map( evento => {
@@ -93,10 +105,8 @@ class DashboardEvento extends Component{
                         <td>{evento.titulo}</td>
                         <td>{(evento.array_bairros[0])?evento.array_bairros[0].nome:''}</td>
                         <td ><span className="db-list-rat">{this.datePtBr(new Date(evento.inicio))}</span></td>
-                        <td><span className="db-list-red">{this.datePtBr(new Date(evento.fim))}</span></td>
-                        <td><span className={(evento.status === false)?'db-list-ststus-na':'db-list-ststus'}>
-                        {(evento.status === false)?'Inativo':'Ativo'}</span>
-                        </td>
+                        <td><span className="db-list-grey">{this.datePtBr(new Date(evento.fim))}</span></td>
+                        <td>{this.itemApproved(evento)}</td>
                         <td className="table-information">
                             <Link to={'/dashboard/eventos/edit/' + evento._id}  ><i className="fa fa-pencil" title="edit"></i></Link>  
                             <Link to={'/dashboard/eventos/view/' + evento.slug} target="_blank" ><i className="fa fa-eye" title="view"></i></Link>

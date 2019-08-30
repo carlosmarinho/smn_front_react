@@ -85,6 +85,18 @@ export const createGuia = async (guia) => {
                     let request_gal = await axios.post(`${process.env.REACT_APP_URL_API}upload/`, form1, config);
                 }
 
+                const htmlToSend = `Faça <a href="${process.env.REACT_APP_URL_FRONTEND}login">login</a>
+                    e veja o novo guia cadastrado veja os dados abaixo: <br><br> ${JSON.stringify(guiatosave)}`;
+
+                const email = {
+                    to: 'carluizfla@hotmail.com',
+                    subject: `Novo guia '${guia.titulo}' cadastrado`,
+                    html: htmlToSend,
+                }
+
+                console.log("vai enviar o email: ", email);
+
+                axios.post(`${process.env.REACT_APP_URL_API}email/`, email, config)
 
                 return({
                     type: SUCCESS_CREATE_GUIA,

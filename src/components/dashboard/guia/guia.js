@@ -82,6 +82,18 @@ class DashboardGuia extends Component{
         return date.toLocaleDateString('pt-BR')
     }
 
+    itemApproved(item){
+
+        switch(item.approved){
+            case true:
+                return <span className="db-list-ststus">Aprovado</span>
+            case false:
+                return <span className="db-list-ststus-na">Reprovado</span>
+            default:
+                return <span className="db-list-ststus-wa">Aguardando Aprovação</span>
+        }
+    }
+
     showGuias(){
         if(this.props.guias && this.props.guias.fromUser){
             return this.props.guias.fromUser.map( guia => {
@@ -93,8 +105,7 @@ class DashboardGuia extends Component{
                         <td>{this.datePtBr(new Date(guia.createdAt))}</td>
                         <td><span className="db-list-rat">{guia.tipo}</span>
                         </td>
-                        <td><span className={(guia.status === false)?'db-list-ststus-na':'db-list-ststus'}>{(guia.status === false)?'Inativo':'Ativo'}</span>
-                        </td>
+                        <td>{this.itemApproved(guia)}</td>
                         <td className="table-information">
                             <Link to={'/dashboard/guias/edit/' + guia._id}  ><i className="fa fa-pencil" title="edit"></i></Link>  
                             <Link to={'/dashboard/guias/view/' + guia.slug} target="_blank" ><i className="fa fa-eye" title="view"></i></Link>

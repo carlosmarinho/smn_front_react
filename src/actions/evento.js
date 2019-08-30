@@ -63,6 +63,20 @@ export const createEvento = async (evento) => {
                     let request_img = await axios.post(`${process.env.REACT_APP_URL_API}upload/`, form, config);
                 }
 
+                const htmlToSend = `Faça <a href="${process.env.REACT_APP_URL_FRONTEND}login">login</a>
+                    e veja o novo guia cadastrado veja os dados abaixo: <br><br> ${eventotosave}`
+
+                const email = {
+                    to: 'carluizfla@hotmail.com',
+                    subject: `Novo evento '${evento.titulo}' cadastrado`,
+                    html: htmlToSend,
+                }
+
+                console.log("vai enviar o email: ", email);
+
+                axios.post(`${process.env.REACT_APP_URL_API}email/`, email, config)
+
+
                 return({
                     type: SUCCESS_CREATE_EVENTO,
                     payload: request

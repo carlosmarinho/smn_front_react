@@ -71,8 +71,7 @@ class Dashboard extends Component{
                         <td>{this.datePtBr(new Date(guia.createdAt))}</td>
                         <td><span className="db-list-rat">{guia.tipo}</span>
                         </td>
-                        <td><span className={(guia.status === false)?'db-list-ststus-na':'db-list-ststus'}>{(guia.status === false)?'Inativo':'Ativo'}</span>
-                        </td>
+                        <td>{this.itemApproved(guia)}</td>
                         <td className="table-information">
                             <Link to={'/dashboard/guias/edit/' + guia._id}  ><i className="fa fa-pencil" title="edit"></i></Link>  
                             <Link to={'/dashboard/guias/view/' + guia.slug} target="_blank" ><i className="fa fa-eye" title="view"></i></Link>
@@ -101,10 +100,8 @@ class Dashboard extends Component{
                         <td>{evento.titulo}</td>
                         <td>{(evento.array_bairros[0])?evento.array_bairros[0].nome:''}</td>
                         <td ><span className="db-list-rat">{this.datePtBr(new Date(evento.inicio))}</span></td>
-                        <td><span className="db-list-red">{this.datePtBr(new Date(evento.fim))}</span></td>
-                        <td><span className={(evento.status === false)?'db-list-ststus-na':'db-list-ststus'}>
-                        {(evento.status === false)?'Inativo':'Ativo'}</span>
-                        </td>
+                        <td><span className="db-list-grey">{this.datePtBr(new Date(evento.fim))}</span></td>
+                        <td>{this.itemApproved(evento)}</td>
                         <td className="table-information">
                             <Link to={'/dashboard/eventos/edit/' + evento._id}  ><i className="fa fa-pencil" title="edit"></i></Link>  
                             <Link to={'/dashboard/eventos/view/' + evento.slug} target="_blank" ><i className="fa fa-eye" title="view"></i></Link>
@@ -148,6 +145,28 @@ class Dashboard extends Component{
         return "http://images.soumaisniteroi.com.br/wp-content/uploads/2015/04/no-image.png";
     }
 
+    itemApproved(item){
+
+        switch(item.approved){
+            case true:
+                return <span className="db-list-ststus">Aprovado</span>
+            case false:
+                return <span className="db-list-ststus-na">Reprovado</span>
+            default:
+                return <span className="db-list-ststus-wa">Aguardando Aprovação</span>
+        }
+    }
+
+    noticiaApproved(noticia){
+        switch(noticia.approved){
+            case true:
+                return <span className="tz-msg-un-read">Aprovado</span>
+            case false:
+                return <span className="tz-msg-reproved">Reprovado</span>
+            default:
+                return <span className="tz-msg-waiting">Aguardando Aprovação</span>
+        }
+    }
 
     showNoticias(){
         let truncate = _.truncate;
@@ -157,7 +176,7 @@ class Dashboard extends Component{
                 
                 return(
                     <li key={noticia._id} className="view-msg" style={ noticia.approved ? {} : { backgroundColor: '#ffe6e6'}}>
-                        <h5><img src={this.getImageSrc(noticia)} alt="" />{noticia.titulo} <span className="tz-msg-un-read">{(noticia.status === false)?'Inativo':'Ativo'}</span></h5>
+                        <h5><img src={this.getImageSrc(noticia)} alt="" />{noticia.titulo} {this.noticiaApproved(noticia)}</h5>
                         <p>{truncate(noticia.descricao.replace(/&#13;/g,'').replace(/<\/?[^>]+(>|$)/g, ""), { length: 200, separator: /,?\.* +/ })}</p>
                         <div className="hid-msg">
                             <Link to={'/dashboard/noticias/edit/' + noticia._id}  ><i className="fa fa-pencil" title="edit"></i></Link> 

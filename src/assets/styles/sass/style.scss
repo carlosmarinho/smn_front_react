@@ -5466,7 +5466,7 @@ span {
      overflow: hidden;
 }
  .db-list-rat {
-     background: #ffe500;
+     background: #76cce6;
      padding: 4px;
      font-weight: 600;
      color: #000;
@@ -5477,8 +5477,8 @@ span {
 }
 
 /*Added by carlos*/
-.db-list-red {
-    background: #ff0022;
+.db-list-grey {
+    background: #e8e8e8;
     padding: 4px;
     font-weight: 600;
     color: #000;
@@ -5490,7 +5490,7 @@ span {
 /*end added*/
 
  .db-list-ststus {
-     background: #76cce6;
+     background: #4CAF50;
      padding: 4px;
      font-weight: 600;
      color: #000;
@@ -5500,7 +5500,7 @@ span {
      border-radius: 2px;
 }
  .db-list-ststus-na {
-     background: #e8e8e8;
+     background: #ff0022;
      padding: 4px;
      font-weight: 600;
      color: #000;
@@ -5508,6 +5508,16 @@ span {
      top: 0px;
      font-size: 14px;
      border-radius: 2px;
+}
+.db-list-ststus-wa {
+    background: #f7ed94;
+    padding: 4px;
+    font-weight: 600;
+    color: #000;
+    right: 15px;
+    top: 0px;
+    font-size: 14px;
+    border-radius: 2px;
 }
  .db-list-edit {
      background: #e8e8e8;
@@ -5619,6 +5629,17 @@ span {
  .tz-msg-un-read {
      background: #4CAF50;
 }
+
+/*added by carlos*/
+.tz-msg-reproved {
+    background: #fd8478; }
+
+.tz-mess .tz-msg-waiting {
+      background-color: #f7ed94; 
+      color: #000;
+}
+/*ended*/
+
  .hid-msg {
      position: relative;
      overflow: hidden;
