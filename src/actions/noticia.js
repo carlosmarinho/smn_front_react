@@ -18,7 +18,7 @@ import {
 export const createNoticia = async (noticia) => {
 
     let user = JSON.parse(localStorage.getItem('user'));
-    console.log("noticia post: ", noticia);
+    console.log("noticia post: ", user);
     let request;
     if(user){
         try
@@ -30,7 +30,7 @@ export const createNoticia = async (noticia) => {
             
             noticiatosave.imagem_principal = '';
             noticiatosave.slug = _.kebabCase(noticia.titulo);
-
+            noticiatosave.user = [user.user._id];
 
             let jwt = user.jwt    
             let config = { headers: { 'Authorization': `Bearer ${jwt}` } };            
@@ -110,11 +110,18 @@ export const editNoticia = async (noticia, id) => {
         {
             //correção para salvar uma relação no strapi
             let noticiatosave = _.clone(noticia);
-            noticiatosave.cidade = [noticia.cidade];
             noticiatosave.imagem_principal = '';
-            noticiatosave.bairros = [noticia.bairros];
+            
+            if(noticia.cidade)
+                noticiatosave.cidade = [noticia.cidade];
+            
+            if(noticia.bairros && noticia.bairros.length > 0)
+                noticiatosave.bairros = [noticia.bairros];
+
             if(noticia.slug == '')
                 noticiatosave.slug = _.kebabCase(noticia.titulo);
+
+            console.log("noticia: ", noticiatosave);
 
             let jwt = user.jwt    
             let config = { headers: { 'Authorization': `Bearer ${jwt}` } };
@@ -177,7 +184,7 @@ export const editNoticia = async (noticia, id) => {
                 console.log("Editando o noticia ver o erro: ", request);
                 return({
                     type: ERROR_EDIT_NOTICIA,
-                    payload: {msg: "Houve um erro ao editar o seu noticia!" }
+                    payload: {msg: "Houve um erro ao editar a sua notícia!" }
                 })
             }
         }
@@ -185,7 +192,7 @@ export const editNoticia = async (noticia, id) => {
             console.log("ERROR DO EDIT NOTICIA: ", error)
             return({
                 type: ERROR_EDIT_NOTICIA,
-                payload: {msg: "Houve um erro ao editar o seu noticia!" }
+                payload: {msg: "Houve um erro ao editar a sua notícia!" }
             })
         } 
     
@@ -273,13 +280,18 @@ export const removeImageAssociation = async (id) => {
     
 }
 
-export const fetchNoticiaBySlug = async(slug='', limit=1) => {
+export const fetchNoticiaBySlug = async(slug='', limit=1, view = false) => {
     
     if(slug){
         slug = `slug=${slug}&`
     }
 
-    const request = axios.get(`${process.env.REACT_APP_URL_API}noticias/?approved=true&${slug}_sort=_id:desc&_limit=${limit}`);
+    let request = {};
+    if(view)
+        request = axios.get(`${process.env.REACT_APP_URL_API}noticias/?${slug}_sort=_id:desc&_limit=${limit}`);
+    else
+        request = axios.get(`${process.env.REACT_APP_URL_API}noticias/?approved=true&${slug}_sort=_id:desc&_limit=${limit}`);
+    
     return {
         type: FETCH_NOTICIA,
         payload: request

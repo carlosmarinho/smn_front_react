@@ -97,7 +97,7 @@ class DashboardGuia extends Component{
                         </td>
                         <td className="table-information">
                             <Link to={'/dashboard/guias/edit/' + guia._id}  ><i className="fa fa-pencil" title="edit"></i></Link>  
-                            <Link to={'/guia/' + guia.slug}  ><i className="fa fa-eye" title="view"></i></Link>
+                            <Link to={'/dashboard/guias/view/' + guia.slug} target="_blank" ><i className="fa fa-eye" title="view"></i></Link>
                             <a href="javascript: void(0)">
                                 <Confirm
                                 onConfirm={() => this.deleteGuia(guia._id)}

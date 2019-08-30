@@ -62,7 +62,7 @@ export default function(state = null, action) {
             
             console.log("guia no FETCH_GUIA: ", action.payload)
             
-            if(action.payload.data[0])
+            if(action.payload.data && action.payload.data[0])
                 guia.guia = action.payload.data[0];
             else
                 guia.guia = action.payload.data;

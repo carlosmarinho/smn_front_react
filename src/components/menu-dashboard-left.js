@@ -34,7 +34,7 @@ class MenuDashboardLeft extends Component{
             <div className="tz-l-2">
             <ul>
                 <li>
-                    <Link to="/dashboard" className={(this.props.location.pathname == '/dashboard') ? 'tz-lma' : ''}><img src="/images/icon/dbl1.png" alt="" /> Minha Dashboard</Link>
+                    <Link to="/dashboard" className={(this.props.location.pathname == '/dashboard') ? 'tz-lma' : ''}><i className="fa fa-tachometer"></i> Minha Dashboard</Link>
                 </li>
                 <li>
                     <Link to="/dashboard/guias" className={(this.props.location.pathname == '/dashboard/guias') ? 'tz-lma' : ''}><i className="map marker alternate icon"></i> Meus Guias</Link>

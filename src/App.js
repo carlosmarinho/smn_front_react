@@ -14,7 +14,7 @@ import PageItem from './components/modules/page-item';
 import CategoryOrItem from './components/modules/category-or-item';
 import NewsItem from './components/modules/news-item';
 import BlogList from './components/modules/blog-list';
-//import ListingItem from './components/modules/listing-item'
+import ListingItem from './components/modules/listing-item'
 import EventItem from './components/modules/event-item';
 import ListingList from './components/modules/listing-list';
 import TagList from './components/modules/tag-list';
@@ -64,7 +64,35 @@ import (`./assets/styles/css/${city_or_neighbor}.css`);
 
 const createStoreWithMiddleware = applyMiddleware(promise)(createStore);
 
+const NewsItemView = (props) => {
+    return (
+        <NewsItem 
+            dashboardView={true} 
+            match={props.match}
+            location={props.location}
+        />        
+    )
+}
 
+const ListingItemView = (props) => {
+    return (
+        <ListingItem
+            dashboardView={true} 
+            match={props.match}
+            location={props.location}
+        />        
+    )
+}
+
+const EventItemView = (props) => {
+    return (
+        <EventItem 
+            dashboardView={true} 
+            match={props.match}
+            location={props.location}
+        />        
+    )
+}
 
 const ListingListComercios = (props) => {
     return (
@@ -163,15 +191,20 @@ class App extends Component {
                                 <Route exact path="/dashboard/guias" component={DashboardGuia} />
                                 <Route exact path="/dashboard/guias/novo" component={DashboardGuiaNew} />
                                 <Route exact path="/dashboard/guias/edit/:id" component={DashboardGuiaEdit} />
+                                <Route exact path="/dashboard/guias/view/:slug" component={ListingItemView} />
+
                                 
                                 <Route exact path="/dashboard/eventos" component={DashboardEvento} />
                                 <Route exact path="/dashboard/eventos/novo" component={DashboardEventoNew} />
                                 <Route exact path="/dashboard/eventos/edit/:id" component={DashboardEventoEdit} />
+                                <Route exact path="/dashboard/eventos/view/:slug" component={EventItemView} />
+
                                 
                                 <Route exact path="/dashboard/noticias" component={DashboardNoticia} />
                                 <Route exact path="/dashboard/noticias/novo" component={DashboardNoticiaNew} />
                                 <Route exact path="/dashboard/noticias/edit/:id" component={DashboardNoticiaEdit} />
-                                
+                                <Route exact path="/dashboard/noticias/view/:slug" component={NewsItemView} />
+
                                 <Route exact path="/connect/facebook/" component={Connect} />
                                 <Route exact path="/" component={Home} />
                                 <Route exact path="/auth/:provider/callback/" component={Login} />

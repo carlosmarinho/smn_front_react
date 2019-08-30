@@ -37,7 +37,7 @@ class EventItem extends Component {
             this.setState(
                 {
                    slug: slug,
-                   eventos: this.props.fetchEventoBySlug(slug)
+                   eventos: this.props.fetchEventoBySlug(slug, this.props.dashboardView)
                 }
             )
         }

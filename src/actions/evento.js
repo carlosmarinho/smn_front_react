@@ -29,6 +29,7 @@ export const createEvento = async (evento) => {
             eventotosave.imagem_principal = '';
             eventotosave.bairros = [evento.bairros];
             eventotosave.slug = _.kebabCase(evento.titulo);
+            eventotosave.user = user.user._id;
 
             let jwt = user.jwt    
             let config = { headers: { 'Authorization': `Bearer ${jwt}` } };            
@@ -195,7 +196,7 @@ export const editEvento = async (evento, id) => {
 }
 
 
-export const fetchEventoBySlug = async (slug) => {
+export const fetchEventoBySlug = async (slug, view = false) => {
 
    /*  let jwt = localStorage.getItem('jwt');
     
@@ -210,8 +211,12 @@ export const fetchEventoBySlug = async (slug) => {
 
     const request = axios.get(`${process.env.REACT_APP_URL_API}eventos/?slug=${slug}`, config); */
 
-    const request = axios.get(`${process.env.REACT_APP_URL_API}eventos/?approved=true&slug=${slug}`);
-
+    let request = {};
+    if(view)
+        request = axios.get(`${process.env.REACT_APP_URL_API}eventos/?slug=${slug}`);
+    else
+        request = axios.get(`${process.env.REACT_APP_URL_API}eventos/?approved=true&slug=${slug}`);
+    
     return {
         type: FETCH_EVENTO,
         payload: request

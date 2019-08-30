@@ -28,13 +28,14 @@ class NewsItem extends Component {
     }
 
     componentWillReceiveProps(nextProps) {
+        console.log("next props: ", nextProps);
         let slug = nextProps.match.params.slug
         
         if(slug !== this.state.slug){
             this.setState(
                 {
                    slug: slug,
-                   noticias: this.props.fetchNoticiaBySlug(slug)
+                   noticias: this.props.fetchNoticiaBySlug(slug, 1, nextProps.dashboardView )
                 }
             )
         }

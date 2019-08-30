@@ -92,7 +92,7 @@ class DashboardNoticia extends Component{
                         <p>{truncate(noticia.descricao.replace(/&#13;/g,'').replace(/<\/?[^>]+(>|$)/g, ""), { length: 200, separator: /,?\.* +/ })}</p>
                         <div className="hid-msg">
                             <Link to={'/dashboard/noticias/edit/' + noticia._id}  ><i className="fa fa-pencil" title="Editar"></i></Link> 
-                            <Link to={'/noticias/' + noticia.slug}  ><i className="fa fa-eye" title="Visualizar"></i></Link>
+                            <Link to={'/dashboard/noticias/view/' + noticia.slug} target="_blank" ><i className="fa fa-eye" title="Visualizar"></i></Link>
                             <a href="javascript: void(0)"><Confirm
                                 onConfirm={() => this.deleteNoticia(noticia._id)}
                                 body={`Tem certeza que deseja excluir a notícia '${noticia.titulo}'?`}

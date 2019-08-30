@@ -393,7 +393,7 @@ class EventoNew extends Component{
 								label="Horário inicial do Evento"
 								classCol="s6"
 								className="validate"
-								validate={[ required ]}
+								validate={[ ]}
 								{...horaMask}
 							/>
 							<Field
@@ -403,7 +403,7 @@ class EventoNew extends Component{
 								label="Horário final do Evento"
 								classCol="s6"
 								className="validate"
-								validate={[ required ]}
+								validate={[ ]}
 								{...horaMask}
 							/>
 							

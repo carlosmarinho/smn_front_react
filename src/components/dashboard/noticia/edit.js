@@ -120,12 +120,13 @@ class NoticiaEdit extends Component{
 
 			//const plainText = 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit.';
 			//const content = ContentState.createFromText(plainText);
-			const content = EditorState.createWithContent(convertFromRaw(this.props.noticias.noticia.descricaoJson))
+			if(this.props.noticias.noticia.descricaoJson){
+				const content = EditorState.createWithContent(convertFromRaw(this.props.noticias.noticia.descricaoJson))
+				this.setState({ editorStateDescricao: content })
+			}
 			
 
-			console.log("content convertido: ", content, ' ==== ', this.props.noticias.noticia.descricaoJson);
 
-			this.setState({ editorStateDescricao: content })
 			//this.setState({editorStateDescricao: EditorState.createWithContent(this.props.noticias.noticia.descricaoJson)})
 		// if(user.user.role.name == 'Administrator'){
 		//     this.props.fetchNoticiasByAdm(7);
@@ -398,7 +399,7 @@ class NoticiaEdit extends Component{
 	}			
 
 	showImagemGaleria(i){
-		if(this.props.noticias && this.props.noticias.noticia && this.props.noticias.noticia.galeria_imagens[i]){
+		if(this.props.noticias && this.props.noticias.noticia && this.props.noticias.noticia.galeria_imagens && this.props.noticias.noticia.galeria_imagens[i]){
 			
 			return(
 				<div className="file-input">
@@ -437,6 +438,124 @@ class NoticiaEdit extends Component{
 			</div>
 		)
 	}
+
+	galleryContent(){
+		const { pristine, reset, submitting, handleSubmit } = this.props
+
+		return(
+			<div className="hom-cre-acc-left hom-cre-acc-right">
+				<div className="">
+					<form className="" onSubmit={handleSubmit(this.handleSubmit)}>
+						<div className="row">
+							<div className="db-v2-list-form-inn-tit-top">
+								<h5>Photo Gallery <span className="v2-db-form-note">(upload multiple photos note:size 750x500):</span ></h5>
+							</div>
+						</div>
+
+						<div className="row tz-file-upload">
+							<Field
+								name="galeria_img[0]"
+								component={this.renderField}
+								type="file"
+								classCol="s12"
+								className="validate"
+								validate={ [myFile]}
+							/>
+							{this.showImagemGaleria(0)}
+							<Field
+								name="galeria_img[1]"
+								component={this.renderField}
+								type="file"
+								classCol="s12"
+								className="validate"
+								validate={ [myFile]}
+							/>
+							{this.showImagemGaleria(1)}
+							<Field
+								name="galeria_img[2]"
+								component={this.renderField}
+								type="file"
+								classCol="s12"
+								className="validate"
+								validate={ [myFile]}
+							/>
+							{this.showImagemGaleria(2)}
+							<Field
+								name="galeria_img[3]"
+								component={this.renderField}
+								type="file"
+								classCol="s12"
+								className="validate"
+								validate={ [myFile]}
+							/>
+							{this.showImagemGaleria(3)}
+							<Field
+								name="galeria_img[4]"
+								component={this.renderField}
+								type="file"
+								classCol="s12"
+								className="validate"
+								validate={ [myFile]}
+							/>
+							{this.showImagemGaleria(4)}
+							<Field
+								name="galeria_img[5]"
+								component={this.renderField}
+								type="file"
+								classCol="s12"
+								className="validate"
+								validate={ [myFile]}
+							/>
+							{this.showImagemGaleria(5)}
+							<Field
+								name="galeria_img[6]"
+								component={this.renderField}
+								type="file"
+								classCol="s12"
+								className="validate"
+								validate={ [myFile]}
+							/>
+							{this.showImagemGaleria(6)}
+							<Field
+								name="galeria_img[7]"
+								component={this.renderField}
+								type="file"
+								classCol="s12"
+								className="validate"
+								validate={ [myFile]}
+							/>
+							{this.showImagemGaleria(7)}
+							<Field
+								name="galeria_img[8]"
+								component={this.renderField}
+								type="file"
+								classCol="s12"
+								className="validate"
+								validate={ [myFile]}
+							/>
+							{this.showImagemGaleria(8)}
+							<Field
+								name="galeria_img[9]"
+								component={this.renderField}
+								type="file"
+								classCol="s12"
+								className="validate"
+								validate={ [myFile]}
+							/>
+							{this.showImagemGaleria(9)}
+						</div>									
+								
+						<div className="row">
+							<div className="input-field col s12 v2-mar-top-40"> 
+								<input type="submit"  value="Editar" className="waves-effect waves-light no-color btn-large full-btn" /> 
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+		)
+	}
+
 
 	generalContent(){
 		const { pristine, reset, submitting, handleSubmit } = this.props
@@ -624,7 +743,7 @@ class NoticiaEdit extends Component{
 								label="Cidade"
 								classCol="s4"
 								className="validate"
-								validate={[required]}
+								validate={[]}
 							/>
 							<Field
 								name="bairros"
@@ -681,6 +800,7 @@ class NoticiaEdit extends Component{
 									<TabList>
 									<Tab>Geral</Tab>
 									<Tab>Tags, Categorias e Localização</Tab>
+									<Tab>Galeria de Fotos</Tab>
 									</TabList>
 
 									<TabPanel>
@@ -688,6 +808,9 @@ class NoticiaEdit extends Component{
 									</TabPanel>
 									<TabPanel>
 										{this.priceTagsAndOtherContent()}
+									</TabPanel>
+									<TabPanel>
+										{this.galleryContent()}
 									</TabPanel>
 	
 								</Tabs>

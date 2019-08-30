@@ -346,7 +346,7 @@ export const removeImageAssociation = async (id, id_guia) => {
     
 }
 
-export const fetchGuiaBySlug = async (slug) => {
+export const fetchGuiaBySlug = async (slug, view = false) => {
 
     /* let jwt = localStorage.getItem('jwt');
     
@@ -361,7 +361,12 @@ export const fetchGuiaBySlug = async (slug) => {
 
     const request = axios.get(`${process.env.REACT_APP_URL_API}guias/?slug=${slug}`, config); */
 
-    const request = axios.get(`${process.env.REACT_APP_URL_API}guias/?slug=${slug}`);
+    let request = {};
+    if(view)
+        request = axios.get(`${process.env.REACT_APP_URL_API}guias/?slug=${slug}`);
+    else
+        request = axios.get(`${process.env.REACT_APP_URL_API}guias/?approved=true&slug=${slug}`);
+    
 
     return {
         type: FETCH_GUIA,

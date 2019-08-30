@@ -1,6 +1,6 @@
 import { DELETE_NOTICIA, APPROVE_NOTICIA, REMOVE_IMAGE_NOTICIA, FETCH_NOTICIA, FETCH_NOTICIAS, FETCH_NOTICIAS_RECENTES, FETCH_NOTICIAS_FEATURED, FETCH_NOTICIAS_USER } from "../actions/types";
 
-export default function(state = null, action) {
+export default function(state = {}, action) {
 
     let noticia =  {noticia: null, 
         featured: null, 

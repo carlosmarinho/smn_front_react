@@ -99,7 +99,7 @@ class DashboardEvento extends Component{
                         </td>
                         <td className="table-information">
                             <Link to={'/dashboard/eventos/edit/' + evento._id}  ><i className="fa fa-pencil" title="edit"></i></Link>  
-                            <Link to={'/eventos/' + evento.slug}  ><i className="fa fa-eye" title="view"></i></Link>
+                            <Link to={'/dashboard/eventos/view/' + evento.slug} target="_blank" ><i className="fa fa-eye" title="view"></i></Link>
                             <a href="javascript: void(0)">
                                 <Confirm
                                     onConfirm={() => this.deleteEvento(evento._id)}

@@ -32,9 +32,9 @@ class Dashboard extends Component{
                 this.props.fetchNoticiasByAdm(7);
             }
             else{
-                this.props.fetchGuiasByUser(user.user._id, 5);
-                this.props.fetchEventosByUser(user.user._id, 5);
-                this.props.fetchNoticiasByUser(user.user._id, 5);
+                this.props.fetchGuiasByUser(user.user._id, 7);
+                this.props.fetchEventosByUser(user.user._id, 7);
+                this.props.fetchNoticiasByUser(user.user._id, 7);
             }
         }
         else{
@@ -65,7 +65,7 @@ class Dashboard extends Component{
             return this.props.guias.fromUser.map( guia => {
                 
                 return(
-                    <tr key={guia.id}>
+                    <tr key={guia.id} style={ guia.approved ? {} : { backgroundColor: '#ffe6e6'}}>
                         <td className="td-imagem"><img src={this.getImageSrc(guia)} alt="" /></td>
                         <td>{guia.titulo}</td>
                         <td>{this.datePtBr(new Date(guia.createdAt))}</td>
@@ -75,7 +75,7 @@ class Dashboard extends Component{
                         </td>
                         <td className="table-information">
                             <Link to={'/dashboard/guias/edit/' + guia._id}  ><i className="fa fa-pencil" title="edit"></i></Link>  
-                            <Link to={'/guia/' + guia.slug}  ><i className="fa fa-eye" title="view"></i></Link>
+                            <Link to={'/dashboard/guias/view/' + guia.slug} target="_blank" ><i className="fa fa-eye" title="view"></i></Link>
                             <a href="javascript: void(0)"><Confirm
                                 onConfirm={() => this.deleteGuia(guia._id)}
                                 body={`Tem certeza que deseja excluir o Guia '${guia.titulo}'?`}
@@ -96,7 +96,7 @@ class Dashboard extends Component{
             return this.props.eventos.fromUser.map( evento => {
 
                 return(
-                    <tr key={evento.id}>
+                    <tr key={evento.id}  key={evento.id} style={ evento.approved ? {} : { backgroundColor: '#ffe6e6'}}>
                         <td className="td-imagem"><img src={this.getImageSrc(evento)} alt="" /></td>
                         <td>{evento.titulo}</td>
                         <td>{(evento.array_bairros[0])?evento.array_bairros[0].nome:''}</td>
@@ -107,7 +107,7 @@ class Dashboard extends Component{
                         </td>
                         <td className="table-information">
                             <Link to={'/dashboard/eventos/edit/' + evento._id}  ><i className="fa fa-pencil" title="edit"></i></Link>  
-                            <Link to={'/eventos/' + evento.slug}  ><i className="fa fa-eye" title="view"></i></Link>
+                            <Link to={'/dashboard/eventos/view/' + evento.slug} target="_blank" ><i className="fa fa-eye" title="view"></i></Link>
                             <a href="javascript: void(0)">
                                 <Confirm
                                     onConfirm={() => this.deleteEvento(evento._id)}
@@ -156,12 +156,12 @@ class Dashboard extends Component{
             return this.props.noticias.fromUser.map( noticia => {
                 
                 return(
-                    <li key={noticia._id} className="view-msg">
+                    <li key={noticia._id} className="view-msg" style={ noticia.approved ? {} : { backgroundColor: '#ffe6e6'}}>
                         <h5><img src={this.getImageSrc(noticia)} alt="" />{noticia.titulo} <span className="tz-msg-un-read">{(noticia.status === false)?'Inativo':'Ativo'}</span></h5>
                         <p>{truncate(noticia.descricao.replace(/&#13;/g,'').replace(/<\/?[^>]+(>|$)/g, ""), { length: 200, separator: /,?\.* +/ })}</p>
                         <div className="hid-msg">
                             <Link to={'/dashboard/noticias/edit/' + noticia._id}  ><i className="fa fa-pencil" title="edit"></i></Link> 
-                            <Link to={'/noticias/' + noticia.slug}  ><i className="fa fa-eye" title="view"></i></Link>
+                            <Link to={'/dashboard/noticias/view/' + noticia.slug } target="_blank"  ><i className="fa fa-eye" title="view"></i></Link>
                             <a href="javascript: void(0)"><Confirm
                                 onConfirm={() => this.deleteNoticia(noticia._id)}
                                 body={`Tem certeza que deseja excluir a notícia '${noticia.titulo}'?`}

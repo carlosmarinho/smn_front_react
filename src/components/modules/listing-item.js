@@ -34,7 +34,7 @@ class ListingItem extends Component {
             this.setState(
                 {
                    slug: slug,
-                   guias: this.props.fetchGuiaBySlug(slug)
+                   guias: this.props.fetchGuiaBySlug(slug, this.props.dashboardView)
                 }
             )
         }
