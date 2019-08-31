@@ -45,6 +45,7 @@ class Reviews extends Component {
             return "Sem avaliações!"
         }
     }
+    
 
     render(){
         return(

@@ -1,6 +1,16 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import {Field, reduxForm} from 'redux-form';
+
 
 class FormComment extends Component {
+
+    constructor(){
+        super();	
+		
+		this.handleSubmit = this.handleSubmit.bind(this);
+	
+    }
 
     getDescription(){
         if(this.props.text)
@@ -14,7 +24,37 @@ class FormComment extends Component {
 
     }
 
+    renderField(field){
+		const {input, label, type, meta: {touched, error, warning} } = field;
+		if(type=='file')
+			delete(input.value)
+
+		let className = `col ${field.classCol}`
+
+        return(
+			
+			<div className={`input-field-edit  ${className}`}>
+				<label htmlFor={label}>{label}</label>	
+				<input {...input} id={label}  type={type} disabled={field.disabled} className="validate"  />
+				{touched && ((error && <span className="text-danger">{error}</span>) || (warning && <span>{warning}</span>))}
+			</div>
+            
+        )
+	}
+
+    handleSubmit(values) {
+		console.log("values antes: ", values);
+		if(values.gratuito){
+			values.preco = '';
+		}
+
+		this.props.editNoticia(values);
+		
+    }
+
     render(){
+        const { pristine, reset, submitting, handleSubmit } = this.props
+
         return(
             <div className="pglist-p3 pglist-bg pglist-p-com" >
                 <span id="ld-rew"></span>
@@ -22,13 +62,13 @@ class FormComment extends Component {
                     <h3><span>Deixe seus</span> Comentários</h3> </div>
                 <div className="list-pg-inn-sp">
                     <div className="list-pg-write-rev">
-                        <form className="col">
+                        <form className="col" onSubmit={handleSubmit(this.handleSubmit)}>
                             {this.getDescription()}
                             <div className="row">
                                 <div className="col s12">
                                     <fieldset className="rating">
                                         <input type="radio" id="star5" name="rating" value="5" />
-                                        <label className="full" htmlFor="star5" title="Awesome - 5 stars"></label>
+                                        <label className="full" htmlFor="star5" title="Exelente - 5 stars"></label>
                                         <input type="radio" id="star4half" name="rating" value="4 and a half" />
                                         <label className="half" htmlFor="star4half" title="Pretty good - 4.5 stars"></label>
                                         <input type="radio" id="star4" name="rating" value="4" />
@@ -88,4 +128,9 @@ class FormComment extends Component {
 
 }
 
-export default FormComment;
+const myForm = reduxForm({
+	form: 'comment',
+	
+})(FormComment)
+
+export default connect(null, {})(myForm);
