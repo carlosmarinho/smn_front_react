@@ -259,7 +259,7 @@ class SearchList extends Component {
                                 <div className="list-enqu-btn">
                                     <ul>
                                         <li><a href="#!"><i className="fa fa-envelope" aria-hidden="true"></i> Enviar Email</a> </li>
-                                        <li><a href="#!"><i className="fa fa-star-o" aria-hidden="true"></i> Faça sua Avaliação</a> </li>
+                                        <li><a href="#!"><i className="fa fa-star-o" aria-hidden="true"></i>Faça sua Avaliação</a> </li>
                                         <li><a href="#!" data-dismiss="modal" data-toggle="modal" data-target="#list-quo"><i className="fa fa-question-circle" aria-hidden="true"></i> Perguntar</a> </li>
                                     </ul>
                                 </div>
