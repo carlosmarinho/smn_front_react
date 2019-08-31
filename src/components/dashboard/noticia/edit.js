@@ -110,7 +110,7 @@ class NoticiaEdit extends Component{
 		let user = JSON.parse(localStorage.getItem('user'));
 		
         if(user !== null){
-			this.setState({userLogged:true})
+			this.setState({userLogged:user.user})
 			this.props.fetchMe();
 			this.props.fetchCategories('notícia', 250, 'parent_id');
 			this.props.fetchTags();
@@ -167,6 +167,7 @@ class NoticiaEdit extends Component{
 			}, 
 			this.props.match.params.id
 		);
+		window.scrollTo(0, 0);
     }
 
 	addTag(){
@@ -556,6 +557,18 @@ class NoticiaEdit extends Component{
 		)
 	}
 
+	showDescricaoAdmin(noticia){
+		if(this.state.userLogged && this.state.userLogged.role.name == 'Administrator' && noticia && noticia.descricao){
+			return(
+				<div className="row">
+					<div className="input-field-edit col s12">
+						<label htmlFor="descricao">Descrição Adm</label>
+						<Field name="descricao" component="textarea" style={{minHeight:'400px'}} />
+					</div>
+				</div>
+			)
+		}
+	}
 
 	generalContent(){
 		const { pristine, reset, submitting, handleSubmit } = this.props
@@ -571,8 +584,6 @@ class NoticiaEdit extends Component{
 			tags = this.props.tags.list;
 			tags = this.proccessJsonForMultSelect(tags);
 		}
-		
-		
 
 		return(
 			<div className="hom-cre-acc-left hom-cre-acc-right">
@@ -616,11 +627,11 @@ class NoticiaEdit extends Component{
 								<Field name="introducao" component="textarea" />
 							</div>
 						</div>
-						
+						{this.showDescricaoAdmin(this.props.noticias.noticia)}
 						<div className="row">
 							<div className="input-field-edit col s12">
 								
-								{/*<label htmlFor="descricao">Descrição</label>*/}
+								<label >Descrição</label>
 								<Editor
 									editorState={this.state.editorStateDescricao}
 									toolbarClassName="toolbarClassName"

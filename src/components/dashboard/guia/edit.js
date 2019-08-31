@@ -918,8 +918,10 @@ function mapStateToProps(state, ownProps){
 		
 		guiaInit.estado = '5bce2506e8a51373aab0b047';
 		
+		console.log('guia: ', guiaInit)
+
 		if(guiaInit.cidade){
-			if(_.isArray(guiaInit.cidade) && guiaInit.cidade._id){
+			if(_.isArray(guiaInit.cidade) && guiaInit.cidade[0]._id){
 				guiaInit.cidade = guiaInit.cidade[0]._id;
 			}
 			else if(guiaInit.cidade._id){

@@ -33,7 +33,6 @@ export const createGuia = async (guia) => {
             guiatosave.bairros = [guia.bairros];
             guiatosave.slug = _.kebabCase(guia.titulo);
             guiatosave.user = [user.user._id];
-            guiatosave.approved = false;
 
             let jwt = user.jwt    
             let config = { headers: { 'Authorization': `Bearer ${jwt}` } };            

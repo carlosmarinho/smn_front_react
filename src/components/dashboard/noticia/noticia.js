@@ -80,6 +80,17 @@ class DashboardNoticia extends Component{
         }
     }
 
+    noticiaApproved(noticia){
+        switch(noticia.approved){
+            case true:
+                return <span className="tz-msg-un-read">Aprovado</span>
+            case false:
+                return <span className="tz-msg-reproved">Reprovado</span>
+            default:
+                return <span className="tz-msg-waiting">Aguardando Aprovação</span>
+        }
+    }
+
     showNoticias(){
         let truncate = _.truncate;
 
@@ -88,7 +99,7 @@ class DashboardNoticia extends Component{
                 
                 return(
                     <li key={noticia._id} className="view-msg" style={ noticia.approved ? {} : { backgroundColor: '#ffe6e6'}}>
-                        <h5><img src={this.getImageSrc(noticia)} alt="" />{noticia.titulo} <span className="tz-msg-un-read">{(noticia.status === false)?'Inativo':'Ativo'}</span></h5>
+                        <h5><img src={this.getImageSrc(noticia)} alt="" />{noticia.titulo} {this.noticiaApproved(noticia)}</h5>
                         <p>{truncate(noticia.descricao.replace(/&#13;/g,'').replace(/<\/?[^>]+(>|$)/g, ""), { length: 200, separator: /,?\.* +/ })}</p>
                         <div className="hid-msg">
                             <Link to={'/dashboard/noticias/edit/' + noticia._id}  ><i className="fa fa-pencil" title="Editar"></i></Link> 

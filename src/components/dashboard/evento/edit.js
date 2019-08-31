@@ -149,7 +149,8 @@ class EventoEdit extends Component{
 
 		console.log("values depois: ", values);
 
-        this.props.editEvento({...values, inicio: this.state.inicio, fim: this.state.fim}, this.props.match.params.id);
+		this.props.editEvento({...values, inicio: this.state.inicio, fim: this.state.fim}, this.props.match.params.id);
+		window.scrollTo(0, 0);
     }
 
 	addTag(){
@@ -621,7 +622,7 @@ class EventoEdit extends Component{
 								label="Horário inicial do Evento"
 								classCol="s6"
 								className="validate"
-								validate={[ required ]}
+								validate={[ ]}
 								{...horaMask}
 							/>
 							<Field
@@ -631,7 +632,7 @@ class EventoEdit extends Component{
 								label="Horário final do Evento"
 								classCol="s6"
 								className="validate"
-								validate={[ required ]}
+								validate={[ ]}
 								{...horaMask}
 							/>
 							
@@ -933,6 +934,7 @@ function mapStateToProps(state, ownProps){
 				
 		eventoInit.estado = '5bce2506e8a51373aab0b047';
 		
+
 		if(eventoInit.cidade){
 			if(_.isArray(eventoInit.cidade)){	
 				eventoInit.cidade = eventoInit.cidade[0]._id;
