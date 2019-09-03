@@ -21,7 +21,6 @@ class PageItem extends Component {
     }
 
     componentDidMount() {
-        console.log("no did mount do page: ", this.props.match.params)
         this.setState({slug: this.props.match.params.slug})
         this.props.fetchPaginaBySlug(this.props.match.params.slug);
         this.props.fetchEventosRecentes('5ba26f813a018f42215a36a0');
@@ -30,7 +29,6 @@ class PageItem extends Component {
 
     componentWillReceiveProps(nextProps) {
         let slug = nextProps.match.params.slug
-        console.log("o slug no will receive: ", slug, ' --- ', this.state.slug);
         if(slug !== this.state.slug){
             this.setState(
                 {

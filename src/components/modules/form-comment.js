@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import {Field, reduxForm} from 'redux-form';
+import {createComentarioEvento, createComentarioGuia, createComentarioNoticia} from '../../actions/comentario';
+
+const required = value => value ? undefined : 'Campo Obrigatório'
 
 
 class FormComment extends Component {
@@ -33,9 +36,9 @@ class FormComment extends Component {
 
         return(
 			
-			<div className={`input-field-edit  ${className}`}>
-				<label htmlFor={label}>{label}</label>	
+			<div className={`input-field  ${className}`}>
 				<input {...input} id={label}  type={type} disabled={field.disabled} className="validate"  />
+				<label htmlFor={label}>{label}</label>	
 				{touched && ((error && <span className="text-danger">{error}</span>) || (warning && <span>{warning}</span>))}
 			</div>
             
@@ -43,18 +46,27 @@ class FormComment extends Component {
 	}
 
     handleSubmit(values) {
-		console.log("values antes: ", values);
-		if(values.gratuito){
-			values.preco = '';
-		}
+        console.log("values no create comentario: ", values);4
+        
+        const { resource } = this.props;
+        values.classificacao = values.rating;
+        values.guia = this.props.item_id;
+        values.review = this.props.review;
+		switch(resource){
+            case 'guia':
+                this.props.createComentarioGuia(values);
+                break;
+            case 'evento':
+                this.props.createComentarioEvento(values);
+                break;
+            case 'noticia':
+                this.props.createComentarioNoticia(values)
+        }
 
-		this.props.editNoticia(values);
-		
     }
 
     render(){
         const { pristine, reset, submitting, handleSubmit } = this.props
-
         return(
             <div className="pglist-p3 pglist-bg pglist-p-com" >
                 <span id="ld-rew"></span>
@@ -67,57 +79,78 @@ class FormComment extends Component {
                             <div className="row">
                                 <div className="col s12">
                                     <fieldset className="rating">
-                                        <input type="radio" id="star5" name="rating" value="5" />
-                                        <label className="full" htmlFor="star5" title="Exelente - 5 stars"></label>
-                                        <input type="radio" id="star4half" name="rating" value="4 and a half" />
-                                        <label className="half" htmlFor="star4half" title="Pretty good - 4.5 stars"></label>
-                                        <input type="radio" id="star4" name="rating" value="4" />
-                                        <label className="full" htmlFor="star4" title="Pretty good - 4 stars"></label>
-                                        <input type="radio" id="star3half" name="rating" value="3 and a half" />
-                                        <label className="half" htmlFor="star3half" title="Meh - 3.5 stars"></label>
-                                        <input type="radio" id="star3" name="rating" value="3" />
-                                        <label className="full" htmlFor="star3" title="Meh - 3 stars"></label>
-                                        <input type="radio" id="star2half" name="rating" value="2 and a half" />
-                                        <label className="half" htmlFor="star2half" title="Kinda bad - 2.5 stars"></label>
-                                        <input type="radio" id="star2" name="rating" value="2" />
-                                        <label className="full" htmlFor="star2" title="Kinda bad - 2 stars"></label>
-                                        <input type="radio" id="star1half" name="rating" value="1 and a half" />
-                                        <label className="half" htmlFor="star1half" title="Meh - 1.5 stars"></label>
-                                        <input type="radio" id="star1" name="rating" value="1" />
-                                        <label className="full" htmlFor="star1" title="Sucks big time - 1 star"></label>
-                                        <input type="radio" id="starhalf" name="rating" value="half" />
-                                        <label className="half" htmlFor="starhalf" title="Sucks big time - 0.5 stars"></label>
+                                        <Field name="rating" component="input" type="radio" id="star5" value="5"/>
+                                        <label className="full" htmlFor="star5" title="Exelente - 5 estrelas"></label>
+                                        <Field name="rating" component="input" type="radio" id="star4half" value="4.5"/>
+                                        <label className="half" htmlFor="star4half" title="Muito Bom - 4,5 estrelas"></label>
+
+                                        <Field name="rating" component="input" type="radio" id="star4" value="4"/>
+                                        <label className="full" htmlFor="star4" title="Bom - 4 estrelas"></label>
+                                        <Field name="rating" component="input" type="radio" id="star3half" value="3.5"/>
+                                        <label className="half" htmlFor="star3half" title="Bom - 3,5 estrelas"></label>
+
+                                        <Field name="rating" component="input" type="radio" id="star3" value="3"/>
+                                        <label className="full" htmlFor="star3" title="Satisfatório - 3 estrelas"></label>
+                                        <Field name="rating" component="input" type="radio" id="star2half" value="2.5"/>
+                                        <label className="half" htmlFor="star2half" title="Bom - 2,5 estrelas"></label>
+
+                                        <Field name="rating" component="input" type="radio" id="star2" value="2"/>
+                                        <label className="full" htmlFor="star2" title="Abaixo da Média - 2 estrelas"></label>
+                                        <Field name="rating" component="input" type="radio" id="star1half" value="1.5"/>
+                                        <label className="half" htmlFor="star1half" title="Abaixo da Média - 1,5 estrelas"></label>
+
+                                        <Field name="rating" component="input" type="radio" id="star1" value="1"/>
+                                        <label className="full" htmlFor="star1" title="Ruim - 1 estrelas"></label>
+                                        <Field name="rating" component="input" type="radio" id="starhalf" value="0.5"/>
+                                        <label className="half" htmlFor="starhalf" title="Ruim - 0,5 estrelas"></label>
+
+                                        
+                                        
                                     </fieldset>
                                 </div>
                             </div>
                             <div className="row">
-                                <div className="input-field col s6">
-                                    <input id="re_name" type="text" className="validate" />
-                                    <label htmlFor="re_name">Nome</label>
-                                </div>
-                                <div className="input-field col s6">
-                                    <input id="re_mob" type="number" className="validate" />
-                                    <label htmlFor="re_mob">Celular</label>
-                                </div>
+                                <Field
+                                    name="author_name"
+                                    component={this.renderField}
+                                    type="text"
+                                    label="Nome"
+                                    classCol="s12"
+                                    className="validate"
+                                    validate={[required]}
+                                />
+                                
                             </div>
                             <div className="row">
-                                <div className="input-field col s6">
-                                    <input id="re_mail" type="email" className="validate" />
-                                    <label htmlFor="re_mail">Email</label>
-                                </div>
-                                <div className="input-field col s6">
-                                    <input id="re_district" type="text" className="validate" />
-                                    <label htmlFor="re_district">Bairro</label>
-                                </div>
+                                <Field
+                                    name="author_email"
+                                    component={this.renderField}
+                                    type="text"
+                                    label="Email"
+                                    classCol="s12"
+                                    className="validate"
+                                    validate={[required]}
+                                />
+                            </div>
+                            <div className="row">
+                                <Field
+                                    name="titulo"
+                                    component={this.renderField}
+                                    type="text"
+                                    label="Titulo - Ex.: Gostei muito do serviço..."
+                                    classCol="s12"
+                                    className="validate"
+                                    validate={[]}
+                                />
                             </div>
                             <div className="row">
                                 <div className="input-field col s12">
-                                    <textarea id="re_msg" className="materialize-textarea"></textarea>
-                                    <label htmlFor="re_msg">Commentário</label>
+                                    <Field name="descricao" component="textarea" />
+                                    <label htmlFor="descricao">Comentário</label>
                                 </div>
                             </div>
                             <div className="row">
-                                <div className="input-field col s12"> <a className="waves-effect waves-light btn-large full-btn" href="#!">Enviar</a> </div>
+                                <div className="input-field col s12"> <button type="submit"  value="Enviar" className="waves-effect waves-light btn-large full-btn" >Enviar</button>  </div>
                             </div>
                         </form>
                     </div>
@@ -133,4 +166,4 @@ const myForm = reduxForm({
 	
 })(FormComment)
 
-export default connect(null, {})(myForm);
+export default connect(null, {createComentarioEvento, createComentarioGuia, createComentarioNoticia})(myForm);

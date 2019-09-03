@@ -36,7 +36,6 @@ class DashboardGuia extends Component{
     }
 
     showApprove(guia){
-        console.log('this userlogged', this.state)
         if(this.state.userLogged && this.state.userLogged.role.name == 'Administrator'){
 
             if(guia.approved){

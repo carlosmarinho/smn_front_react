@@ -36,7 +36,6 @@ class DashboardEvento extends Component{
     }
 
     showApprove(evento){
-        console.log('this userlogged', this.state)
         if(this.state.userLogged && this.state.userLogged.role.name == 'Administrator'){
 
             if(evento.approved){

@@ -2,43 +2,71 @@ import React, { Component } from 'react';
 
 class Reviews extends Component {
 
-    getAvaliacaoMedia(item){
-        if(item && item.avaliacao){
+    getQtyStars(qty){
+        let elem = [];
+        for(let i=0; i< qty; i++)
+            elem.push(<i key={i} className="fa fa-star" aria-hidden="true"></i>);
+        
+        return elem
+    }
+
+    getAvaliacaoMedia(review){
+        if(review){
             return(
-                <p><span>item.avaliacao <i className="fa fa-star" aria-hidden="true"></i></span> baseado em xxx avaliações</p>
+                <p><span>{review.media} {this.getQtyStars(review.media)}</span> baseado em {review.total} avaliações</p>
             )
         }
         else{
             return (
-                <p><span>Nenhuma <i className="fa fa-star" aria-hidden="true"></i></span> baseado em xxx avaliações</p>
+                <p><span>Nenhuma <i className="fa fa-star" aria-hidden="true"></i></span> </p>
             )
         }
     }
     
-    getAvaliacoes(item){
-        if(item && item.avaliacoes){
-            return item.avaliacoes.map(avaliacao => {
-                return (
-                    <li>
-                        <div className="lr-user-wr-img"> <img src="images/users/2.png" alt="" /> </div>
-                        <div className="lr-user-wr-con">
-                            <h6>Jacob Michael <span>4.5 <i className="fa fa-star" aria-hidden="true"></i></span></h6> <span className="lr-revi-date">19th January, 2017</span>
-                            <p>Good service... nice and clean rooms... very good spread of buffet and friendly staffs. Located in heart of city and easy to reach any places in a short distance. </p>
-                            <ul>
-                                <li><a href="#!"><span>Like</span><i className="fa fa-thumbs-o-up" aria-hidden="true"></i></a> </li>
-                                <li><a href="#!"><span>Dis-Like</span><i className="fa fa-thumbs-o-down" aria-hidden="true"></i></a> </li>
-                                <li><a href="#!"><span>Report</span> <i className="fa fa-flag-o" aria-hidden="true"></i></a> </li>
-                                <li><a href="#!"><span>Comments</span> <i className="fa fa-commenting-o" aria-hidden="true"></i></a> </li>
-                                <li><a href="#!"><span>Share Now</span>  <i className="fa fa-facebook" aria-hidden="true"></i></a> </li>
-                                <li><a href="#!@todo"><i className="fa fa-google-plus" aria-hidden="true"></i></a> </li>
-                                <li><a href="#!@todo"><i className="fa fa-twitter" aria-hidden="true"></i></a> </li>
-                                <li><a href="#!@todo"><i className="fa fa-linkedin" aria-hidden="true"></i></a> </li>
-                                <li><a href="#!@todo"><i className="fa fa-youtube" aria-hidden="true"></i></a> </li>
-                            </ul>
-                        </div>
-                    </li>
-                )
-    
+    getAvaliacoes(comments){
+        if(comments ){
+            return comments.map(avaliacao => {
+                if(avaliacao.user) {
+                    return(
+                        <li key={avaliacao._id}>
+                            <div className="lr-user-wr-img"> <img src="/images/users/user-default-32x32.png" alt="" /> </div>
+                            <div className="lr-user-wr-con">
+                                <h6>{avaliacao.author_name} <span>{avaliacao.classificacao} {this.getQtyStars(avaliacao.classificacao)}</span></h6> 
+                                <p><strong>{avaliacao.titulo}</strong> <span className="lr-revi-date">({avaliacao.createdAt})</span></p>
+                                <p>{avaliacao.descricao}</p>
+                                <ul>
+                                    <li><a href="#!"><span>Like</span><i className="fa fa-thumbs-o-up" aria-hidden="true"></i></a> </li>
+                                    <li><a href="#!"><span>Dis-Like</span><i className="fa fa-thumbs-o-down" aria-hidden="true"></i></a> </li>
+                                    <li><a href="#!"><span>Report</span> <i className="fa fa-flag-o" aria-hidden="true"></i></a> </li>
+                                    <li><a href="#!"><span>Comments</span> <i className="fa fa-commenting-o" aria-hidden="true"></i></a> </li>
+                                </ul>
+                            </div>
+                        </li>
+                    )
+                }
+                else {
+                    return (
+                        <li key={avaliacao._id}>
+                            <div className="lr-user-wr-img"> <img src="/images/users/user-default-32x32.png" alt="" /> </div>
+                            <div className="lr-user-wr-con">
+                                <h6>{avaliacao.author_name} <span>{avaliacao.classificacao} {this.getQtyStars(avaliacao.classificacao)}</span></h6> 
+                                <p><strong>{avaliacao.titulo}</strong> <span className="lr-revi-date">({avaliacao.createdAt})</span></p>
+                                <p>{avaliacao.descricao}</p>
+                                <ul>
+                                    <li><a href="#!"><span>Like</span><i className="fa fa-thumbs-o-up" aria-hidden="true"></i></a> </li>
+                                    <li><a href="#!"><span>Dis-Like</span><i className="fa fa-thumbs-o-down" aria-hidden="true"></i></a> </li>
+                                    <li><a href="#!"><span>Report</span> <i className="fa fa-flag-o" aria-hidden="true"></i></a> </li>
+                                    <li><a href="#!"><span>Comments</span> <i className="fa fa-commenting-o" aria-hidden="true"></i></a> </li>
+                                    {/*<li><a href="#!"><span>Share Now</span>  <i className="fa fa-facebook" aria-hidden="true"></i></a> </li>
+                                    <li><a href="#!@todo"><i className="fa fa-google-plus" aria-hidden="true"></i></a> </li>
+                                    <li><a href="#!@todo"><i className="fa fa-twitter" aria-hidden="true"></i></a> </li>
+                                    <li><a href="#!@todo"><i className="fa fa-linkedin" aria-hidden="true"></i></a> </li>
+                                    <li><a href="#!@todo"><i className="fa fa-youtube" aria-hidden="true"></i></a> </li>*/}
+                                </ul>
+                            </div>
+                        </li>
+                    )
+                }
             })
         }
         else{
@@ -89,14 +117,14 @@ class Reviews extends Component {
                         </div>
                         <div className="lp-ur-all-right">
                             <h5>Média dos Votos</h5>
-                            {this.getAvaliacaoMedia(this.props.item)}
+                            {this.getAvaliacaoMedia(this.props.review)}
                             
                         </div>
                     </div>
                     <div className="lp-ur-all-rat">
                         <h5>Avaliações</h5>
                         <ul>
-                            {this.getAvaliacoes(this.props.item)}               
+                            {this.getAvaliacoes(this.props.comments)}               
                             
                         </ul>
                     </div>

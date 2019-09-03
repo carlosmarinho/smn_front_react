@@ -41,8 +41,6 @@ export const fetchCategoryBySlug = async(slug='', limit=1) => {
 
     let request = await axios.get(`${process.env.REACT_APP_URL_API}categorias/?${slug1}`);
 
-    console.log("request catgoria: ", request)
-
     if(request.data.length === 0){
         slug1 = `slug=noticias/${slug}`
 

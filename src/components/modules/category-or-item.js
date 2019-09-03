@@ -18,7 +18,6 @@ class CategoryOrItem extends Component {
     }
 
     componentDidMount() {
-        console.log("no did mount do page: ", this.props.match.params)
         this.setState({slug: this.props.match.params.slug})
         if(this.state.slug === ''){
             this.props.fetchCategoryBySlug(this.props.match.params.slug)
@@ -31,7 +30,6 @@ class CategoryOrItem extends Component {
 
     componentWillReceiveProps(nextProps) {
         let slug = nextProps.match.params.slug
-        console.log("o slug no will receive: ", slug, ' --- ', this.state.slug);
         if(slug !== this.state.slug){
             this.setState(
                 {
@@ -47,7 +45,6 @@ class CategoryOrItem extends Component {
    
 
     render(){
-        console.log("props: ", this.props)
         if(this.props.categorias && this.props.categorias.categoria){
             console.log("catttt: ", this.props.categorias);
             if(this.props.categorias.categoria.tipo === 'guia comercial'){

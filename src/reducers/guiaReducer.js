@@ -1,7 +1,7 @@
-import { DELETE_GUIA, APPROVE_GUIA, FETCH_GUIA, REMOVE_IMAGE_GUIA, FETCH_GUIAS, FETCH_GUIAS_RECENTES, FETCH_GUIAS_FEATURED, FETCH_GUIAS_USER} from "../actions/types";
+import { CREATE_COMENTARIO_GUIA, DELETE_GUIA, APPROVE_GUIA, FETCH_GUIA, REMOVE_IMAGE_GUIA, FETCH_GUIAS, FETCH_GUIAS_RECENTES, FETCH_GUIAS_FEATURED, FETCH_GUIAS_USER} from "../actions/types";
 
 export default function(state = null, action) {
-    
+
     let guia =  { guia: null, 
         recentes: null, 
         list: null, 
@@ -11,6 +11,14 @@ export default function(state = null, action) {
         count: null
     };
     switch (action.type) {
+        case CREATE_COMENTARIO_GUIA: 
+            if(action.payload !== false ){
+                    let comentarios = [...state.guia.comentarioguias, action.payload];
+                    console.log("comentarios no reducer: ", ' ---- ' , state.guia);
+                    return {...state, guia: {...state.guia, comentarioguias: comentarios} }
+            }
+
+            return guia;
         case APPROVE_GUIA:
             if(action.payload !== false ){                
                 let fromUser = state.fromUser.map(guia => {
@@ -28,6 +36,7 @@ export default function(state = null, action) {
 
         case DELETE_GUIA:
             if(action.payload !== false ){
+                console.log("no delete guiiaaaaaa: ", state);
 
                 let fromUser = state.fromUser.filter( fromUser => {
                     return fromUser._id != action.payload
@@ -59,9 +68,7 @@ export default function(state = null, action) {
                     guia.count = state.count;
                 }
             }
-            
-            console.log("guia no FETCH_GUIA: ", action.payload)
-            
+                        
             if(action.payload.data && action.payload.data[0])
                 guia.guia = action.payload.data[0];
             else

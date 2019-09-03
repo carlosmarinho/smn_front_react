@@ -71,7 +71,6 @@ class Menu extends Component {
     render(){
         
         if(this.state.userLogged == null && this.props.user && this.props.user.user){
-            console.log("no did mount: ", this.props.user);
             this.setState({userLogged: this.props.user}) 
         }
 
