@@ -45,6 +45,8 @@ class ListingItem extends Component {
         if(this.props.guias)
             item = this.props.guias.guia
 
+        console.log("this.props.guias: ", this.props.guias)
+
         return(
             <div>
                 

@@ -92,13 +92,13 @@ class FormComment extends Component {
                     <h3><span>Deixe seus</span> Comentários</h3> </div>
                 <div className="list-pg-inn-sp">
                     <div className="list-pg-write-rev">
-                        <div className="row text-center">
-                            <div className="col s12">
-                                {this.showMessage()}
-                            </div>
-                        </div>
                         <form className="col" onSubmit={handleSubmit(this.handleSubmit)}>
                             {this.getDescription()}
+                            <div className="row text-center">
+                                <div className="col s12">
+                                    {this.showMessage()}
+                                </div>
+                            </div>
                             <div className="row">
                                 <div className="col s12">
                                     <fieldset className="rating">

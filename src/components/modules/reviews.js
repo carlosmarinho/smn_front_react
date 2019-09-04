@@ -13,7 +13,7 @@ class Reviews extends Component {
     getAvaliacaoMedia(review){
         if(review){
             return(
-                <p><span>{review.media} {this.getQtyStars(review.media)}</span> baseado em {review.total} avaliações</p>
+                <p><span>{(review.media)?review.media.toFixed(2):''} {this.getQtyStars(review.media)}</span> baseado em {review.quantidade_votos} avaliações</p>
             )
         }
         else{
@@ -27,7 +27,7 @@ class Reviews extends Component {
         if(comments ){
             return comments.map(avaliacao => {
                 if(!avaliacao.aprovado)
-                    return <div></div>;
+                    return null;
                     
                 if(avaliacao.user) {
                     return(
