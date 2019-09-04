@@ -16,6 +16,19 @@ class MenuDashboardLeft extends Component{
         return "/images/users/user-default-160x160.png";
     }
 
+    showMenuComentario(){
+        const { user } = this.props;
+
+        console.log("user no menu: ", user);
+        if(user && user.role.name === 'Administrator') {
+            return(
+                <li>
+                    <Link to="/dashboard/comentarioguia" className={(this.props.location.pathname == '/dashboard/comentarioguia') ? 'tz-lma' : ''} ><img src="images/icon/dbl14.png" alt="" />Comentários</Link>
+                </li>
+            )
+        }
+    }
+
     render(){
         console.log(this.props.location.pathname);
 
@@ -57,11 +70,10 @@ class MenuDashboardLeft extends Component{
                 {/*@todo fazer minhas revies e meus comentários 
                 <li>
                     <Link to="/dashboard" ><img src="images/icon/dbl14.png" alt="" /> Minhas Reviews</Link>
-                </li>
-                <li>
-                    <Link to="/dashboard" ><img src="images/icon/dbl14.png" alt="" /> Meus Comentários</Link>
-                </li>
-                */}
+                </li>*/}
+                {this.showMenuComentario()}
+                
+                
                 <li>
                     <Link to="/dashboard/profile" className={(this.props.location.pathname == '/dashboard/profile') ? 'tz-lma' : ''} ><i className="address card outline icon"></i> Meus Dados</Link>
                 </li>

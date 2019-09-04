@@ -41,6 +41,8 @@ import DashboardNoticia from './components/dashboard/noticia/noticia';
 import DashboardNoticiaNew from './components/dashboard/noticia/new';
 import DashboardNoticiaEdit from './components/dashboard/noticia/edit';
 
+import DashboardComentarioGuia from './components/dashboard/comentarioguia/comentario';
+
 
 import BairroGrid from './components/modules/bairro-grid';
 import NotFound from './components/not-found';
@@ -204,6 +206,10 @@ class App extends Component {
                                 <Route exact path="/dashboard/noticias/novo" component={DashboardNoticiaNew} />
                                 <Route exact path="/dashboard/noticias/edit/:id" component={DashboardNoticiaEdit} />
                                 <Route exact path="/dashboard/noticias/view/:slug" component={NewsItemView} />
+
+
+                                <Route exact path="/dashboard/comentarioguia" component={DashboardComentarioGuia} />
+
 
                                 <Route exact path="/connect/facebook/" component={Connect} />
                                 <Route exact path="/" component={Home} />
