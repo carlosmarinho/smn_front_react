@@ -47,7 +47,7 @@ class FormComment extends Component {
 
     handleSubmit(values) {
         console.log("values no create comentario: ", values);4
-        
+         
         const { resource } = this.props;
         values.classificacao = values.rating;
         values.guia = this.props.item_id;
@@ -62,7 +62,25 @@ class FormComment extends Component {
             case 'noticia':
                 this.props.createComentarioNoticia(values)
         }
+        
+        /*mover a pagina para a review*/
+        const element = document.getElementById('ld-rew');
+        element.scrollIntoView();
+    }
 
+    showMessage(){
+        if(this.props.item){
+            if(this.props.item.errorCreateComentario){
+                return(
+                    <span className="text-danger text-center"><strong>{this.props.item.errorCreateComentario}</strong></span>
+                )
+            }
+            else if(this.props.item.successCreateComentario){
+                return(
+                    <span className="text-success text-center"><strong>{this.props.item.successCreateComentario}</strong></span>
+                )
+            }
+        }
     }
 
     render(){
@@ -74,6 +92,11 @@ class FormComment extends Component {
                     <h3><span>Deixe seus</span> Comentários</h3> </div>
                 <div className="list-pg-inn-sp">
                     <div className="list-pg-write-rev">
+                        <div className="row text-center">
+                            <div className="col s12">
+                                {this.showMessage()}
+                            </div>
+                        </div>
                         <form className="col" onSubmit={handleSubmit(this.handleSubmit)}>
                             {this.getDescription()}
                             <div className="row">
@@ -161,9 +184,33 @@ class FormComment extends Component {
 
 }
 
+const mapStateToProps = (state, ownProps) => {
+    
+    const { resource } = ownProps;
+    let item = {};
+    switch(resource){
+        case 'guia':
+            item = state.guias;
+            break;
+        case 'evento':
+            item = state.eventos;
+            break;
+        case 'noticia':
+            item = state.noticias;
+            break;
+    }
+
+
+    return(
+        {
+            item
+        }
+    )
+}
+
 const myForm = reduxForm({
 	form: 'comment',
 	
 })(FormComment)
 
-export default connect(null, {createComentarioEvento, createComentarioGuia, createComentarioNoticia})(myForm);
+export default connect(mapStateToProps, {createComentarioEvento, createComentarioGuia, createComentarioNoticia})(myForm);

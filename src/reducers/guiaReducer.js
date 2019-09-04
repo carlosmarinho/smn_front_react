@@ -15,10 +15,13 @@ export default function(state = null, action) {
             if(action.payload !== false ){
                     let comentarios = [...state.guia.comentarioguias, action.payload];
                     console.log("comentarios no reducer: ", ' ---- ' , state.guia);
-                    return {...state, guia: {...state.guia, comentarioguias: comentarios} }
+                    return {...state, 
+                        guia: {...state.guia, comentarioguias: comentarios},
+                        successCreateComentario: 'Seu comentário foi cadastrado com sucesso e enviado para aprovação!'                    }
             }
+            
 
-            return guia;
+            return {...state, errorCreateComentario: 'Houve um erro ao cadastrar seu comentário!' };
         case APPROVE_GUIA:
             if(action.payload !== false ){                
                 let fromUser = state.fromUser.map(guia => {

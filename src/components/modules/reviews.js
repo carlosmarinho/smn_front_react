@@ -26,6 +26,9 @@ class Reviews extends Component {
     getAvaliacoes(comments){
         if(comments ){
             return comments.map(avaliacao => {
+                if(!avaliacao.aprovado)
+                    return <div></div>;
+                    
                 if(avaliacao.user) {
                     return(
                         <li key={avaliacao._id}>

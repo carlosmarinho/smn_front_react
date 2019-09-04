@@ -1,20 +1,11 @@
 import axios from 'axios';
 import { CREATE_COMENTARIO_GUIA, CREATE_COMENTARIO_EVENTO, CREATE_COMENTARIO_NOTICIA} from '../actions/types';
+const autoApprove = false;
 
 export const createComentarioGuia = async(values) => {
     console.log("values no create: ", values);
     if(values.review){
-        console.log( "vendo a divisão: ",
-            (parseFloat(values.review.media) + parseFloat(values.classificacao))/(parseInt(values.review.quantidade_votos)+1),
-            " --- ",
-            values.review.media,
-            " --- ",
-            values.classificacao,
-            " --- ",
-            (values.review.media + values.classificacao),
-            " --- ",
-            values.review.quantidade_votos
-        )
+        
         let review = {...values.review,
             total: parseFloat(values.review.total) + parseFloat(values.classificacao),
             media: (parseFloat(values.review.total) + parseFloat(values.classificacao))/(parseInt(values.review.quantidade_votos)+1),
