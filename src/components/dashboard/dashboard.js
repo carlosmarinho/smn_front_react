@@ -7,9 +7,9 @@ import Confirm from 'react-confirm-bootstrap';
 
 
 import {fetchMe} from '../../actions/user';
-import {fetchGuiasByUser, fetchGuiasByAdm, deleteGuia} from '../../actions/guia';
-import {fetchEventosByUser, fetchEventosByAdm, deleteEvento} from '../../actions/evento';
-import {fetchNoticiasByUser, fetchNoticiasByAdm, deleteNoticia} from '../../actions/noticia';
+import {fetchGuiasByUser, fetchGuiasByAdm, deleteGuia, approveReproveGuia} from '../../actions/guia';
+import {fetchEventosByUser, fetchEventosByAdm, deleteEvento, approveReproveEvento} from '../../actions/evento';
+import {fetchNoticiasByUser, fetchNoticiasByAdm, deleteNoticia, approveReproveNoticia} from '../../actions/noticia';
 
 
 class Dashboard extends Component{
@@ -24,7 +24,7 @@ class Dashboard extends Component{
         let user = JSON.parse(localStorage.getItem('user'));
 
         if(user !== null){
-            this.setState({userLogged:true})
+            this.setState({ userLogged: user.user })
             this.props.fetchMe();
             if(user.user.role.name == 'Administrator'){
                 this.props.fetchGuiasByAdm(7);
@@ -82,6 +82,7 @@ class Dashboard extends Component{
                                 title="Exclusão de Guia">
                                 <i className="fa fa-trash" title="delete"></i>
                             </Confirm></a>
+                            {this.showApproveGuia(guia)}
                         </td>
                     </tr>
                 )
@@ -114,6 +115,7 @@ class Dashboard extends Component{
                                     <i className="fa fa-trash" title="delete"></i>
                                 </Confirm>
                             </a>  
+                            {this.showApproveEvento(evento)}
                         </td>
                     </tr>
                 )
@@ -143,6 +145,113 @@ class Dashboard extends Component{
             return "http://images.soumaisniteroi.com.br/wp-content/uploads/2015/04/no-image.png";
         }
         return "http://images.soumaisniteroi.com.br/wp-content/uploads/2015/04/no-image.png";
+    }
+
+    showApproveGuia(guia){
+        if(this.state.userLogged && this.state.userLogged.role.name == 'Administrator'){
+
+            if(guia.approved){
+                return (
+                    <a href="javascript: void(0)">
+                        <Confirm
+                            onConfirm={() => this.approveReproveGuia(guia._id, false)}
+                            body={`Tem certeza que deseja reprovar o guia '${guia.titulo}'?`}
+                            confirmText="Confirmar Reprovação"
+                            title="Aprovação do Guia">
+                            <i className="fa fa-thumbs-down" title="Reprovar"></i>
+                        </Confirm>
+                    </a>
+                )
+            }
+            else{
+                return (
+                    <a href="javascript: void(0)">
+                        <Confirm
+                            onConfirm={() => this.approveReproveGuia(guia._id, true)}
+                            body={`Tem certeza que deseja aprovar o guia '${guia.titulo}'?`}
+                            confirmText="Confirmar Aprovação"
+                            title="Aprovação do Guia">
+                            <i className="fa fa-thumbs-up" title="Aprovar"></i>
+                        </Confirm>
+                    </a>
+                )
+            }
+        }
+    }
+
+    approveReproveGuia(id, approve) {
+        this.props.approveReproveGuia(id, approve);
+    }
+
+    showApproveEvento(evento){
+        if(this.state.userLogged && this.state.userLogged.role.name == 'Administrator'){
+
+            if(evento.approved){
+                return (
+                    <a href="javascript: void(0)">
+                        <Confirm
+                            onConfirm={() => this.approveReproveEvento(evento._id, false)}
+                            body={`Tem certeza que deseja reprovar o evento '${evento.titulo}'?`}
+                            confirmText="Confirmar Reprovação"
+                            title="Aprovação do Evento">
+                            <i className="fa fa-thumbs-down" title="Reprovar"></i>
+                        </Confirm>
+                    </a>
+                )
+            }
+            else{
+                return (
+                    <a href="javascript: void(0)">
+                        <Confirm
+                            onConfirm={() => this.approveReproveEvento(evento._id, true)}
+                            body={`Tem certeza que deseja aprovar o evento '${evento.titulo}'?`}
+                            confirmText="Confirmar Aprovação"
+                            title="Aprovação do Evento">
+                            <i className="fa fa-thumbs-up" title="Aprovar"></i>
+                        </Confirm>
+                    </a>
+                )
+            }
+        }
+    }
+
+    approveReproveEvento(id, approve) {
+        this.props.approveReproveEvento(id, approve);
+    }
+
+    showApproveNoticia(noticia){
+        if(this.state.userLogged && this.state.userLogged.role.name == 'Administrator'){
+            if(noticia.approved){
+                return (
+                    <a href="javascript: void(0)">
+                        <Confirm
+                            onConfirm={() => this.approveReproveNoticia(noticia._id, false)}
+                            body={`Tem certeza que deseja reprovar a notícia '${noticia.titulo}'?`}
+                            confirmText="Confirmar Reprovação"
+                            title="Aprovação de Notícia">
+                            <i className="fa fa-thumbs-down" title="Reprovar"></i>
+                        </Confirm>
+                    </a>
+                )
+            }
+            else{
+                return (
+                    <a href="javascript: void(0)">
+                        <Confirm
+                            onConfirm={() => this.approveReproveNoticia(noticia._id, true)}
+                            body={`Tem certeza que deseja aprovar a notícia '${noticia.titulo}'?`}
+                            confirmText="Confirmar Aprovação"
+                            title="Aprovação de Notícia">
+                            <i className="fa fa-thumbs-up" title="Aprovar"></i>
+                        </Confirm>
+                    </a>
+                )
+            }
+        }
+    }
+
+    approveReproveNoticia(id, approve) {
+        this.props.approveReproveNoticia(id, approve);
     }
 
     itemApproved(item){
@@ -188,6 +297,7 @@ class Dashboard extends Component{
                                 title="Exclusão de Notícia">
                                 <i className="fa fa-trash" title="delete"></i>
                             </Confirm></a>
+                            {this.showApproveNoticia(noticia)}
                         </div>
                     </li>
                 )
@@ -438,4 +548,20 @@ function mapStateToProps(state){
     
 }
 
-export default connect(mapStateToProps, {fetchMe, deleteGuia, deleteEvento, deleteNoticia, fetchGuiasByUser, fetchGuiasByAdm, fetchEventosByUser, fetchEventosByAdm, fetchNoticiasByUser, fetchNoticiasByAdm})(Dashboard);
+export default connect(mapStateToProps, 
+    {
+        fetchMe, 
+        deleteGuia, 
+        deleteEvento, 
+        deleteNoticia, 
+        fetchGuiasByUser, 
+        fetchGuiasByAdm,
+        approveReproveGuia, 
+        fetchEventosByUser, 
+        fetchEventosByAdm,
+        approveReproveEvento, 
+        fetchNoticiasByUser, 
+        fetchNoticiasByAdm,
+        approveReproveNoticia
+    }
+)(Dashboard);
