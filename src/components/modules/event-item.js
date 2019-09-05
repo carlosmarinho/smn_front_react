@@ -44,7 +44,7 @@ class EventItem extends Component {
     }
 
     render(){
-        let item = {};
+        let item = null;
         if(this.props.eventos){
             item = this.props.eventos.evento
             if(_.isArray(item))
@@ -52,6 +52,8 @@ class EventItem extends Component {
         }
         
         console.log("iiiitemmm aqui: ", item)
+        if(!item)
+            return <div>Carregando Evento...</div>
 
         return(
             <div>
@@ -68,8 +70,8 @@ class EventItem extends Component {
                                     {(item)?this.gallery(item):'carregando...'}
                                     {(item)?this.streetView(item):'carregando...'}
                                     {(item)?this.tags(item):'carregando...'}
-                                    <FormComment text="Deixando um comentário adequado a este evento você estará ajudando outros a encontrar exatamente o que estão procurando!" />
-                                    <Reviews />
+                                    <FormComment resource="evento" review={item.reviewevento} item_id={item._id} text="Deixando um comentário adequado a este evento você estará ajudando outros a encontrar exatamente o que estão procurando, e uma melhor idéia sobre o evento!" />
+                                    <Reviews review={item.reviewevento} comments={item.comentarioeventos}/>
                                 </div>
                                 
 

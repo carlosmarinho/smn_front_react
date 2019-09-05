@@ -21,9 +21,17 @@ class MenuDashboardLeft extends Component{
 
         if(user && user.role.name === 'Administrator') {
             return(
-                <li>
-                    <Link to="/dashboard/comentarioguia" className={(this.props.location.pathname == '/dashboard/comentarioguia') ? 'tz-lma' : ''} ><img src="images/icon/dbl14.png" alt="" />Comentários</Link>
-                </li>
+                <div>
+                    <li>
+                        <Link to="/dashboard/comentarioguia" className={(this.props.location.pathname == '/dashboard/comentarioguia') ? 'tz-lma' : ''} ><img src="images/icon/dbl14.png" alt="" />Comentários Guia</Link>
+                    </li>
+                    <li>
+                        <Link to="/dashboard/comentarioevento" className={(this.props.location.pathname == '/dashboard/comentarioevento') ? 'tz-lma' : ''} ><img src="images/icon/dbl14.png" alt="" />Comentários Evento</Link>
+                    </li>
+                    <li>
+                        <Link to="/dashboard/comentarionoticia" className={(this.props.location.pathname == '/dashboard/comentarionoticia') ? 'tz-lma' : ''} ><img src="images/icon/dbl14.png" alt="" />Comentários Notícia</Link>
+                    </li>
+                </div>
             )
         }
     }

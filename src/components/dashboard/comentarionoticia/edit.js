@@ -7,9 +7,12 @@ import {Link, Redirect} from 'react-router-dom';
 import {absence, url, email} from 'redux-form-validators';
 import DatePicker from "react-datepicker";
 import { createNumberMask, createTextMask } from 'redux-form-input-masks';
+import { EditorState, ContentState, convertToRaw, convertFromRaw } from 'draft-js';
+import { Editor } from 'react-draft-wysiwyg';
+
 
 import { fetchMe } from '../../../actions/user';
-import { fetchEvento, removeImageAssociation } from '../../../actions/evento';
+import { fetchNoticia, removeImageAssociation } from '../../../actions/noticia';
 import { fetchCategories } from '../../../actions/categoria';
 import { fetchTags } from '../../../actions/tag';
 import { fetchCities } from '../../../actions/city';
@@ -20,7 +23,7 @@ import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 
 import Multiselect from 'react-widgets/lib/Multiselect'
 
-import {editEvento} from '../../../actions/evento';
+import {editNoticia} from '../../../actions/noticia';
 
 import "react-tabs/style/react-tabs.css";
 import "react-datepicker/dist/react-datepicker.css";
@@ -82,7 +85,7 @@ const minLength = min => value =>
     value && value.length < min ? `O campo deve conter no mínimo ${min} caracteres` : undefined;
 
 
-class EventoEdit extends Component{
+class NoticiaEdit extends Component{
 
     constructor(){
         super();
@@ -92,11 +95,10 @@ class EventoEdit extends Component{
 			labelMultiselect: {categorias: true, tags: true},
 			categorias: true,
 			tags: [],
-			evento: null,
+			noticia: null,
 			tagInput: '',
-	        inicio: new Date(),
-			fim: new Date(),
-			gratis: true,
+			editorStateDescricao: EditorState.createEmpty(),
+
 		}
 		
 		this.handleSubmit = this.handleSubmit.bind(this);
@@ -108,26 +110,30 @@ class EventoEdit extends Component{
 		let user = JSON.parse(localStorage.getItem('user'));
 		
         if(user !== null){
-			this.setState({userLogged:true})
+			this.setState({userLogged:user.user})
 			this.props.fetchMe();
-			this.props.fetchCategories('evento', 250, 'parent_id');
+			this.props.fetchCategories('notícia', 250, 'parent_id');
 			this.props.fetchTags();
 			this.props.fetchCities();
 			this.props.fetchBairros('5ba26f813a018f42215a36a0', 200, 'nome');
-			await this.props.fetchEvento(this.props.match.params.id)
+			await this.props.fetchNoticia(this.props.match.params.id)
 
-			this.setState({inicio: new Date(this.props.eventos.evento.inicio)});
-			this.setState({fim: new Date(this.props.eventos.evento.fim)});
-			if(this.props.eventos && (this.props.eventos.preco != '' || this.props.eventos.preco != 0 )){
-				this.setState({gratis: false})
+			//const plainText = 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit.';
+			//const content = ContentState.createFromText(plainText);
+			if(this.props.noticias.noticia.descricaoJson){
+				const content = EditorState.createWithContent(convertFromRaw(this.props.noticias.noticia.descricaoJson))
+				this.setState({ editorStateDescricao: content })
 			}
 			
+
+
+			//this.setState({editorStateDescricao: EditorState.createWithContent(this.props.noticias.noticia.descricaoJson)})
 		// if(user.user.role.name == 'Administrator'){
-		//     this.props.fetchEventosByAdm(7);
+		//     this.props.fetchNoticiasByAdm(7);
 		
 		// }
 		// else{
-			//     this.props.fetchEventosByUser(user.user._id, 5);
+			//     this.props.fetchNoticiasByUser(user.user._id, 5);
 			// }
 		}
 		else{
@@ -138,8 +144,14 @@ class EventoEdit extends Component{
 	
 
 	componentWillMount(){
-		this.props.fetchEvento(this.props.match.params.id)
+		this.props.fetchNoticia(this.props.match.params.id)
 	}
+
+	onEditorDescricaoStateChange = (editorState) => {
+		this.setState({
+			editorStateDescricao: editorState,
+		});
+	};
 	
 	handleSubmit(values){
 		console.log("values antes: ", values);
@@ -147,9 +159,14 @@ class EventoEdit extends Component{
 			values.preco = '';
 		}
 
-		console.log("values depois: ", values);
-
-		this.props.editEvento({...values, inicio: this.state.inicio, fim: this.state.fim}, this.props.match.params.id);
+		this.props.editNoticia(
+			{...values, 
+				inicio: this.state.inicio,
+				descricaoJson: convertToRaw(this.state.editorStateDescricao.getCurrentContent()),
+				fim: this.state.fim
+			}, 
+			this.props.match.params.id
+		);
 		window.scrollTo(0, 0);
     }
 
@@ -175,7 +192,7 @@ class EventoEdit extends Component{
                 return old_imagem_destacada;
 
 			return old_imagem_destacada.replace('http://soumaisniteroi.com', 'http://images.soumaisniteroi.com');
-		}
+        }
         else if(imagem_destacada){
             if(imagem_destacada.url){
                 return imagem_destacada.url;
@@ -220,7 +237,7 @@ class EventoEdit extends Component{
 				<label>{label}</label>
 				<Multiselect {...input}
 					onBlur={(e) => {
-						//this.multiSelectBlur(e, input.name, input.value)
+							//this.multiSelectBlur(e, input.name, input.value)
 						}
 					}
 					value={input.value || []} // requires value to be an array
@@ -255,7 +272,7 @@ class EventoEdit extends Component{
 						className="mr2"
 						type="checkbox"
 						defaultChecked={field.input.value}						
-						style={{ left: '-200px', opacity: '1', marginTop: '7px'}}
+						style={{ left: '-250px', opacity: '1', marginTop: '7px'}}
 						
 					/>
 				</div>
@@ -280,6 +297,7 @@ class EventoEdit extends Component{
 					multiple={(field.multiple)?'multiple':''} 
 					disabled={field.disabled}
 				>
+					
 					{(!field.multiple)?<option value="">{label}</option>:''}
 					{(field.options)?field.options.map((option, key) => {
 						if(_.isObject(option)){
@@ -299,7 +317,8 @@ class EventoEdit extends Component{
 								<option key={`key-${label}-${option}`} value={option}>{option}</option>
 							)
 						}
-					}):''}	
+					}):''}
+					
 				</Field>
 				
 				{touched && ((error && <span className="text-danger">{error}</span>) || (warning && <span>{warning}</span>))} 
@@ -309,7 +328,7 @@ class EventoEdit extends Component{
 	}
 
 	setCategoryParentName(categories){
-		if(! categories)
+		if(!categories)
 			return null;
 		let newCat = categories.map(category => {
 			if(category.parent_id && category.parent_id !== null){
@@ -351,14 +370,14 @@ class EventoEdit extends Component{
 	
 	showMessage(){
         if(this.props.message){
-            if(this.props.message.error && this.props.message.error.evento){
+            if(this.props.message.error && this.props.message.error.noticia){
                 return(
-                    <p className="text-danger text-center"><strong>{this.props.message.error.evento.msg}</strong></p>
+                    <p className="text-danger text-center"><strong>{this.props.message.error.noticia.msg}</strong></p>
                 )
             }
-            else if(this.props.message.success && this.props.message.success.evento){
+            else if(this.props.message.success && this.props.message.success.noticia){
                 return(
-                    <p className="text-success text-center"><strong>{this.props.message.success.evento.msg}</strong></p>
+                    <p className="text-success text-center"><strong>{this.props.message.success.noticia.msg}</strong></p>
                 )
             }
         }
@@ -371,24 +390,54 @@ class EventoEdit extends Component{
 	}
 
 	showImagemDestacada(){
-		if(this.props.eventos && this.props.eventos.evento && this.props.eventos.evento.imagem_destacada){
+		if(this.props.noticias && this.props.noticias.noticia && this.props.noticias.noticia.imagem_destacada){
 			return(
 				<div className="file-input">
-					<img src={this.getImageSrc(this.props.eventos.evento)} /><a href="#" onClick={e => this.removeImage(e, this.props.eventos.evento.imagem_destacada._id)}>Remover</a>
+					<img src={this.getImageSrc(this.props.noticias.noticia)} /><a href="#" onClick={e => this.removeImage(e, this.props.noticias.noticia.imagem_destacada._id)}>Remover</a>
 				</div>
 			)
 		}
 	}			
 
 	showImagemGaleria(i){
-		if(this.props.eventos && this.props.eventos.evento && this.props.eventos.evento.galeria_imagens && this.props.eventos.evento.galeria_imagens[i]){
+		if(this.props.noticias && this.props.noticias.noticia && this.props.noticias.noticia.galeria_imagens && this.props.noticias.noticia.galeria_imagens[i]){
 			
 			return(
 				<div className="file-input">
-					<img src={this.props.eventos.evento.galeria_imagens[i].url} /><a href="#" onClick={e => this.removeImage(e, this.props.eventos.evento.galeria_imagens[i]._id)}>Remover</a>
+					<img src={this.props.noticias.noticia.galeria_imagens[i].url} /><a href="#" onClick={e => this.removeImage(e, this.props.noticias.noticia.galeria_imagens[i]._id)}>Remover</a>
 				</div>
 			)
 		}
+	}
+
+	locationContent(){
+		const { pristine, reset, submitting, handleSubmit } = this.props
+
+		let cidades = [];
+		if(this.props.cidades){
+			cidades = this.props.cidades;
+		}
+
+		let bairros = [];
+		if(this.props.bairros){
+			bairros = this.props.bairros;
+		}
+
+		return(
+			<div className="hom-cre-acc-left hom-cre-acc-right">
+				<div className="">
+					<form className="" onSubmit={handleSubmit(this.handleSubmit)}>
+															
+								
+						<div className="row">
+							<div className="input-field col s12 v2-mar-top-40"> 
+								<input type="submit"  value="Editar" className="waves-effect waves-light no-color btn-large full-btn" /> 
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+		)
 	}
 
 	galleryContent(){
@@ -508,10 +557,23 @@ class EventoEdit extends Component{
 		)
 	}
 
+	showDescricaoAdmin(noticia){
+		if(this.state.userLogged && this.state.userLogged.role.name == 'Administrator' && noticia && noticia.descricao){
+			return(
+				<div className="row">
+					<div className="input-field-edit col s12">
+						<label htmlFor="descricao">Descrição Adm</label>
+						<Field name="descricao" component="textarea" style={{minHeight:'400px'}} />
+					</div>
+				</div>
+			)
+		}
+	}
+
 	generalContent(){
 		const { pristine, reset, submitting, handleSubmit } = this.props
 
-		let categorias = [];							
+		let categorias = [];
 		if(this.props.categorias){
 			categorias = this.props.categorias.list;
 			categorias = this.setCategoryParentName(categorias);
@@ -521,16 +583,6 @@ class EventoEdit extends Component{
 		if(this.props.tags){
 			tags = this.props.tags.list;
 			tags = this.proccessJsonForMultSelect(tags);
-		}
-		
-		let cidades = [];
-		if(this.props.cidades){
-			cidades = this.props.cidades;
-		}
-
-		let bairros = [];
-		if(this.props.bairros){
-			bairros = this.props.bairros;
 		}
 
 		return(
@@ -543,7 +595,6 @@ class EventoEdit extends Component{
 							</div>
 						</div>
 						<div className="row tz-file-upload">
-							
 							<Field
 								name="imagem_principal"
 								component={this.renderField}
@@ -552,8 +603,6 @@ class EventoEdit extends Component{
 								className="validate"
 								validate={[myFile]}
 							/>
-							{this.showImagemDestacada()}
-
 							
 						</div>
 						<div className="row">
@@ -562,8 +611,6 @@ class EventoEdit extends Component{
 							</div>
 						</div>
 						<div className="row">
-							
-							
 							<Field
 								name="titulo"
 								component={this.renderField}
@@ -575,136 +622,26 @@ class EventoEdit extends Component{
 							/>
 						</div>
 						<div className="row">
-							<Field
-									name="classificacao_indicativa"
-									component={this.renderSelect}
-									options={[
-										{'sem classificação indicativa':'Sem classificação indicativa'},
-										{'livre':'Livre'},
-										{'10 anos':'10 anos'},
-										{'12 anos':'12 anos'},
-										{'14 anos':'14 anos'},
-										{'16 anos':'16 anos'},
-										{'18 anos':'18 anos'},
-									]}
-									label="Selecione a Classificação Indicativa"
-									classCol="s12"
-									className="validate"
-									validate={[required]}
-							/>
+							<div className="input-field-edit col s12">
+								<label htmlFor="introducao">Resumo</label>
+								<Field name="introducao" component="textarea" />
+							</div>
 						</div>
-						<div className="row">
-							<div className="input-field-edit col s6">
-								<label>Data Inicial do Evento</label>
-							</div>
-							<div className="input-field-edit col s6">
-								<label>Data Final do Evento</label>
-							</div>
-							<div className={`input-field-edit  col s6`}>
-								<DatePicker
-									selected={this.state.inicio}
-									onChange={this.handleChangeInicio}
-									dateFormat="dd/MM/yyyy"
-								/>
-							</div>
-							<div className={`input-field-edit col s6`}>
-								<DatePicker
-									selected={this.state.fim}
-									onChange={this.handleChangeFim}
-									dateFormat="dd/MM/yyyy"
-								/>
-							</div>
-
-						</div>
-						<div className="row">							
-							<Field
-								name="hora_inicio"
-								component={this.renderField}
-								type="text"
-								label="Horário inicial do Evento"
-								classCol="s6"
-								className="validate"
-								validate={[ ]}
-								{...horaMask}
-							/>
-							<Field
-								name="hora_fim"
-								component={this.renderField}
-								type="text"
-								label="Horário final do Evento"
-								classCol="s6"
-								className="validate"
-								validate={[ ]}
-								{...horaMask}
-							/>
-							
-						</div>
-						
+						{this.showDescricaoAdmin(this.props.noticias.noticia)}
 						<div className="row">
 							<div className="input-field-edit col s12">
-								<label htmlFor="descricao">Descrição</label>
-								<Field name="descricao" component="textarea" />
-									
-							</div>
-						</div>
-
-						<div className="row">
-							<div className="db-v2-list-form-inn-tit">
-								<h5>Endereço do Evento:</h5>
-							</div>
-						</div>
-						
-						
-						<div className="row">
-							<Field
-								name="estado"
-								component={this.renderSelect}
-								options={[{'5bce2506e8a51373aab0b047':'Rio de Janeiro'}]}
-								type="text"
-								label="Estado"
-								disabled={true}
-								defaultValue="5bce2506e8a51373aab0b047"
-								classCol="s4"
-								className="validate"
-								validate={[ ]}
-							/>
-							<Field
-								name="cidade"
-								component={this.renderSelect}
-								options={cidades}
-								label="Cidade"
-								classCol="s4"
-								className="validate"
-								validate={[required]}
-							/>
-							<Field
-								name="bairros"
-								component={this.renderSelect}
-								options={bairros}
-								type="text"
-								label="Bairro"
-								classCol="s4"
-								className="validate"
-								validate={[  ]}
-							/>
-						</div>
-						<div className="row">
-						
-
-							<Field
-								name="endereco"
-								component={this.renderField}
-								type="text"
-								label="Endereço"
-								classCol="s12"
-								className="validate"
-								validate={[ required ]}
-							/>
-						</div>
-						
-						
-
 								
+								<label >Descrição</label>
+								<Editor
+									editorState={this.state.editorStateDescricao}
+									toolbarClassName="toolbarClassName"
+									wrapperClassName="wrapperClassName"
+									editorClassName="editorClassName"
+									onEditorStateChange={this.onEditorDescricaoStateChange}
+								/>		
+							</div>
+						</div>
+													
 						<div className="row">
 							<div className="input-field col s12 v2-mar-top-40"> 
 								<input type="submit"  value="Editar" className="waves-effect waves-light no-color btn-large full-btn" /> 
@@ -751,77 +688,10 @@ class EventoEdit extends Component{
 				<div className="">
 					<form className="" onSubmit={handleSubmit(this.handleSubmit)}>
 						
-						<div className="row">
-							<Field
-									name="gratuito"
-									component={this.renderCheckbox}
-									label="Evento é Gratuíto?"
-									classCol="s12"
-									
-									onChange={e => { this.setState({ gratis: !e.target.checked }) }}
-							/>
-						</div>
-						<div className="row">
-							<Field
-								name="preco"
-								component={this.renderField}
-								type="text"
-								label="Valor do Evento"
-								classCol="s6"
-								disabled={!this.state.gratis}
-								className="validate"
-								{...currencyMask}
-							/>
-							<Field
-								name="couvert"
-								component={this.renderField}
-								type="text"
-								label="Couvert Artístico"
-								classCol="s6"
-								className="validate"
-								{...currencyMask}
-							/>
-						</div>
-						<div className="row">
-							<div className="db-v2-list-form-inn-tit">
-								<h5>Recorrência do Evento:</h5>
-							</div>
-						</div>
-						<div className="row">
-							
-							<Field
-								name="recorrencia"
-								component={this.renderSelect}
-								options={[
-									'sem recorrência',
-									'diária',
-									'semanal',
-									'quinzenal',
-									'mensal',
-									'anual',
-								]}
-								label="Recorrência do Evento"
-								classCol="s12"
-								className="validate"
-								validate={[]}
-							/>
-						</div>
-
-						<div>
-							<Field
-								name="texto_recorrencia"
-								component={this.renderField}
-								type="text"
-								label="Texto da Recorrência"
-								classCol="s12"
-								className="validate"
-							/>
-						</div>
-								
 
 						<div className="row">
-							<div className="db-v2-list-form-inn-tit">
-								<h5>Outros  <span className="v2-db-form-note">(Tipo, categorias e tags.)</span >
+							<div className="db-v2-list-form-inn-tit-top">
+								<h5>Tags e Categorias  
 								</h5>
 							</div>	
 						</div>
@@ -858,7 +728,47 @@ class EventoEdit extends Component{
 									<button  className="waves-effect waves-light btn" >Incluir nova Tag</button>
 								</div>
 						</div>			
-								
+
+						<div className="row">
+							<div className="">
+								<h5>Localização <span className="v2-db-form-note">(Estado, cidade, bairro):</span ></h5>
+							</div>
+						</div>
+						<div className="row">
+							<Field
+								name="estado"
+								component={this.renderSelect}
+								options={[{'5bce2506e8a51373aab0b047':'Rio de Janeiro'}]}
+								type="text"
+								label="Estado"
+								disabled={true}
+								defaultValue="5bce2506e8a51373aab0b047"
+								classCol="s4"
+								className="validate"
+								validate={[ ]}
+							/>
+							<Field
+								name="cidade"
+								component={this.renderSelect}
+								options={cidades}
+								label="Cidade"
+								classCol="s4"
+								className="validate"
+								validate={[]}
+							/>
+							<Field
+								name="bairros"
+								component={this.renderSelect}
+								options={bairros}
+								type="text"
+								label="Bairro"
+								classCol="s4"
+								className="validate"
+								validate={[  ]}
+							/>
+						</div>
+
+
 						<div className="row">
 							<div className="input-field col s12 v2-mar-top-40"> 
 								<input type="submit"  value="Editar" className="waves-effect waves-light no-color btn-large full-btn" /> 
@@ -884,24 +794,24 @@ class EventoEdit extends Component{
 				
                 <div className="tz">
                     {/* <!--LEFT SECTION--> */}
-                    <MenuDashboardLeft user={this.props.user}/>
+                    <MenuDashboardLeft user={this.props.user} />
                     
                     { /*!--CENTER SECTION--> */}
                    
                     <div className="tz-2">
 						<div className="tz-2-com tz-2-main">
-							<h4>Gerenciamento de Eventos</h4>
+							<h4>Gerenciamento de Noticias</h4>
 							<div className="db-list-com tz-db-table">
 								<div className="ds-boar-title">
-									<h2>Editar  Evento</h2>
-									<p>Edição de evento</p>
+									<h2>Editar Noticia</h2>
+									<p>Edição de noticia </p>
 									{this.showMessage()}
 								</div>
 								<Tabs>
 									<TabList>
 									<Tab>Geral</Tab>
-									<Tab>Valores, Tags & Outros</Tab>
-									<Tab>Galeria de fotos</Tab>
+									<Tab>Tags, Categorias e Localização</Tab>
+									<Tab>Galeria de Fotos</Tab>
 									</TabList>
 
 									<TabPanel>
@@ -913,6 +823,7 @@ class EventoEdit extends Component{
 									<TabPanel>
 										{this.galleryContent()}
 									</TabPanel>
+	
 								</Tabs>
 								
 							</div>
@@ -928,53 +839,49 @@ class EventoEdit extends Component{
 
 
 function mapStateToProps(state, ownProps){
-	console.log("stattatatatata: ", state);
-
-	let eventoInit = {}
-	if(state.eventos && state.eventos.evento){
-		eventoInit = state.eventos.evento;
+	let noticiaInit = {}
+	if(state.noticias && state.noticias.noticia){
+		noticiaInit = state.noticias.noticia;
 				
-		eventoInit.estado = '5bce2506e8a51373aab0b047';
+		noticiaInit.estado = '5bce2506e8a51373aab0b047';
 		
-
-		if(eventoInit.cidade){
-			if(_.isArray(eventoInit.cidade)){	
-				eventoInit.cidade = eventoInit.cidade[0]._id;
+		if(noticiaInit.cidade){
+			if(_.isArray(noticiaInit.cidade)){	
+				noticiaInit.cidade = noticiaInit.cidade[0]._id;
 			}
-			else if(eventoInit.cidade._id){
-				eventoInit.cidade = eventoInit.cidade._id;
+			else if(noticiaInit.cidade._id){
+				noticiaInit.cidade = noticiaInit.cidade._id;
 			}
 		}
-		
-		if( eventoInit.preco === 0 || eventoInit.preco === '')
-		{
-			eventoInit.gratuito = true;
+
+		if(noticiaInit.descricaoJson){
+			//this.setState({ editorStateDescricao: noticiaInit.editorStateDescricao });
 		}
 
-		//this.setState({'inicio': eventoInit.inicio});
-		if(eventoInit.bairros && _.isArray(eventoInit.bairros) && eventoInit.bairros.length > 0){
-			eventoInit.bairros = eventoInit.bairros[0]._id;
+		//this.setState({'inicio': noticiaInit.inicio});
+		if(noticiaInit.bairros && _.isArray(noticiaInit.bairros) && noticiaInit.bairros.length > 0){
+			noticiaInit.bairros = noticiaInit.bairros[0]._id;
 		}
 	}
     return(
         {
             user: state.users,
-			eventos: state.eventos,
+			noticias: state.noticias,
 			categorias: state.categorias,
 			tags: state.tags,
 			bairros: state.bairros,
 			cidades: state.city,
 			message: state.message,
-			initialValues: eventoInit
+			initialValues: noticiaInit
         }
     )
 }
 
 
 const myForm = reduxForm({
-	form: 'editEvento',
+	form: 'editNoticia',
 	enableReinitialize: true
 	
-})(EventoEdit)
+})(NoticiaEdit)
 
-export default connect(mapStateToProps, {fetchMe, editEvento, fetchEvento, removeImageAssociation, fetchCategories, fetchTags, fetchCities, fetchBairros})(myForm);
+export default connect(mapStateToProps, {fetchMe, editNoticia, fetchNoticia, removeImageAssociation, fetchCategories, fetchTags, fetchCities, fetchBairros})(myForm);

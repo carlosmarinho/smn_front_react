@@ -45,8 +45,6 @@ class ListingItem extends Component {
         if(this.props.guias)
             item = this.props.guias.guia
 
-        console.log("this.props.guias: ", this.props.guias)
-
         return(
             <div>
                 
@@ -61,7 +59,7 @@ class ListingItem extends Component {
                                     {(item && item.descricao_servicos)?this.services(item):''}
                                     {this.gallery(item)}
                                     {this.streetView(item)}
-                                    <FormComment resource="guia" review={item.reviewguia} item_id={item._id} text="Deixando um comentário adequado a este guia você estará ajudando outros a encontrar exatamente o que estão procurando!" />
+                                    <FormComment resource="guia" review={item.reviewguia} item_id={item._id} text="Deixando um comentário adequado a este guia você estará ajudando outros a encontrar exatamente o que estão procurando, e uma melhor idéia sobre este Guia!" />
                                     <Reviews review={item.reviewguia} comments={item.comentarioguias}/>
                                 </div>
                                 

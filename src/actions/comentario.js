@@ -1,11 +1,22 @@
 import axios from 'axios';
-import { CREATE_COMENTARIO_GUIA, 
-    CREATE_COMENTARIO_EVENTO, 
-    CREATE_COMENTARIO_NOTICIA,
+import { 
+    CREATE_COMENTARIO_GUIA, 
     FETCH_COMENTARIO_GUIAS_USER,
     DELETE_COMENTARIO_GUIA,
     APPROVE_COMENTARIO_GUIA,
     ERROR_COMENTARIO_GUIA,
+
+    CREATE_COMENTARIO_EVENTO, 
+    FETCH_COMENTARIO_EVENTOS_USER,
+    DELETE_COMENTARIO_EVENTO,
+    APPROVE_COMENTARIO_EVENTO,
+    ERROR_COMENTARIO_EVENTO,
+
+    CREATE_COMENTARIO_NOTICIA,
+    FETCH_COMENTARIO_NOTICIAS_USER,
+    DELETE_COMENTARIO_NOTICIA,
+    APPROVE_COMENTARIO_NOTICIA,
+    ERROR_COMENTARIO_NOTICIA,
     } from '../actions/types';
 const autoApprove = false;
 
@@ -68,7 +79,7 @@ export const approveReproveComentarioGuia = async (id, approve) => {
     
     if(user){
         let config = { headers: { 'Authorization': `Bearer ${user.jwt}` } };
-        const request = await axios.put(`${process.env.REACT_APP_URL_API}comentarioguias/${id}`, {approved: approve}, config);
+        const request = await axios.put(`${process.env.REACT_APP_URL_API}comentarioguias/${id}`, {aprovado: approve}, config);
         if(request.statusText == 'OK'){
             return {
                 type: APPROVE_COMENTARIO_GUIA,
@@ -152,21 +163,284 @@ export const fetchComentarioGuiasByUser = async(user_id, limit=100, sort=null) =
 }
 
 
-export const createComentarioEvento = (values) => {
-    return{
-        type: CREATE_COMENTARIO_EVENTO,
-        payload: {}
+export const createComentarioEvento = async(values) => {
+    let request_review = null;
+    if(values.review){
+        
+        let review = {...values.review,
+            total: parseFloat(values.review.total) + parseFloat(values.classificacao),
+            media: (parseFloat(values.review.total) + parseFloat(values.classificacao))/(parseInt(values.review.quantidade_votos)+1),
+            quantidade_votos: parseInt(values.review.quantidade_votos)+1
+        }
+
+        review = doReview(values, review);
+        console.log("review: ", review);
+        
+        request_review = await axios.put(`${process.env.REACT_APP_URL_API}revieweventos/${values.review._id}`, review);
+    }
+    else {
+
+        let review = {
+            total: values.classificacao,
+            media: values.classificacao,
+            quantidade_votos: 1,
+        }
+
+        review = doReview(values, review);
+
+        request_review = await axios.post(`${process.env.REACT_APP_URL_API}revieweventos/`, review);
+        axios.put(`${process.env.REACT_APP_URL_API}eventos/${values.evento}`, {reviewevento: request_review.data._id})
+    }
+
+    const request = await axios.post(`${process.env.REACT_APP_URL_API}comentarioeventos/`, values);
+
+    if(request.statusText == 'OK'){
+
+        enviaEmail('evento');
+        
+    
+        return{
+            type: CREATE_COMENTARIO_EVENTO,
+            payload: {comentarios: request.data, reviews: request_review.data}
+        }
+    }
+    else{
+        return {
+            type: CREATE_COMENTARIO_EVENTO,
+            payload: false,
+        }
+
     }
 };
 
-export const createComentarioNoticia = (values) => {
-    return{
-        type: CREATE_COMENTARIO_NOTICIA,
-        payload: {}
+export const approveReproveComentarioEvento = async (id, approve) => {
+    let user = JSON.parse(localStorage.getItem('user'));
+    
+    if(user){
+        let config = { headers: { 'Authorization': `Bearer ${user.jwt}` } };
+        const request = await axios.put(`${process.env.REACT_APP_URL_API}comentarioeventos/${id}`, {aprovado: approve}, config);
+        if(request.statusText == 'OK'){
+            return {
+                type: APPROVE_COMENTARIO_EVENTO,
+                payload: {id, approved: approve}
+            }
+        }
+
+        return {
+            type: APPROVE_COMENTARIO_EVENTO,
+            payload: false
+        }
+    }
+    else{
+        return({
+            type: ERROR_COMENTARIO_EVENTO,
+            payload: {msg: "Usuário não logado"}
+        })
+    }
+}
+
+export const deleteComentarioEvento = async (id) => {
+    let user = JSON.parse(localStorage.getItem('user'));
+    
+    if(user){
+        let config = { headers: { 'Authorization': `Bearer ${user.jwt}` } };
+        const request = await axios.delete(`${process.env.REACT_APP_URL_API}comentarioeventos/${id}`, config);
+        if(request.statusText == 'OK'){
+            return {
+                type: DELETE_COMENTARIO_EVENTO,
+                payload: id
+            }
+        }
+
+        return {
+            type: DELETE_COMENTARIO_EVENTO,
+            payload: false
+        }
+    }
+    else{
+        return({
+            type: ERROR_COMENTARIO_EVENTO,
+            payload: {msg: "Usuário não logado"}
+        })
+    }
+}
+
+export const fetchComentarioEventosByAdm = async(limit=100, sort=null) => {
+    if(!sort)
+        sort = '_id:desc';
+    if(limit)
+        limit = `&_limit=${limit}`
+
+
+    const request = await axios.get(`${process.env.REACT_APP_URL_API}comentarioeventos/?_sort=${sort}${limit}`);
+    //const count = await axios.get(`${process.env.REACT_APP_URL_API}eventos/count`);
+    //const newRequest = {data:request.data, count: count.data};
+    console.log("aqui no fetch eventos by user", request );
+
+    return {
+        type: FETCH_COMENTARIO_EVENTOS_USER,
+        payload: request.data
+    }
+
+}
+
+export const fetchComentarioEventosByUser = async(user_id, limit=100, sort=null) => {
+    if(!sort)
+        sort = '_id:desc';
+    if(limit)
+        limit = `&_limit=${limit}`
+
+
+    const request = axios.get(`${process.env.REACT_APP_URL_API}comentarioeventos/?user=${user_id}&_sort=${sort}${limit}`);
+
+    console.log("aqui no fetch eventos by user")
+    return {
+        type: FETCH_COMENTARIO_EVENTOS_USER,
+        payload: request
+    }
+
+}
+
+export const createComentarioNoticia = async(values) => {
+    let request_review = null;
+    if(values.review){
+        
+        let review = {...values.review,
+            total: parseFloat(values.review.total) + parseFloat(values.classificacao),
+            media: (parseFloat(values.review.total) + parseFloat(values.classificacao))/(parseInt(values.review.quantidade_votos)+1),
+            quantidade_votos: parseInt(values.review.quantidade_votos)+1
+        }
+
+        review = doReview(values, review);
+        console.log("review: ", review);
+        
+        request_review = await axios.put(`${process.env.REACT_APP_URL_API}reviewnoticias/${values.review._id}`, review);
+    }
+    else {
+
+        let review = {
+            total: values.classificacao,
+            media: values.classificacao,
+            quantidade_votos: 1,
+        }
+
+        review = doReview(values, review);
+
+        request_review = await axios.post(`${process.env.REACT_APP_URL_API}reviewnoticias/`, review);
+        axios.put(`${process.env.REACT_APP_URL_API}noticias/${values.noticia}`, {reviewnoticia: request_review.data._id})
+    }
+
+    const request = await axios.post(`${process.env.REACT_APP_URL_API}comentarionoticias/`, values);
+
+    if(request.statusText == 'OK'){
+
+        enviaEmail('noticia');
+        
+    
+        return{
+            type: CREATE_COMENTARIO_NOTICIA,
+            payload: {comentarios: request.data, reviews: request_review.data}
+        }
+    }
+    else{
+        return {
+            type: CREATE_COMENTARIO_NOTICIA,
+            payload: false,
+        }
+
     }
 };
 
-const enviaEmail = async() => {
+
+export const approveReproveComentarioNoticia = async (id, approve) => {
+    let user = JSON.parse(localStorage.getItem('user'));
+    
+    if(user){
+        let config = { headers: { 'Authorization': `Bearer ${user.jwt}` } };
+        const request = await axios.put(`${process.env.REACT_APP_URL_API}comentarionoticias/${id}`, {aprovado: approve}, config);
+        if(request.statusText == 'OK'){
+            return {
+                type: APPROVE_COMENTARIO_NOTICIA,
+                payload: {id, approved: approve}
+            }
+        }
+
+        return {
+            type: APPROVE_COMENTARIO_NOTICIA,
+            payload: false
+        }
+    }
+    else{
+        return({
+            type: ERROR_COMENTARIO_NOTICIA,
+            payload: {msg: "Usuário não logado"}
+        })
+    }
+}
+
+export const deleteComentarioNoticia = async (id) => {
+    let user = JSON.parse(localStorage.getItem('user'));
+    
+    if(user){
+        let config = { headers: { 'Authorization': `Bearer ${user.jwt}` } };
+        const request = await axios.delete(`${process.env.REACT_APP_URL_API}comentarionoticias/${id}`, config);
+        if(request.statusText == 'OK'){
+            return {
+                type: DELETE_COMENTARIO_NOTICIA,
+                payload: id
+            }
+        }
+
+        return {
+            type: DELETE_COMENTARIO_NOTICIA,
+            payload: false
+        }
+    }
+    else{
+        return({
+            type: ERROR_COMENTARIO_NOTICIA,
+            payload: {msg: "Usuário não logado"}
+        })
+    }
+}
+
+export const fetchComentarioNoticiasByAdm = async(limit=100, sort=null) => {
+    if(!sort)
+        sort = '_id:desc';
+    if(limit)
+        limit = `&_limit=${limit}`
+
+
+    const request = await axios.get(`${process.env.REACT_APP_URL_API}comentarionoticias/?_sort=${sort}${limit}`);
+    //const count = await axios.get(`${process.env.REACT_APP_URL_API}noticias/count`);
+    //const newRequest = {data:request.data, count: count.data};
+    console.log("aqui no fetch noticias by user", request );
+
+    return {
+        type: FETCH_COMENTARIO_NOTICIAS_USER,
+        payload: request.data
+    }
+
+}
+
+export const fetchComentarioNoticiasByUser = async(user_id, limit=100, sort=null) => {
+    if(!sort)
+        sort = '_id:desc';
+    if(limit)
+        limit = `&_limit=${limit}`
+
+
+    const request = axios.get(`${process.env.REACT_APP_URL_API}comentarionoticias/?user=${user_id}&_sort=${sort}${limit}`);
+
+    console.log("aqui no fetch noticias by user")
+    return {
+        type: FETCH_COMENTARIO_NOTICIAS_USER,
+        payload: request
+    }
+
+}
+
+const enviaEmail = async(type="guia") => {
     let values = {
         identifier: process.env.REACT_APP_SEND_EMAIL_USER, 
         password: process.env.REACT_APP_SEND_EMAIL_PASSWORD
@@ -177,11 +451,11 @@ const enviaEmail = async() => {
         let request = await axios.post(`${process.env.REACT_APP_URL_API}auth/local/`, values)    
 
         const htmlToSend = `Faça <a href="${process.env.REACT_APP_URL_FRONTEND}login">login</a>
-        e veja o novo comentario do guia que foi cadastrado. Veja os dados abaixo: <br><br> ${JSON.stringify(values)}`;
+        e veja o novo comentario do ${type} que foi cadastrado. Veja os dados abaixo: <br><br> ${JSON.stringify(values)}`;
 
         const email = {
             to: 'carluizfla@hotmail.com',
-            subject: `Novo comentario de guia cadastrado`,
+            subject: `Novo comentario do(a) ${type} cadastrado`,
             html: htmlToSend,
         }
 

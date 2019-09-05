@@ -42,7 +42,8 @@ import DashboardNoticiaNew from './components/dashboard/noticia/new';
 import DashboardNoticiaEdit from './components/dashboard/noticia/edit';
 
 import DashboardComentarioGuia from './components/dashboard/comentarioguia/comentario';
-
+import DashboardComentarioEvento from './components/dashboard/comentarioevento/comentario';
+import DashboardComentarioNoticia from './components/dashboard/comentarionoticia/comentario';
 
 import BairroGrid from './components/modules/bairro-grid';
 import NotFound from './components/not-found';
@@ -209,6 +210,8 @@ class App extends Component {
 
 
                                 <Route exact path="/dashboard/comentarioguia" component={DashboardComentarioGuia} />
+                                <Route exact path="/dashboard/comentarioevento" component={DashboardComentarioEvento} />
+                                <Route exact path="/dashboard/comentarionoticia" component={DashboardComentarioNoticia} />
 
 
                                 <Route exact path="/connect/facebook/" component={Connect} />

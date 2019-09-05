@@ -7,9 +7,9 @@ import { HashLink } from 'react-router-hash-link';
 import Confirm from 'react-confirm-bootstrap';
 
 import {fetchMe} from '../../../actions/user';
-import {fetchComentarioGuiasByUser, fetchComentarioGuiasByAdm, deleteComentarioGuia, approveReproveComentarioGuia} from '../../../actions/comentario';
+import {fetchComentarioEventosByUser, fetchComentarioEventosByAdm, deleteComentarioEvento, approveReproveComentarioEvento} from '../../../actions/comentario';
 
-class DashboardComentarioGuia extends Component{
+class DashboardComentarioEvento extends Component{
 
     constructor(){
         super();
@@ -24,10 +24,10 @@ class DashboardComentarioGuia extends Component{
             this.setState({userLogged:user.user})
             this.props.fetchMe();
             if(user.user.role.name == 'Administrator'){
-                this.props.fetchComentarioGuiasByAdm(50);                
+                this.props.fetchComentarioEventosByAdm(50);                
             }
             else{
-                this.props.fetchComentarioGuiasByUser(user.user._id, 10);
+                this.props.fetchComentarioEventosByUser(user.user._id, 10);
             }
         }
         else{
@@ -35,12 +35,12 @@ class DashboardComentarioGuia extends Component{
         }
     }
 
-    deleteComentarioGuia(id) {
-        this.props.deleteComentarioGuia(id);
+    deleteComentarioEvento(id) {
+        this.props.deleteComentarioEvento(id);
     }
 
-    approveReproveComentarioGuia(id, approve) {
-        this.props.approveReproveComentarioGuia(id, approve);
+    approveReproveComentarioEvento(id, approve) {
+        this.props.approveReproveComentarioEvento(id, approve);
     }
 
     datePtBr(date){
@@ -55,7 +55,7 @@ class DashboardComentarioGuia extends Component{
                 return (
                     <a href="javascript: void(0)">
                         <Confirm
-                            onConfirm={() => this.approveReproveComentarioGuia(comentario._id, false)}
+                            onConfirm={() => this.approveReproveComentarioEvento(comentario._id, false)}
                             body={`Tem certeza que deseja reprovar o comentário '${comentario.titulo}'?`}
                             confirmText="Confirmar Reprovação"
                             title="Aprovação de Comentário">
@@ -68,7 +68,7 @@ class DashboardComentarioGuia extends Component{
                 return (
                     <a href="javascript: void(0)">
                         <Confirm
-                            onConfirm={() => this.approveReproveComentarioGuia(comentario._id, true)}
+                            onConfirm={() => this.approveReproveComentarioEvento(comentario._id, true)}
                             body={`Tem certeza que deseja aprovar o comentário '${comentario.titulo}'?`}
                             confirmText="Confirmar Aprovação"
                             title="Aprovação de Comentário">
@@ -113,25 +113,25 @@ class DashboardComentarioGuia extends Component{
     showViewComment(comentario){
         if(comentario.aprovado){
             return(
-                <HashLink to={`/guia/${comentario.guia.slug}#comment-${comentario._id}`}>
+                <HashLink to={`/evento/${comentario.evento.slug}#comment-${comentario._id}`}>
                     <i className="fa fa-eye" title="Visualizar"></i>
                 </HashLink>
             )
         }
     }
 
-    showComentarioGuias(){
+    showComentarioEventos(){
         let truncate = _.truncate;
 
         if(this.props.comentarios){
             return this.props.comentarios.map( comentario => {
-                console.log("comentario: ", comentario);
+                console.log("comentarioevento: ", comentario);
                 return(
                     <li key={comentario._id} className="view-msg" style={ comentario.aprovado ? {paddingLeft: '50px'} : { paddingLeft:'50px', backgroundColor: '#ffe6e6'}}>
                         <h3>{comentario.titulo} {this.comentarioApproved(comentario)}</h3>
                         <p style={{paddingLeft:'20px', paddingTop: '15px', lineHeight: '10px'}}>
-                            <strong>Guia: </strong> 
-                            <Link to={`/guia/${comentario.guia.slug}`} target="blank">{comentario.guia.titulo}</Link>
+                            <strong>Evento: </strong> 
+                            <Link to={`/eventos/${comentario.evento.slug}`} target="blank">{comentario.evento.titulo}</Link>
                         </p>
                         {this.showUser(comentario)}
                         <p style={{paddingLeft:'20px', paddingTop: '5px', lineHeight: '10px'}}><strong>Comentário:</strong> {truncate(comentario.descricao.replace(/&#13;/g,'').replace(/<\/?[^>]+(>|$)/g, ""), { length: 200, separator: /,?\.* +/ })}</p>
@@ -139,7 +139,7 @@ class DashboardComentarioGuia extends Component{
                             <Link to={'/dashboard/comentarios/edit/' + comentario._id}  ><i className="fa fa-pencil" title="Editar"></i></Link> 
                             {this.showViewComment(comentario)}
                             <a href="javascript: void(0)"><Confirm
-                                onConfirm={() => this.deleteComentarioGuia(comentario._id)}
+                                onConfirm={() => this.deleteComentarioEvento(comentario._id)}
                                 body={`Tem certeza que deseja excluir o comentário '${comentario.titulo}'?`}
                                 confirmText="Confirmar Exclusão"
                                 title="Exclusão de Comentário">
@@ -179,18 +179,17 @@ class DashboardComentarioGuia extends Component{
         return "http://images.soumaisniteroi.com.br/wp-content/uploads/2015/04/no-image.png";
     }
 
-    
 
     render(){
         if(this.state.userLogged === false){
             return <Redirect to={'/'} />
         }
 
-        let totalComentarioGuias = 0;    
+        let totalComentarioEventos = 0;    
         
         
         if(this.props.comentarios && this.props.comentarios.fromUser)
-            totalComentarioGuias = this.props.comentarios.fromUser.length;
+            totalComentarioEventos = this.props.comentarios.fromUser.length;
         
             console.log("this props user::::::: ", this.props)
 
@@ -204,16 +203,16 @@ class DashboardComentarioGuia extends Component{
                     { /*!--CENTER SECTION--> */}
                     <div className="tz-2">
                         <div className="tz-2-com tz-2-main">
-                            <h4>Gerenciamento de Comentario Guias</h4>
+                            <h4>Gerenciamento de Comentario Eventos</h4>
                             
                             <div className="db-list-com tz-db-table">
                                 <div className="ds-boar-title">
-                                    <h2>Comentarios Guias</h2>
-                                    <p>Listagem de comentarios dos Guias</p>
+                                    <h2>Comentarios Eventos</h2>
+                                    <p>Listagem de comentarios dos Eventos</p>
                                 </div>
                                 <div className="tz-mess">
                                     <ul>
-                                        {this.showComentarioGuias()}
+                                        {this.showComentarioEventos()}
                                     </ul>
                                 </div>                            
                             </div>
@@ -237,4 +236,4 @@ function mapStateToProps(state){
     
 }
 
-export default connect(mapStateToProps, {fetchMe, deleteComentarioGuia, approveReproveComentarioGuia, fetchComentarioGuiasByUser, fetchComentarioGuiasByAdm})(DashboardComentarioGuia);
+export default connect(mapStateToProps, {fetchMe, deleteComentarioEvento, approveReproveComentarioEvento, fetchComentarioEventosByUser, fetchComentarioEventosByAdm})(DashboardComentarioEvento);

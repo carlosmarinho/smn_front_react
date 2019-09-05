@@ -7663,7 +7663,7 @@ h5 a.menu-close {
   margin-left: 10px; }
 
 /*Ajustar as ancoras por carlos*/
-#ld-ser, #ld-abour, #ld-gal, #ld-view, #ld-rew, #ld-rer {
+#ld-ser, #ld-abour, #ld-gal, #ld-view, #ld-rew, #ld-rer, .comment-span {
   display: block;
   position: relative;
   top: -120px;

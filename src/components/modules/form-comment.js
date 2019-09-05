@@ -64,7 +64,6 @@ class FormComment extends Component {
          
         const { resource } = this.props;
         values.classificacao = values.rating;
-        values.guia = this.props.item_id;
         values.review = this.props.review;
         
         if(this.state.userLogged){
@@ -73,12 +72,15 @@ class FormComment extends Component {
 
 		switch(resource){
             case 'guia':
+                values.guia = this.props.item_id;
                 this.props.createComentarioGuia(values);
                 break;
             case 'evento':
+                values.evento = this.props.item_id;
                 this.props.createComentarioEvento(values);
                 break;
             case 'noticia':
+                values.noticia = this.props.item_id;
                 this.props.createComentarioNoticia(values)
         }
         
@@ -103,7 +105,6 @@ class FormComment extends Component {
     }
 
     showFormUser() {
-        console.log("this.props user::: ", this.state.userLogged);
         if(this.state.userLogged) {
             return(
                 <div>

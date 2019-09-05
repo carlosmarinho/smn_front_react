@@ -1,6 +1,16 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { fetchUser } from '../../actions/user';
 
 class Reviews extends Component {
+
+    componentDidMount(){
+        console.log("vamos ver as props: ", this.props);
+        this.props.comments.map(comment => {
+            if(!comment.user._id)
+                this.props.fetchUser(comment.user)
+        })
+    }
 
     getQtyStars(qty){
         let elem = [];
@@ -22,6 +32,20 @@ class Reviews extends Component {
             )
         }
     }
+
+    getUser(user) {
+        if(user.user_id)
+            return user.username;
+
+        if(this.props.users && this.props.users.length > 0)
+        {
+            let newUser = this.props.users.filter(u => u._id === user)
+            console.log("newuser: ", newUser);
+            return newUser[0].username;
+        }
+    }
+
+
     
     getAvaliacoes(comments){
         if(comments ){
@@ -30,11 +54,14 @@ class Reviews extends Component {
                     return null;
                     
                 if(avaliacao.user) {
+                    console.log("commmmentttt::: ", avaliacao.user);
+
                     return(
                         <li key={avaliacao._id}>
+                            <span id={`comment-${avaliacao._id}`} class="comment-span" ></span>
                             <div className="lr-user-wr-img"> <img src="/images/users/user-default-32x32.png" alt="" /> </div>
                             <div className="lr-user-wr-con">
-                                <h6>{avaliacao.author_name} <span>{avaliacao.classificacao} {this.getQtyStars(avaliacao.classificacao)}</span></h6> 
+                                <h6>{this.getUser(avaliacao.user)} <span>{avaliacao.classificacao} {this.getQtyStars(avaliacao.classificacao)}</span></h6> 
                                 <p><strong>{avaliacao.titulo}</strong> <span className="lr-revi-date">({avaliacao.createdAt})</span></p>
                                 <p>{avaliacao.descricao}</p>
                                 <ul>
@@ -49,8 +76,12 @@ class Reviews extends Component {
                 }
                 else {
                     return (
-                        <li key={avaliacao._id}>
-                            <div className="lr-user-wr-img"> <img src="/images/users/user-default-32x32.png" alt="" /> </div>
+                        <li key={avaliacao._id} >
+                            <span id={`comment-${avaliacao._id}`} class="comment-span" ></span>
+                            <div className="lr-user-wr-img"> 
+                                <span id={`comment-${avaliacao._id}`}></span>
+                                <img src="/images/users/user-default-32x32.png" alt="" /> 
+                            </div>
                             <div className="lr-user-wr-con">
                                 <h6>{avaliacao.author_name} <span>{avaliacao.classificacao} {this.getQtyStars(avaliacao.classificacao)}</span></h6> 
                                 <p><strong>{avaliacao.titulo}</strong> <span className="lr-revi-date">({avaliacao.createdAt})</span></p>
@@ -79,6 +110,7 @@ class Reviews extends Component {
     
 
     render(){
+        console.log("this.propsssss no review", this.props)
         return(
             <div className="pglist-p3 pglist-bg pglist-p-com" >
                 <span id="ld-rer"></span>
@@ -138,4 +170,12 @@ class Reviews extends Component {
 
 }
 
-export default Reviews;
+const mapStateToProps = (state) => {
+    return(
+        {
+            users: state.users
+        }
+    )
+}
+
+export default connect(mapStateToProps, {fetchUser})(Reviews);
