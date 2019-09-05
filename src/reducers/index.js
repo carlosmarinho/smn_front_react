@@ -12,6 +12,7 @@ import Noticias from './noticiaReducer';
 import Paginas from './paginaReducer';
 import City from './cityReducer';
 import Messages from './messageReducer';
+import Comentarios from './comentarioReducer';
 
 export default combineReducers({
     users: Users,
@@ -25,5 +26,6 @@ export default combineReducers({
     paginas: Paginas,
     city: City,
     message: Messages,
+    comentarios: Comentarios,
     form: formReducer
 })

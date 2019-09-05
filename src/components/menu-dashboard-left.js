@@ -19,7 +19,6 @@ class MenuDashboardLeft extends Component{
     showMenuComentario(){
         const { user } = this.props;
 
-        console.log("user no menu: ", user);
         if(user && user.role.name === 'Administrator') {
             return(
                 <li>
