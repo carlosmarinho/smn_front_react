@@ -90,6 +90,25 @@ class DashboardComentarioGuia extends Component{
         }
     }
 
+    showUser(comentario) {
+        if(comentario.user) {
+            return(
+                <div>
+                    <p style={{paddingLeft:'20px', paddingTop: '5px', lineHeight: '10px'}}><strong>Username:</strong> {comentario.user.username}</p>
+                    <p style={{paddingLeft:'20px', paddingTop: '5px', lineHeight: '10px'}}><strong>Email:</strong> {comentario.user.email}</p>
+                </div>
+            )
+        }
+        else{
+            return(
+                <div>
+                    <p style={{paddingLeft:'20px', paddingTop: '5px', lineHeight: '10px'}}><strong>Nome:</strong> {comentario.author_name}</p>
+                    <p style={{paddingLeft:'20px', paddingTop: '5px', lineHeight: '10px'}}><strong>Email:</strong> {comentario.author_email}</p>
+                </div>
+            )
+        }
+    }
+
     showComentarioGuias(){
         let truncate = _.truncate;
 
@@ -100,8 +119,7 @@ class DashboardComentarioGuia extends Component{
                     <li key={comentario._id} className="view-msg" style={ comentario.approved ? {paddingLeft: '50px'} : { paddingLeft:'50px', backgroundColor: '#ffe6e6'}}>
                         <h3>{comentario.titulo} {this.comentarioApproved(comentario)}</h3>
                         <p style={{paddingLeft:'20px', paddingTop: '15px', lineHeight: '10px'}}><strong>Guia:</strong> <Link to={`/guia/${comentario.guia.slug}`}>{comentario.guia.titulo}</Link></p>
-                        <p style={{paddingLeft:'20px', paddingTop: '5px', lineHeight: '10px'}}><strong>Nome:</strong> {comentario.author_name}</p>
-                        <p style={{paddingLeft:'20px', paddingTop: '5px', lineHeight: '10px'}}><strong>Email:</strong> {comentario.author_email}</p>
+                        {this.showUser(comentario)}
                         <p style={{paddingLeft:'20px', paddingTop: '5px', lineHeight: '10px'}}><strong>Comentário:</strong> {truncate(comentario.descricao.replace(/&#13;/g,'').replace(/<\/?[^>]+(>|$)/g, ""), { length: 200, separator: /,?\.* +/ })}</p>
                         <div className="hid-msg">
                             <Link to={'/dashboard/comentarios/edit/' + comentario._id}  ><i className="fa fa-pencil" title="Editar"></i></Link> 

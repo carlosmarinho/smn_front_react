@@ -10,9 +10,23 @@ class FormComment extends Component {
 
     constructor(){
         super();	
-		
+        
+        this.state = {userLogged:null};
+
 		this.handleSubmit = this.handleSubmit.bind(this);
 	
+    }
+
+    componentDidMount(){
+        let user = JSON.parse(localStorage.getItem('user'));
+
+        if(user !== null){
+            this.setState({userLogged:user.user})
+            //this.props.fetchMe();
+        }
+        else {
+            this.setState({userLogged:false})
+        }
     }
 
     getDescription(){
@@ -52,6 +66,11 @@ class FormComment extends Component {
         values.classificacao = values.rating;
         values.guia = this.props.item_id;
         values.review = this.props.review;
+        
+        if(this.state.userLogged){
+            values.user = this.state.userLogged._id;
+        }
+
 		switch(resource){
             case 'guia':
                 this.props.createComentarioGuia(values);
@@ -80,6 +99,55 @@ class FormComment extends Component {
                     <span className="text-success text-center"><strong>{this.props.item.successCreateComentario}</strong></span>
                 )
             }
+        }
+    }
+
+    showFormUser() {
+        console.log("this.props user::: ", this.state.userLogged);
+        if(this.state.userLogged) {
+            return(
+                <div>
+                    <div className="row">
+                        <div className={`input-field col s12`}>
+                            <input type="text" value={this.state.userLogged.username} disabled="disabled" className="validate"  />
+                        </div>
+                    </div>
+                    <div className="row">
+                        <div className={`input-field col s12`}>
+                            <input type="text" value={this.state.userLogged.email} disabled="disabled" className="validate"  />
+                        </div>
+                    </div>
+                </div>
+            )
+        }
+        else{
+            return(
+                <div>
+                    <div className="row">
+                        <Field
+                            name="author_name"
+                            component={this.renderField}
+                            type="text"
+                            label="Nome"
+                            classCol="s12"
+                            className="validate"
+                            validate={[required]}
+                        />
+                        
+                    </div>
+                    <div className="row">
+                        <Field
+                            name="author_email"
+                            component={this.renderField}
+                            type="text"
+                            label="Email"
+                            classCol="s12"
+                            className="validate"
+                            validate={[required]}
+                        />
+                    </div>
+                </div>
+            )
         }
     }
 
@@ -132,29 +200,8 @@ class FormComment extends Component {
                                     </fieldset>
                                 </div>
                             </div>
-                            <div className="row">
-                                <Field
-                                    name="author_name"
-                                    component={this.renderField}
-                                    type="text"
-                                    label="Nome"
-                                    classCol="s12"
-                                    className="validate"
-                                    validate={[required]}
-                                />
-                                
-                            </div>
-                            <div className="row">
-                                <Field
-                                    name="author_email"
-                                    component={this.renderField}
-                                    type="text"
-                                    label="Email"
-                                    classCol="s12"
-                                    className="validate"
-                                    validate={[required]}
-                                />
-                            </div>
+                            {this.showFormUser()}
+                            
                             <div className="row">
                                 <Field
                                     name="titulo"
@@ -203,7 +250,7 @@ const mapStateToProps = (state, ownProps) => {
 
     return(
         {
-            item
+            item,
         }
     )
 }
