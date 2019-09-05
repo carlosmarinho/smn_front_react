@@ -2,7 +2,7 @@ import axios from 'axios';
 import { CREATE_COMENTARIO_GUIA, 
     CREATE_COMENTARIO_EVENTO, 
     CREATE_COMENTARIO_NOTICIA,
-    FETCH_COMENTARIOGUIAS_USER,
+    FETCH_COMENTARIO_GUIAS_USER,
     DELETE_COMENTARIO_GUIA,
     APPROVE_COMENTARIO_GUIA,
     ERROR_COMENTARIO_GUIA,
@@ -125,11 +125,11 @@ export const fetchComentarioGuiasByAdm = async(limit=100, sort=null) => {
     const request = await axios.get(`${process.env.REACT_APP_URL_API}comentarioguias/?_sort=${sort}${limit}`);
     //const count = await axios.get(`${process.env.REACT_APP_URL_API}guias/count`);
     //const newRequest = {data:request.data, count: count.data};
-    //console.log("aqui no fetch guias by user", newRequest );
+    console.log("aqui no fetch guias by user", request );
 
     return {
-        type: FETCH_COMENTARIOGUIAS_USER,
-        payload: request
+        type: FETCH_COMENTARIO_GUIAS_USER,
+        payload: request.data
     }
 
 }
@@ -145,7 +145,7 @@ export const fetchComentarioGuiasByUser = async(user_id, limit=100, sort=null) =
 
     console.log("aqui no fetch guias by user")
     return {
-        type: FETCH_COMENTARIOGUIAS_USER,
+        type: FETCH_COMENTARIO_GUIAS_USER,
         payload: request
     }
 

@@ -23,11 +23,10 @@ class DashboardComentarioGuia extends Component{
             this.setState({userLogged:user.user})
             this.props.fetchMe();
             if(user.user.role.name == 'Administrator'){
-                this.props.fetchComentarioGuiasByAdm(10);
-                
+                this.props.fetchComentarioGuiasByAdm(50);                
             }
             else{
-                this.props.fetchComentarioGuiasByUser(user.user._id, 5);
+                this.props.fetchComentarioGuiasByUser(user.user._id, 10);
             }
         }
         else{
@@ -94,13 +93,16 @@ class DashboardComentarioGuia extends Component{
     showComentarioGuias(){
         let truncate = _.truncate;
 
-        if(this.props.comentarios && this.props.comentarios.fromUser){
-            return this.props.comentarios.fromUser.map( comentario => {
-                
+        if(this.props.comentarios){
+            return this.props.comentarios.map( comentario => {
+                console.log("comentario: ", comentario);
                 return(
-                    <li key={comentario._id} className="view-msg" style={ comentario.approved ? {} : { backgroundColor: '#ffe6e6'}}>
-                        <h5><img src={this.getImageSrc(comentario)} alt="" />{comentario.titulo} {this.comentarioApproved(comentario)}</h5>
-                        <p>{truncate(comentario.descricao.replace(/&#13;/g,'').replace(/<\/?[^>]+(>|$)/g, ""), { length: 200, separator: /,?\.* +/ })}</p>
+                    <li key={comentario._id} className="view-msg" style={ comentario.approved ? {paddingLeft: '50px'} : { paddingLeft:'50px', backgroundColor: '#ffe6e6'}}>
+                        <h3>{comentario.titulo} {this.comentarioApproved(comentario)}</h3>
+                        <p style={{paddingLeft:'20px', paddingTop: '15px', lineHeight: '10px'}}><strong>Guia:</strong> <Link to={`/guia/${comentario.guia.slug}`}>{comentario.guia.titulo}</Link></p>
+                        <p style={{paddingLeft:'20px', paddingTop: '5px', lineHeight: '10px'}}><strong>Nome:</strong> {comentario.author_name}</p>
+                        <p style={{paddingLeft:'20px', paddingTop: '5px', lineHeight: '10px'}}><strong>Email:</strong> {comentario.author_email}</p>
+                        <p style={{paddingLeft:'20px', paddingTop: '5px', lineHeight: '10px'}}><strong>Comentário:</strong> {truncate(comentario.descricao.replace(/&#13;/g,'').replace(/<\/?[^>]+(>|$)/g, ""), { length: 200, separator: /,?\.* +/ })}</p>
                         <div className="hid-msg">
                             <Link to={'/dashboard/comentarios/edit/' + comentario._id}  ><i className="fa fa-pencil" title="Editar"></i></Link> 
                             <Link to={'/dashboard/comentarios/view/' + comentario.slug} target="_blank" ><i className="fa fa-eye" title="Visualizar"></i></Link>
