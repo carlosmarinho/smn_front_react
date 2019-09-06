@@ -1,4 +1,4 @@
-import { DELETE_NOTICIA, APPROVE_NOTICIA, REMOVE_IMAGE_NOTICIA, FETCH_NOTICIA, FETCH_NOTICIAS, FETCH_NOTICIAS_RECENTES, FETCH_NOTICIAS_FEATURED, FETCH_NOTICIAS_USER } from "../actions/types";
+import { CREATE_COMENTARIO_NOTICIA, DELETE_NOTICIA, APPROVE_NOTICIA, REMOVE_IMAGE_NOTICIA, FETCH_NOTICIA, FETCH_NOTICIAS, FETCH_NOTICIAS_RECENTES, FETCH_NOTICIAS_FEATURED, FETCH_NOTICIAS_USER } from "../actions/types";
 
 export default function(state = {}, action) {
 
@@ -11,6 +11,19 @@ export default function(state = {}, action) {
         count: null
     };
     switch (action.type) {
+        case CREATE_COMENTARIO_NOTICIA: 
+            if(action.payload !== false ){
+                console.log("comentarios no reducer: ", ' ---- ' , {...state.noticia, comentarios: comentarios, reviewnoticias: action.payload.reviews});
+                let comentarios = [...state.noticia.comentarios, action.payload.comentarios];
+                return {
+                    ...state, 
+                    noticia: {...state.noticia, comentarios: comentarios, reviewnoticia: action.payload.reviews},
+                    successCreateComentario: 'Seu comentário foi cadastrado com sucesso e enviado para aprovação!'
+                }
+            }
+
+            return {...state, errorCreateComentario: 'Houve um erro ao cadastrar seu comentário!' };
+        
         case APPROVE_NOTICIA:
             if(action.payload !== false ){
                 
