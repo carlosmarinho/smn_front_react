@@ -326,11 +326,11 @@ export const createComentarioNoticia = async(values) => {
 
         review = doReview(values, review);
 
-        request_review = await axios.post(`${process.env.REACT_APP_URL_API}reviewnoticias/`, review);
+        request_review = await axios.post(`${process.env.REACT_APP_URL_API}reviews/`, review);
         axios.put(`${process.env.REACT_APP_URL_API}noticias/${values.noticia}`, {reviewnoticia: request_review.data._id})
     }
 
-    const request = await axios.post(`${process.env.REACT_APP_URL_API}comentarionoticias/`, values);
+    const request = await axios.post(`${process.env.REACT_APP_URL_API}comentarios/`, values);
 
     if(request.statusText == 'OK'){
 
@@ -357,7 +357,7 @@ export const approveReproveComentarioNoticia = async (id, approve) => {
     
     if(user){
         let config = { headers: { 'Authorization': `Bearer ${user.jwt}` } };
-        const request = await axios.put(`${process.env.REACT_APP_URL_API}comentarionoticias/${id}`, {aprovado: approve}, config);
+        const request = await axios.put(`${process.env.REACT_APP_URL_API}comentarios/${id}`, {aprovado: approve}, config);
         if(request.statusText == 'OK'){
             return {
                 type: APPROVE_COMENTARIO_NOTICIA,
@@ -383,7 +383,7 @@ export const deleteComentarioNoticia = async (id) => {
     
     if(user){
         let config = { headers: { 'Authorization': `Bearer ${user.jwt}` } };
-        const request = await axios.delete(`${process.env.REACT_APP_URL_API}comentarionoticias/${id}`, config);
+        const request = await axios.delete(`${process.env.REACT_APP_URL_API}comentarios/${id}`, config);
         if(request.statusText == 'OK'){
             return {
                 type: DELETE_COMENTARIO_NOTICIA,
@@ -411,7 +411,7 @@ export const fetchComentarioNoticiasByAdm = async(limit=100, sort=null) => {
         limit = `&_limit=${limit}`
 
 
-    const request = await axios.get(`${process.env.REACT_APP_URL_API}comentarionoticias/?_sort=${sort}${limit}`);
+    const request = await axios.get(`${process.env.REACT_APP_URL_API}comentarios/?_sort=${sort}${limit}`);
     //const count = await axios.get(`${process.env.REACT_APP_URL_API}noticias/count`);
     //const newRequest = {data:request.data, count: count.data};
     console.log("aqui no fetch noticias by user", request );
@@ -430,7 +430,7 @@ export const fetchComentarioNoticiasByUser = async(user_id, limit=100, sort=null
         limit = `&_limit=${limit}`
 
 
-    const request = axios.get(`${process.env.REACT_APP_URL_API}comentarionoticias/?user=${user_id}&_sort=${sort}${limit}`);
+    const request = axios.get(`${process.env.REACT_APP_URL_API}comentarios/?user=${user_id}&_sort=${sort}${limit}`);
 
     console.log("aqui no fetch noticias by user")
     return {

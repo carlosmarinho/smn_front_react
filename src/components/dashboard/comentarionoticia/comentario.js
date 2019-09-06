@@ -113,7 +113,7 @@ class DashboardComentarioNoticia extends Component{
     showViewComment(comentario){
         if(comentario.aprovado){
             return(
-                <HashLink to={`/noticia/${comentario.noticia.slug}#comment-${comentario._id}`}>
+                <HashLink to={`/noticias/${comentario.noticia.slug}#comment-${comentario._id}`} >
                     <i className="fa fa-eye" title="Visualizar"></i>
                 </HashLink>
             )
@@ -122,16 +122,14 @@ class DashboardComentarioNoticia extends Component{
 
     showComentarioNoticias(){
         let truncate = _.truncate;
-
         if(this.props.comentarios){
             return this.props.comentarios.map( comentario => {
-                console.log("comentario: ", comentario);
                 return(
                     <li key={comentario._id} className="view-msg" style={ comentario.aprovado ? {paddingLeft: '50px'} : { paddingLeft:'50px', backgroundColor: '#ffe6e6'}}>
                         <h3>{comentario.titulo} {this.comentarioApproved(comentario)}</h3>
                         <p style={{paddingLeft:'20px', paddingTop: '15px', lineHeight: '10px'}}>
                             <strong>Noticia: </strong> 
-                            <Link to={`/noticia/${comentario.noticia.slug}`} target="blank">{comentario.noticia.titulo}</Link>
+                            <Link to={`/noticias/${comentario.noticia.slug}`} target="_blank">{comentario.noticia.titulo}</Link>
                         </p>
                         {this.showUser(comentario)}
                         <p style={{paddingLeft:'20px', paddingTop: '5px', lineHeight: '10px'}}><strong>Comentário:</strong> {truncate(comentario.descricao.replace(/&#13;/g,'').replace(/<\/?[^>]+(>|$)/g, ""), { length: 200, separator: /,?\.* +/ })}</p>
@@ -209,7 +207,7 @@ class DashboardComentarioNoticia extends Component{
                             <div className="db-list-com tz-db-table">
                                 <div className="ds-boar-title">
                                     <h2>Comentarios Noticias</h2>
-                                    <p>Listagem de comentarios dos Noticias</p>
+                                    <p>Listagem de comentarios das Noticias</p>
                                 </div>
                                 <div className="tz-mess">
                                     <ul>

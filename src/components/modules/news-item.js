@@ -9,6 +9,7 @@ import { fetchNoticiaBySlug } from '../../actions/noticia';
 import { fetchEventosRecentes } from '../../actions/evento';
 import { fetchGuiasFeatured } from '../../actions/guia';
 import FormComment from './form-comment';
+import Reviews from './reviews';
 import { Link } from 'react-router-dom';
 
 class NewsItem extends Component {
@@ -46,10 +47,9 @@ class NewsItem extends Component {
         return date.toLocaleDateString('pt-BR', options)
     }
 
-    getImageSrc(guia){
-        if(guia) {
-
-            const { s3_imagem_destacada, old_imagem_destacada, imagem_destacada } = guia
+    getImageSrc(noticia){
+        if(noticia) {
+            const { s3_imagem_destacada, old_imagem_destacada, imagem_destacada } = noticia
             
             if(s3_imagem_destacada){
                 return s3_imagem_destacada;
@@ -113,10 +113,16 @@ class NewsItem extends Component {
     }
 
     getContent(item){
+        if(!item.titulo)
+            return <div>Carregando...</div>
+            
+        console.log("iiiiitem::::: ", item);
         let url = "http://soumaisniteroi.com.br/noticias/" + item.slug
         return(
             <div>
-                <div className="blog-img"> {this.getImage(item)} </div>
+                <div className="blog-img">
+                    <img src={this.getImageSrc(item)} alt="" style={{maxHeight:300, marginBottom: 30}} />
+                </div>
                 
                 <div className="page-blog">
                     <div className="text-center share-btn share-pad-bot ">
@@ -131,7 +137,9 @@ class NewsItem extends Component {
                     
                     {this.showNoticiaContent(item)}
 
-                    <FormComment />
+                    <FormComment resource="noticia" review={item.review} item_id={item._id} text="Faça um comentário relacionado a está notícia, propaganda e comentários que não estão relacionados a esta notícia e o site será apagado!" />
+                    <Reviews review={item.review} comments={item.comentarios}/>
+                    
                     
                 </div>
             </div>
@@ -205,7 +213,6 @@ class NewsItem extends Component {
 }
 
 function mapStateToProps(state){
-    console.log("state BLOG list: ", state)
     return {
         noticias: state.noticias,
         guias: state.guias,

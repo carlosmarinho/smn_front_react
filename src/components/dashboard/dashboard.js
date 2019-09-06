@@ -279,7 +279,6 @@ class Dashboard extends Component{
 
     showNoticias(){
         let truncate = _.truncate;
-        console.log("noticias:::: ", this.props.noticias);
         if(this.props.noticias && this.props.noticias.fromUser){
             return this.props.noticias.fromUser.map( noticia => {
                 

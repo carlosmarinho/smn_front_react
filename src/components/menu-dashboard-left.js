@@ -19,7 +19,7 @@ class MenuDashboardLeft extends Component{
     showMenuComentario(){
         const { user } = this.props;
 
-        if(user && user.role.name === 'Administrator') {
+        if(user && user.role && user.role.name === 'Administrator') {
             return(
                 <div>
                     <li>

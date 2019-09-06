@@ -4,13 +4,27 @@ import { fetchUser } from '../../actions/user';
 
 class Reviews extends Component {
 
+    state = {slug:''};
+
     componentDidMount(){
         console.log("vamos ver as props: ", this.props);
-        this.props.comments.map(comment => {
-            if(!comment.user._id)
-                this.props.fetchUser(comment.user)
-        })
+        if(this.props && this.props.comments){
+            this.props.comments.map(comment => {
+                if(comment.author_name === '' )
+                    this.props.fetchUser(comment.user)
+            })
+        }
     }
+
+    /* componentWillReceiveProps(nextProps){
+        console.log("nextprops: ", nextProps.match.params)
+        if(nextProps.comments.length>0){
+            nextProps.comments.map(comment => {
+                //if(comment.user && !comment.user._id)
+                  //  nextProps.fetchUser(comment.user)
+            });
+        }
+    } */
 
     getQtyStars(qty){
         let elem = [];
@@ -41,7 +55,8 @@ class Reviews extends Component {
         {
             let newUser = this.props.users.filter(u => u._id === user)
             console.log("newuser: ", newUser);
-            return newUser[0].username;
+            if(newUser.length > 0)
+                return newUser[0].username;
         }
     }
 
@@ -54,11 +69,11 @@ class Reviews extends Component {
                     return null;
                     
                 if(avaliacao.user) {
-                    console.log("commmmentttt::: ", avaliacao.user);
+                console.log("commmmentttt::: ", avaliacao);
 
                     return(
                         <li key={avaliacao._id}>
-                            <span id={`comment-${avaliacao._id}`} class="comment-span" ></span>
+                            <span id={`comment-${avaliacao._id}`} className="comment-span" ></span>
                             <div className="lr-user-wr-img"> <img src="/images/users/user-default-32x32.png" alt="" /> </div>
                             <div className="lr-user-wr-con">
                                 <h6>{this.getUser(avaliacao.user)} <span>{avaliacao.classificacao} {this.getQtyStars(avaliacao.classificacao)}</span></h6> 
@@ -77,7 +92,7 @@ class Reviews extends Component {
                 else {
                     return (
                         <li key={avaliacao._id} >
-                            <span id={`comment-${avaliacao._id}`} class="comment-span" ></span>
+                            <span id={`comment-${avaliacao._id}`} className="comment-span" ></span>
                             <div className="lr-user-wr-img"> 
                                 <span id={`comment-${avaliacao._id}`}></span>
                                 <img src="/images/users/user-default-32x32.png" alt="" /> 
