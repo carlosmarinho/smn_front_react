@@ -124,12 +124,16 @@ class DashboardComentarioNoticia extends Component{
         let truncate = _.truncate;
         if(this.props.comentarios){
             return this.props.comentarios.map( comentario => {
+                if(!comentario.noticia){
+                    return null;
+                }
+                
                 return(
                     <li key={comentario._id} className="view-msg" style={ comentario.aprovado ? {paddingLeft: '50px'} : { paddingLeft:'50px', backgroundColor: '#ffe6e6'}}>
                         <h3>{comentario.titulo} {this.comentarioApproved(comentario)}</h3>
                         <p style={{paddingLeft:'20px', paddingTop: '15px', lineHeight: '10px'}}>
                             <strong>Noticia: </strong> 
-                            <Link to={`/noticias/${comentario.noticia.slug}`} target="_blank">{comentario.noticia.titulo}</Link>
+                            <Link to={(comentario.noticia.slug) ? `/noticias/${comentario.noticia.slug}`:'#'} target="_blank">{comentario.noticia.titulo}</Link>
                         </p>
                         {this.showUser(comentario)}
                         <p style={{paddingLeft:'20px', paddingTop: '5px', lineHeight: '10px'}}><strong>Comentário:</strong> {truncate(comentario.descricao.replace(/&#13;/g,'').replace(/<\/?[^>]+(>|$)/g, ""), { length: 200, separator: /,?\.* +/ })}</p>

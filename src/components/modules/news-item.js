@@ -100,14 +100,16 @@ class NewsItem extends Component {
         if(! item)
             return <div>Carregando...</div>
 
-        if(item.descricaoJson){
+        console.log("descricao: ", item);
+
+        if(item.descricao){
             return(
-                <div dangerouslySetInnerHTML={{__html: draftToHtml(item.descricaoJson)}} ></div>
+            <div dangerouslySetInnerHTML={{__html: item.descricao}} ></div>
             );
         }
         else{
             return(
-                <div dangerouslySetInnerHTML={{__html: item.descricao}} ></div>
+                <div dangerouslySetInnerHTML={{__html: draftToHtml(item.descricaoJson)}} ></div>
             )
         }
     }

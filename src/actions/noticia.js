@@ -345,7 +345,7 @@ export const fetchNoticiasByCategory = async(category='', limit=1000) => {
 
 export const fetchNoticiasByTag = async(tag='', limit='', sort=null) => {
     if(!sort)
-        sort = '_id:desc';
+        sort = 'createdAt:desc';
 
     if(limit)
         limit = `&_limit=${limit}`;
@@ -384,7 +384,7 @@ export const fetchNoticiasByTag = async(tag='', limit='', sort=null) => {
 
 export const fetchNoticiasBySearch = async(search='', limit='', sort=null) => {
     if(!sort)
-        sort = '_id:desc';
+        sort = 'createdAt:desc';
 
     if(limit)
         limit = `&_limit=${limit}`;
@@ -473,7 +473,7 @@ export const fetchNoticias = async(id, category='', limit=150) => {
 
 export const fetchNoticiasByUser = async(user_id, limit=100, sort=null) => {
     if(!sort)
-        sort = '_id:desc';
+        sort = 'createdAt:desc';
     if(limit)
         limit = `&_limit=${limit}`
 
@@ -487,7 +487,7 @@ export const fetchNoticiasByUser = async(user_id, limit=100, sort=null) => {
 
 export const fetchNoticiasByAdm = async(limit=100, sort=null) => {
     if(!sort)
-        sort = '_id:desc';
+        sort = 'createdAt:desc';
     if(limit)
         limit = `&_limit=${limit}`
 
@@ -504,7 +504,7 @@ export const fetchNoticiasByAdm = async(limit=100, sort=null) => {
 
 export const fetchNoticiasRecentes = async(city_id, limit='', sort=null) => {
     if(!sort)
-        sort = '_id:desc';
+        sort = 'createdAt:desc';
     if(limit)
         limit = `&_limit=${limit}`
 
@@ -522,7 +522,7 @@ export const fetchNoticiasRecentes = async(city_id, limit='', sort=null) => {
 
 export const fetchNoticiasFeatured = async(city_id, limit='', sort=null) => {
     if(!sort)
-        sort = '_id:desc';
+        sort = 'createdAt:desc';
     if(limit)
         limit = `&_limit=${limit}`
 

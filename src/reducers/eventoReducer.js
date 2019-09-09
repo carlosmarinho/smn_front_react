@@ -1,3 +1,4 @@
+import _ from 'lodash';
 import { 
     DELETE_EVENTO,
     APPROVE_EVENTO,
@@ -6,12 +7,31 @@ import {
     FETCH_EVENTOS_RECENTES, 
     FETCH_EVENTOS_USER,
     REMOVE_IMAGE_EVENTO, 
+    CREATE_COMENTARIO_EVENTO
 } from "../actions/types";
 
 export default function(state = null, action) {
 
     let evento =  {recentes: null, list: null, featured: null, fromUser: null, count: null, evento: null};
     switch (action.type) {
+        case CREATE_COMENTARIO_EVENTO: 
+            if(action.payload !== false ){
+                let comentarios = [];
+                if(_.isArray(state.evento)){
+                    comentarios = [...state.evento[0].comentarioeventos, action.payload.comentarios];
+                }
+                else {
+                    console.log("comentarios no reducer: ", ' ---- ' , {...state.evento, comentarioeventos: comentarios, revieweventos: action.payload.reviews});
+                    comentarios = [...state.evento.comentarioeventos, action.payload.comentarios];
+                }
+                return {
+                    ...state, 
+                    evento: {...state.evento, comentarioeventos: comentarios, reviewevento: action.payload.reviews},
+                    successCreateComentario: 'Seu comentário foi cadastrado com sucesso e enviado para aprovação!'
+                }
+            }
+
+            return {...state, errorCreateComentario: 'Houve um erro ao cadastrar seu comentário!' };
         case APPROVE_EVENTO:
             if(action.payload !== false ){
                 let fromUser = state.fromUser.map(evento => {
