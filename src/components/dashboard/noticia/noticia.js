@@ -23,11 +23,11 @@ class DashboardNoticia extends Component{
             this.setState({userLogged:user.user})
             this.props.fetchMe();
             if(user.user.role.name == 'Administrator'){
-                this.props.fetchNoticiasByAdm(50);
+                this.props.fetchNoticiasByAdm(150);
                 
             }
             else{
-                this.props.fetchNoticiasByUser(user.user._id, 5);
+                this.props.fetchNoticiasByUser(user.user._id, 10);
             }
         }
         else{
