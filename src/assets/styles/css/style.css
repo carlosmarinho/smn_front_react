@@ -5253,7 +5253,7 @@ footer ul li a:hover {
   margin-right: 10px;
   margin-right: 22px; }
 
-.tz-mess ul li h5 span {
+.tz-mess ul li h5 span, .tz-mess ul li span {
   font-size: 12px;
   color: #fff;
   padding: 0px 5px 2px 5px;

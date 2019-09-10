@@ -1,6 +1,7 @@
 import _ from 'lodash';
 import axios from 'axios';
 import { 
+    FEATURED_NOTICIA,
     APPROVE_NOTICIA,
     DELETE_NOTICIA,
     SUCCESS_CREATE_NOTICIA, 
@@ -237,6 +238,32 @@ export const approveReproveNoticia = async (id, approve) => {
 
         return {
             type: APPROVE_NOTICIA,
+            payload: false
+        }
+    }
+    else{
+        return({
+            type: ERROR_EDIT_NOTICIA,
+            payload: {msg: "Usuário não logado"}
+        })
+    }
+}
+
+export const featureUnfeatureNoticia = async (id, featured) => {
+    let user = JSON.parse(localStorage.getItem('user'));
+    
+    if(user){
+        let config = { headers: { 'Authorization': `Bearer ${user.jwt}` } };
+        const request = await axios.put(`${process.env.REACT_APP_URL_API}noticias/${id}`, {featured: featured}, config);
+        if(request.statusText == 'OK'){
+            return {
+                type: FEATURED_NOTICIA,
+                payload: {id, featured}
+            }
+        }
+
+        return {
+            type: FEATURED_NOTICIA,
             payload: false
         }
     }

@@ -1,4 +1,4 @@
-import { CREATE_COMENTARIO_NOTICIA, DELETE_NOTICIA, APPROVE_NOTICIA, REMOVE_IMAGE_NOTICIA, FETCH_NOTICIA, FETCH_NOTICIAS, FETCH_NOTICIAS_RECENTES, FETCH_NOTICIAS_FEATURED, FETCH_NOTICIAS_USER } from "../actions/types";
+import { CREATE_COMENTARIO_NOTICIA, DELETE_NOTICIA, APPROVE_NOTICIA, FEATURED_NOTICIA, REMOVE_IMAGE_NOTICIA, FETCH_NOTICIA, FETCH_NOTICIAS, FETCH_NOTICIAS_RECENTES, FETCH_NOTICIAS_FEATURED, FETCH_NOTICIAS_USER } from "../actions/types";
 
 export default function(state = {}, action) {
 
@@ -24,6 +24,22 @@ export default function(state = {}, action) {
 
             return {...state, errorCreateComentario: 'Houve um erro ao cadastrar seu comentário!' };
         
+        case FEATURED_NOTICIA:
+            if(action.payload !== false ){
+                
+                //let new = {...state.fromUser.find(noticia => noticia._id == action.payload.id ), approved: action.payload.approved}
+                let fromUser = state.fromUser.map(noticia => {
+                    if(noticia._id == action.payload.id)
+                        return { ...noticia, featured: action.payload.featured }
+                    else 
+                        return noticia;
+                })
+                
+                return { ...state, fromUser: fromUser };
+            }
+            
+            return noticia;
+
         case APPROVE_NOTICIA:
             if(action.payload !== false ){
                 
