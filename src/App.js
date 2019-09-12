@@ -29,6 +29,8 @@ import Register from './components/modules/register';
 
 import Dashboard from './components/dashboard/dashboard';
 import Profile from './components/dashboard/profile';
+import DashboardUser from './components/dashboard/user';
+
 import DashboardGuia from './components/dashboard/guia/guia';
 import DashboardGuiaNew from './components/dashboard/guia/new';
 import DashboardGuiaEdit from './components/dashboard/guia/edit';
@@ -191,6 +193,8 @@ class App extends Component {
                                 
                                 <Route exact path="/dashboard" component={Dashboard} />
                                 <Route exact path="/dashboard/profile" component={Profile} />
+                                <Route exact path="/dashboard/users" component={DashboardUser} />
+
                                 <Route exact path="/dashboard/guias" component={DashboardGuia} />
                                 <Route exact path="/dashboard/guias/novo" component={DashboardGuiaNew} />
                                 <Route exact path="/dashboard/guias/edit/:id" component={DashboardGuiaEdit} />
