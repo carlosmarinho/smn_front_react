@@ -1,7 +1,10 @@
 import _ from 'lodash';
 import {
     FETCH_ME, 
-    FETCH_USER, 
+    FETCH_USER,
+    DELETE_USER,
+    CONFIRM_USER,
+    FETCH_USERS,
     ERROR_EDIT_USER, 
     SUCCESS_EDIT_USER, 
     ERROR_CREATE_USER, 
@@ -246,3 +249,72 @@ export const createUser = async(user) =>  {
 
 
 };
+
+export const fetchUsersByAdm = async(limit=100, sort=null) => {
+    if(!sort)
+        sort = '_id:desc';
+    if(limit)
+        limit = `&_limit=${limit}`
+
+    const request = await axios.get(`${process.env.REACT_APP_URL_API}users/?_sort=${sort}${limit}`);
+    const count = await axios.get(`${process.env.REACT_APP_URL_API}users/count`);
+    const newRequest = {data:request.data, count: count.data};
+
+    return {
+        type: FETCH_USERS,
+        payload: newRequest
+    }
+}
+
+export const confirmUnconfirmUser = async (id, approve) => {
+    let user = JSON.parse(localStorage.getItem('user'));
+    
+    if(user){
+        let config = { headers: { 'Authorization': `Bearer ${user.jwt}` } };
+        const request = await axios.put(`${process.env.REACT_APP_URL_API}users/${id}`, {approved: approve}, config);
+        if(request.statusText == 'OK'){
+            return {
+                type: CONFIRM_USER,
+                payload: {id, approved: approve}
+            }
+        }
+
+        return {
+            type: CONFIRM_USER,
+            payload: false
+        }
+    }
+    else{
+        return({
+            type: ERROR_EDIT_USER,
+            payload: {msg: "Usuário não logado"}
+        })
+    }
+}
+
+
+export const deleteUser = async (id) => {
+    let user = JSON.parse(localStorage.getItem('user'));
+    
+    if(user){
+        let config = { headers: { 'Authorization': `Bearer ${user.jwt}` } };
+        const request = await axios.delete(`${process.env.REACT_APP_URL_API}users/${id}`, config);
+        if(request.statusText == 'OK'){
+            return {
+                type: DELETE_USER,
+                payload: id
+            }
+        }
+
+        return {
+            type: DELETE_USER,
+            payload: false
+        }
+    }
+    else{
+        return({
+            type: ERROR_EDIT_USER,
+            payload: {msg: "Usuário não logado"}
+        })
+    }
+}

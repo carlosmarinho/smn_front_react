@@ -6,7 +6,7 @@ import {Link, Redirect} from 'react-router-dom';
 import Confirm from 'react-confirm-bootstrap';
 
 import {fetchMe} from '../../../actions/user';
-import {fetchUsersByAdm, deleteUser, approveReproveUser} from '../../../actions/user';
+import {fetchUsersByAdm, deleteUser, confirmUnconfirmUser} from '../../../actions/user';
 
 class DashboardUser extends Component{
 
@@ -42,7 +42,7 @@ class DashboardUser extends Component{
                 return (
                     <a href="javascript: void(0)">
                         <Confirm
-                            onConfirm={() => this.approveReproveUser(user._id, false)}
+                            onConfirm={() => this.confirmUnconfirmUser(user._id, false)}
                             body={`Tem certeza que deseja reprovar o user '${user.titulo}'?`}
                             confirmText="Confirmar Reprovação"
                             title="Aprovação do User">
@@ -55,7 +55,7 @@ class DashboardUser extends Component{
                 return (
                     <a href="javascript: void(0)">
                         <Confirm
-                            onConfirm={() => this.approveReproveUser(user._id, true)}
+                            onConfirm={() => this.confirmUnconfirmUser(user._id, true)}
                             body={`Tem certeza que deseja aprovar o user '${user.titulo}'?`}
                             confirmText="Confirmar Aprovação"
                             title="Aprovação do User">
@@ -67,8 +67,8 @@ class DashboardUser extends Component{
         }
     }
 
-    approveReproveUser(id, approve) {
-        this.props.approveReproveUser(id, approve);
+    confirmUnconfirmUser(id, approve) {
+        //this.props.confirmUnconfirmUser(id, approve);
     }
 
 
@@ -114,8 +114,8 @@ class DashboardUser extends Component{
                     <tr key={user.id} style={ user.approved ? {} : { backgroundColor: '#ffe6e6'}}>
                         <td className="td-imagem"><img src={this.getImageSrc(user)} alt="" /></td>
                         <td>{user.name}</td>
-                        <td>{(user.email}</td>
-                        <td>{(user.mobile}</td>
+                        <td>{user.email}</td>
+                        <td>{user.mobile}</td>
                         <td><span className="db-list-grey">{this.userConfirmed(user)}</span></td>
                         <td><span className="db-list-rat">{this.userBlocked(user)}</span></td>
                         <td >{this.datePtBr(new Date(user.createdAt))}</td>
@@ -231,4 +231,4 @@ function mapStateToProps(state){
     )
 }
 
-export default connect(mapStateToProps, {fetchMe, deleteUser, approveReproveUser, fetchUsersByUser, fetchUsersByAdm})(DashboardUser);
+export default connect(mapStateToProps, {fetchMe, deleteUser, confirmUnconfirmUser, fetchUsersByAdm})(DashboardUser);

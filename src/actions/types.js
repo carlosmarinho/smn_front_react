@@ -1,7 +1,9 @@
 export const AUTHENTICATE = "AUTENTICATE";
 export const CREATE_USER = "CREATE_USER";
 export const EDIT_USER = "EDIT_USER";
+export const DELETE_USER = "DELETE_USER";
 export const FETCH_USER = "FETCH_USER";
+export const FETCH_USERS = "FETCH_USERS";
 export const FETCH_ME = "FETCH_ME";
 export const FETCH_USER_FIELDS = "FETCH_USER_FIELDS";
 export const SUCCESS_CREATE_USER = "SUCCESS_CREATE_USER";
@@ -9,6 +11,8 @@ export const SUCCESS_EDIT_USER = "SUCCESS_EDIT_USER";
 export const ERROR_CREATE_USER = "ERROR_CREATE_USER";
 export const ERROR_EDIT_USER = "ERROR_EDIT_USER";
 export const LOGIN_USER = "LOGIN_USER";
+export const CONFIRM_USER = "CONFIRM_USER";
+
 
 export const FETCH_GUIA = "FETCH_GUIA";
 export const DELETE_GUIA = "DELETE_GUIA";
