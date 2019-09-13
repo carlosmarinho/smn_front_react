@@ -1,4 +1,4 @@
-import { FETCH_ME, FETCH_USER, FETCH_USERS, CREATE_USER, EDIT_USER, LOGIN_USER } from "../actions/types";
+import { FETCH_ME, FETCH_USER, FETCH_USERS, CONFIRM_USER, BLOCK_USER, CREATE_USER, EDIT_USER, LOGIN_USER } from "../actions/types";
 
 export default function(state = [], action) {
 
@@ -6,6 +6,38 @@ export default function(state = [], action) {
         case CREATE_USER:
             console.log("Retorno do payload: ", action.payload)
             return action.payload;
+        case CONFIRM_USER:
+            if(action.payload !== false ){
+            
+                let fromUser = state.fromUser.map(user => {
+                    if(user._id == action.payload.id)
+                        return { ...user, confirmed: action.payload.confirmed }
+                    else 
+                        return user;
+                })
+
+                console.log("no frommm user: ", fromUser)
+                
+                return { ...state, fromUser: fromUser };
+            }
+            
+            return state;
+        case BLOCK_USER:
+                    if(action.payload !== false ){
+                    
+                        let fromUser = state.fromUser.map(user => {
+                            if(user._id == action.payload.id)
+                                return { ...user, blocked: action.payload.blocked }
+                            else 
+                                return user;
+                        })
+        
+                        console.log("no frommm user block: ", fromUser)
+                        
+                        return { ...state, fromUser: fromUser };
+                    }
+                    
+                    return state;
         case EDIT_USER:
             return action.payload;
         case FETCH_ME:

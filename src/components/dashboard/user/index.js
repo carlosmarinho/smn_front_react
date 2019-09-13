@@ -6,7 +6,7 @@ import {Link, Redirect} from 'react-router-dom';
 import Confirm from 'react-confirm-bootstrap';
 
 import {fetchMe} from '../../../actions/user';
-import {fetchUsersByAdm, deleteUser, confirmUnconfirmUser} from '../../../actions/user';
+import {fetchUsersByAdm, deleteUser, confirmUnconfirmUser, blockUnblockUser} from '../../../actions/user';
 
 class DashboardUser extends Component{
 
@@ -32,18 +32,18 @@ class DashboardUser extends Component{
         }
     }
 
-    showApprove(user){
+    showConfirm(user){
         if(this.state.userLogged && this.state.userLogged.role.name == 'Administrator'){
 
-            if(user.approved){
+            if(user.confirmed){
                 return (
                     <a href="javascript: void(0)">
                         <Confirm
                             onConfirm={() => this.confirmUnconfirmUser(user._id, false)}
-                            body={`Tem certeza que deseja reprovar o user '${user.titulo}'?`}
-                            confirmText="Confirmar Reprovação"
-                            title="Aprovação do User">
-                            <i className="fa fa-thumbs-down" title="Reprovar"></i>
+                            body={`Tem certeza que deseja desconfirmar o user '${user.username}'?`}
+                            confirmText="Confirmar 'Desconfirmar' por Email"
+                            title="Confirmação do User">
+                            <i className="fa fa-thumbs-down" title="Desconfirmar User"></i>
                         </Confirm>
                     </a>
                 )
@@ -53,10 +53,10 @@ class DashboardUser extends Component{
                     <a href="javascript: void(0)">
                         <Confirm
                             onConfirm={() => this.confirmUnconfirmUser(user._id, true)}
-                            body={`Tem certeza que deseja aprovar o user '${user.titulo}'?`}
+                            body={`Tem certeza que deseja confirmar o user '${user.username}'?`}
                             confirmText="Confirmar Aprovação"
-                            title="Aprovação do User">
-                            <i className="fa fa-thumbs-up" title="Aprovar"></i>
+                            title="Confirmação do User">
+                            <i className="fa fa-thumbs-up" title="Confirmar User"></i>
                         </Confirm>
                     </a>
                 )
@@ -65,7 +65,44 @@ class DashboardUser extends Component{
     }
 
     confirmUnconfirmUser(id, approve) {
-        //this.props.confirmUnconfirmUser(id, approve);
+        this.props.confirmUnconfirmUser(id, approve);
+    }
+
+
+    showBlock(user){
+        if(this.state.userLogged && this.state.userLogged.role.name == 'Administrator'){
+
+            if(user.blocked){
+                return (
+                    <a href="javascript: void(0)">
+                        <Confirm
+                            onConfirm={() => this.blockUnblockUser(user._id, false)}
+                            body={`Tem certeza que deseja desbloquear o user '${user.username}'?`}
+                            confirmText="Confirmar 'Desconfirmar' por Email"
+                            title="Desbloqueio do User">
+                            <i className="fa fa-ban" title="Desbloquear User"></i>
+                        </Confirm>
+                    </a>
+                )
+            }
+            else{
+                return (
+                    <a href="javascript: void(0)">
+                        <Confirm
+                            onConfirm={() => this.blockUnblockUser(user._id, true)}
+                            body={`Tem certeza que deseja bloquear o user '${user.username}'?`}
+                            confirmText="Confirmar Bloqueio"
+                            title="Bloqueio do User">
+                            <i className="fa fa-ban text-danger-important" title="Bloquear User"></i>
+                        </Confirm>
+                    </a>
+                )
+            }
+        }
+    }
+
+    blockUnblockUser(id, approve) {
+        this.props.blockUnblockUser(id, approve);
     }
 
 
@@ -93,23 +130,23 @@ class DashboardUser extends Component{
 
     userBlocked(item){
 
-        switch(item.approved){
+        switch(item.bloqued){
             case false:
                 return <span className="db-list-ststus">Ativo</span>
             case true:
                 return <span className="db-list-ststus-na">Bloqueado</span>
             default:
-                return <span className="db-list-ststus-wa">Sem status</span>
+                return <span className="db-list-ststus-wa">Ativo</span>
         }
     }
 
     showUsers(){
         console.log("userssss: ", this.props.users);
         if(this.props.users && this.props.users.fromUser){
-            return this.props.users.fromUser.map( user => {
+            return this.props.users.fromUser.map( user => {Confirm
 
                 return(
-                    <tr key={user.id} style={ user.approved ? {} : { backgroundColor: '#ffe6e6'}}>
+                    <tr key={user._id} style={ user.confirmed ? {} : { backgroundColor: '#ffe6e6'}}>
                         <td className="td-imagem"><img src={this.getImageSrc(user)} alt="" /></td>
                         <td>{user.username}</td>
                         <td>{user.email}</td>
@@ -128,7 +165,8 @@ class DashboardUser extends Component{
                                     <i className="fa fa-trash" title="delete"></i>
                                 </Confirm>
                             </a>  
-                            {this.showApprove(user)}
+                            {this.showConfirm(user)}
+                            {this.showBlock(user)}
                         </td>
                     </tr>
                 )
@@ -226,4 +264,4 @@ function mapStateToProps(state){
     )
 }
 
-export default connect(mapStateToProps, {fetchMe, deleteUser, confirmUnconfirmUser, fetchUsersByAdm})(DashboardUser);
+export default connect(mapStateToProps, {fetchMe, deleteUser, confirmUnconfirmUser, blockUnblockUser, fetchUsersByAdm})(DashboardUser);

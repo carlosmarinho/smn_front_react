@@ -7662,6 +7662,11 @@ h5 a.menu-close {
 .mar-left-10 {
   margin-left: 10px; }
 
+/*Forçar o text danger carlos */
+.text-danger-important {
+  color: #a94442 !important; }
+
+/*end text- danger*/
 /*Ajustar as ancoras por carlos*/
 #ld-ser, #ld-abour, #ld-gal, #ld-view, #ld-rew, #ld-rer, .comment-span {
   display: block;

@@ -4,6 +4,7 @@ import {
     FETCH_USER,
     DELETE_USER,
     CONFIRM_USER,
+    BLOCK_USER,
     FETCH_USERS,
     ERROR_EDIT_USER, 
     SUCCESS_EDIT_USER, 
@@ -266,21 +267,47 @@ export const fetchUsersByAdm = async(limit=100, sort=null) => {
     }
 }
 
-export const confirmUnconfirmUser = async (id, approve) => {
+export const confirmUnconfirmUser = async (id, confirmed) => {
     let user = JSON.parse(localStorage.getItem('user'));
     
     if(user){
         let config = { headers: { 'Authorization': `Bearer ${user.jwt}` } };
-        const request = await axios.put(`${process.env.REACT_APP_URL_API}users/${id}`, {approved: approve}, config);
+        const request = await axios.put(`${process.env.REACT_APP_URL_API}users/${id}`, {confirmed: confirmed}, config);
         if(request.statusText == 'OK'){
             return {
                 type: CONFIRM_USER,
-                payload: {id, approved: approve}
+                payload: {id, confirmed: confirmed}
             }
         }
 
         return {
             type: CONFIRM_USER,
+            payload: false
+        }
+    }
+    else{
+        return({
+            type: ERROR_EDIT_USER,
+            payload: {msg: "Usuário não logado"}
+        })
+    }
+}
+
+export const blockUnblockUser = async (id, blocked) => {
+    let user = JSON.parse(localStorage.getItem('user'));
+    
+    if(user){
+        let config = { headers: { 'Authorization': `Bearer ${user.jwt}` } };
+        const request = await axios.put(`${process.env.REACT_APP_URL_API}users/${id}`, {blocked: blocked}, config);
+        if(request.statusText == 'OK'){
+            return {
+                type: BLOCK_USER,
+                payload: {id, blocked}
+            }
+        }
+
+        return {
+            type: BLOCK_USER,
             payload: false
         }
     }

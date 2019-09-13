@@ -9,7 +9,7 @@ import Confirm from 'react-confirm-bootstrap';
 import {fetchMe} from '../../actions/user';
 import {fetchGuiasByUser, fetchGuiasByAdm, deleteGuia, approveReproveGuia} from '../../actions/guia';
 import {fetchEventosByUser, fetchEventosByAdm, deleteEvento, approveReproveEvento} from '../../actions/evento';
-import {fetchNoticiasByUser, fetchNoticiasByAdm, deleteNoticia, approveReproveNoticia} from '../../actions/noticia';
+import {fetchNoticiasByUser, fetchNoticiasByAdm, deleteNoticia, approveReproveNoticia, featureUnfeatureNoticia} from '../../actions/noticia';
 
 
 class Dashboard extends Component{
@@ -178,6 +178,7 @@ class Dashboard extends Component{
             }
         }
     }
+    
 
     approveReproveGuia(id, approve) {
         this.props.approveReproveGuia(id, approve);
@@ -250,6 +251,41 @@ class Dashboard extends Component{
         }
     }
 
+    featureUnfeatureNoticia(id, featured) {
+        this.props.featureUnfeatureNoticia(id, featured);
+    }
+
+    showFeatured(noticia){
+        if(this.state.userLogged && this.state.userLogged.role.name == 'Administrator'){
+            if(noticia.featured){
+                return (
+                    <a href="javascript: void(0)">
+                        <Confirm
+                            onConfirm={() => this.featureUnfeatureNoticia(noticia._id, false)}
+                            body={`Tem certeza que deseja retirar o destaque da notícia '${noticia.titulo}'?`}
+                            confirmText="Confirmar Retirar Destaque"
+                            title="Retirar Destaque de Notícia">
+                            <i className="fa fa-star-o" title="Retirar Destaque"></i>
+                        </Confirm>
+                    </a>
+                )
+            }
+            else{
+                return (
+                    <a href="javascript: void(0)">
+                        <Confirm
+                            onConfirm={() => this.featureUnfeatureNoticia(noticia._id, true)}
+                            body={`Tem certeza que deseja destacar a notícia '${noticia.titulo}'?`}
+                            confirmText="Confirmar Destacar"
+                            title="Destacar Notícia">
+                            <i className="fa fa-star" title="Destacar"></i>
+                        </Confirm>
+                    </a>
+                )
+            }
+        }
+    }
+
     approveReproveNoticia(id, approve) {
         this.props.approveReproveNoticia(id, approve);
     }
@@ -277,6 +313,12 @@ class Dashboard extends Component{
         }
     }
 
+    noticiaFeatured(noticia){
+        console.log("Noticia no featured: ", noticia)
+        if(noticia.featured)
+            return <span className="tz-msg-un-read " style={{marginTop: '-25px', position: 'relative', float: 'right'}}>Destacada</span>
+    }
+
     showNoticias(){
         let truncate = _.truncate;
         if(this.props.noticias && this.props.noticias.fromUser){
@@ -284,6 +326,7 @@ class Dashboard extends Component{
                 
                 return(
                     <li key={noticia._id} className="view-msg" style={ noticia.approved ? {} : { backgroundColor: '#ffe6e6'}}>
+                        {this.noticiaFeatured(noticia)}
                         <h5><img src={this.getImageSrc(noticia)} alt="" />{noticia.titulo} {this.noticiaApproved(noticia)}</h5>
                         <p>{truncate(noticia.descricao.replace(/&#13;/g,'').replace(/<\/?[^>]+(>|$)/g, ""), { length: 200, separator: /,?\.* +/ })}</p>
                         <div className="hid-msg">
@@ -297,6 +340,7 @@ class Dashboard extends Component{
                                 <i className="fa fa-trash" title="delete"></i>
                             </Confirm></a>
                             {this.showApproveNoticia(noticia)}
+                            {this.showFeatured(noticia)}
                         </div>
                     </li>
                 )
@@ -561,6 +605,7 @@ export default connect(mapStateToProps,
         approveReproveEvento, 
         fetchNoticiasByUser, 
         fetchNoticiasByAdm,
-        approveReproveNoticia
+        approveReproveNoticia,
+        featureUnfeatureNoticia
     }
 )(Dashboard);

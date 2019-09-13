@@ -12,6 +12,7 @@ export const ERROR_CREATE_USER = "ERROR_CREATE_USER";
 export const ERROR_EDIT_USER = "ERROR_EDIT_USER";
 export const LOGIN_USER = "LOGIN_USER";
 export const CONFIRM_USER = "CONFIRM_USER";
+export const BLOCK_USER = "BLOCK_USER";
 
 
 export const FETCH_GUIA = "FETCH_GUIA";
