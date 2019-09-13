@@ -257,12 +257,12 @@ export const fetchUsersByAdm = async(limit=100, sort=null) => {
         limit = `&_limit=${limit}`
 
     const request = await axios.get(`${process.env.REACT_APP_URL_API}users/?_sort=${sort}${limit}`);
-    const count = await axios.get(`${process.env.REACT_APP_URL_API}users/count`);
-    const newRequest = {data:request.data, count: count.data};
+    //const count = await axios.get(`${process.env.REACT_APP_URL_API}users/count`);
+    //const newRequest = {data:request.data, count: count.data};
 
     return {
         type: FETCH_USERS,
-        payload: newRequest
+        payload: request
     }
 }
 

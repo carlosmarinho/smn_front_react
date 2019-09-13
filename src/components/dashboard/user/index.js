@@ -23,11 +23,8 @@ class DashboardUser extends Component{
             this.setState({userLogged:user.user})
             this.props.fetchMe();
             if(user.user.role.name == 'Administrator'){
-                this.props.fetchUsersByAdm(10);
+                this.props.fetchUsersByAdm(100);
                 
-            }
-            else{
-                this.props.fetchUsersByUser(user.user._id, 5);
             }
         }
         else{
@@ -107,18 +104,18 @@ class DashboardUser extends Component{
     }
 
     showUsers(){
+        console.log("userssss: ", this.props.users);
         if(this.props.users && this.props.users.fromUser){
             return this.props.users.fromUser.map( user => {
 
                 return(
                     <tr key={user.id} style={ user.approved ? {} : { backgroundColor: '#ffe6e6'}}>
                         <td className="td-imagem"><img src={this.getImageSrc(user)} alt="" /></td>
-                        <td>{user.name}</td>
+                        <td>{user.username}</td>
                         <td>{user.email}</td>
                         <td>{user.mobile}</td>
                         <td><span className="db-list-grey">{this.userConfirmed(user)}</span></td>
                         <td><span className="db-list-rat">{this.userBlocked(user)}</span></td>
-                        <td >{this.datePtBr(new Date(user.createdAt))}</td>
                         <td className="table-information">
                             <Link to={'/dashboard/users/edit/' + user._id}  ><i className="fa fa-pencil" title="edit"></i></Link>  
                             <Link to={'/dashboard/profile/' + user._id} target="_blank" ><i className="fa fa-eye" title="view"></i></Link>
@@ -198,12 +195,11 @@ class DashboardUser extends Component{
                                     <thead>
                                         <tr>
                                             <th></th>
-                                            <th>Nome</th>
+                                            <th>User</th>
                                             <th>Email</th>
                                             <th>Celular</th>
                                             <th>Confirmado</th>
                                             <th>Bloqueado</th>
-                                            <th>Criação</th>
                                             <th style={{minWidth:'85px'}}>Ações</th>                                            
                                         </tr>
                                     </thead>
@@ -225,7 +221,6 @@ class DashboardUser extends Component{
 function mapStateToProps(state){
     return(
         {
-            user: state.users,
             users: state.users,
         }
     )
