@@ -1,5 +1,6 @@
 import _ from 'lodash';
 import { 
+    FEATURED_EVENTO,
     DELETE_EVENTO,
     APPROVE_EVENTO,
     FETCH_EVENTO, 
@@ -32,6 +33,24 @@ export default function(state = null, action) {
             }
 
             return {...state, errorCreateComentario: 'Houve um erro ao cadastrar seu comentário!' };
+
+        case FEATURED_EVENTO:
+            if(action.payload !== false ){
+                
+                //let new = {...state.fromUser.find(evento => evento._id == action.payload.id ), approved: action.payload.approved}
+                let fromUser = state.fromUser.map(evento => {
+                    if(evento._id == action.payload.id)
+                        return { ...evento, featured: action.payload.featured }
+                    else 
+                        return evento;
+                })
+                
+                return { ...state, fromUser: fromUser };
+            }
+            
+            return evento;
+
+
         case APPROVE_EVENTO:
             if(action.payload !== false ){
                 let fromUser = state.fromUser.map(evento => {

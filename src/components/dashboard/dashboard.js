@@ -7,8 +7,8 @@ import Confirm from 'react-confirm-bootstrap';
 
 
 import {fetchMe} from '../../actions/user';
-import {fetchGuiasByUser, fetchGuiasByAdm, deleteGuia, approveReproveGuia} from '../../actions/guia';
-import {fetchEventosByUser, fetchEventosByAdm, deleteEvento, approveReproveEvento} from '../../actions/evento';
+import {fetchGuiasByUser, fetchGuiasByAdm, deleteGuia, approveReproveGuia, featureUnfeatureGuia} from '../../actions/guia';
+import {fetchEventosByUser, fetchEventosByAdm, deleteEvento, approveReproveEvento, featureUnfeatureEvento} from '../../actions/evento';
 import {fetchNoticiasByUser, fetchNoticiasByAdm, deleteNoticia, approveReproveNoticia, featureUnfeatureNoticia} from '../../actions/noticia';
 
 
@@ -67,7 +67,7 @@ class Dashboard extends Component{
                 return(
                     <tr key={guia.id} style={ guia.approved ? {} : { backgroundColor: '#ffe6e6'}}>
                         <td className="td-imagem"><img src={this.getImageSrc(guia)} alt="" /></td>
-                        <td>{guia.titulo}</td>
+                        <td>{guia.titulo} {guia.featured ? <span className="db-list-ststus">Destacado</span> : ''}</td>
                         <td>{this.datePtBr(new Date(guia.createdAt))}</td>
                         <td><span className="db-list-rat">{guia.tipo}</span>
                         </td>
@@ -83,6 +83,7 @@ class Dashboard extends Component{
                                 <i className="fa fa-trash" title="delete"></i>
                             </Confirm></a>
                             {this.showApproveGuia(guia)}
+                            {this.showFeaturedGuia(guia)}
                         </td>
                     </tr>
                 )
@@ -98,7 +99,7 @@ class Dashboard extends Component{
                 return(
                     <tr key={evento.id}  key={evento.id} style={ evento.approved ? {} : { backgroundColor: '#ffe6e6'}}>
                         <td className="td-imagem"><img src={this.getImageSrc(evento)} alt="" /></td>
-                        <td>{evento.titulo}</td>
+                        <td style={{width: '300px'}}>{evento.titulo} {evento.featured ? <span className="db-list-ststus">Destacado</span> : ''}</td>
                         <td>{(evento.array_bairros[0])?evento.array_bairros[0].nome:''}</td>
                         <td ><span className="db-list-rat">{this.datePtBr(new Date(evento.inicio))}</span></td>
                         <td><span className="db-list-grey">{this.datePtBr(new Date(evento.fim))}</span></td>
@@ -116,6 +117,7 @@ class Dashboard extends Component{
                                 </Confirm>
                             </a>  
                             {this.showApproveEvento(evento)}
+                            {this.showFeaturedEvento(evento)}
                         </td>
                     </tr>
                 )
@@ -255,6 +257,14 @@ class Dashboard extends Component{
         this.props.featureUnfeatureNoticia(id, featured);
     }
 
+    featureUnfeatureEvento(id, featured) {
+        this.props.featureUnfeatureEvento(id, featured);
+    }
+
+    featureUnfeatureGuia(id, featured) {
+        this.props.featureUnfeatureGuia(id, featured);
+    }
+
     showFeatured(noticia){
         if(this.state.userLogged && this.state.userLogged.role.name == 'Administrator'){
             if(noticia.featured){
@@ -285,6 +295,70 @@ class Dashboard extends Component{
             }
         }
     }
+
+
+    showFeaturedEvento(evento){
+        if(this.state.userLogged && this.state.userLogged.role.name == 'Administrator'){
+            if(evento.featured){
+                return (
+                    <a href="javascript: void(0)">
+                        <Confirm
+                            onConfirm={() => this.featureUnfeatureEvento(evento._id, false)}
+                            body={`Tem certeza que deseja retirar o destaque do evento '${evento.titulo}'?`}
+                            confirmText="Confirmar Retirar Destaque"
+                            title="Retirar Destaque de Evento">
+                            <i className="fa fa-star-o" title="Retirar Destaque"></i>
+                        </Confirm>
+                    </a>
+                )
+            }
+            else{
+                return (
+                    <a href="javascript: void(0)">
+                        <Confirm
+                            onConfirm={() => this.featureUnfeatureEvento(evento._id, true)}
+                            body={`Tem certeza que deseja destacar o evento '${evento.titulo}'?`}
+                            confirmText="Confirmar Destacar"
+                            title="Destacar Evento">
+                            <i className="fa fa-star" title="Destacar"></i>
+                        </Confirm>
+                    </a>
+                )
+            }
+        }
+    }
+
+    showFeaturedGuia(guia){
+        if(this.state.userLogged && this.state.userLogged.role.name == 'Administrator'){
+            if(guia.featured){
+                return (
+                    <a href="javascript: void(0)">
+                        <Confirm
+                            onConfirm={() => this.featureUnfeatureGuia(guia._id, false)}
+                            body={`Tem certeza que deseja retirar o destaque do guia '${guia.titulo}'?`}
+                            confirmText="Confirmar Retirar Destaque"
+                            title="Retirar Destaque de Guia">
+                            <i className="fa fa-star-o" title="Retirar Destaque"></i>
+                        </Confirm>
+                    </a>
+                )
+            }
+            else{
+                return (
+                    <a href="javascript: void(0)">
+                        <Confirm
+                            onConfirm={() => this.featureUnfeatureGuia(guia._id, true)}
+                            body={`Tem certeza que deseja destacar o guia '${guia.titulo}'?`}
+                            confirmText="Confirmar Destacar"
+                            title="Destacar Guia">
+                            <i className="fa fa-star" title="Destacar"></i>
+                        </Confirm>
+                    </a>
+                )
+            }
+        }
+    }
+
 
     approveReproveNoticia(id, approve) {
         this.props.approveReproveNoticia(id, approve);
@@ -606,6 +680,8 @@ export default connect(mapStateToProps,
         fetchNoticiasByUser, 
         fetchNoticiasByAdm,
         approveReproveNoticia,
-        featureUnfeatureNoticia
+        featureUnfeatureNoticia,
+        featureUnfeatureGuia,
+        featureUnfeatureEvento
     }
 )(Dashboard);

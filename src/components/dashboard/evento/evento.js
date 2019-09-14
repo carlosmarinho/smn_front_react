@@ -6,7 +6,7 @@ import {Link, Redirect} from 'react-router-dom';
 import Confirm from 'react-confirm-bootstrap';
 
 import {fetchMe} from '../../../actions/user';
-import {fetchEventosByUser, fetchEventosByAdm, deleteEvento, approveReproveEvento} from '../../../actions/evento';
+import {fetchEventosByUser, fetchEventosByAdm, deleteEvento, approveReproveEvento, featureUnfeatureEvento} from '../../../actions/evento';
 
 class DashboardEvento extends Component{
 
@@ -76,6 +76,10 @@ class DashboardEvento extends Component{
         this.props.deleteEvento(id);
     }
 
+    featureUnfeatureEvento(id, featured) {
+        this.props.featureUnfeatureEvento(id, featured);
+    }
+
     datePtBr(date){
         //const options = {year: 'numeric', month: 'short', day: 'numeric' };
         //return date.toLocaleDateString('pt-BR', options)
@@ -94,6 +98,37 @@ class DashboardEvento extends Component{
         }
     }
 
+    showFeaturedEvento(evento){
+        if(this.state.userLogged && this.state.userLogged.role.name == 'Administrator'){
+            if(evento.featured){
+                return (
+                    <a href="javascript: void(0)">
+                        <Confirm
+                            onConfirm={() => this.featureUnfeatureEvento(evento._id, false)}
+                            body={`Tem certeza que deseja retirar o destaque do evento '${evento.titulo}'?`}
+                            confirmText="Confirmar Retirar Destaque"
+                            title="Retirar Destaque de Evento">
+                            <i className="fa fa-star-o" title="Retirar Destaque"></i>
+                        </Confirm>
+                    </a>
+                )
+            }
+            else{
+                return (
+                    <a href="javascript: void(0)">
+                        <Confirm
+                            onConfirm={() => this.featureUnfeatureEvento(evento._id, true)}
+                            body={`Tem certeza que deseja destacar o evento '${evento.titulo}'?`}
+                            confirmText="Confirmar Destacar"
+                            title="Destacar Evento">
+                            <i className="fa fa-star" title="Destacar"></i>
+                        </Confirm>
+                    </a>
+                )
+            }
+        }
+    }
+
     showEventos(){
         if(this.props.eventos && this.props.eventos.fromUser){
             return this.props.eventos.fromUser.map( evento => {
@@ -101,12 +136,12 @@ class DashboardEvento extends Component{
                 return(
                     <tr key={evento.id} style={ evento.approved ? {} : { backgroundColor: '#ffe6e6'}}>
                         <td className="td-imagem"><img src={this.getImageSrc(evento)} alt="" /></td>
-                        <td>{evento.titulo}</td>
+                        <td style={{widht:'200px'}}>{evento.titulo} {evento.featured ? <span className="db-list-ststus">Destacado</span> : ''}</td>
                         <td>{(evento.array_bairros[0])?evento.array_bairros[0].nome:''}</td>
                         <td ><span className="db-list-rat">{this.datePtBr(new Date(evento.inicio))}</span></td>
                         <td><span className="db-list-grey">{this.datePtBr(new Date(evento.fim))}</span></td>
                         <td>{this.itemApproved(evento)}</td>
-                        <td className="table-information">
+                        <td className="table-information" style={{width:'140px'}}>
                             <Link to={'/dashboard/eventos/edit/' + evento._id}  ><i className="fa fa-pencil" title="edit"></i></Link>  
                             <Link to={'/dashboard/eventos/view/' + evento.slug} target="_blank" ><i className="fa fa-eye" title="view"></i></Link>
                             <a href="javascript: void(0)">
@@ -119,6 +154,7 @@ class DashboardEvento extends Component{
                                 </Confirm>
                             </a>  
                             {this.showApprove(evento)}
+                            {this.showFeaturedEvento(evento)}
                         </td>
                     </tr>
                 )
@@ -217,4 +253,13 @@ function mapStateToProps(state){
     )
 }
 
-export default connect(mapStateToProps, {fetchMe, deleteEvento, approveReproveEvento, fetchEventosByUser, fetchEventosByAdm})(DashboardEvento);
+export default connect(mapStateToProps, 
+    {
+        fetchMe, 
+        deleteEvento, 
+        approveReproveEvento, 
+        fetchEventosByUser, 
+        fetchEventosByAdm,
+        featureUnfeatureEvento
+    }
+)(DashboardEvento);

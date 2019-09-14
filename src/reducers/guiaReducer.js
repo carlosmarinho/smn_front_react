@@ -1,4 +1,15 @@
-import { CREATE_COMENTARIO_GUIA, DELETE_GUIA, APPROVE_GUIA, FETCH_GUIA, REMOVE_IMAGE_GUIA, FETCH_GUIAS, FETCH_GUIAS_RECENTES, FETCH_GUIAS_FEATURED, FETCH_GUIAS_USER} from "../actions/types";
+import {
+    FEATURED_GUIA, 
+    CREATE_COMENTARIO_GUIA, 
+    DELETE_GUIA, 
+    APPROVE_GUIA, 
+    FETCH_GUIA, 
+    REMOVE_IMAGE_GUIA, 
+    FETCH_GUIAS, 
+    FETCH_GUIAS_RECENTES, 
+    FETCH_GUIAS_FEATURED, 
+    FETCH_GUIAS_USER
+} from "../actions/types";
 
 export default function(state = null, action) {
 
@@ -24,6 +35,23 @@ export default function(state = null, action) {
 
             return {...state, errorCreateComentario: 'Houve um erro ao cadastrar seu comentário!' };
         
+        case FEATURED_GUIA:
+            if(action.payload !== false ){
+                
+                //let new = {...state.fromUser.find(guia => guia._id == action.payload.id ), approved: action.payload.approved}
+                let fromUser = state.fromUser.map(guia => {
+                    if(guia._id == action.payload.id)
+                        return { ...guia, featured: action.payload.featured }
+                    else 
+                        return guia;
+                })
+                
+                return { ...state, fromUser: fromUser };
+            }
+            
+            return guia;
+
+
         case APPROVE_GUIA:
             if(action.payload !== false ){                
                 let fromUser = state.fromUser.map(guia => {
@@ -41,7 +69,6 @@ export default function(state = null, action) {
 
         case DELETE_GUIA:
             if(action.payload !== false ){
-                console.log("no delete guiiaaaaaa: ", state);
 
                 let fromUser = state.fromUser.filter( fromUser => {
                     return fromUser._id != action.payload

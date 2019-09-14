@@ -78,7 +78,7 @@ class DashboardUser extends Component{
                         <Confirm
                             onConfirm={() => this.blockUnblockUser(user._id, false)}
                             body={`Tem certeza que deseja desbloquear o user '${user.username}'?`}
-                            confirmText="Confirmar 'Desconfirmar' por Email"
+                            confirmText="Confirmar 'Desbloqueio'"
                             title="Desbloqueio do User">
                             <i className="fa fa-ban" title="Desbloquear User"></i>
                         </Confirm>
@@ -130,7 +130,7 @@ class DashboardUser extends Component{
 
     userBlocked(item){
 
-        switch(item.bloqued){
+        switch(item.blocked){
             case false:
                 return <span className="db-list-ststus">Ativo</span>
             case true:
@@ -141,16 +141,14 @@ class DashboardUser extends Component{
     }
 
     showUsers(){
-        console.log("userssss: ", this.props.users);
         if(this.props.users && this.props.users.fromUser){
             return this.props.users.fromUser.map( user => {Confirm
 
                 return(
-                    <tr key={user._id} style={ user.confirmed ? {} : { backgroundColor: '#ffe6e6'}}>
+                    <tr key={user._id} style={ (user.confirmed && !user.blocked ) ? {} : { backgroundColor: '#ffe6e6'}}>
                         <td className="td-imagem"><img src={this.getImageSrc(user)} alt="" /></td>
                         <td>{user.username}</td>
                         <td>{user.email}</td>
-                        <td>{user.mobile}</td>
                         <td><span className="db-list-grey">{this.userConfirmed(user)}</span></td>
                         <td><span className="db-list-rat">{this.userBlocked(user)}</span></td>
                         <td className="table-information">
@@ -235,7 +233,6 @@ class DashboardUser extends Component{
                                             <th></th>
                                             <th>User</th>
                                             <th>Email</th>
-                                            <th>Celular</th>
                                             <th>Confirmado</th>
                                             <th>Bloqueado</th>
                                             <th style={{minWidth:'85px'}}>Ações</th>                                            
