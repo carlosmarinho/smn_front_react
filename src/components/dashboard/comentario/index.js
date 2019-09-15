@@ -7,9 +7,16 @@ import { HashLink } from 'react-router-hash-link';
 import Confirm from 'react-confirm-bootstrap';
 
 import {fetchMe} from '../../../actions/user';
-import {fetchComentarioNoticiasByUser, fetchComentarioNoticiasByAdm, deleteComentarioNoticia, approveReproveComentarioNoticia} from '../../../actions/comentario';
+import {fetchAllComentariosByUser, 
+    deleteComentarioGuia, 
+    deleteComentarioEvento, 
+    deleteComentarioNoticia, 
+    approveReproveComentarioGuia,
+    approveReproveComentarioEvento,
+    approveReproveComentarioNoticia
+} from '../../../actions/comentario';
 
-class DashboardComentarioNoticia extends Component{
+class DashboardComentario extends Component{
 
     constructor(){
         super();
@@ -23,24 +30,33 @@ class DashboardComentarioNoticia extends Component{
         if(user !== null){
             this.setState({userLogged:user.user})
             this.props.fetchMe();
-            if(user.user.role.name == 'Administrator'){
-                this.props.fetchComentarioNoticiasByAdm(50);                
-            }
-            else{
-                this.props.fetchComentarioNoticiasByUser(user.user._id, 10);
-            }
+            
+            this.props.fetchAllComentariosByUser(user.user._id, 50);
+            
         }
         else{
             this.setState({userLogged:false})
         }
     }
 
-    deleteComentarioNoticia(id) {
-        this.props.deleteComentarioNoticia(id);
+    deleteComentario(comentario) {
+        if(comentario.guia)
+            this.props.deleteComentarioGuia(comentario._id);
+        else if(comentario.evento)
+            this.props.deleteComentarioEvento(comentario._id);
+        else
+            this.props.deleteComentarioNoticia(comentario._id);
+        
     }
 
-    approveReproveComentarioNoticia(id, approve) {
-        this.props.approveReproveComentarioNoticia(id, approve);
+    approveReproveComentario(comentario, approve) {
+        console.log("comentario: ", comentario);
+        if(comentario.guia)
+            this.props.approveReproveComentarioGuia(comentario._id, approve);
+        else if(comentario.evento)
+            this.props.approveReproveComentarioEvento(comentario._id, approve);
+        else
+            this.props.approveReproveComentarioNoticia(comentario._id, approve);
     }
 
     datePtBr(date){
@@ -55,7 +71,7 @@ class DashboardComentarioNoticia extends Component{
                 return (
                     <a href="javascript: void(0)">
                         <Confirm
-                            onConfirm={() => this.approveReproveComentarioNoticia(comentario._id, false)}
+                            onConfirm={() => this.approveReproveComentario(comentario, false)}
                             body={`Tem certeza que deseja reprovar o comentário '${comentario.titulo}'?`}
                             confirmText="Confirmar Reprovação"
                             title="Aprovação de Comentário">
@@ -68,7 +84,7 @@ class DashboardComentarioNoticia extends Component{
                 return (
                     <a href="javascript: void(0)">
                         <Confirm
-                            onConfirm={() => this.approveReproveComentarioNoticia(comentario._id, true)}
+                            onConfirm={() => this.approveReproveComentario(comentario, true)}
                             body={`Tem certeza que deseja aprovar o comentário '${comentario.titulo}'?`}
                             confirmText="Confirmar Aprovação"
                             title="Aprovação de Comentário">
@@ -112,29 +128,69 @@ class DashboardComentarioNoticia extends Component{
 
     showViewComment(comentario){
         if(comentario.aprovado){
-            return(
-                <HashLink to={`/noticias/${comentario.noticia.slug}#comment-${comentario._id}`} >
-                    <i className="fa fa-eye" title="Visualizar"></i>
-                </HashLink>
+            if(comentario.guia) {
+                return(
+                    <HashLink to={`/guia/${comentario.guia.slug}#comment-${comentario._id}`} >
+                        <i className="fa fa-eye" title="Visualizar"></i>
+                    </HashLink>
+                )
+            }
+            if(comentario.evento) {
+                return(
+                    <HashLink to={`/eventos/${comentario.evento.slug}#comment-${comentario._id}`} >
+                        <i className="fa fa-eye" title="Visualizar"></i>
+                    </HashLink>
+                )
+            }
+            if(comentario.noticia) {
+                return(
+                    <HashLink to={`/noticias/${comentario.noticia.slug}#comment-${comentario._id}`} >
+                        <i className="fa fa-eye" title="Visualizar"></i>
+                    </HashLink>
+                )
+            }
+        }   
+    }
+
+    linkToParent(comentario){
+        if(comentario.guia) {
+            return (
+                <p style={{paddingLeft:'20px', paddingTop: '15px', lineHeight: '10px'}}>
+                    <strong>Guia: </strong> 
+                    <Link to={`/guia/${comentario.guia.slug}`} target="blank">{comentario.guia.titulo}</Link>
+                </p>
+            )
+        }
+        if(comentario.evento) {
+            return (
+                <p style={{paddingLeft:'20px', paddingTop: '15px', lineHeight: '10px'}}>
+                    <strong>Evento: </strong> 
+                    <Link to={`/evento/${comentario.evento.slug}`} target="blank">{comentario.evento.titulo}</Link>
+                </p>
+            )
+        }
+        if(comentario.noticia) {
+            return (
+                <p style={{paddingLeft:'20px', paddingTop: '15px', lineHeight: '10px'}}>
+                    <strong>Notícia: </strong> 
+                    <Link to={`/noticias/${comentario.noticia.slug}`} target="blank">{comentario.noticia.titulo}</Link>
+                </p>
             )
         }
     }
 
-    showComentarioNoticias(){
+    showComentarios(){
         let truncate = _.truncate;
         if(this.props.comentarios){
             return this.props.comentarios.map( comentario => {
-                if(!comentario.noticia){
-                    return null;
-                }
                 
+                console.log("pppprorororororo: ", comentario);
+
                 return(
                     <li key={comentario._id} className="view-msg" style={ comentario.aprovado ? {paddingLeft: '50px'} : { paddingLeft:'50px', backgroundColor: '#ffe6e6'}}>
                         <h3>{(comentario.titulo) ? comentario.titulo: 'Título do comentário não informado'} {this.comentarioApproved(comentario)}</h3>
-                        <p style={{paddingLeft:'20px', paddingTop: '15px', lineHeight: '10px'}}>
-                            <strong>Noticia: </strong> 
-                            <Link to={(comentario.noticia.slug) ? `/noticias/${comentario.noticia.slug}`:'#'} target="_blank">{comentario.noticia.titulo}</Link>
-                        </p>
+                            {this.linkToParent(comentario)}
+                        
                         {this.showUser(comentario)}
                         <p style={{paddingLeft:'20px', paddingTop: '5px', lineHeight: '16px'}}>
                             <strong>Comentário:</strong> {truncate(comentario.descricao.replace(/&#13;/g,'').replace(/<\/?[^>]+(>|$)/g, ""), { length: 200, separator: /,?\.* +/ })}
@@ -143,7 +199,7 @@ class DashboardComentarioNoticia extends Component{
                             <Link to={'/dashboard/comentarios/edit/' + comentario._id}  ><i className="fa fa-pencil" title="Editar"></i></Link> 
                             {this.showViewComment(comentario)}
                             <a href="javascript: void(0)"><Confirm
-                                onConfirm={() => this.deleteComentarioNoticia(comentario._id)}
+                                onConfirm={() => this.deleteComentario(comentario)}
                                 body={`Tem certeza que deseja excluir o comentário '${comentario.titulo}'?`}
                                 confirmText="Confirmar Exclusão"
                                 title="Exclusão de Comentário">
@@ -190,13 +246,13 @@ class DashboardComentarioNoticia extends Component{
             return <Redirect to={'/'} />
         }
 
-        let totalComentarioNoticias = 0;    
+        let totalComentarioGuias = 0;    
         
         
         if(this.props.comentarios && this.props.comentarios.fromUser)
-            totalComentarioNoticias = this.props.comentarios.fromUser.length;
+            totalComentarioGuias = this.props.comentarios.fromUser.length;
         
-            console.log("this props user::::::: ", this.props)
+            console.log("this props::::::: ", this.props)
 
 
         return(
@@ -208,16 +264,16 @@ class DashboardComentarioNoticia extends Component{
                     { /*!--CENTER SECTION--> */}
                     <div className="tz-2">
                         <div className="tz-2-com tz-2-main">
-                            <h4>Gerenciamento de Comentario Noticias</h4>
+                            <h4>Gerenciamento de Comentários</h4>
                             
                             <div className="db-list-com tz-db-table">
                                 <div className="ds-boar-title">
-                                    <h2>Comentarios Noticias</h2>
-                                    <p>Listagem de comentarios das Noticias</p>
+                                    <h2>Meus Comentários</h2>
+                                    <p>Listagem de comentários dos Guias, Eventos e Notícias</p>
                                 </div>
                                 <div className="tz-mess">
                                     <ul>
-                                        {this.showComentarioNoticias()}
+                                        {this.showComentarios()}
                                     </ul>
                                 </div>                            
                             </div>
@@ -241,4 +297,13 @@ function mapStateToProps(state){
     
 }
 
-export default connect(mapStateToProps, {fetchMe, deleteComentarioNoticia, approveReproveComentarioNoticia, fetchComentarioNoticiasByUser, fetchComentarioNoticiasByAdm})(DashboardComentarioNoticia);
+export default connect(mapStateToProps, {
+    fetchMe, 
+    deleteComentarioGuia,
+    deleteComentarioEvento,
+    deleteComentarioNoticia,  
+    approveReproveComentarioGuia,
+    approveReproveComentarioEvento,
+    approveReproveComentarioNoticia, 
+    fetchAllComentariosByUser, 
+})(DashboardComentario);

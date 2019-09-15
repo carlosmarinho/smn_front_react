@@ -1,4 +1,4 @@
-import { FETCH_ME, DELETE_USER, FETCH_USER, FETCH_USERS, CONFIRM_USER, BLOCK_USER, CREATE_USER, EDIT_USER, LOGIN_USER } from "../actions/types";
+import { FETCH_ME, DELETE_USER, FETCH_USER, FETCH_USER_ARRAY, FETCH_USERS, CONFIRM_USER, BLOCK_USER, CREATE_USER, EDIT_USER, LOGIN_USER } from "../actions/types";
 
 export default function(state = [], action) {
 
@@ -54,7 +54,10 @@ export default function(state = [], action) {
         case FETCH_ME:
             return (action.payload.data)? action.payload.data : action.payload;  
         case FETCH_USER:
-            return  action.payload.data;
+            return  action.payload.data;    
+        case FETCH_USER_ARRAY:
+            console.log('no reducer: ', [...state, action.payload.data,], ' --- ', action.payload.data);
+            return  [...state, action.payload.data];
         case FETCH_USERS:
             console.log("action.payload data", action.payload.data);
             return {...state, fromUser: action.payload.data};

@@ -1,4 +1,5 @@
 import { 
+    FETCH_ALL_COMENTARIOS,
     FETCH_COMENTARIO_GUIAS_USER,  
     APPROVE_COMENTARIO_GUIA, 
     DELETE_COMENTARIO_GUIA, 
@@ -12,6 +13,10 @@ import {
 
 export default function (state = [], action) {
     switch(action.type) {
+        case FETCH_ALL_COMENTARIOS:
+            console.log("action pauload comment: ", action);
+            return action.payload;
+
         case FETCH_COMENTARIO_GUIAS_USER:
             return action.payload;
             

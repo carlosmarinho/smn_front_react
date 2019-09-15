@@ -1,6 +1,8 @@
+import _ from 'lodash';
 import axios from 'axios';
 import { 
     CREATE_COMENTARIO_GUIA, 
+    FETCH_ALL_COMENTARIOS,
     FETCH_COMENTARIO_GUIAS_USER,
     DELETE_COMENTARIO_GUIA,
     APPROVE_COMENTARIO_GUIA,
@@ -141,6 +143,26 @@ export const fetchComentarioGuiasByAdm = async(limit=100, sort=null) => {
     return {
         type: FETCH_COMENTARIO_GUIAS_USER,
         payload: request.data
+    }
+
+}
+
+export const fetchAllComentariosByUser = async(user_id, limit=100, sort=null) => {
+    if(!sort)
+        sort = '_id:desc';
+    if(limit)
+        limit = `&_limit=${limit}`
+
+
+    const request = await axios.get(`${process.env.REACT_APP_URL_API}comentarioguias/?user=${user_id}&_sort=${sort}${limit}`);
+    const request1 = await axios.get(`${process.env.REACT_APP_URL_API}comentarioeventos/?user=${user_id}&_sort=${sort}${limit}`);
+    const request2 = await axios.get(`${process.env.REACT_APP_URL_API}comentarios/?user=${user_id}&_sort=${sort}${limit}`);
+
+    //console.log("aqui no fetch guias by user", ...request.data, ' --- ', request1.data, " :::: ",  [...request.data, ...request1.data]);
+
+    return {
+        type: FETCH_ALL_COMENTARIOS,
+        payload: _.orderBy([...request1.data, ...request.data, ...request2.data], 'createdAt', 'desc')
     }
 
 }
@@ -355,6 +377,7 @@ export const createComentarioNoticia = async(values) => {
 export const approveReproveComentarioNoticia = async (id, approve) => {
     let user = JSON.parse(localStorage.getItem('user'));
     
+    console.log("comentario id: ", id)
     if(user){
         let config = { headers: { 'Authorization': `Bearer ${user.jwt}` } };
         const request = await axios.put(`${process.env.REACT_APP_URL_API}comentarios/${id}`, {aprovado: approve}, config);

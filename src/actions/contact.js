@@ -9,7 +9,7 @@ export const createContact = async(contact) =>  {
     try{
         request = await axios.post(`${process.env.REACT_APP_URL_API}contatos`, contact);
         console.log("vai enviar o request para criar: ", request);
-        if(request.statusText == 'OK'){
+        if(request.statusText === 'OK'){
             return({
                 type: SUCCESS_CREATE_CONTACT,
                 payload: request

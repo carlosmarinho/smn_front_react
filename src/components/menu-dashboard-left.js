@@ -35,15 +35,35 @@ class MenuDashboardLeft extends Component{
             return(
                 <div>
                     <li>
-                        <Link to="/dashboard/comentarioguia" className={(this.props.location.pathname == '/dashboard/comentarioguia') ? 'tz-lma' : ''} ><img src="images/icon/dbl14.png" alt="" />Comentários Guia</Link>
+                        <Link to="/dashboard/comentarios" className={(this.props.location.pathname == '/dashboard/comentarios') ? 'tz-lma' : ''} >
+                            <i class="fa fa-comment "></i> Meus Comentários
+                        </Link>
                     </li>
                     <li>
-                        <Link to="/dashboard/comentarioevento" className={(this.props.location.pathname == '/dashboard/comentarioevento') ? 'tz-lma' : ''} ><img src="images/icon/dbl14.png" alt="" />Comentários Evento</Link>
+                        <Link to="/dashboard/comentarioguia" className={(this.props.location.pathname == '/dashboard/comentarioguia') ? 'tz-lma' : ''} >
+                            <i class="fa fa-comment"></i><i class="map marker alternate icon"></i> Comentários Guia
+                        </Link>
                     </li>
                     <li>
-                        <Link to="/dashboard/comentarionoticia" className={(this.props.location.pathname == '/dashboard/comentarionoticia') ? 'tz-lma' : ''} ><img src="images/icon/dbl14.png" alt="" />Comentários Notícia</Link>
+                        <Link to="/dashboard/comentarioevento" className={(this.props.location.pathname == '/dashboard/comentarioevento') ? 'tz-lma' : ''} >
+                            <i class="fa fa-comment"></i><i class="calendar alternate outline icon"></i> Comentários Evento
+                        </Link>
+                    </li>
+                    <li>
+                        <Link to="/dashboard/comentarionoticia" className={(this.props.location.pathname == '/dashboard/comentarionoticia') ? 'tz-lma' : ''} >
+                            <i class="fa fa-comment"></i><i class="newspaper outline icon"></i> Comentários Notícia
+                        </Link>
                     </li>
                 </div>
+            )
+        }
+        else{
+            return (
+                <li>
+                    <Link to="/dashboard/comentarios" className={(this.props.location.pathname == '/dashboard/comentarios') ? 'tz-lma' : ''} >
+                        <i class="fa fa-comment"></i> Meus Comentários
+                    </Link>
+                </li>
             )
         }
     }

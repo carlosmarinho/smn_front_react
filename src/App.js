@@ -45,6 +45,7 @@ import DashboardNoticia from './components/dashboard/noticia/noticia';
 import DashboardNoticiaNew from './components/dashboard/noticia/new';
 import DashboardNoticiaEdit from './components/dashboard/noticia/edit';
 
+import DashboardComentario from './components/dashboard/comentario/';
 import DashboardComentarioGuia from './components/dashboard/comentarioguia/comentario';
 import DashboardComentarioEvento from './components/dashboard/comentarioevento/comentario';
 import DashboardComentarioNoticia from './components/dashboard/comentarionoticia/comentario';
@@ -216,7 +217,7 @@ class App extends Component {
                                 <Route exact path="/dashboard/noticias/edit/:id" component={DashboardNoticiaEdit} />
                                 <Route exact path="/dashboard/noticias/view/:slug" component={NewsItemView} />
 
-
+                                <Route exact path="/dashboard/comentarios" component={DashboardComentario} />
                                 <Route exact path="/dashboard/comentarioguia" component={DashboardComentarioGuia} />
                                 <Route exact path="/dashboard/comentarioevento" component={DashboardComentarioEvento} />
                                 <Route exact path="/dashboard/comentarionoticia" component={DashboardComentarioNoticia} />
