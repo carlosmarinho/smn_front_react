@@ -2,11 +2,14 @@ import _ from 'lodash';
 import axios from 'axios';
 import { 
     CREATE_COMENTARIO_GUIA, 
+    FETCH_COMENTARIO,
     FETCH_ALL_COMENTARIOS,
     FETCH_COMENTARIO_GUIAS_USER,
     DELETE_COMENTARIO_GUIA,
     APPROVE_COMENTARIO_GUIA,
     ERROR_COMENTARIO_GUIA,
+    ERROR_EDIT_COMENTARIO,
+    SUCCESS_EDIT_COMENTARIO,
 
     CREATE_COMENTARIO_EVENTO, 
     FETCH_COMENTARIO_EVENTOS_USER,
@@ -22,7 +25,73 @@ import {
     } from '../actions/types';
 const autoApprove = false;
 
+export const fetchComentarioByType = (id, type) => {
+    let request = {};
+    console.log("olha o type aqui: ", type);
+    switch(type){
+        case 'guia' :
+            request = axios.get(`${process.env.REACT_APP_URL_API}comentarioguias/${id}`);
+            break;
+        case 'evento' :
+            request = axios.get(`${process.env.REACT_APP_URL_API}comentarioeventos/${id}`);
+            break;
+        case 'noticia' :
+            request = axios.get(`${process.env.REACT_APP_URL_API}comentarios/${id}`);
+            break;
+    }
+        
+    return {
+        type: FETCH_COMENTARIO,
+        payload: request
+    }
+}
 
+
+export const editComentario = async (comentario, id, type) => {
+
+    let u = JSON.parse(localStorage.getItem('user'));
+    let request;
+    if(u){
+        try
+        {
+            
+            let jwt = u.jwt    
+            let config = { headers: { 'Authorization': `Bearer ${jwt}` } };
+          
+            request = await axios.put(`${process.env.REACT_APP_URL_API}comentarios/${id}`, comentario, config);
+
+            if(request.statusText == 'OK'){
+            
+                return({
+                    type: SUCCESS_EDIT_COMENTARIO,
+                    payload: request
+                })
+            }
+            else{
+                return({
+                    type: ERROR_EDIT_COMENTARIO,
+                    payload: {msg: "Houve um erro ao editar o seu user!" }
+                })
+            }
+        }
+        catch(error){
+            console.log("ERROR DO EDIT COMENTARIO: ", error)
+            return({
+                type: ERROR_EDIT_COMENTARIO,
+                payload: {msg: "Houve um erro ao editar o seu user!" }
+            })
+        } 
+    
+    }
+    else{
+        return(
+            {
+                type: ERROR_EDIT_COMENTARIO,
+                payload: {msg: "Usuário não logado"}
+            }
+        )
+    }   
+}
 
 export const createComentarioGuia = async(values) => {
     

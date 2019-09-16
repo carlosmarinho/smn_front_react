@@ -196,7 +196,7 @@ class DashboardComentario extends Component{
                             <strong>Comentário:</strong> {truncate(comentario.descricao.replace(/&#13;/g,'').replace(/<\/?[^>]+(>|$)/g, ""), { length: 200, separator: /,?\.* +/ })}
                         </p>
                         <div className="hid-msg">
-                            <Link to={'/dashboard/comentarios/edit/' + comentario._id}  ><i className="fa fa-pencil" title="Editar"></i></Link> 
+                            <Link to={'/dashboard/comentarios/edit/' + comentario._id + "/guia" }  ><i className="fa fa-pencil" title="Editar"></i></Link> 
                             {this.showViewComment(comentario)}
                             <a href="javascript: void(0)"><Confirm
                                 onConfirm={() => this.deleteComentario(comentario)}

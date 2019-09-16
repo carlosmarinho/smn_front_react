@@ -3,6 +3,7 @@ import {
     FETCH_COMENTARIO_GUIAS_USER,  
     APPROVE_COMENTARIO_GUIA, 
     DELETE_COMENTARIO_GUIA, 
+    FETCH_COMENTARIO,
     FETCH_COMENTARIO_EVENTOS_USER,
     APPROVE_COMENTARIO_EVENTO, 
     DELETE_COMENTARIO_EVENTO,
@@ -14,8 +15,10 @@ import {
 export default function (state = [], action) {
     switch(action.type) {
         case FETCH_ALL_COMENTARIOS:
-            console.log("action pauload comment: ", action);
-            return action.payload;
+        return action.payload;
+        
+        case FETCH_COMENTARIO:
+            return action.payload.data;
 
         case FETCH_COMENTARIO_GUIAS_USER:
             return action.payload;

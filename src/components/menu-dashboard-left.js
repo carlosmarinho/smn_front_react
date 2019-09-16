@@ -36,22 +36,22 @@ class MenuDashboardLeft extends Component{
                 <div>
                     <li>
                         <Link to="/dashboard/comentarios" className={(this.props.location.pathname == '/dashboard/comentarios') ? 'tz-lma' : ''} >
-                            <i class="fa fa-comment "></i> Meus Comentários
+                            <i className="fa fa-comment "></i> Meus Comentários
                         </Link>
                     </li>
                     <li>
                         <Link to="/dashboard/comentarioguia" className={(this.props.location.pathname == '/dashboard/comentarioguia') ? 'tz-lma' : ''} >
-                            <i class="fa fa-comment"></i><i class="map marker alternate icon"></i> Comentários Guia
+                            <i className="fa fa-comment"></i><i className="map marker alternate icon"></i> Comentários Guia
                         </Link>
                     </li>
                     <li>
                         <Link to="/dashboard/comentarioevento" className={(this.props.location.pathname == '/dashboard/comentarioevento') ? 'tz-lma' : ''} >
-                            <i class="fa fa-comment"></i><i class="calendar alternate outline icon"></i> Comentários Evento
+                            <i className="fa fa-comment"></i><i className="calendar alternate outline icon"></i> Comentários Evento
                         </Link>
                     </li>
                     <li>
                         <Link to="/dashboard/comentarionoticia" className={(this.props.location.pathname == '/dashboard/comentarionoticia') ? 'tz-lma' : ''} >
-                            <i class="fa fa-comment"></i><i class="newspaper outline icon"></i> Comentários Notícia
+                            <i className="fa fa-comment"></i><i className="newspaper outline icon"></i> Comentários Notícia
                         </Link>
                     </li>
                 </div>
@@ -61,7 +61,7 @@ class MenuDashboardLeft extends Component{
             return (
                 <li>
                     <Link to="/dashboard/comentarios" className={(this.props.location.pathname == '/dashboard/comentarios') ? 'tz-lma' : ''} >
-                        <i class="fa fa-comment"></i> Meus Comentários
+                        <i className="fa fa-comment"></i> Meus Comentários
                     </Link>
                 </li>
             )
