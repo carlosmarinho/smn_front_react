@@ -431,7 +431,7 @@ export const fetchGuiasRecentes = async(city_id, limit='', sort=null) => {
         limit = `&_limit=${limit}`
 
 
-    const request = axios.get(`${process.env.REACT_APP_URL_API}guias/?_sort=${sort}&approved=true${limit}&cidade=${city_id}`);
+    const request = axios.get(`${process.env.REACT_APP_URL_API}guias/?_sort=${sort}&approved=true&nao_existe_mais=false&${limit}&cidade=${city_id}`);
 
     return {
         type: FETCH_GUIAS_RECENTES,
@@ -470,8 +470,8 @@ export const fetchGuiasByCategoryBoth = async(category='', limit='', sort=null) 
 
     if(categoria !== '')
     {
-        let request = await axios.get(`${process.env.REACT_APP_URL_API}guias/?approved=true&${categoria}_sort=${sort}${limit}`);
-        const request1 = await axios.get(`${process.env.REACT_APP_URL_API}guias/?approved=true&${categoriaServico}&_sort=${sort}${limit}`);
+        let request = await axios.get(`${process.env.REACT_APP_URL_API}guias/?approved=true&nao_existe_mais=false&${categoria}_sort=${sort}${limit}`);
+        const request1 = await axios.get(`${process.env.REACT_APP_URL_API}guias/?approved=true&nao_existe_mais=false&${categoriaServico}&_sort=${sort}${limit}`);
         console.log("O request: ", request);
         request.categoria = req.data[0];
         request.data = [...request.data, ...request1.data];
@@ -511,7 +511,7 @@ export const fetchGuiasByCategoryComercial = async(category='', limit='', sort=n
 
     if(categoria !== '')
     {
-        const request = await axios.get(`${process.env.REACT_APP_URL_API}guias/?${categoria}&approved=true&_sort=${sort}${limit}`);
+        const request = await axios.get(`${process.env.REACT_APP_URL_API}guias/?${categoria}&approved=true&nao_existe_mais=false&_sort=${sort}${limit}`);
         request.categoria = req.data[0];
         return {
             type: FETCH_GUIAS,
@@ -547,7 +547,7 @@ export const fetchGuiasByCategoryServico = async(category='', limit='', sort=nul
 
     if(categoria !== '')
     {
-        const request = await axios.get(`${process.env.REACT_APP_URL_API}guias/?${categoria}&approved=true&_sort=${sort}${limit}`);
+        const request = await axios.get(`${process.env.REACT_APP_URL_API}guias/?${categoria}&approved=true&nao_existe_mais=false&_sort=${sort}${limit}`);
         request.categoria = req.data[0];
         return {
             type: FETCH_GUIAS,
@@ -572,7 +572,7 @@ export const fetchGuiasByBairroId = async(bairro='', limit='', sort=null) => {
         limit = `&_limit=500`;
 
     
-    const request = await axios.get(`${process.env.REACT_APP_URL_API}guias/?bairros=${bairro}&approved=true&_sort=${sort}${limit}`);
+    const request = await axios.get(`${process.env.REACT_APP_URL_API}guias/?bairros=${bairro}&approved=true&nao_existe_mais=false&_sort=${sort}${limit}`);
     console.log("request do novo fetch eventos by id", request.data)
     return {
         type: FETCH_GUIAS,
@@ -592,7 +592,7 @@ export const fetchGuiasByCategoryId = async(category='', guias=[], limit='', sor
 
     let request = {data:[]};
     if(category !== 0)
-        request = await axios.get(`${process.env.REACT_APP_URL_API}guias/?categorias=${category}&approved=true&_sort=${sort}${limit}`);
+        request = await axios.get(`${process.env.REACT_APP_URL_API}guias/?categorias=${category}&approved=true&nao_existe_mais=false&_sort=${sort}${limit}`);
 
     const newRequest = {data: request.data, data1: guias}
 
@@ -632,7 +632,7 @@ export const fetchGuiasByCategory = async(category='', limit='', sort=null) => {
 
     if(categoria !== '')
     {
-        const request = await axios.get(`${process.env.REACT_APP_URL_API}guias/?${categoria}&approved=true&_sort=${sort}${limit}`);
+        const request = await axios.get(`${process.env.REACT_APP_URL_API}guias/?${categoria}&approved=true&nao_existe_mais=false&_sort=${sort}${limit}`);
         request.categoria = req.data[0];
         return {
             type: FETCH_GUIAS,
@@ -672,7 +672,7 @@ export const fetchGuiasByTag = async(tag='', limit='', sort=null) => {
 
     if(tags !== '')
     {
-        const request = await axios.get(`${process.env.REACT_APP_URL_API}guias/?${tags}&_sort=${sort}&approved=true${limit}`);
+        const request = await axios.get(`${process.env.REACT_APP_URL_API}guias/?${tags}&_sort=${sort}&approved=true&${limit}`);
         request.tag = req.data[0];
         return {
             type: FETCH_GUIAS,
