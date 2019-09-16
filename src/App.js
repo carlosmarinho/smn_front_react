@@ -30,6 +30,8 @@ import Register from './components/modules/register';
 import Dashboard from './components/dashboard/dashboard';
 import Profile from './components/dashboard/profile';
 import DashboardUser from './components/dashboard/user';
+import DashboardUserEdit from './components/dashboard/user/edit';
+
 
 import DashboardGuia from './components/dashboard/guia/guia';
 import DashboardGuiaNew from './components/dashboard/guia/new';
@@ -42,6 +44,9 @@ import DashboardEventoEdit from './components/dashboard/evento/edit';
 import DashboardNoticia from './components/dashboard/noticia/noticia';
 import DashboardNoticiaNew from './components/dashboard/noticia/new';
 import DashboardNoticiaEdit from './components/dashboard/noticia/edit';
+
+import DashboardComentario from './components/dashboard/comentario/';
+import DashboardComentarioEdit from './components/dashboard/comentario/edit';
 
 import DashboardComentarioGuia from './components/dashboard/comentarioguia/comentario';
 import DashboardComentarioEvento from './components/dashboard/comentarioevento/comentario';
@@ -194,6 +199,8 @@ class App extends Component {
                                 <Route exact path="/dashboard" component={Dashboard} />
                                 <Route exact path="/dashboard/profile" component={Profile} />
                                 <Route exact path="/dashboard/users" component={DashboardUser} />
+                                <Route exact path="/dashboard/users/edit/:id" component={DashboardUserEdit} />
+
 
                                 <Route exact path="/dashboard/guias" component={DashboardGuia} />
                                 <Route exact path="/dashboard/guias/novo" component={DashboardGuiaNew} />
@@ -212,6 +219,8 @@ class App extends Component {
                                 <Route exact path="/dashboard/noticias/edit/:id" component={DashboardNoticiaEdit} />
                                 <Route exact path="/dashboard/noticias/view/:slug" component={NewsItemView} />
 
+                                <Route exact path="/dashboard/comentarios" component={DashboardComentario} />
+                                <Route exact path="/dashboard/comentarios/edit/:id/:type" component={DashboardComentarioEdit} />
 
                                 <Route exact path="/dashboard/comentarioguia" component={DashboardComentarioGuia} />
                                 <Route exact path="/dashboard/comentarioevento" component={DashboardComentarioEvento} />

@@ -1,7 +1,9 @@
 import { 
+    FETCH_ALL_COMENTARIOS,
     FETCH_COMENTARIO_GUIAS_USER,  
     APPROVE_COMENTARIO_GUIA, 
     DELETE_COMENTARIO_GUIA, 
+    FETCH_COMENTARIO,
     FETCH_COMENTARIO_EVENTOS_USER,
     APPROVE_COMENTARIO_EVENTO, 
     DELETE_COMENTARIO_EVENTO,
@@ -12,6 +14,12 @@ import {
 
 export default function (state = [], action) {
     switch(action.type) {
+        case FETCH_ALL_COMENTARIOS:
+        return action.payload;
+        
+        case FETCH_COMENTARIO:
+            return action.payload.data;
+
         case FETCH_COMENTARIO_GUIAS_USER:
             return action.payload;
             

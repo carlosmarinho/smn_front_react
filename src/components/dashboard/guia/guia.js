@@ -6,7 +6,7 @@ import {Link, Redirect} from 'react-router-dom';
 import Confirm from 'react-confirm-bootstrap';
 
 import {fetchMe} from '../../../actions/user';
-import {fetchGuiasByUser, fetchGuiasByAdm, deleteGuia, approveReproveGuia} from '../../../actions/guia';
+import {fetchGuiasByUser, fetchGuiasByAdm, deleteGuia, approveReproveGuia, featureUnfeatureGuia} from '../../../actions/guia';
 
 class DashboardGuia extends Component{
 
@@ -93,6 +93,42 @@ class DashboardGuia extends Component{
         }
     }
 
+    featureUnfeatureGuia(id, featured) {
+        this.props.featureUnfeatureGuia(id, featured);
+    }
+
+    showFeaturedGuia(guia){
+        if(this.state.userLogged && this.state.userLogged.role.name == 'Administrator'){
+            if(guia.featured){
+                return (
+                    <a href="javascript: void(0)">
+                        <Confirm
+                            onConfirm={() => this.featureUnfeatureGuia(guia._id, false)}
+                            body={`Tem certeza que deseja retirar o destaque do guia '${guia.titulo}'?`}
+                            confirmText="Confirmar Retirar Destaque"
+                            title="Retirar Destaque de Guia">
+                            <i className="fa fa-star-o" title="Retirar Destaque"></i>
+                        </Confirm>
+                    </a>
+                )
+            }
+            else{
+                return (
+                    <a href="javascript: void(0)">
+                        <Confirm
+                            onConfirm={() => this.featureUnfeatureGuia(guia._id, true)}
+                            body={`Tem certeza que deseja destacar o guia '${guia.titulo}'?`}
+                            confirmText="Confirmar Destacar"
+                            title="Destacar Guia">
+                            <i className="fa fa-star" title="Destacar"></i>
+                        </Confirm>
+                    </a>
+                )
+            }
+        }
+    }
+
+
     showGuias(){
         if(this.props.guias && this.props.guias.fromUser){
             return this.props.guias.fromUser.map( guia => {
@@ -100,7 +136,7 @@ class DashboardGuia extends Component{
                 return(
                     <tr key={guia.id} style={ guia.approved ? {} : { backgroundColor: '#ffe6e6'}}>
                         <td className="td-imagem"><img src={this.getImageSrc(guia)} alt="" /></td>
-                        <td>{guia.titulo}</td>
+                        <td>{guia.titulo} {guia.featured ? <span className="db-list-ststus">Destacado</span> : ''}</td>
                         <td>{this.datePtBr(new Date(guia.createdAt))}</td>
                         <td><span className="db-list-rat">{guia.tipo}</span>
                         </td>
@@ -118,6 +154,7 @@ class DashboardGuia extends Component{
                                 </Confirm>
                             </a>
                             {this.showApprove(guia)}
+                            {this.showFeaturedGuia(guia)}
                         </td>
                     </tr>
                 )
@@ -216,4 +253,13 @@ function mapStateToProps(state){
     
 }
 
-export default connect(mapStateToProps, { fetchMe, deleteGuia, approveReproveGuia, fetchGuiasByUser, fetchGuiasByAdm})(DashboardGuia);
+export default connect(mapStateToProps, 
+    { 
+        fetchMe, 
+        deleteGuia, 
+        approveReproveGuia, 
+        fetchGuiasByUser, 
+        fetchGuiasByAdm, 
+        featureUnfeatureGuia
+    }
+)(DashboardGuia);

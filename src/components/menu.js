@@ -62,7 +62,7 @@ class Menu extends Component {
             /*<!--== MY ACCCOUNT ==-->*/
             <div className="v3-m-4">
                     {/*<!-- Dropdown Trigger -->*/}
-                    <a className='dropdown-button top-user-pro-v3' href='#' data-activates='top-menu'><img src="/images/users/user-default-32x32.png" alt="" />Minha Conta <i className="fa fa-angle-down" aria-hidden="true"></i> </a>
+                    <Link to="/dashboard" className='dropdown-button top-user-pro-v3' href='#' data-activates='top-menu'><img src="/images/users/user-default-32x32.png" alt="" />Minha Conta <i className="fa fa-angle-down" aria-hidden="true"></i> </Link>
             </div>
             
         )
@@ -160,6 +160,7 @@ class Menu extends Component {
                                 <li><Link to="/dashboard/guias" className="waves-effect"><i className="fa fa-list-ul" aria-hidden="true"></i> Meus Guias</Link> </li>
                                 <li><Link to="/dashboard/eventos" className="waves-effect"><i className="fa fa-calendar" aria-hidden="true"></i> Meus Eventos</Link> </li>
                                 <li><Link to="/dashboard/noticias" className="waves-effect"><i className="fa fa-rss" aria-hidden="true"></i> Minhas Notícias</Link> </li>
+                                <li><Link to="/dashboard/comentarios" className="waves-effect"><i className="fa fa-comment" aria-hidden="true"></i> Meus Comentários</Link> </li>
                                 <li className="divider"></li>
                                 <li><Link to="/" onClick={(e) => this.loggout(e)} className="ho-dr-con-last waves-effect"><i className="fa fa-sign-in" aria-hidden="true"></i> Logout</Link> </li>
                             </ul> 

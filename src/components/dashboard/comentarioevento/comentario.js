@@ -125,16 +125,21 @@ class DashboardComentarioEvento extends Component{
 
         if(this.props.comentarios){
             return this.props.comentarios.map( comentario => {
-                console.log("comentarioevento: ", comentario);
+                if(!comentario.evento){
+                    return null;
+                }
+
                 return(
                     <li key={comentario._id} className="view-msg" style={ comentario.aprovado ? {paddingLeft: '50px'} : { paddingLeft:'50px', backgroundColor: '#ffe6e6'}}>
-                        <h3>{comentario.titulo} {this.comentarioApproved(comentario)}</h3>
+                        <h3>{(comentario.titulo) ? comentario.titulo: 'Título do comentário não informado'} {this.comentarioApproved(comentario)}</h3>
                         <p style={{paddingLeft:'20px', paddingTop: '15px', lineHeight: '10px'}}>
                             <strong>Evento: </strong> 
                             <Link to={`/eventos/${comentario.evento.slug}`} target="blank">{comentario.evento.titulo}</Link>
                         </p>
                         {this.showUser(comentario)}
-                        <p style={{paddingLeft:'20px', paddingTop: '5px', lineHeight: '10px'}}><strong>Comentário:</strong> {truncate(comentario.descricao.replace(/&#13;/g,'').replace(/<\/?[^>]+(>|$)/g, ""), { length: 200, separator: /,?\.* +/ })}</p>
+                        <p style={{paddingLeft:'20px', paddingTop: '5px', lineHeight: '16px'}}>
+                            <strong>Comentário:</strong> {truncate(comentario.descricao.replace(/&#13;/g,'').replace(/<\/?[^>]+(>|$)/g, ""), { length: 200, separator: /,?\.* +/ })}
+                        </p>
                         <div className="hid-msg">
                             <Link to={'/dashboard/comentarios/edit/' + comentario._id}  ><i className="fa fa-pencil" title="Editar"></i></Link> 
                             {this.showViewComment(comentario)}

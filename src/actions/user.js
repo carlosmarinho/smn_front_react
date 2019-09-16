@@ -2,6 +2,7 @@ import _ from 'lodash';
 import {
     FETCH_ME, 
     FETCH_USER,
+    FETCH_USER_ARRAY,
     DELETE_USER,
     CONFIRM_USER,
     BLOCK_USER,
@@ -179,6 +180,13 @@ export const fetchUser = (id) => {
     }
 }
 
+export const fetchUserArray = (id) => {
+    const request = axios.get(`${process.env.REACT_APP_URL_API}users/${id}`);
+    return {
+        type: FETCH_USER_ARRAY,
+        payload: request
+    }
+}
 
 export const login = async(values) => {
     let request;

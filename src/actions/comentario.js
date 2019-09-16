@@ -1,10 +1,15 @@
+import _ from 'lodash';
 import axios from 'axios';
 import { 
     CREATE_COMENTARIO_GUIA, 
+    FETCH_COMENTARIO,
+    FETCH_ALL_COMENTARIOS,
     FETCH_COMENTARIO_GUIAS_USER,
     DELETE_COMENTARIO_GUIA,
     APPROVE_COMENTARIO_GUIA,
     ERROR_COMENTARIO_GUIA,
+    ERROR_EDIT_COMENTARIO,
+    SUCCESS_EDIT_COMENTARIO,
 
     CREATE_COMENTARIO_EVENTO, 
     FETCH_COMENTARIO_EVENTOS_USER,
@@ -20,7 +25,73 @@ import {
     } from '../actions/types';
 const autoApprove = false;
 
+export const fetchComentarioByType = (id, type) => {
+    let request = {};
+    console.log("olha o type aqui: ", type);
+    switch(type){
+        case 'guia' :
+            request = axios.get(`${process.env.REACT_APP_URL_API}comentarioguias/${id}`);
+            break;
+        case 'evento' :
+            request = axios.get(`${process.env.REACT_APP_URL_API}comentarioeventos/${id}`);
+            break;
+        case 'noticia' :
+            request = axios.get(`${process.env.REACT_APP_URL_API}comentarios/${id}`);
+            break;
+    }
+        
+    return {
+        type: FETCH_COMENTARIO,
+        payload: request
+    }
+}
 
+
+export const editComentario = async (comentario, id, type) => {
+
+    let u = JSON.parse(localStorage.getItem('user'));
+    let request;
+    if(u){
+        try
+        {
+            
+            let jwt = u.jwt    
+            let config = { headers: { 'Authorization': `Bearer ${jwt}` } };
+          
+            request = await axios.put(`${process.env.REACT_APP_URL_API}comentarios/${id}`, comentario, config);
+
+            if(request.statusText == 'OK'){
+            
+                return({
+                    type: SUCCESS_EDIT_COMENTARIO,
+                    payload: request
+                })
+            }
+            else{
+                return({
+                    type: ERROR_EDIT_COMENTARIO,
+                    payload: {msg: "Houve um erro ao editar o seu user!" }
+                })
+            }
+        }
+        catch(error){
+            console.log("ERROR DO EDIT COMENTARIO: ", error)
+            return({
+                type: ERROR_EDIT_COMENTARIO,
+                payload: {msg: "Houve um erro ao editar o seu user!" }
+            })
+        } 
+    
+    }
+    else{
+        return(
+            {
+                type: ERROR_EDIT_COMENTARIO,
+                payload: {msg: "Usuário não logado"}
+            }
+        )
+    }   
+}
 
 export const createComentarioGuia = async(values) => {
     
@@ -141,6 +212,26 @@ export const fetchComentarioGuiasByAdm = async(limit=100, sort=null) => {
     return {
         type: FETCH_COMENTARIO_GUIAS_USER,
         payload: request.data
+    }
+
+}
+
+export const fetchAllComentariosByUser = async(user_id, limit=100, sort=null) => {
+    if(!sort)
+        sort = '_id:desc';
+    if(limit)
+        limit = `&_limit=${limit}`
+
+
+    const request = await axios.get(`${process.env.REACT_APP_URL_API}comentarioguias/?user=${user_id}&_sort=${sort}${limit}`);
+    const request1 = await axios.get(`${process.env.REACT_APP_URL_API}comentarioeventos/?user=${user_id}&_sort=${sort}${limit}`);
+    const request2 = await axios.get(`${process.env.REACT_APP_URL_API}comentarios/?user=${user_id}&_sort=${sort}${limit}`);
+
+    //console.log("aqui no fetch guias by user", ...request.data, ' --- ', request1.data, " :::: ",  [...request.data, ...request1.data]);
+
+    return {
+        type: FETCH_ALL_COMENTARIOS,
+        payload: _.orderBy([...request1.data, ...request.data, ...request2.data], 'createdAt', 'desc')
     }
 
 }
@@ -355,6 +446,7 @@ export const createComentarioNoticia = async(values) => {
 export const approveReproveComentarioNoticia = async (id, approve) => {
     let user = JSON.parse(localStorage.getItem('user'));
     
+    console.log("comentario id: ", id)
     if(user){
         let config = { headers: { 'Authorization': `Bearer ${user.jwt}` } };
         const request = await axios.put(`${process.env.REACT_APP_URL_API}comentarios/${id}`, {aprovado: approve}, config);

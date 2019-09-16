@@ -1,6 +1,7 @@
 import _ from 'lodash';
 import axios from 'axios';
 import { 
+    FEATURED_GUIA,
     APPROVE_GUIA,
     SUCCESS_CREATE_GUIA, 
     REMOVE_IMAGE_GUIA, 
@@ -685,6 +686,33 @@ export const fetchGuiasByTag = async(tag='', limit='', sort=null) => {
         }
     }
 }
+
+export const featureUnfeatureGuia = async (id, featured) => {
+    let user = JSON.parse(localStorage.getItem('user'));
+    
+    if(user){
+        let config = { headers: { 'Authorization': `Bearer ${user.jwt}` } };
+        const request = await axios.put(`${process.env.REACT_APP_URL_API}guias/${id}`, {featured: featured}, config);
+        if(request.statusText == 'OK'){
+            return {
+                type: FEATURED_GUIA,
+                payload: {id, featured}
+            }
+        }
+
+        return {
+            type: FEATURED_GUIA,
+            payload: false
+        }
+    }
+    else{
+        return({
+            type: ERROR_EDIT_GUIA,
+            payload: {msg: "Usuário não logado"}
+        })
+    }
+}
+
 
 
 export const fetchGuiasBySearch = async(search='', limit='', sort=null) => {
