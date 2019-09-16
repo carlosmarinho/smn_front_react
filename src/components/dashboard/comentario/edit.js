@@ -127,14 +127,14 @@ class NoticiaEdit extends Component{
 
 	showMessage(){
         if(this.props.message){
-            if(this.props.message.error && this.props.message.error.noticia){
+            if(this.props.message.error && this.props.message.error.comentario){
                 return(
-                    <p className="text-danger text-center"><strong>{this.props.message.error.noticia.msg}</strong></p>
+                    <p className="text-danger text-center"><strong>{this.props.message.error.comentario.msg}</strong></p>
                 )
             }
-            else if(this.props.message.success && this.props.message.success.noticia){
+            else if(this.props.message.success && this.props.message.success.comentario){
                 return(
-                    <p className="text-success text-center"><strong>{this.props.message.success.noticia.msg}</strong></p>
+                    <p className="text-success text-center"><strong>{this.props.message.success.comentario.msg}</strong></p>
                 )
             }
         }
@@ -247,6 +247,7 @@ class NoticiaEdit extends Component{
 
 
 function mapStateToProps(state, ownProps){
+	console.log("state comment: ", state)
     return(
         {
             user: state.users,

@@ -184,7 +184,13 @@ class DashboardComentario extends Component{
         if(this.props.comentarios){
             return this.props.comentarios.map( comentario => {
                 
-                console.log("pppprorororororo: ", comentario);
+                let type="";
+                if(comentario.guia)
+                    type="guia";
+                else if(comentario.evento)
+                    type="evento";
+                else
+                    type="noticia";
 
                 return(
                     <li key={comentario._id} className="view-msg" style={ comentario.aprovado ? {paddingLeft: '50px'} : { paddingLeft:'50px', backgroundColor: '#ffe6e6'}}>
@@ -196,7 +202,7 @@ class DashboardComentario extends Component{
                             <strong>Comentário:</strong> {truncate(comentario.descricao.replace(/&#13;/g,'').replace(/<\/?[^>]+(>|$)/g, ""), { length: 200, separator: /,?\.* +/ })}
                         </p>
                         <div className="hid-msg">
-                            <Link to={'/dashboard/comentarios/edit/' + comentario._id + "/guia" }  ><i className="fa fa-pencil" title="Editar"></i></Link> 
+                            <Link to={'/dashboard/comentarios/edit/' + comentario._id + "/" + type }  ><i className="fa fa-pencil" title="Editar"></i></Link> 
                             {this.showViewComment(comentario)}
                             <a href="javascript: void(0)"><Confirm
                                 onConfirm={() => this.deleteComentario(comentario)}

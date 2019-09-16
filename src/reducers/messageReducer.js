@@ -13,7 +13,9 @@ import { ERROR_CREATE_USER,
     SUCCESS_CREATE_NOTICIA,  
     ERROR_CREATE_NOTICIA, 
     SUCCESS_EDIT_NOTICIA,  
-    ERROR_EDIT_NOTICIA
+    ERROR_EDIT_NOTICIA,
+    ERROR_EDIT_COMENTARIO,
+    SUCCESS_EDIT_COMENTARIO
 } from "../actions/types";
 
 export default function(state = null, action) {
@@ -54,6 +56,29 @@ export default function(state = null, action) {
             message.success.user = action.payload;
             return message;
 
+
+        /* case ERROR_CREATE_COMENTARIO:
+            message.success.user = null
+            
+            message.error.comentario = action.payload;
+            return message;
+        case SUCCESS_CREATE_COMENTARIO:
+            message.error.user = null;
+            
+            message.success.comentario = action.payload;
+            message.success.comentario.msg = "Comentário cadastrado com sucesso!"
+            return message; */
+        case ERROR_EDIT_COMENTARIO:
+            message.success.user = null
+            
+            message.error.comentario = action.payload;
+            return message;
+        case SUCCESS_EDIT_COMENTARIO:
+            message.error.user = null;
+            
+            message.success.comentario = action.payload;
+            message.success.comentario.msg = "Comentário editado com sucesso!"
+            return message;
 
 
         case ERROR_CREATE_GUIA:
