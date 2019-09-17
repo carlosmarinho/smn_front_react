@@ -23,7 +23,7 @@ class DashboardGuia extends Component{
             this.setState({userLogged:user.user})
             this.props.fetchMe();
             if(user.user.role.name == 'Administrator'){
-                this.props.fetchGuiasByAdm(10);
+                this.props.fetchGuiasByAdm(50);
                 
             }
             else{
@@ -134,9 +134,12 @@ class DashboardGuia extends Component{
             return this.props.guias.fromUser.map( guia => {
                 
                 return(
-                    <tr key={guia.id} style={ guia.approved ? {} : { backgroundColor: '#ffe6e6'}}>
+                    <tr key={guia.id} style={ guia.nao_existe_mais ? { backgroundColor: 'gray'} : guia.approved ? {} : { backgroundColor: '#ffe6e6'}}>
                         <td className="td-imagem"><img src={this.getImageSrc(guia)} alt="" /></td>
-                        <td>{guia.titulo} {guia.featured ? <span className="db-list-ststus">Destacado</span> : ''}</td>
+                        <td style={{width:'300px'}}>{guia.titulo} 
+                        {guia.featured ? <span className="db-list-ststus">Destacado</span> : ''}
+                        {guia.nao_existe_mais ? <span className="db-list-ststus-na">Não existe mais</span> : ''}
+                        </td>
                         <td>{this.datePtBr(new Date(guia.createdAt))}</td>
                         <td><span className="db-list-rat">{guia.tipo}</span>
                         </td>

@@ -79,7 +79,10 @@ class GuiaEdit extends Component{
 			categorias: true,
 			tags: [],
 			guia: null,
-			tagInput: ''
+			tagInput: '',
+			naoExisteMais: false,
+			approved: false
+
 		}
 		
 		this.handleSubmit = this.handleSubmit.bind(this);
@@ -87,7 +90,7 @@ class GuiaEdit extends Component{
 		this.renderMultiselect = this.renderMultiselect.bind(this);
     }
 	
-    componentDidMount(){
+    async componentDidMount(){
 		let user = JSON.parse(localStorage.getItem('user'));
 		
         if(user !== null){
@@ -96,31 +99,60 @@ class GuiaEdit extends Component{
 			this.props.fetchTags();
 			this.props.fetchCities();
 			this.props.fetchBairros('5ba26f813a018f42215a36a0', 200, 'nome');
-			this.props.fetchGuia(this.props.match.params.id)
-            // if(user.user.role.name == 'Administrator'){
-				//     this.props.fetchGuiasByAdm(7);
-                
-				// }
-				// else{
-					//     this.props.fetchGuiasByUser(user.user._id, 5);
-					// }
-				}
-				else{
-					this.setState({userLogged:false})
-				}
+			await this.props.fetchGuia(this.props.match.params.id)
+
+			if(this.props.eventos && this.props.eventos.approved ){
+				this.setState({approved: true})
 			}
+
+			if(this.props.eventos && this.props.eventos.nao_existe_mais === true ){
+				console.log("casldfjaskldj  sldkfjklsd jsdf klsdjfkl ssdlfjsdlkfjsdkl")
+				this.setState({naoExisteMais: true})
+			}
+
+			console.log("this prprprprprp: ", this.state);
+            
+		}
+		else{
+			this.setState({userLogged:false})
+		}
+	}
 			
 	componentWillMount(){
 		this.props.fetchGuia(this.props.match.params.id)
 	}
 	
 	handleSubmit(values){
-        console.log("aqui no valllllllvalues vai enviar ", values);
-        this.props.editGuia(values, this.props.match.params.id);
+		this.props.editGuia(values, this.props.match.params.id);
+		window.scrollTo(0, 0);
     }
 
 	addTag(){
 		
+	}
+
+	renderCheckbox(field){
+		const {input, label, type, styleLeft, meta: {touched, error, warning} } = field;
+
+//		console.log("input: ", input.name, " --- ", input.value);
+
+		let className = `col ${field.classCol}`
+	    return(
+			<div>
+				<div className={`react-widget input-field col s3`} style={{marginBottom: '10px'}}>
+					<div ><h5>{label}</h5></div>
+				</div>
+				<div className={`col s3`}>
+					<input
+						{...input}
+						className="mr2"
+						type="checkbox"
+						style={{ left: styleLeft, opacity: '1', marginTop: '7px'}}
+					/>
+				</div>
+			</div>
+            
+        )
 	}
 
     datePtBr(date){
@@ -498,6 +530,29 @@ class GuiaEdit extends Component{
 								validate={[ required ]}
 							/>
 						</div>
+						<div className="row">									
+							
+							<Field
+								name="nao_existe_mais"
+								type="checkbox"
+								component={this.renderCheckbox}
+								label="Não existe mais?"
+								classCol="s6"
+								styleLeft="-210px"
+								onChange={e => { console.log("target: ", e.target); this.setState({ naoExisteMais: !e.target.checked }) }}
+							/>
+						</div>
+						<div className="row">
+							<Field
+								name="approved"
+								type="checkbox"
+								component={this.renderCheckbox}
+								label="Aprovado?"
+								classCol="s6"
+								styleLeft="-200px"
+								onChange={e => { this.setState({ approved: !e.target.checked }) }}
+							/>
+						</div>
 						<div className="row">
 							<Field
 									name="tipo"
@@ -611,7 +666,7 @@ class GuiaEdit extends Component{
 								label="Bairro"
 								classCol="s4"
 								className="validate"
-								validate={[  ]}
+								validate={[ required ]}
 							/>
 						</div>
 						<div className="row">
@@ -933,6 +988,7 @@ function mapStateToProps(state, ownProps){
 			console.log("\n\n\n guia init no map: ", guiaInit.bairros);
 			guiaInit.bairros = guiaInit.bairros[0]._id;
 		}
+
 	
 	}
     return(
