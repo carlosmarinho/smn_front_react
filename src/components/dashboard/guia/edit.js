@@ -94,7 +94,7 @@ class GuiaEdit extends Component{
 		let user = JSON.parse(localStorage.getItem('user'));
 		
         if(user !== null){
-			this.setState({userLogged:true})
+			this.setState({userLogged:user.user})
 			this.props.fetchCategories('guia comercial', 250, 'parent_id');
 			this.props.fetchTags();
 			this.props.fetchCities();
@@ -468,6 +468,38 @@ class GuiaEdit extends Component{
 		)
 	}
 
+	showBooleanFields(){
+		if(this.state.userLogged && this.state.userLogged.role.name == 'Administrator'){
+			return(
+				<div>
+					<div className="row">									
+						
+						<Field
+							name="nao_existe_mais"
+							type="checkbox"
+							component={this.renderCheckbox}
+							label="Não existe mais?"
+							classCol="s6"
+							styleLeft="-210px"
+							onChange={e => { console.log("target: ", e.target); this.setState({ naoExisteMais: !e.target.checked }) }}
+						/>
+					</div>
+					<div className="row">
+						<Field
+							name="approved"
+							type="checkbox"
+							component={this.renderCheckbox}
+							label="Aprovado?"
+							classCol="s6"
+							styleLeft="-200px"
+							onChange={e => { this.setState({ approved: !e.target.checked }) }}
+						/>
+					</div>
+				</div>
+			)
+		}
+	}
+
 	generalContent(){
 		const { pristine, reset, submitting, handleSubmit } = this.props
 
@@ -530,29 +562,9 @@ class GuiaEdit extends Component{
 								validate={[ required ]}
 							/>
 						</div>
-						<div className="row">									
-							
-							<Field
-								name="nao_existe_mais"
-								type="checkbox"
-								component={this.renderCheckbox}
-								label="Não existe mais?"
-								classCol="s6"
-								styleLeft="-210px"
-								onChange={e => { console.log("target: ", e.target); this.setState({ naoExisteMais: !e.target.checked }) }}
-							/>
-						</div>
-						<div className="row">
-							<Field
-								name="approved"
-								type="checkbox"
-								component={this.renderCheckbox}
-								label="Aprovado?"
-								classCol="s6"
-								styleLeft="-200px"
-								onChange={e => { this.setState({ approved: !e.target.checked }) }}
-							/>
-						</div>
+						{this.showBooleanFields()}
+
+						
 						<div className="row">
 							<Field
 									name="tipo"
