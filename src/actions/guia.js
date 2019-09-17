@@ -774,7 +774,7 @@ export const fetchGuias = async(city_id, search='', limit='', sort=null) => {
     else
         limit = `&_limit=500`;
   
-    const request = axios.get(`${process.env.REACT_APP_URL_API}guias/?${search}&approved=true&_sort=${sort}${limit}&cidade=${city_id}`);
+    const request = axios.get(`${process.env.REACT_APP_URL_API}guias/?${search}&approved=true&nao_existe_mais=false&_sort=${sort}${limit}&cidade=${city_id}`);
 
     return {
         type: FETCH_GUIAS,
@@ -784,7 +784,7 @@ export const fetchGuias = async(city_id, search='', limit='', sort=null) => {
 
 export const fetchFeaturedGuias = async(city_id) => {
 
-    let request = await axios.get(`${process.env.REACT_APP_URL_API}guias/?approved=true&cidade_destaque=${city_id}`);
+    let request = await axios.get(`${process.env.REACT_APP_URL_API}guias/?approved=true&nao_existe_mais=false&cidade_destaque=${city_id}`);
     
 
     return {

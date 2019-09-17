@@ -31,10 +31,11 @@ class ListingItem extends Component {
     componentWillReceiveProps(nextProps) {
         let slug = nextProps.match.params.slug
         if(slug !== this.state.slug){
+            console.log("will receive props: ", this.props.dashboardView)
+            this.props.fetchGuiaBySlug(slug, this.props.dashboardView)
             this.setState(
                 {
                    slug: slug,
-                   guias: this.props.fetchGuiaBySlug(slug, this.props.dashboardView)
                 }
             )
         }
@@ -42,8 +43,11 @@ class ListingItem extends Component {
 
     render(){
         let item = {};
-        if(this.props.guias)
+        if(this.props.guias && this.props.guias.guia){
             item = this.props.guias.guia
+        }
+        else
+            return <div>Carregando ....</div>
 
         return(
             <div>
