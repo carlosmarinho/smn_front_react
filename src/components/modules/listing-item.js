@@ -49,8 +49,6 @@ class ListingItem extends Component {
         else
             return <div>Carregando ....</div>
 
-        console.log("guiasssss: ", this.props.guias);
-
         return(
             <div>
                 
