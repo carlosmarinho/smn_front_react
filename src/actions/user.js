@@ -265,13 +265,23 @@ export const fetchUsersByAdm = async(limit=100, sort=null) => {
     if(limit)
         limit = `&_limit=${limit}`
 
-    const request = await axios.get(`${process.env.REACT_APP_URL_API}users/?_sort=${sort}${limit}`);
+    let user = JSON.parse(localStorage.getItem('user'));
+
+    if(user){
+        let config = { headers: { 'Authorization': `Bearer ${user.jwt}` } };
+
+        const request = await axios.get(`${process.env.REACT_APP_URL_API}users/?_sort=${sort}${limit}`, config);
     //const count = await axios.get(`${process.env.REACT_APP_URL_API}users/count`);
     //const newRequest = {data:request.data, count: count.data};
-
+    
+        return {
+            type: FETCH_USERS,
+            payload: request
+        }
+    }
     return {
         type: FETCH_USERS,
-        payload: request
+        payload: false
     }
 }
 
