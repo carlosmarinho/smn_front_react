@@ -83,7 +83,6 @@ class Profile extends Component{
 	
     componentDidMount(){
 		let user = JSON.parse(localStorage.getItem('user'));
-		console.log("user didmount: ", user );
         if(user !== null){
 			this.setState({userLogged:true})
 			this.props.fetchMe();

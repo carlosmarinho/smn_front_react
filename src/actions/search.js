@@ -18,8 +18,8 @@ export const searchHome = async(values) => {
 
     let config = { headers: { 'Authorization': `Bearer ${jwt}` } };
  
-    const request = axios.get(`${process.env.REACT_APP_URL_API}bairro/?populateAssociation=false&_sort=${sort}${limit}`, config);*/
-    const request = axios.get(`${process.env.REACT_APP_URL_API}bairro/?populateAssociation=false&_sort=${sort}${limit}`);
+    const request = axios.get(`${process.env.REACT_APP_URL_API}bairros/?populateAssociation=false&_sort=${sort}${limit}`, config);*/
+    const request = axios.get(`${process.env.REACT_APP_URL_API}bairros/?populateAssociation=false&_sort=${sort}${limit}`);
 
     return {
         type: SEARCH_HOME,

@@ -172,11 +172,12 @@ class ListingList extends Component {
             if(guia.mediaAvaliacao)
                 avaliacao = <span className="home-list-pop-rat">{guia.mediaAvaliacao}</span>
             return (
-                <div className="home-list-pop list-spac" key={ind}>
+                <div className={(guia.nao_existe_mais) ? 'home-list-pop list-spac no-more' : 'home-list-pop list-spac '} key={ind}>
                     {/*<!--LISTINGS IMAGE-->*/}
                     <div className="col-md-3 list-ser-img"> <img src={this.getImageSrc(guia)} alt="" /> </div>
                     {/*<!--LISTINGS: CONTENT-->*/}
-                    <div className="col-md-9 home-list-pop-desc inn-list-pop-desc"> <Link to={`/guia/` + guia.slug}><h3>{guia.titulo}</h3></Link>
+                    <div className="col-md-9 home-list-pop-desc inn-list-pop-desc"> 
+                        <Link to={`/guia/` + guia.slug}><h3>{guia.titulo}</h3></Link>
                         <h4>{(guia.array_cidades && guia.array_cidades.length>0)?guia.array_cidades[0].nome:''} {(guia.array_bairros && guia.array_bairros.length>0)?'- ' + guia.array_bairros[0].nome:''}</h4>
                         <p>{(guia.endereco)?<b>Endereço:</b>:''} {guia.endereco}</p>
                         <div className="list-number">

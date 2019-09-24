@@ -229,6 +229,29 @@ class SearchList extends Component {
         }
     }
 
+    showFotterButtons(guia) {
+        if(guia.nao_existe_mais){
+            return(
+                <div className="list-enqu-btn">
+                    <ul>
+                        <li><a href="#!" data-dismiss="modal" data-toggle="modal" data-target="#list-quo"><i className="fa fa-question-circle" aria-hidden="true"></i> Enviar Novas Informações</a> </li>
+                    </ul>
+                </div>
+            )
+        }
+        else{
+            return(
+                <div className="list-enqu-btn">
+                    <ul>
+                        <li><a href="#!"><i className="fa fa-envelope" aria-hidden="true"></i> Enviar Email</a> </li>
+                        <li><a href="#!"><i className="fa fa-star-o" aria-hidden="true"></i>Faça sua Avaliação</a> </li>
+                        <li><a href="#!" data-dismiss="modal" data-toggle="modal" data-target="#list-quo"><i className="fa fa-question-circle" aria-hidden="true"></i> Perguntar</a> </li>
+                    </ul>
+                </div>
+            )
+        }
+    }
+    
     generateGuias() {
         
 
@@ -240,11 +263,12 @@ class SearchList extends Component {
             return (
                 
                     <div className="row">
-                        <div className="home-list-pop list-spac">
+                        <div className={(guia.nao_existe_mais) ? 'home-list-pop list-spac no-more' : 'home-list-pop list-spac '}>
                             {/*<!--LISTINGS IMAGE-->*/}
                             <div className="col-md-3 list-ser-img"> <img src={this.getImageSrc(guia)} alt="" /> </div>
                             {/*<!--LISTINGS: CONTENT-->*/}
-                            <div className="col-md-9 home-list-pop-desc inn-list-pop-desc"> <Link to={`/guia/` + guia.slug}><h3>{guia.titulo}</h3></Link>
+                            <div className="col-md-9 home-list-pop-desc inn-list-pop-desc"> 
+                                <Link to={`/guia/` + guia.slug}><h3>{guia.titulo}{(guia.nao_existe_mais) ? <span> - Este guia não existe mais</span>: ''}</h3></Link>
                                 <h4>{(guia.cidade.length>0)?guia.cidade[0].nome:''} {(guia.bairros.length>0)?'- ' + guia.bairros[0].nome:''}</h4>
                                 <p>{(guia.endereco)?<b>Endereço:</b>:''} {guia.endereco}</p>
                                 <div className="list-number">
@@ -255,14 +279,8 @@ class SearchList extends Component {
                                 </div> 
                                 {avaliacao}
                                 {this.getCategorias(guia.categorias)}
+                                {this.showFotterButtons(guia)}
                                 
-                                <div className="list-enqu-btn">
-                                    <ul>
-                                        <li><a href="#!"><i className="fa fa-envelope" aria-hidden="true"></i> Enviar Email</a> </li>
-                                        <li><a href="#!"><i className="fa fa-star-o" aria-hidden="true"></i>Faça sua Avaliação</a> </li>
-                                        <li><a href="#!" data-dismiss="modal" data-toggle="modal" data-target="#list-quo"><i className="fa fa-question-circle" aria-hidden="true"></i> Perguntar</a> </li>
-                                    </ul>
-                                </div>
                             </div>
                         </div>
                     </div>

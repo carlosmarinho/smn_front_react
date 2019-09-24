@@ -3022,6 +3022,17 @@ footer ul li a:hover {
 .list-enqu-btn ul {
   padding: 0px; }
 
+/* added by carlos width: 25%;*/
+.no-more {
+  background-color: #bcc; }
+
+.no-more h3 span {
+  color: red; }
+
+.no-more .list-enqu-btn ul li {
+  width: 95%; }
+
+/*end added*/
 .list-enqu-btn ul li {
   display: inline-block;
   float: left;

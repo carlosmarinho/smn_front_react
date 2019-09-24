@@ -382,7 +382,7 @@ export const fetchNoticiasByTag = async(tag='', limit='', sort=null) => {
     let tags = '';
     let req;
     if(tag){
-        req = await axios.get(`${process.env.REACT_APP_URL_API}tag/?slug=${tag}`);
+        req = await axios.get(`${process.env.REACT_APP_URL_API}tags/?slug=${tag}`);
 
         if(req.data.length > 0){
             console.log("request do tag: ", req.data);
@@ -421,7 +421,7 @@ export const fetchNoticiasBySearch = async(search='', limit='', sort=null) => {
     let bairros = '';
     let req;
     if(search.bairro){
-        req = await axios.get(`${process.env.REACT_APP_URL_API}bairro/?approved=true&slug=${search.bairro}`);
+        req = await axios.get(`${process.env.REACT_APP_URL_API}bairros/?approved=true&slug=${search.bairro}`);
 
         if(req.data.length > 0){
             console.log("request do tag: ", req.data);

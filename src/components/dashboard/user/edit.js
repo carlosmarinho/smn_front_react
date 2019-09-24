@@ -83,7 +83,6 @@ class UserEdit extends Component{
 	
     componentDidMount(){
 		let user = JSON.parse(localStorage.getItem('user'));
-		console.log("user didmount: ", user );
         if(user !== null){
 			this.setState({userLogged:user.user})
 			this.props.fetchUser(this.props.match.params.id);
