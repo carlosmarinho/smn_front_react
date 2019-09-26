@@ -8,6 +8,7 @@ import promise from 'redux-promise';
 import reducers from './reducers';
 
 import Home from './components/home';
+import HomeBairro from './components/home-bairro';
 import Header from './components/header';
 import Footer from './components/footer';
 import PageItem from './components/modules/page-item';
@@ -66,13 +67,49 @@ import ReactGA from 'react-ga';
 ReactGA.initialize('UA-17728772-17');
 ReactGA.pageview(window.location.pathname + window.location.search);
 
+let host = window.location.host;
+let protocol = window.location.protocol;
+let parts = host.split(".");
+let subdomain = "";
+// If we get more than 3 parts, then we have a subdomain
+// INFO: This could be 4, if you have a co.uk TLD or something like that.
+if (parts.length > 3) {
+  subdomain = parts[0];
+  // Remove the subdomain from the parts list
+  console.log("subdominio: ", subdomain);
+}
+
+subdomain = 'fonseca';
 
 let city_or_neighbor = 'city/niteroi';
+if(subdomain != "")
+    city_or_neighbor = `district/${subdomain}`;    
+
+
 //let city_or_neighbor = 'district/engenhoca';
 import (`./assets/styles/css/${city_or_neighbor}.css`);
 
 
 const createStoreWithMiddleware = applyMiddleware(promise)(createStore);
+
+let HomeProps = (props) => {
+    return(
+        <Home
+            match={props.match}
+        />
+    )
+}
+
+if(subdomain != ""){
+    HomeProps = (props) => {
+        return(
+            <HomeBairro
+                subdomain={subdomain}
+                match={props.match}
+            />
+        )
+    }
+}
 
 const NewsItemView = (props) => {
     return (
@@ -228,7 +265,7 @@ class App extends Component {
 
 
                                 <Route exact path="/connect/facebook/" component={Connect} />
-                                <Route exact path="/" component={Home} />
+                                <Route exact path="/" component={HomeProps} />
                                 <Route exact path="/auth/:provider/callback/" component={Login} />
                                 <Route exact path="/login" component={Login} />
                                 <Route exact path="/cadastro" component={Register} />
