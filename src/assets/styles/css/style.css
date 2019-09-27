@@ -7030,6 +7030,15 @@ footer ul li a:hover {
 .modal-open {
   overflow: inherit !important; }
 
+/*added by carlos to adjust the modal*/
+.modal-body {
+  max-height: calc(100vh - 150px);
+  overflow-y: auto; }
+
+.modal-header .close {
+  margin-top: -20px !important; }
+
+/*end added modal by carlos*/
 .log-ch-bx p label {
   left: 1px;
   top: 10px;
