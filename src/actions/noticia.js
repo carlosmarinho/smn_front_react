@@ -547,15 +547,18 @@ export const fetchNoticiasRecentes = async(city_id, limit='', sort=null) => {
 }
 
 
-export const fetchNoticiasFeatured = async(city_id, limit='', sort=null) => {
+export const fetchNoticiasFeatured = async(city_id, limit='', sort=null, bairro_id = null) => {
     if(!sort)
         sort = 'createdAt:desc';
     if(limit)
-        limit = `&_limit=${limit}`
+        limit = `&_limit=${limit}`;
 
+    let query = ``;
+    if(bairro_id != null)
+        query = `&bairros=${bairro_id}`;
 
     //const request = axios.get(`${process.env.REACT_APP_URL_API}noticias/?_sort=${sort}${limit}&cidade=${city_id}`, config);
-    const request = axios.get(`${process.env.REACT_APP_URL_API}noticias/?approved=true&featured=true&_sort=${sort}${limit}`);
+    const request = axios.get(`${process.env.REACT_APP_URL_API}noticias/?approved=true&featured=true${query}&_sort=${sort}${limit}`);
 
     return {
         type: FETCH_NOTICIAS_FEATURED,

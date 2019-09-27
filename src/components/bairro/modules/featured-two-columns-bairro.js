@@ -44,10 +44,7 @@ class FeaturedTwoColumns extends Component {
     generateEvent(array) {
         const truncate = _.truncate
         return array.map( (evento, ind) => {
-            if(evento === undefined){
-                return <div>Carregando!</div>;
-            }
-            else{
+            if(evento !== undefined){
                 return(
                     <div key={ind}>
                         <div className="home-list-pop" key={ind}>
@@ -74,11 +71,27 @@ class FeaturedTwoColumns extends Component {
     }
 
     render(){
-        const {subdomain} = this.props
+        const {subdomain} = this.props;
 
         let ar_object = [];
-        
         if(this.props.object && this.props.object.list){
+            console.log("object no two: ", this.props.object);
+            if( this.props.object.list.length === 0 ){
+                return(
+                    <section className={`com-padd com-padd-redu-bot ${this.getCustomclassName()} ${this.getBackgroundColor()}`}>
+                        <div className="container dir-hom-pre-tit">
+                            <div className="row">
+                                <div className="com-title">
+                                    <h2>Eventos do <span>Bairro {subdomain}</span></h2>
+                                    <p>Nenhum evento encontrado para este bairro!</p>
+                                </div>
+                                <div class="col col-12">
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                )
+            }
             ar_object = this.props.object.list;
 
             return(
@@ -90,11 +103,11 @@ class FeaturedTwoColumns extends Component {
                                 {/*<p>Explore some of the best tips from around the world from our partners and friends.</p>*/}
                             </div>
                             <div className="col-md-6">
-                                {this.generateEvent([ar_object[3], ar_object[2]])}
+                                {this.generateEvent([ar_object[0], ar_object[1]])}
                             </div>
 
                             <div className="col-md-6">
-                                {this.generateEvent([ar_object[1], ar_object[0]])}
+                                {this.generateEvent([ar_object[2], ar_object[3]])}
                             </div>
                             
                         </div>

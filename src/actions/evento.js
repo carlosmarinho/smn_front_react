@@ -239,9 +239,13 @@ export const fetchEventoBySlug = async (slug, view = false) => {
 }
 
 
-export const fetchEventos = async(id, limit=200) => {
+export const fetchEventos = async(id, limit=200, bairro_id) => {
 
-    const request = axios.get(`${process.env.REACT_APP_URL_API}eventos/?approved=true&_sort=_id:desc&_limit=${limit}`);
+    let query = '';
+    if(bairro_id != null)
+        query = `bairros=${bairro_id}`;
+
+    const request = axios.get(`${process.env.REACT_APP_URL_API}eventos/?approved=true&_sort=_id:desc&${query}&_limit=${limit}`);
 
     return {
         type: FETCH_EVENTOS,
