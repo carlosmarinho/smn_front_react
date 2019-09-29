@@ -2,6 +2,8 @@ import { ERROR_CREATE_USER,
     SUCCESS_CREATE_USER, 
     ERROR_EDIT_USER, 
     SUCCESS_EDIT_USER, 
+    SUCCESS_GUIA_NAO_EXISTE_MAIS,
+    ERROR_GUIA_NAO_EXISTE_MAIS,
     SUCCESS_CREATE_GUIA,  
     ERROR_CREATE_GUIA, 
     SUCCESS_EDIT_GUIA,  
@@ -21,12 +23,14 @@ import { ERROR_CREATE_USER,
 export default function(state = null, action) {
 
     let message = {success: {
+            guiaNaoExiste: null,
             user: null, 
             guia: null,
             evento: null,
             noticia: null,
         },
         error: {
+            guiaNaoExiste: null,
             user:null,
             guia: null,
             evento: null,
@@ -143,18 +147,31 @@ export default function(state = null, action) {
             message.success.noticia.msg = "Notícia cadastrada com sucesso!"
             return message;
         case ERROR_EDIT_NOTICIA:
-                message.success.user = null
-                
-                console.log("Retorno do payload no error create NOTICIA: ", action.payload)
-                message.error.noticia = action.payload;
-                return message;
+            message.success.user = null
+            
+            console.log("Retorno do payload no error create NOTICIA: ", action.payload)
+            message.error.noticia = action.payload;
+            return message;
         case SUCCESS_EDIT_NOTICIA:
-                message.error.user = null;
-                
-                console.log("Retorno do payload no succcesssss create guiiiaaaaa: ", action.payload)
-                message.success.noticia = action.payload;
-                message.success.noticia.msg = "Notícia editada com sucesso!"
-                return message;
+            message.error.user = null;
+            
+            console.log("Retorno do payload no succcesssss create guiiiaaaaa: ", action.payload)
+            message.success.noticia = action.payload;
+            message.success.noticia.msg = "Notícia editada com sucesso!"
+            return message;
+        case ERROR_GUIA_NAO_EXISTE_MAIS:
+            //message.success.user = null
+            console.log("error no guia nao existe: ", action.payload, ' -- ', message.error);
+            message.error.guiaNaoExiste = action.payload;
+            message.error.guiaNaoExiste.msg = "Houve um erro ao enviar a informação";
+            return message;
+        case SUCCESS_GUIA_NAO_EXISTE_MAIS:
+            //message.error.user = null;
+            
+            message.success.guiaNaoExiste = action.payload;
+            message.success.guiaNaoExiste.msg = "Informação enviada com sucesso! Agradecemos muito a sua ajuda."
+            return message;    
+            
         default: return state;
     }
 }

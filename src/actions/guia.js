@@ -3,7 +3,9 @@ import axios from 'axios';
 import { 
     FEATURED_GUIA,
     APPROVE_GUIA,
-    SUCCESS_CREATE_GUIA, 
+    SUCCESS_CREATE_GUIA,
+    SUCCESS_GUIA_NAO_EXISTE_MAIS,
+    ERROR_GUIA_NAO_EXISTE_MAIS, 
     REMOVE_IMAGE_GUIA, 
     ERROR_CREATE_GUIA, 
     SUCCESS_EDIT_GUIA, 
@@ -17,6 +19,37 @@ import {
     FETCH_GUIAS_USER 
 } from "./types";
 
+export const createGuiaNaoExisteMais = async (values ) => {
+
+    let request =await axios.post(`${process.env.REACT_APP_URL_API}guianaoexistemais`, values);
+
+    if(request.statusText == 'OK'){
+        const htmlToSend = `Faça <a href="${process.env.REACT_APP_URL_FRONTEND}login">login</a>
+            e veja o novo feedback dado pelo usuario sobre o guia que não existe: <br><br> ${JSON.stringify(values)}`;
+
+        const email = {
+            to: 'carluizfla@hotmail.com',
+            subject: `Feedback guia não existe mais`,
+            html: htmlToSend,
+        }
+
+        axios.post(`${process.env.REACT_APP_URL_API}email/`, email)
+
+        return(
+            {
+                type: SUCCESS_GUIA_NAO_EXISTE_MAIS,
+                payload: request
+            }
+        )
+    }
+
+    return(
+        {
+            type: ERROR_GUIA_NAO_EXISTE_MAIS,
+            payload: request
+        }
+    )
+}
 
 export const createGuia = async (guia) => {
 
