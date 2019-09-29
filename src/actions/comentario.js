@@ -553,7 +553,7 @@ const enviaEmail = async(type="guia") => {
 
         console.log("request do logando email: ", request);
         let config = { headers: { 'Authorization': `Bearer ${request.data.jwt}` } };
-        //axios.post(`${process.env.REACT_APP_URL_API}email/`, email, config)
+        axios.post(`${process.env.REACT_APP_URL_API}email/`, email, config)
     }
     catch( error ){
        

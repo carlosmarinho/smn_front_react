@@ -10,6 +10,7 @@ import FormComment from './form-comment';
 import Reviews from './reviews';
 import StreetView from './street-view';
 import { Link } from 'react-router-dom';
+import Modal from './modal';
 
 
 class ListingItem extends Component {
@@ -41,6 +42,16 @@ class ListingItem extends Component {
         }
     }
 
+    showModal(item) {
+        if(item.nao_existe_mais)
+            return <Modal 
+                        userLogged={this.state.userLogged} 
+                        title={`O guia '${item.titulo}' não existe mais!`} 
+                        guia={item} 
+                        naoExisteMais={true} 
+                    />
+    }
+
     render(){
         let item = {};
         if(this.props.guias && this.props.guias.guia){
@@ -53,7 +64,8 @@ class ListingItem extends Component {
             <div>
                 
                 <HeaderGuia guia={item} />
-
+                {this.showModal(item)}
+                
                 <section className="list-pg-bg">
                     <div className="container">
                         <div className="row">
