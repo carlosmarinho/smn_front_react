@@ -15,7 +15,6 @@ class Header extends Component {
     }
 
     getHeader(){
-        console.log("header: ", this.props)
         return(this.props.routes);
         //return <HeaderDestaqueBlog />
     }
@@ -29,7 +28,7 @@ class Header extends Component {
                     <div id="status">&nbsp;</div>
                 </div>
                 <section>
-                    <Menu />
+                    <Menu subdomain={this.props.subdomain} />
                 </section>
                 <section>
                     <MenuMobile /> 

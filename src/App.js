@@ -92,6 +92,15 @@ import (`./assets/styles/css/${city_or_neighbor}.css`);
 
 const createStoreWithMiddleware = applyMiddleware(promise)(createStore);
 
+let HeaderProps = (props) => {
+    return(
+        <Header
+            match={props.match}
+            subdomain={subdomain}
+        />
+    )
+}
+
 let HomeProps = (props) => {
     return(
         <Home
@@ -227,7 +236,7 @@ class App extends Component {
             <BrowserRouter onUpdate={() => window.scrollTo(0, 0)}>
                 <Route>
                     <div>
-                        <Header />
+                        <Header subdomain={subdomain} />
                             <Switch>
                                 <Redirect from="/home.html" to="/" state={ { status: 301 } } />
                                 <Redirect from="/guia_comercial/:slug/" to="/guia/:slug/" state={ { status: 301 } } />
@@ -274,6 +283,11 @@ class App extends Component {
                                 <Route exact path="/cidade/bairros-de-niteroi" component={BairrosGrid} />
                                 <Route exact path="/cidade/:slug" component={PageItem} />
                                 <Route exact path="/cidade/:slug/page/:page" component={PageItem} />
+
+                                <Route exact path={`/bairro/fotos-bairro-${subdomain}`} component={PageItem} />
+                                <Route exact path={`/bairro/historia-do-bairro-${subdomain}`} component={PageItem} />
+                                <Route exact path={`/bairro/populacao-do-bairro-${subdomain}`} component={PageItem} />
+                                <Route exact path={`/bairro/ocupacao-do-bairro-${subdomain}`} component={PageItem} />
                                 
                                 <Route exact path="/guia" component={ListingList} />
                                 <Route exact path="/guia/page/:page" component={ListingList} />

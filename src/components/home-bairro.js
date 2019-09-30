@@ -41,7 +41,6 @@ class Home extends Component {
     }
     
     render(){
-        console.log("subdomainnnn: ", this.props.eventos)
         if(!this.props.guiasFeatured || !this.props.eventos || !this.props.noticias){
             return(<div>
                 <HeaderHomeBairro subdomain={this.props.subdomain} background="" />

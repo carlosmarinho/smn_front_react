@@ -14,7 +14,6 @@ class Menu extends Component {
 
     componentDidMount() {
         let user = localStorage.getItem('user');
-        //console.log("usuario no menuuuuu: ", this.propsuser);
         if(user){
             this.setState({userLogged: JSON.parse(user).user})
         }
@@ -23,7 +22,6 @@ class Menu extends Component {
 
     loggout(e){
         //e.preventDefault();
-        console.log("\n\n removendo o storage no loggout \n\n")
         this.setState({userLogged: null});
         localStorage.removeItem('user');
         //return "/"
@@ -68,8 +66,66 @@ class Menu extends Component {
         )
     }
 
+    showBairrosMenu(){
+        const {subdomain} = this.props;
+        if(! subdomain) {
+            return(
+                <ul id='drop-menu-cidade' className='dropdown-content'>
+                    <li><Link to="/cidade/bairros-de-niteroi">Bairros</Link></li>
+                    <li className="divider"></li>
+                    <li><Link to="/cidade/fotos-cidade-niteroi">Fotos da Cidade</Link></li>
+                    <li className="divider"></li>
+                    <li><Link to="/cidade/historia-da-cidade-de-niteroi">História da Cidade</Link></li>
+                    <li className="divider"></li>
+                    <li><Link to="/cidade/populacao-da-cidade-de-niteroi">População da Cidade</Link></li>
+                </ul>
+            )
+        }
+        else{
+            return(
+                <ul id='drop-menu-cidade' className='dropdown-content'>
+                    <li><Link to={`/bairro/fotos-bairro-${subdomain}`}>Fotos do Bairro</Link></li>
+                    <li className="divider"></li>
+                    <li><Link to={`/bairro/historia-do-bairro/${subdomain}`}>História do Bairro</Link></li>
+                    <li className="divider"></li>
+                    <li><Link to={`/bairro/populacao-do-bairro/${subdomain}`}>População do Bairro</Link></li>
+                    <li className="divider"></li>
+                    <li><Link to={`/bairro/ocupacao-do-bairro/${subdomain}`}>Ocupação do Bairro</Link></li>
+                </ul>
+            )
+        }
+    }
+
+    showMenuNoticias(){
+        if(!this.props.subdomain){
+            return(
+                <ul id='drop-menu-noticias' className='dropdown-content'>
+                    <li><Link className='dropdown-button' to="/noticias/categoria/cidade-de-niteroi">Notícias da Cidade de Niterói</Link></li>
+                    <li><Link className='dropdown-button' to="/noticias/categoria/estado-do-rio-de-janeiro">Notícias do Estado do Rio de Janeiro</Link></li>
+                    <li><Link className='dropdown-button' to="/noticias/categoria/esportes">Notícias de Esportes</Link></li>
+                    <li><Link className='dropdown-button' to="/noticias/categoria/cultura">Cultura</Link></li>
+                    <li><Link className='dropdown-button' to="/noticias/categoria/economia">Notícias sobre Econômia</Link></li>
+                    <li><Link className='dropdown-button' to="/noticias/categoria/educacao">Notícias sobre Educação</Link></li>
+                    <li><Link className='dropdown-button' to="/noticias/categoria/entretenimento">Notícias de Entretenimento</Link></li>
+                    <li><Link className='dropdown-button' to="/noticias/categoria/gastronomia">Notícias de Gastrônomia</Link></li>
+                </ul>
+            )
+        }
+        else{
+            return(
+                <ul id='drop-menu-noticias' className='dropdown-content'>
+                    <li><Link className='dropdown-button' to="/noticias">Notícias do Bairro</Link></li>
+                    <li><a className='dropdown-button' target="_blank" href="http://soumaisniteroi.com.br/noticias/categoria/cidade-de-niteroi">Notícias da Cidade de Niterói</a></li>
+                    <li><a className='dropdown-button' target="_blank" href="http://soumaisniteroi.com.br/noticias/categoria/estado-do-rio-de-janeiro">Notícias do Estado do Rio de Janeiro</a></li>
+                </ul>
+            )
+        }
+
+    }
+
     render(){
-        
+        const {subdomain} = this.props;
+
         if(this.state.userLogged == null && this.props.user && this.props.user.user){
             this.setState({userLogged: this.props.user}) 
         }
@@ -95,7 +151,7 @@ class Menu extends Component {
                                     </li>
                                     <li>
                                         {/*<a className='dropdown-button ed-sub-menu' href='/a-cidade' data-activates='drop-menu-cidade'>A Cidade</a>*/}
-                                        <Link className='dropdown-button ed-sub-menu' data-activates='drop-menu-cidade' to="/cidade">Cidade</Link>
+                                        <Link className='dropdown-button ed-sub-menu' data-activates='drop-menu-cidade' to="/cidade">{subdomain ? 'Bairro': 'Cidade'}</Link>
                                     </li>
                                     <li>
                                         <Link className='dropdown-button ed-sub-menu' data-activates='drop-menu-guia' to="/guia">Guia</Link>
@@ -116,37 +172,22 @@ class Menu extends Component {
                             {this.userBar()}
                         </div>
                         <div className="all-drop-down-menu">
-                            <ul id='drop-menu-cidade' className='dropdown-content'>
-                                <li><Link to="/cidade/bairros-de-niteroi">Bairros</Link></li>
-                                <li className="divider"></li>
-                                <li><Link to="/cidade/fotos-cidade-niteroi">Fotos da Cidade</Link></li>
-                                <li className="divider"></li>
-                                <li><Link to="/cidade/historia-da-cidade-de-niteroi">História da Cidade</Link></li>
-                                <li className="divider"></li>
-                                <li><Link to="/cidade/populacao-da-cidade-de-niteroi">População da Cidade</Link></li>
-                            </ul>
+                            {this.showBairrosMenu()}
+
+
                             <ul id='drop-menu-guia' className='dropdown-content'>
                                 <li><Link className='dropdown-button' to="/guia/comercial">Guia Comercial</Link></li>
                                 <li><Link className='dropdown-button' to="/guia/servicos">Guia Servicos</Link></li>
                             </ul>
-                            <ul id='drop-menu-noticias' className='dropdown-content'>
-                                <li><Link className='dropdown-button' to="/noticias/categoria/cidade-de-niteroi">Notícias da Cidade de Niterói</Link></li>
-                                <li><Link className='dropdown-button' to="/noticias/categoria/estado-do-rio-de-janeiro">Notícias do Estado do Rio de Janeiro</Link></li>
-                                <li><Link className='dropdown-button' to="/noticias/categoria/esportes">Notícias de Esportes</Link></li>
-                                <li><Link className='dropdown-button' to="/noticias/categoria/cultura">Cultura</Link></li>
-                                <li><Link className='dropdown-button' to="/noticias/categoria/economia">Notícias sobre Econômia</Link></li>
-                                <li><Link className='dropdown-button' to="/noticias/categoria/educacao">Notícias sobre Educação</Link></li>
-                                <li><Link className='dropdown-button' to="/noticias/categoria/entretenimento">Notícias de Entretenimento</Link></li>
-                                <li><Link className='dropdown-button' to="/noticias/categoria/gastronomia">Notícias de Gastrônomia</Link></li>
-                            </ul>
-                            <ul id='email-temp' className='dropdown-content'>
+                            {this.showMenuNoticias()}
+                            {/*<ul id='email-temp' className='dropdown-content'>
                                 <li><a href="email-template-register.html" target="_blank">Register</a> </li>
                                 <li><a href="email-template-invoice.html" target="_blank">Invoice</a> </li>
                                 <li><a href="email-listing-submited.html" target="_blank">Listing Submit</a> </li>
                                 <li><a href="email-subscribe.html" target="_blank">Subscripe</a> </li>
                                 <li><a href="email-template-email-verification.html" target="_blank">Email Verification</a> </li>
                                 <li><a href="email-template-forgot-pass.html" target="_blank">Forgot Password</a> </li>
-                            </ul>
+                            </ul>*/}
                             {/*<!-- Dropdown Structure -->*/}
                             <ul id='top-menu' className='dropdown-content top-menu-sty'>
                                 {/*<li><a href="admin-setting.html" className="waves-effect"><i className="fa fa-cogs"></i>Admin Setting</a> </li>

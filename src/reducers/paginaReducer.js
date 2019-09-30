@@ -10,6 +10,7 @@ export default function(state = null, action) {
                     pagina.list = state.list;
             }
             
+            console.log('pagina reducer: ', action.payload );
             
             pagina.pagina = action.payload.data[0];
             return pagina;
