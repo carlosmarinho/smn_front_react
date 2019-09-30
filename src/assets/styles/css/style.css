@@ -7479,6 +7479,16 @@ h5 a.menu-close {
   .share-btn ul li a span {
     display: none; } }
 
+@media screen and (min-width: 767px) {
+  .hidden-desktop {
+    display: none; } }
+
+@media screen and (max-width: 767px) {
+  .hidden-mobile {
+    display: none; }
+  .position-mobile-relative {
+    position: relative !important; } }
+
 @media screen and (max-width: 727px) {
   .share-btn ul li a {
     margin-right: 1px;

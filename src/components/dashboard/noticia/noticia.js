@@ -141,7 +141,8 @@ class DashboardNoticia extends Component{
                 return(
                     <li key={noticia._id} className="view-msg" style={ noticia.approved ? {} : { backgroundColor: '#ffe6e6'}}>
                         {this.noticiaFeatured(noticia)}
-                        <h5><img src={this.getImageSrc(noticia)} alt="" />{noticia.titulo} {this.noticiaApproved(noticia)}</h5>
+                        <h5><img src={this.getImageSrc(noticia)} alt="" />{noticia.titulo} </h5>
+                        {this.noticiaApproved(noticia)}
                         <p>{truncate(noticia.descricao.replace(/&#13;/g,'').replace(/<\/?[^>]+(>|$)/g, ""), { length: 200, separator: /,?\.* +/ })}</p>
                         <div className="hid-msg">
                             <Link to={'/dashboard/noticias/edit/' + noticia._id}  ><i className="fa fa-pencil" title="Editar"></i></Link> 
