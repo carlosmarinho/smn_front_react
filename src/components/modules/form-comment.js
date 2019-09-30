@@ -60,7 +60,7 @@ class FormComment extends Component {
 	}
 
     handleSubmit(values) {
-        console.log("values no create comentario: ", values);4
+        console.log("values no create comentario: ", values);
          
         const { resource } = this.props;
         values.classificacao = values.rating;

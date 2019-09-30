@@ -97,38 +97,6 @@ class DashboardGuia extends Component{
         this.props.featureUnfeatureGuia(id, featured);
     }
 
-    showFeaturedGuia(guia){
-        if(this.state.userLogged && this.state.userLogged.role.name == 'Administrator'){
-            if(guia.featured){
-                return (
-                    <a href="javascript: void(0)">
-                        <Confirm
-                            onConfirm={() => this.featureUnfeatureGuia(guia._id, false)}
-                            body={`Tem certeza que deseja retirar o destaque do guia '${guia.titulo}'?`}
-                            confirmText="Confirmar Retirar Destaque"
-                            title="Retirar Destaque de Guia">
-                            <i className="fa fa-star-o" title="Retirar Destaque"></i>
-                        </Confirm>
-                    </a>
-                )
-            }
-            else{
-                return (
-                    <a href="javascript: void(0)">
-                        <Confirm
-                            onConfirm={() => this.featureUnfeatureGuia(guia._id, true)}
-                            body={`Tem certeza que deseja destacar o guia '${guia.titulo}'?`}
-                            confirmText="Confirmar Destacar"
-                            title="Destacar Guia">
-                            <i className="fa fa-star" title="Destacar"></i>
-                        </Confirm>
-                    </a>
-                )
-            }
-        }
-    }
-
-
     showGuias(){
         if(this.props.guias && this.props.guias.fromUser){
             return this.props.guias.fromUser.map( guia => {
@@ -157,7 +125,7 @@ class DashboardGuia extends Component{
                                 </Confirm>
                             </a>
                             {this.showApprove(guia)}
-                            {this.showFeaturedGuia(guia)}
+                            {this.showFeatured(guia)}
                         </td>
                     </tr>
                 )
@@ -189,7 +157,101 @@ class DashboardGuia extends Component{
         return "http://images.soumaisniteroi.com.br/wp-content/uploads/2015/04/no-image.png";
     }
 
-    
+    showGuiasMobile(){
+        return (
+            <div className="db-list-com tz-db-table hidden-desktop">
+                <div className="ds-boar-title">
+                    <h2>Guias</h2>
+                    <p>Listagem de suas guias</p>
+                </div>
+                <div className="tz-mess">
+                    <ul>
+                        {this.showGuiaMobile()}
+                    </ul>
+                </div>                            
+            </div>
+        )
+    }
+
+    showGuiaMobile(){
+        let truncate = _.truncate;
+
+        if(this.props.guias && this.props.guias.fromUser){
+            return this.props.guias.fromUser.map( guia => {
+                
+                return(
+                    <li key={guia._id} className="view-msg" style={ guia.approved ? {} : { backgroundColor: '#ffe6e6'}}>
+                        {this.guiaFeatured(guia)}
+                        <h5><img src={this.getImageSrc(guia)} alt="" />{guia.titulo} </h5>
+                        {this.guiaApproved(guia)}
+                        <p>{truncate(guia.descricao.replace(/&#13;/g,'').replace(/<\/?[^>]+(>|$)/g, ""), { length: 200, separator: /,?\.* +/ })}</p>
+                        <div className="hid-msg">
+                            <Link to={'/dashboard/guias/edit/' + guia._id}  ><i className="fa fa-pencil" title="Editar"></i></Link> 
+                            <Link to={'/dashboard/guias/view/' + guia.slug} target="_blank" ><i className="fa fa-eye" title="Visualizar"></i></Link>
+                            <a href="javascript: void(0)"><Confirm
+                                onConfirm={() => this.deleteGuia(guia._id)}
+                                body={`Tem certeza que deseja excluir a guia '${guia.titulo}'?`}
+                                confirmText="Confirmar Exclusão"
+                                title="Exclusão de Guia">
+                                <i className="fa fa-trash" title="delete"></i>
+                            </Confirm></a>
+                            {this.showApprove(guia)}
+                            {this.showFeatured(guia)}
+                        </div>
+                    </li>
+                )
+                
+            })
+        }
+    }
+
+    guiaFeatured(guia){
+        if(guia.featured)
+            return <span className="tz-msg-un-read " style={{marginTop: '-25px', position: 'relative', float: 'right'}}>Destacada</span>
+    }
+
+    guiaApproved(guia){
+        switch(guia.approved){
+            case true:
+                return <span className="tz-msg-un-read position-mobile-relative">Aprovado</span>
+            case false:
+                return <span className="tz-msg-reproved position-mobile-relative">Reprovado</span>
+            default:
+                return <span className="tz-msg-waiting position-mobile-relative">Aguardando Aprovação</span>
+        }
+    }
+
+    showFeatured(guia){
+        if(this.state.userLogged && this.state.userLogged.role.name == 'Administrator'){
+            if(guia.featured){
+                return (
+                    <a href="javascript: void(0)">
+                        <Confirm
+                            onConfirm={() => this.featureUnfeatureGuia(guia._id, false)}
+                            body={`Tem certeza que deseja retirar o destaque da guia '${guia.titulo}'?`}
+                            confirmText="Confirmar Retirar Destaque"
+                            title="Retirar Destaque de Guia">
+                            <i className="fa fa-star-o" title="Retirar Destaque"></i>
+                        </Confirm>
+                    </a>
+                )
+            }
+            else{
+                return (
+                    <a href="javascript: void(0)">
+                        <Confirm
+                            onConfirm={() => this.featureUnfeatureGuia(guia._id, true)}
+                            body={`Tem certeza que deseja destacar a guia '${guia.titulo}'?`}
+                            confirmText="Confirmar Destacar"
+                            title="Destacar Guia">
+                            <i className="fa fa-star" title="Destacar"></i>
+                        </Confirm>
+                    </a>
+                )
+            }
+        }
+    }
+
 
     render(){
         if(this.state.userLogged === false){
@@ -215,7 +277,9 @@ class DashboardGuia extends Component{
                         <div className="tz-2-com tz-2-main">
                             <h4>Gerenciamento de Guias</h4>
                             
-                            <div className="db-list-com tz-db-table">
+                            {this.showGuiasMobile()}
+
+                            <div className="db-list-com tz-db-table hidden-mobile">
                                 <div className="ds-boar-title">
                                     <h2>Guias Comerciais/Serviços</h2>
                                     <p>Listagem de seus guias comercias/serviços</p>

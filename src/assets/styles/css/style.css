@@ -7030,6 +7030,15 @@ footer ul li a:hover {
 .modal-open {
   overflow: inherit !important; }
 
+/*added by carlos to adjust the modal*/
+.modal-body {
+  max-height: calc(100vh - 150px);
+  overflow-y: auto; }
+
+.modal-header .close {
+  margin-top: -20px !important; }
+
+/*end added modal by carlos*/
 .log-ch-bx p label {
   left: 1px;
   top: 10px;
@@ -7469,6 +7478,16 @@ h5 a.menu-close {
     font-size: 9px; }
   .share-btn ul li a span {
     display: none; } }
+
+@media screen and (min-width: 767px) {
+  .hidden-desktop {
+    display: none; } }
+
+@media screen and (max-width: 767px) {
+  .hidden-mobile {
+    display: none; }
+  .position-mobile-relative {
+    position: relative !important; } }
 
 @media screen and (max-width: 727px) {
   .share-btn ul li a {
