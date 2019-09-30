@@ -8,10 +8,20 @@ class MenuMobile extends Component {
 
         this.state = {
             visibility: true,
+            userLogged: null
         }
 
         this.openMenu = this.openMenu.bind(this);
         this.closeMenu = this.closeMenu.bind(this);
+    }
+
+    componentDidMount() {
+        let user = localStorage.getItem('user');
+        if(user){
+            this.setState({userLogged: JSON.parse(user).user})
+            console.log("aaaa usuario no menuuuuu: ", JSON.parse(user).user , " --- ", this.state.userLogged);
+        }
+        
     }
 
     /*@todo retirar os efeitos jquery*/
@@ -23,12 +33,41 @@ class MenuMobile extends Component {
         this.setState({visibility: true})
     }
 
+    showDashboard(){
+        if(this.state.userLogged){
+            return(
+                <div>
+                    <h5><Link className="menu-close" to="/dashboard">Dashboard</Link></h5>
+                    <ul className="mob-menu-icon">
+                        <li><Link className="menu-close" to="/dashboard/guias"><i className="fa fa-angle-right" aria-hidden="true"></i>Meus Guias</Link></li>
+                        <li><Link className="menu-close" to="/dashboard/eventos"><i className="fa fa-angle-right" aria-hidden="true"></i>Meus Eventos</Link></li>
+                        <li><Link className="menu-close" to="/dashboard/noticias"><i className="fa fa-angle-right" aria-hidden="true"></i>Minhas Notícias</Link></li>
+                        <li><Link className="menu-close" to="/dashboard/comentarios"><i className="fa fa-angle-right" aria-hidden="true"></i>Meus comentários</Link></li>
+                        <li><Link className="menu-close" to="/dashboard/profile"><i className="fa fa-angle-right" aria-hidden="true"></i>Meus Dados</Link></li>
+                        <li><Link className="menu-close" to="/" onClick={(e) => this.loggout(e)}><i className="fa fa-angle-right" aria-hidden="true"></i>Sair</Link></li>
+                    </ul>
+                </div>
+            )
+        }
+        else{
+            return(
+                <div>
+                    <h5><Link className="menu-close" to="/login">Login</Link></h5>
+                    <h5><Link className="menu-close" to="/login">Cadastro</Link></h5>
+                </div>
+            )
+        }
+
+    }
+
     menu(){
         if(this.state.visibility)
         {
             return(
                 <div className="mob-right-nav" id="mobile-menu" data-wow-duration="0.5s">
+
                     <div className="mob-right-nav-close"><i className="fa fa-times" aria-hidden="true"></i> </div>
+                    {this.showDashboard()}
                     <h5><Link className="menu-close" to="/cidade">Cidade</Link></h5>
                     <ul className="mob-menu-icon">
                         <li><Link className="menu-close" to="/cidade/bairros-de-niteroi"><i className="fa fa-angle-right" aria-hidden="true"></i>Bairros</Link></li>
@@ -50,6 +89,27 @@ class MenuMobile extends Component {
         
     }
 
+
+    showMenuLogado(){
+        if(this.state.userLogged){
+            return(
+                <div>
+                    <li><Link className="v3-menu-sign" to="/dashboard"><i className="fa fa-sign-in"></i> Dashboard</Link> </li>
+                    <li><Link className="v3-add-bus" to="/dashboard/guias/novo"><i className="fa fa-plus" aria-hidden="true"></i> Cadastrar Guia</Link> </li>
+                </div>
+            )
+        }
+        else{
+            return(
+                <div>
+
+                    <li><Link className="v3-menu-sign" to="/login"><i className="fa fa-sign-in"></i> Login</Link> </li>
+                    <li><Link className="v3-add-bus" to="/cadastro"><i className="fa fa-plus" aria-hidden="true"></i> Cadastrar-me</Link> </li>
+                </div>
+            )
+        }
+    }
+
     render(){
         
         return(
@@ -64,8 +124,8 @@ class MenuMobile extends Component {
                                 <div className="v3-mob-m-2">
                                     <div className="v3-top-ri">
                                         <ul>
-                                            <li><a href="login.html" className="v3-menu-sign"><i className="fa fa-sign-in"></i> Login</a> </li>
-                                            <li><a href="price.html" className="v3-add-bus"><i className="fa fa-plus" aria-hidden="true"></i> Cadastrar Guia</a> </li>
+                                            <li><Link className="v3-menu-sign" to={this.state.userLogged?'/dashboard':'login'}><i className="fa fa-sign-in"></i> {this.state.userLogged?'Minha Conta':'Login'}</Link> </li>
+                                            <li><Link className="v3-add-bus" to={this.state.userLogged?'/dashboard/guias/novo':'/cadastro'}><i className="fa fa-plus" aria-hidden="true"></i> {this.state.userLogged?'Cadastrar Guia':'Cadastrar'}</Link> </li>
                                             <li><a href="#menu" className="ts-menu-5" id="v3-mob-menu-btn" /*onClick={@todo take away jquery this.openMenu}*/><i className="fa fa-bars" aria-hidden="true"></i>Menu</a> </li>
                                         </ul>
                                     </div>

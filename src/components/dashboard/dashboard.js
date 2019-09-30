@@ -381,9 +381,9 @@ class Dashboard extends Component{
             case true:
                 return <span className="tz-msg-un-read">Aprovado</span>
             case false:
-                return <span className="tz-msg-reproved">Reprovado</span>
+                return <span className="tz-msg-reproved ">Reprovado</span>
             default:
-                return <span className="tz-msg-waiting">Aguardando Aprovação</span>
+                return <span className="tz-msg-waiting position-mobile-relative">Aguardando Aprovação</span>
         }
     }
 
@@ -474,23 +474,23 @@ class Dashboard extends Component{
                         <div className="tz-2-com tz-2-main">
                             <h4>Minha Dashboard</h4>
                             <div className="tz-2-main-com">
-                                <div className="tz-2-main-1">
+                                <div className="tz-2-main-1 hidden-mobile">
                                     <div className="tz-2-main-2"> <img src="images/map-marker.png" style={{width:'90px'}} alt="" /><span>Guias</span>
                                         <p>Total de guias cadastrados</p>
                                         <h2>{totalGuias}</h2> </div>
                                 </div>
-                                <div className="tz-2-main-1">
+                                <div className="tz-2-main-1 hidden-mobile">
                                     <div className="tz-2-main-2"> <img src="images/event.png" style={{width:'90px'}} alt="" /><span>Eventos</span>
                                         <p>Total de eventos cadastrados</p>
                                         <h2>{totalEventos}</h2> </div>
                                 </div>
-                                <div className="tz-2-main-1">
+                                <div className="tz-2-main-1 hidden-mobile">
                                     <div className="tz-2-main-2"> <img src="images/icon/d1.png" alt="" /><span>Notícias</span>
                                         <p>Total de notícias cadastradas</p>
                                         <h2>{totalNoticias}</h2> </div>
                                 </div>
                             </div>
-                            <div className="db-list-com tz-db-table">
+                            <div className="db-list-com tz-db-table hidden-mobile">
                                 <div className="ds-boar-title">
                                     <h2>Guias Comerciais/Serviços</h2>
                                     <p>Listagem de seus guias comercias/serviços</p>
@@ -511,7 +511,7 @@ class Dashboard extends Component{
                                     </tbody>
                                 </table>                            
                             </div>
-                            <div className="db-list-com tz-db-table">
+                            <div className="db-list-com tz-db-table hidden-mobile">
                                 <div className="ds-boar-title">
                                     <h2>Eventos</h2>
                                     <p>Listagem de seus eventos</p>
