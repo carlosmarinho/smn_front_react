@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
+import _ from "lodash";
 
 class FeaturedListingThreeColumns extends Component {
 
@@ -97,7 +98,7 @@ class FeaturedListingThreeColumns extends Component {
             <section className={`com-pad ${this.getCustomClass()} ${this.getBackgroundColor()}`}>
                 <div className="container dir-hom-pre-tit">
                     <div className="com-title">
-                        <h2>Guia do bairro {subdomain}</h2>
+                        <h2>Guia do bairro {_.startCase(subdomain)}</h2>
                         <p>Lojas, serviços ou empresas que se destacam em seu ramo no bairro {subdomain}.</p>
                     </div>
                     <div className="row span-none">

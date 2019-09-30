@@ -1,3 +1,4 @@
+import _ from 'lodash';
 import React, { Component } from 'react';
 import Helmet from 'react-helmet';
 import { Field, Input, reduxForm } from 'redux-form';
@@ -57,7 +58,7 @@ class HeaderDestaqueHome extends Component {
                 return <Redirect to={`/busca/bairro/${this.state.bairro}/keyword/${this.state.keyword}`} />
         }
         const {subdomain} = this.props
-        let title = `Site do bairro de ${subdomain} `;
+        let title = `Site do bairro ${_.startCase(subdomain)} `;
         if(this.props.title)
             title = this.props.title + " | " + title;
 
@@ -76,7 +77,7 @@ class HeaderDestaqueHome extends Component {
                         <div className="row">
                             <div className="dir-hr1">
                                 <div className="dir-ho-t-tit dir-ho-t-tit-2">
-                                    <h1>O melhor do bairro {subdomain}!</h1> 
+                                    <h1>O melhor do bairro {_.startCase(subdomain)}!</h1>
                                 </div>
                                     <form className="tourz-search-form" onSubmit={handleSubmit(this.onSubmit.bind(this))} >
                                         

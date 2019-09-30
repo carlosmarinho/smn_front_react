@@ -82,7 +82,7 @@ class FeaturedTwoColumns extends Component {
                         <div className="container dir-hom-pre-tit">
                             <div className="row">
                                 <div className="com-title">
-                                    <h2>Eventos do <span>Bairro {subdomain}</span></h2>
+                                    <h2>Eventos do <span>Bairro {_.startCase(subdomain)}</span></h2>
                                     <p>Nenhum evento encontrado para este bairro!</p>
                                 </div>
                                 <div class="col col-12">
@@ -99,7 +99,7 @@ class FeaturedTwoColumns extends Component {
                     <div className="container dir-hom-pre-tit">
                         <div className="row">
                             <div className="com-title">
-                                <h2>Eventos do <span>Bairro {subdomain}</span></h2>
+                                <h2>Eventos do <span>Bairro {_.startCase(subdomain)}</span></h2>
                                 {/*<p>Explore some of the best tips from around the world from our partners and friends.</p>*/}
                             </div>
                             <div className="col-md-6">

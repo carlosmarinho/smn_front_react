@@ -73,7 +73,7 @@ class FeaturedNews extends Component {
                         <div className="container">
                             <div className="row">
                                 <div className="com-title">
-                                    <h2>Últimas notícias do <span>Bairro {subdomain}</span></h2>
+                                    <h2>Últimas notícias do <span>Bairro {_.startCase(subdomain)}</span></h2>
                                     <p>Nenhuma notícia enviada para este bairro!</p>
                                 </div>
                             </div>
@@ -93,7 +93,7 @@ class FeaturedNews extends Component {
                     <div className="container">
                         <div className="row">
                             <div className="com-title">
-                                <h2>Últimas notícias do <span>Bairro {subdomain}</span></h2>
+                                <h2>Últimas notícias do <span>Bairro {_.startCase(subdomain)}</span></h2>
                                 {/*<p>Explore some of the best business from around the world from our partners and friends.</p>*/}
                             </div>
                             <div className="col-md-6">
