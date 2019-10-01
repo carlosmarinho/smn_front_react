@@ -26,6 +26,10 @@ class Footer extends Component {
         
     }
 
+    getPreposicao(){
+        //this.props.bairros.bairro.preposicao
+    }
+
     render(){
         const {subdomain} = this.props;
 
@@ -47,7 +51,7 @@ class Footer extends Component {
                                                 <div className="row">
                                                     {/*<div className="col-sm-4 col-md-3 foot-logo"> <img src="/images/logo-soumaisniteroi-transp-footer.png" alt="logo rodapé" />*/}
                                                     <div className="col-sm-4 col-md-3 foot-logo"> <img src="http://images.soumaisniteroi.com.br/wp-content/uploads/2015/08/logo-soumaisniteroi-transp-footer.png" alt="logo rodapé" />
-                                                        <p className="hasimg">Somos o maior portal {subdomain && this.props.bairros.bairro ? `do bairro ${this.props.bairros.bairro.preposicao} ${_.startCase(subdomain)}` :'da cidade de Niterói'}!</p>
+                                                        <p className="hasimg">Somos o maior portal {subdomain && this.props.bairros.bairro ? `do bairro ${this.getPreposicao()} ${_.startCase(subdomain)}` :'da cidade de Niterói'}!</p>
                                                         <p className="hasimg">Aqui você fica por dentro de tudo que acontece {subdomain ? 'no seu bairro' : 'na sua cidade'}. Notícias, eventos, guias e muito Mais! </p>
                                                         <p> <span className=""><i className="fa fa-phone" aria-hidden="true"></i> </span> <span className="footer-contact"> (21) 99172-0833</span> </p>
                                                         <p> <span className=""><i className="fa fa-envelope" aria-hidden="true"></i> </span> <span className="footer-contact">{subdomain?subdomain:'contato'}@soumaisniteroi.com.br</span> </p>
@@ -58,7 +62,7 @@ class Footer extends Component {
                                                     <div className="col-sm-4 col-md-3">
                                                         <h4>Facebook</h4>
                                                         <div className="fb-page" data-href={subdomain? this.props.bairros.bairro.facebook : 'https://www.facebook.com/soumaisniteroi'} data-tabs="timeline" data-width="300" data-height="220" data-small-header="true" data-adapt-container-width="true" data-hide-cover="false" data-show-facepile="false">
-                                                            <blockquote cite={subdomain? this.props.bairros.bairro.facebook : 'https://www.facebook.com/soumaisniteroi'} className="fb-xfbml-parse-ignore"><a href={subdomain? this.props.bairros.bairro.facebook : 'https://www.facebook.com/soumaisniteroi'}>Bairro {this.props.bairros.bairro.preposicao} {_.startCase(subdomain)}</a></blockquote>
+                                                            <blockquote cite={subdomain? this.props.bairros.bairro.facebook : 'https://www.facebook.com/soumaisniteroi'} className="fb-xfbml-parse-ignore"><a href={subdomain? this.props.bairros.bairro.facebook : 'https://www.facebook.com/soumaisniteroi'}>Bairro {this.getPreposicao()} {_.startCase(subdomain)}</a></blockquote>
                                                         </div>
                                                     </div>
                                                 </div>
