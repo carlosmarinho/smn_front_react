@@ -14,11 +14,15 @@ class Footer extends Component {
 
     async componentDidMount() {
      
-        if(this.props.subdomain)
-            await this.props.fetchBairroBySlug(this.props.subdomain);
-
-        this.props.fetchGuiasRecentes('5ba26f813a018f42215a36a0', 7, '_id:desc', this.props.bairros.bairro._id);
-        this.props.fetchNoticiasRecentes('5ba26f813a018f42215a36a0', 5, '_id:desc', this.props.bairros.bairro._id);
+        let bairro_id = null;
+        if(this.props.bairros ) {
+            if(this.props.subdomain && ! this.props.bairros.bairro ){
+                await this.props.fetchBairroBySlug(this.props.subdomain);
+            }
+    
+            this.props.fetchGuiasRecentes('5ba26f813a018f42215a36a0', 7, '_id:desc', this.props.bairros.bairro._id);
+            this.props.fetchNoticiasRecentes('5ba26f813a018f42215a36a0', 5, '_id:desc', this.props.bairros.bairro._id);
+        }
         
     }
 

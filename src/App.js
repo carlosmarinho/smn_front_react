@@ -109,15 +109,23 @@ let HomeProps = (props) => {
     )
 }
 
-if(subdomain != ""){
-    HomeProps = (props) => {
-        return(
-            <HomeBairro
-                subdomain={subdomain}
-                match={props.match}
-            />
-        )
-    }
+HomeProps = (props) => {
+    return(
+        <HomeBairro
+            subdomain={subdomain}
+            props={props}
+        />
+    )
+}
+
+
+const CategoryOrItemProps = (props) => {
+    return (
+        <ListingList 
+            props={props}
+            subdomain={subdomain}
+        />
+    )
 }
 
 const NewsItemView = (props) => {
@@ -150,12 +158,23 @@ const EventItemView = (props) => {
     )
 }
 
+const ListingListProps = (props) => {
+    return (
+        <ListingList 
+            match={props.match}
+            location={props.location}
+            subdomain={subdomain}
+        />
+    )
+}
+
 const ListingListComercios = (props) => {
     return (
         <ListingList 
             type="guia comercial" 
             match={props.match}
             location={props.location}
+            subdomain={subdomain}
         />
     )
 }
@@ -166,34 +185,37 @@ const ListingListServicos = (props) => {
             type="guia de serviços" 
             match={props.match}
             location={props.location}
+            subdomain={subdomain}
         />
     )
 }
 
-const BlogListNews = (props) => { return (<BlogList 
-                                        title="Noticías da Cidade de Niterói e do Brasil" 
-                                        subtitle="Noticías atualizadas diariamente de tudo o que acontece em Niterói" 
-                                        item="noticias"
-                                        columnRight={true}
-                                        match={props.match}
-                                        location={props.location}
+const BlogListNews = (props) => { 
+    return (
+        <BlogList 
+                title="Noticías da Cidade de Niterói e do Brasil" 
+                subtitle="Noticías atualizadas diariamente de tudo o que acontece em Niterói" 
+                item="noticias"
+                columnRight={true}
+                match={props.match}
+                location={props.location}
+        />
+    )
+}
 
-                                    />
-                                    )
-                            }
-
-const BlogListCity = (props) => { return (<BlogList 
-                                title="A Cidade de Niterói"
-                                subtitle="Tudo da cidade de Niterói: História, fotos, população e outros!" 
-                                item="noticias"
-                                columnRight={false}
-                                category="Bairro"
-                                match={props.match}
-                                location={props.location}
-
-                            />
-                            )
-                    }            
+const BlogListCity = (props) => { 
+    return (
+        <BlogList 
+                title="A Cidade de Niterói"
+                subtitle="Tudo da cidade de Niterói: História, fotos, população e outros!" 
+                item="noticias"
+                columnRight={false}
+                category="Bairro"
+                match={props.match}
+                location={props.location}
+        />
+    )
+}            
 
 const BairrosGrid = (props) => {
     return(
@@ -223,6 +245,7 @@ const GridEvents = (props) => {
             columnLeft={true}
             match={props.match}
             location={props.location}
+            subdomain
          />
     )
 }                    
@@ -289,18 +312,18 @@ class App extends Component {
                                 <Route exact path={`/bairro/populacao-do-bairro-${subdomain}`} component={PageItem} />
                                 <Route exact path={`/bairro/ocupacao-do-bairro-${subdomain}`} component={PageItem} />
                                 
-                                <Route exact path="/guia" component={ListingList} />
-                                <Route exact path="/guia/page/:page" component={ListingList} />
+                                <Route exact path="/guia" component={ListingListProps} />
+                                <Route exact path="/guia/page/:page" component={ListingListProps} />
                                 <Route exact path="/guia/comercial/page/:page" component={ListingListComercios} />
                                 <Route exact path="/guia/servicos/page/:page" component={ListingListServicos} />
-                                <Route exact path="/guia/comercial/:slug" component={ListingList} />
-                                <Route exact path="/guia/comercial/:slug/page/:page" component={ListingList} />
-                                <Route exact path="/guia/servicos/:slug" component={ListingList} />
-                                <Route exact path="/guia/servicos/:slug/page/:page" component={ListingList} />
+                                <Route exact path="/guia/comercial/:slug" component={ListingListComercios} />
+                                <Route exact path="/guia/comercial/:slug/page/:page" component={ListingListComercios} />
+                                <Route exact path="/guia/servicos/:slug" component={ListingListServicos} />
+                                <Route exact path="/guia/servicos/:slug/page/:page" component={ListingListServicos} />
                                 <Route exact path="/guia/servicos/" component={ListingListServicos} />
                                 <Route exact path="/guia/comercial/" component={ListingListComercios} />
                                 <Route exact path="/guia/categoria/:slug" component={ListingList} />
-                                <Route exact path="/guia/:slug" component={CategoryOrItem} />
+                                <Route exact path="/guia/:slug" component={CategoryOrItemProps} />
 
                                 <Route exact path="/eventos" component={GridEvents} />
                                 <Route exact path="/eventos/categoria/:slug/page/:page" component={GridEvents} />

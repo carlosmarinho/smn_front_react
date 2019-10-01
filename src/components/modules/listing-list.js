@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import { HashLink } from 'react-router-hash-link';
 import HeaderListing from '../header-destaque-listing';
 import { fetchGuias, fetchGuiasByCategoryComercial, fetchGuiasByCategoryServico, fetchGuiasByCategoryBoth } from '../../actions/guia';
-import { fetchBairros } from '../../actions/bairro';
+import { fetchBairros, fetchBairroBySlug } from '../../actions/bairro';
 import { fetchCategoriesGuiaTop } from '../../actions/categoria';
 import Paginate from "../paginate";
 import slugify from 'slugify';
@@ -32,7 +32,7 @@ class ListingList extends Component {
         this.generateGuias = this.generateGuias.bind(this);
     }
 
-    componentDidMount() {
+    async componentDidMount() {
         console.log("did mount do listing")
         /* let search = '';
         if(this.props.type){
@@ -46,16 +46,23 @@ class ListingList extends Component {
             this.props.fetchGuias('5ba26f813a018f42215a36a0', search);
         }
  */
+        if(this.props.subdomain)
+            await this.props.fetchBairroBySlug(this.props.subdomain);
         this.props.fetchCategoriesGuiaTop();
         this.props.fetchBairros('5ba26f813a018f42215a36a0', 50, 'nome:asc');
+
+        console.log("props no listing list: ", this.props.bairros);
 
         //this.setState({data: this.props.guias.list, pageCount: Math.ceil(  this.props.guias.list.lenght / evento)});
     }
   
 
     componentWillReceiveProps(nextProps) {
-
+        let bairro_id = null
+        
         if(nextProps.match && nextProps.match.params.slug){
+            
+
             let search = '';
             if(nextProps.type){
                 search = `tipo=${nextProps.type}`
@@ -63,6 +70,8 @@ class ListingList extends Component {
             
             let slug = nextProps.match.params.slug
          
+            
+
             if(slug !== this.state.slug){
          
                 if(nextProps.location && nextProps.location.pathname.includes('comercial') ){
@@ -71,19 +80,19 @@ class ListingList extends Component {
                            type: 'guia comercial',
                            search: search,
                            slug: slug,
-                           guias: this.props.fetchGuiasByCategoryComercial(slug).then(()=>{
+                           guias: this.props.fetchGuiasByCategoryComercial(slug, bairro_id).then(()=>{
                                 this.setState({loading:false})
                             })
                         }
                     )
                 }
-                else if(nextProps.location && nextProps.location.pathname.includes('servicos') ){
+                else if(nextProps.location && nextProps.location.pathname.includes('servicos', bairro_id) ){
                     this.setState(
                         {
                            type: 'guia de serviços',
                            search: search,
                            slug: slug,
-                           guias: this.props.fetchGuiasByCategoryServico(slug).then(()=>{
+                           guias: this.props.fetchGuiasByCategoryServico(slug, bairro_id).then(()=>{
                                 this.setState({loading:false})
                             })
                         }
@@ -94,7 +103,7 @@ class ListingList extends Component {
                         {
                            search: search,
                            slug: slug,
-                           guias: this.props.fetchGuiasByCategoryBoth(slug).then(()=>{
+                           guias: this.props.fetchGuiasByCategoryBoth(slug, bairro_id).then(()=>{
                                 this.setState({loading:false})
                             })
                         }
@@ -104,6 +113,12 @@ class ListingList extends Component {
         }
         else{
             if(this.state.slug !== '/'){
+                if(nextProps.bairros && nextProps.bairros.bairro){
+                    bairro_id = nextProps.bairros.bairro._id;
+                }
+
+                console.log('nextPropsno listinglist: ', nextProps.bairros)
+
                 let search = '';
                 if(nextProps.type){
                     search = `tipo=${nextProps.type}`
@@ -113,7 +128,7 @@ class ListingList extends Component {
                     {
                         type: nextProps.type,
                         slug: '/',
-                        guias: this.props.fetchGuias('5ba26f813a018f42215a36a0', search).then(()=>{
+                        guias: this.props.fetchGuias('5ba26f813a018f42215a36a0', search, bairro_id).then(()=>{
                             this.setState({loading:false})
                         })
                     }
@@ -400,4 +415,4 @@ function mapStateToProps(state){
     }
 }
 
-export default connect(mapStateToProps, { fetchGuias, fetchGuiasByCategoryComercial, fetchGuiasByCategoryServico, fetchGuiasByCategoryBoth, fetchBairros, fetchCategoriesGuiaTop })(ListingList);
+export default connect(mapStateToProps, { fetchBairroBySlug, fetchGuias, fetchGuiasByCategoryComercial, fetchGuiasByCategoryServico, fetchGuiasByCategoryBoth, fetchBairros, fetchCategoriesGuiaTop })(ListingList);

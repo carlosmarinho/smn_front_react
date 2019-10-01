@@ -479,7 +479,7 @@ export const fetchGuiasRecentes = async(city_id, limit='', sort=null, bairro_id 
 
 }
 
-export const fetchGuiasByCategoryBoth = async(category='', limit='', sort=null) => {
+export const fetchGuiasByCategoryBoth = async(category = '', limit='', sort = null, bairro_id = null) => {
     if(!sort)
         sort = '_id:desc';
 
@@ -495,13 +495,13 @@ export const fetchGuiasByCategoryBoth = async(category='', limit='', sort=null) 
         req = await axios.get(`${process.env.REACT_APP_URL_API}categorias/?slug=guia/comercial/${category}`);
 
         if(req.data.length > 0){
-            categoria=`categorias=${req.data[0]._id}&`
+            categoria=`categorias=${req.data[0]._id}`
         }
 
         req = await axios.get(`${process.env.REACT_APP_URL_API}categorias/?slug=guia/servicos/${category}`);
     
         if(req.data.length > 0){
-            categoriaServico=`categorias=${req.data[0]._id}&`
+            categoriaServico=`categorias=${req.data[0]._id}`
         }
     }
 
@@ -509,9 +509,13 @@ export const fetchGuiasByCategoryBoth = async(category='', limit='', sort=null) 
 
     if(categoria !== '')
     {
-        let request = await axios.get(`${process.env.REACT_APP_URL_API}guias/?approved=true&nao_existe_mais=false&${categoria}_sort=${sort}${limit}`);
-        const request1 = await axios.get(`${process.env.REACT_APP_URL_API}guias/?approved=true&nao_existe_mais=false&${categoriaServico}&_sort=${sort}${limit}`);
-        console.log("O request: ", request);
+        let query = ``;
+        if(bairro_id != null)
+            query = `&bairros=${bairro_id}`;
+
+        let request = await axios.get(`${process.env.REACT_APP_URL_API}guias/?approved=true&nao_existe_mais=false&${categoria}${query}&_sort=${sort}${limit}`);
+        const request1 = await axios.get(`${process.env.REACT_APP_URL_API}guias/?approved=true&nao_existe_mais=false&${categoriaServico}${query}&_sort=${sort}${limit}`);
+        console.log("O request no fetchhhh botthhh: ", request);
         request.categoria = req.data[0];
         request.data = [...request.data, ...request1.data];
         return {
@@ -804,7 +808,11 @@ export const fetchGuiasBySearch = async(search='', limit='', sort=null) => {
     
 }
 
-export const fetchGuias = async(city_id, search='', limit='', sort=null) => {
+export const fetchGuias = async(city_id, search='', bairro_id = null, limit='', sort=null ) => {
+    let query = ``;
+    if(bairro_id != null)
+        query = `&bairros=${bairro_id}`;
+    
     if(!sort)
         sort = '_id:desc';
 
@@ -813,7 +821,7 @@ export const fetchGuias = async(city_id, search='', limit='', sort=null) => {
     else
         limit = `&_limit=500`;
   
-    const request = axios.get(`${process.env.REACT_APP_URL_API}guias/?${search}&approved=true&nao_existe_mais=false&_sort=${sort}${limit}&cidade=${city_id}`);
+    const request = axios.get(`${process.env.REACT_APP_URL_API}guias/?${search}&approved=true&nao_existe_mais=false&_sort=${sort}${limit}&cidade=${city_id}${query}`);
 
     return {
         type: FETCH_GUIAS,
