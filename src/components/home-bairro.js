@@ -28,9 +28,9 @@ class Home extends Component {
         await this.props.fetchBairroBySlug(this.props.subdomain);
 
         console.log("vai chamar o fetch guia", this.props.bairro);
-        this.props.fetchFeaturedGuias('5ba26f813a018f42215a36a0', this.props.bairro[0]._id);
-        this.props.fetchEventos('5ba26f813a018f42215a36a0', 4, this.props.bairro[0]._id);
-        this.props.fetchNoticiasFeatured('5ba26f813a018f42215a36a0', 5, '_id:desc', this.props.bairro[0]._id);
+        this.props.fetchFeaturedGuias('5ba26f813a018f42215a36a0', this.props.bairro.bairro._id);
+        this.props.fetchEventos('5ba26f813a018f42215a36a0', 4, this.props.bairro.bairro._id);
+        this.props.fetchNoticiasFeatured('5ba26f813a018f42215a36a0', 5, '_id:desc', this.props.bairro.bairro._id);
         
     }
 

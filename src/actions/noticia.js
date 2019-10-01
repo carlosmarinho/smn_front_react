@@ -529,7 +529,12 @@ export const fetchNoticiasByAdm = async(limit=100, sort=null) => {
     }
 }
 
-export const fetchNoticiasRecentes = async(city_id, limit='', sort=null) => {
+export const fetchNoticiasRecentes = async(city_id, limit='', sort=null, bairro_id = null) => {
+
+    let query = ``;
+    if(bairro_id != null)
+        query = `bairros=${bairro_id}`;
+
     if(!sort)
         sort = 'createdAt:desc';
     if(limit)
@@ -537,7 +542,7 @@ export const fetchNoticiasRecentes = async(city_id, limit='', sort=null) => {
 
    
     //const request = axios.get(`${process.env.REACT_APP_URL_API}noticias/?_sort=${sort}${limit}&cidade=${city_id}`, config);
-    const request = axios.get(`${process.env.REACT_APP_URL_API}noticias/?approved=true&_sort=${sort}${limit}`);
+    const request = axios.get(`${process.env.REACT_APP_URL_API}noticias/?approved=true&_sort=${sort}&${query}${limit}`);
 
     return {
         type: FETCH_NOTICIAS_RECENTES,

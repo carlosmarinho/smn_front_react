@@ -325,7 +325,7 @@ class App extends Component {
                                 <Route exact path="/:slug" component={NotFound} />
                                 {/*@todo <Route exact path="/fotos-da-cidade-de-niteroi" component={Photos} />*/}
                             </Switch>
-                        <Footer />
+                        <Footer subdomain={subdomain}/>
                     </div>
                 </Route>
             </BrowserRouter>
