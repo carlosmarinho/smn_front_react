@@ -1,22 +1,32 @@
+import _ from 'lodash';
 import React, { Component } from 'react';
 import {connect} from 'react-redux';
 
 import FooterWidget from './modules/footer-widget';
 
+
+import { fetchBairroBySlug } from '../actions/bairro';
 import { fetchGuiasRecentes } from '../actions/guia';
 import { fetchNoticiasRecentes } from '../actions/noticia';
 
 
 class Footer extends Component {
 
-    componentDidMount() {
+    async componentDidMount() {
      
-        this.props.fetchGuiasRecentes('5ba26f813a018f42215a36a0', 7, '_id:desc');
-        this.props.fetchNoticiasRecentes('5ba26f813a018f42215a36a0', 5, '_id:desc');
+        if(this.props.subdomain)
+            await this.props.fetchBairroBySlug(this.props.subdomain);
+
+        this.props.fetchGuiasRecentes('5ba26f813a018f42215a36a0', 7, '_id:desc', this.props.bairros.bairro._id);
+        this.props.fetchNoticiasRecentes('5ba26f813a018f42215a36a0', 5, '_id:desc', this.props.bairros.bairro._id);
         
     }
 
     render(){
+        const {subdomain} = this.props;
+
+        console.log("props no footer: ", this.props);
+
         if(! this.props.guias || !this.props.noticias)
             return null;
         else {
@@ -33,18 +43,18 @@ class Footer extends Component {
                                                 <div className="row">
                                                     {/*<div className="col-sm-4 col-md-3 foot-logo"> <img src="/images/logo-soumaisniteroi-transp-footer.png" alt="logo rodapé" />*/}
                                                     <div className="col-sm-4 col-md-3 foot-logo"> <img src="http://images.soumaisniteroi.com.br/wp-content/uploads/2015/08/logo-soumaisniteroi-transp-footer.png" alt="logo rodapé" />
-                                                        <p className="hasimg">Somos o maior portal da cidade de Niterói!</p>
-                                                        <p className="hasimg">Aqui você fica por dentro de tudo que acontece na sua cidade. Notícias, eventos, guias e muito Mais! </p>
+                                                        <p className="hasimg">Somos o maior portal {subdomain && this.props.bairros.bairro ? `do bairro ${this.props.bairros.bairro.preposicao} ${_.startCase(subdomain)}` :'da cidade de Niterói'}!</p>
+                                                        <p className="hasimg">Aqui você fica por dentro de tudo que acontece {subdomain ? 'no seu bairro' : 'na sua cidade'}. Notícias, eventos, guias e muito Mais! </p>
                                                         <p> <span className=""><i className="fa fa-phone" aria-hidden="true"></i> </span> <span className="footer-contact"> (21) 99172-0833</span> </p>
-                                                        <p> <span className=""><i className="fa fa-envelope" aria-hidden="true"></i> </span> <span className="footer-contact">contato@soumaisniteroi.com.br</span> </p>
+                                                        <p> <span className=""><i className="fa fa-envelope" aria-hidden="true"></i> </span> <span className="footer-contact">{subdomain?subdomain:'contato'}@soumaisniteroi.com.br</span> </p>
                                                     </div>
                                                     <FooterWidget title="Guias Recentes" object={this.props.guias.recentes} type="guia"/>
                                                     <FooterWidget title="Últimas Notícias" object={this.props.noticias.recentes} type="noticias"/>
                                                     
                                                     <div className="col-sm-4 col-md-3">
                                                         <h4>Facebook</h4>
-                                                        <div className="fb-page" data-href="https://www.facebook.com/soumaisniteroi" data-tabs="timeline" data-width="300" data-height="220" data-small-header="true" data-adapt-container-width="true" data-hide-cover="false" data-show-facepile="false">
-                                                            <blockquote cite="https://www.facebook.com/soumaisniteroi" className="fb-xfbml-parse-ignore"><a href="https://www.facebook.com/soumaisniteroi">Cidade de Niterói</a></blockquote>
+                                                        <div className="fb-page" data-href={subdomain? this.props.bairros.bairro.facebook : 'https://www.facebook.com/soumaisniteroi'} data-tabs="timeline" data-width="300" data-height="220" data-small-header="true" data-adapt-container-width="true" data-hide-cover="false" data-show-facepile="false">
+                                                            <blockquote cite={subdomain? this.props.bairros.bairro.facebook : 'https://www.facebook.com/soumaisniteroi'} className="fb-xfbml-parse-ignore"><a href={subdomain? this.props.bairros.bairro.facebook : 'https://www.facebook.com/soumaisniteroi'}>Bairro {this.props.bairros.bairro.preposicao} {_.startCase(subdomain)}</a></blockquote>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -77,7 +87,7 @@ class Footer extends Component {
                     {/*<!--COPY RIGHTS-->*/}
                     <section className="copy">
                         <div className="container">
-                            <p>Copyright © 2018 SOUMAISNITEROI by CLM Soluçoes Web e Publicidade | Todos os Direitos Reservados</p>
+                            <p>Copyright © 2019 SOUMAISNITEROI by CLM Soluçoes Web e Publicidade | Todos os Direitos Reservados</p>
                         </div>
                     </section>
     
@@ -140,10 +150,11 @@ class Footer extends Component {
 
 function mapStateToProps(state){
     return {
+        bairros: state.bairros,
         guias: state.guias,
         noticias: state.noticias,
     }
 }
 
 //export default Footer;
-export default connect(mapStateToProps, { fetchGuiasRecentes, fetchNoticiasRecentes })(Footer);
+export default connect(mapStateToProps, { fetchBairroBySlug, fetchGuiasRecentes, fetchNoticiasRecentes })(Footer);

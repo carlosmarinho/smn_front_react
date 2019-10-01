@@ -457,14 +457,20 @@ export const fetchGuiasByUser = async(user_id, limit=100, sort=null) => {
 }
 
 
-export const fetchGuiasRecentes = async(city_id, limit='', sort=null) => {
+export const fetchGuiasRecentes = async(city_id, limit='', sort=null, bairro_id = null) => {
+
+    let query = ``;
+    if(bairro_id != null)
+        query = `bairros=${bairro_id}`;
+
+
     if(!sort)
         sort = '_id:desc';
     if(limit)
         limit = `&_limit=${limit}`
 
 
-    const request = axios.get(`${process.env.REACT_APP_URL_API}guias/?_sort=${sort}&approved=true&nao_existe_mais=false&${limit}&cidade=${city_id}`);
+    const request = axios.get(`${process.env.REACT_APP_URL_API}guias/?_sort=${sort}&approved=true&nao_existe_mais=false&${limit}&cidade=${city_id}&${query}`);
 
     return {
         type: FETCH_GUIAS_RECENTES,

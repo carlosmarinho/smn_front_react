@@ -31,9 +31,9 @@ class BairroGrid extends Component {
     componentWillReceiveProps(nextProps) {
         if(nextProps.bairros){
             console.log('nextprops: ', nextProps)
-            if(nextProps.bairros)
+            if(nextProps.bairros && nextProps.bairros.list)
             {
-                this.setState({data: nextProps.bairros.slice(0,this.state.perPage), pageCount: Math.ceil(  nextProps.bairros.lenght / this.state.perPage)});
+                this.setState({data: nextProps.bairros.list.slice(0,this.state.perPage), pageCount: Math.ceil(  nextProps.bairros.list.lenght / this.state.perPage)});
             }
         }
     }
@@ -91,8 +91,8 @@ class BairroGrid extends Component {
         })
 
         let itemCount = 0;
-        if(this.props && this.props.bairros)
-            itemCount = this.props.bairros.length
+        if(this.props && this.props.bairros && this.props.bairros.list)
+            itemCount = this.props.bairros.list.length
 
         return(
             <div>
@@ -118,10 +118,10 @@ class BairroGrid extends Component {
         console.log(`active page is ${pageNumber}`);
         let data = [];
         if(pageNumber === 1){
-            data = this.props.bairros.slice(0, this.state.perPage)
+            data = this.props.bairros.list.slice(0, this.state.perPage)
         }
         else{
-            data = this.props.bairros.slice((pageNumber-1)*this.state.perPage,((pageNumber-1)*this.state.perPage)+this.state.perPage)
+            data = this.props.bairros.list.slice((pageNumber-1)*this.state.perPage,((pageNumber-1)*this.state.perPage)+this.state.perPage)
         }
         this.setState({activePage: pageNumber, data});
         //{data: nextProps.bairros.list.slice(0,10)}
@@ -152,7 +152,7 @@ class BairroGrid extends Component {
                         </div>
                         <div className="row">
                             <div className="dir-alp-con">
-                                {(leftColumn)?<ListingLeftColumn objects={(this.props.guias)?this.props.guias.recentes:[]} categories={(this.props.categorias)?this.props.categorias.bairro:[]} bairros={(this.props.bairros)?this.props.bairros:[]} />:''}
+                                {(leftColumn)?<ListingLeftColumn objects={(this.props.guias)?this.props.guias.recentes:[]} categories={(this.props.categorias)?this.props.categorias.bairro:[]} bairros={(this.props.bairros.list)?this.props.bairros.list:[]} />:''}
                                 
                                 <div className={(leftColumn)?'col-md-9 dir-alp-con-right list-grid-rig-pad':'col-md-12 dir-alp-con-right list-grid-rig-pad'}>
                                     <div className="dir-alp-con-right-1">

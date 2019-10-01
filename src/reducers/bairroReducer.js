@@ -4,9 +4,11 @@ export default function(state = null, action) {
 
     switch (action.type) {
         case FETCH_BAIRRO:
-            return action.payload.data;
+            console.log("state: ", state)
+            console.log("aqui no fetch bairro: ", {...state, bairro: action.payload.data[0]});
+            return {...state, bairro: action.payload.data[0]};
         case FETCH_BAIRROS:
-            return action.payload.data;
+            return {...state, list: action.payload.data};
         default: return state;
     }
 }
