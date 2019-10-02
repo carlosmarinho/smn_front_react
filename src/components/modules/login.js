@@ -44,9 +44,9 @@ class Login extends Component {
 
         return(
                 <div className="input-field s12">
-                    <input {...input}  type={type} />
+                    <input {...input}  type={type} placeholder={label}/>
                     {touched && ((error && <span className="text-danger">{error}</span>) || (warning && <span>{warning}</span>))}
-                    <label>{label}</label> 
+                    {/*<label>{label}</label>*/}
                 </div>
             
         )
