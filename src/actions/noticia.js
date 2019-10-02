@@ -480,17 +480,19 @@ export const fetchNoticiasByCategoryOrSlug = async(slugOrCategory='', limit=150)
     }
 }
 
-export const fetchNoticias = async(id, category='', limit=150) => {
-    
+export const fetchNoticias = async(id, category = '', bairro_id = null, limit = 150) => {
+    let query = ``;
+    if(bairro_id != null)
+        query = `bairros=${bairro_id}`;
 
     if(category){
         const req = await axios.get(`${process.env.REACT_APP_URL_API}categorias/?nome=${category}`);
 
         if(req.data.length > 0)
-            category=`categorias=${req.data[0]._id}&`
+            category=`categorias=${req.data[0]._id}`
     }
 
-    const request = axios.get(`${process.env.REACT_APP_URL_API}noticias/?approved=true&${category}_sort=_id:desc&_limit=${limit}`);
+    const request = axios.get(`${process.env.REACT_APP_URL_API}noticias/?approved=true&${category}&${query}&_sort=_id:desc&_limit=${limit}`);
 
     return {
         type: FETCH_NOTICIAS,

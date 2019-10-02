@@ -16,7 +16,7 @@ class PreFooter extends Component {
                         <div className="col-md-6 web-app-con">
                             <h2><strong>Em breve</strong> tenha todos os nossos serviços no seu celular! </h2>
                             <ul>
-                                <li><i className="fa fa-check" aria-hidden="true"></i> Guia de Comercial</li>
+                                <li><i className="fa fa-check" aria-hidden="true"></i> Guia Comercial</li>
                                 <li><i className="fa fa-check" aria-hidden="true"></i> Guia de Serviços</li>
                                 <li><i className="fa fa-check" aria-hidden="true"></i> Eventos</li>
                                 <li><i className="fa fa-check" aria-hidden="true"></i> Notícias</li>

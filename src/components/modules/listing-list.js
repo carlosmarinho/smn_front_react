@@ -1,3 +1,4 @@
+import _ from 'lodash';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
@@ -316,7 +317,14 @@ class ListingList extends Component {
         }
     }
 
+    getPreposition(){
+        if(this.props.bairros && this.props.bairros.bairro)
+            return this.props.bairros.bairro.preposicao
+    }
+
+
     render(){
+        let { subdomain } = this.props;
         let leftColumn = true;
         let tipo = 'Comercial/Serviços'
 
@@ -362,6 +370,9 @@ class ListingList extends Component {
         
 
         let title = `${listName} da cidade de Niterói `
+        if(subdomain)
+            title = `${listName} do bairro ${this.getPreposition()} ${_.startCase(subdomain)}`
+            
         let windowTitle = title;
         if(this.props.guias && this.props.guias.categoria){
             windowTitle = `${title}: ${this.props.guias.categoria.nome}`;

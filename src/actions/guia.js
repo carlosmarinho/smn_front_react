@@ -54,7 +54,6 @@ export const createGuiaNaoExisteMais = async (values ) => {
 export const createGuia = async (guia) => {
 
     let user = JSON.parse(localStorage.getItem('user'));
-    console.log("user ao criar post: ", user);
     let request;
     if(user){
         try

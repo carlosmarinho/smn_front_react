@@ -1,3 +1,4 @@
+import _ from 'lodash';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
@@ -238,10 +239,21 @@ class ListingGrid extends Component {
         //{data: nextProps.eventos.list.slice(0,10)}
     }
 
+    getPreposition(){
+        if(this.props.bairros && this.props.bairros.bairro)
+            return this.props.bairros.bairro.preposicao
+    }
+
     render(){
+        let { subdomain } = this.props;
+
         let leftColumn = this.props.columnLeft;
 
         let listName = this.props.listName;
+
+        if(subdomain)
+            listName = `Eventos ${this.getPreposition()} ${_.startCase(subdomain)}`
+
         let preposition = "de ";
 
         

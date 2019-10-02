@@ -7,6 +7,8 @@ import HeaderBlog from '../header-destaque-blog';
 import { fetchNoticias, fetchNoticiasByCategory } from '../../actions/noticia';
 import { fetchEventosRecentes } from '../../actions/evento';
 import { fetchGuiasFeatured } from '../../actions/guia';
+import { fetchBairroBySlug } from '../../actions/bairro';
+
 import Paginate from "../paginate";
 import { Link } from 'react-router-dom';
 import PreFooter from './pre-footer'
@@ -31,11 +33,18 @@ class BlogList extends Component {
         this.handleImageLoaded = this.handleImageLoaded.bind(this);
     }
 
-    componentDidMount() {
+    async componentDidMount() {
         //let slug = this.props.match.params.slug;
 
+        let bairro_id = null;
+        if(this.props.subdomain){
+            await this.props.fetchBairroBySlug(this.props.subdomain);
+            bairro_id = this.props.bairros.bairro._id;
+        }
+
         if(!(this.props.match && this.props.match.params.slug)) {
-            this.props.fetchNoticias('5ba26f813a018f42215a36a0', this.props.category).then(()=>{
+            console.log("caiuuuuu aquiiii no proppppssss do bloglist noticias");
+            this.props.fetchNoticias('5ba26f813a018f42215a36a0', this.props.category, bairro_id).then(()=>{
                 this.setState({loading:false})
             });
         }
@@ -153,8 +162,8 @@ class BlogList extends Component {
     generateNoticias() {
         const truncate = _.truncate
         let noticias = this.state.data.map( (noticia, ind) => {
-            if(noticia.descricaoJson)
-                console.log("Noticia convertida: ", " --- ", draftToHtml(noticia.descricaoJson));
+            //if(noticia.descricaoJson)
+            //    console.log("Noticia convertida: ", " --- ", draftToHtml(noticia.descricaoJson));
             
             return (
                 <div className="row blog-single" key={ind}>
@@ -338,8 +347,9 @@ function mapStateToProps(state){
     return {
         noticias: state.noticias,
         guias: state.guias,
-        eventos: state.eventos
+        eventos: state.eventos,
+        bairros: state.bairros
     }
 }
 
-export default connect(mapStateToProps, { fetchNoticias, fetchNoticiasByCategory, fetchEventosRecentes, fetchGuiasFeatured })(BlogList);
+export default connect(mapStateToProps, { fetchBairroBySlug, fetchNoticias, fetchNoticiasByCategory, fetchEventosRecentes, fetchGuiasFeatured })(BlogList);

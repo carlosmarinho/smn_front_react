@@ -419,8 +419,8 @@ class NoticiaEdit extends Component{
 		}
 
 		let bairros = [];
-		if(this.props.bairros){
-			bairros = this.props.bairros;
+		if(this.props.bairros && this.props.bairros.list){
+			bairros = this.props.bairros.list;
 		}
 
 		return(
@@ -679,8 +679,8 @@ class NoticiaEdit extends Component{
 		}
 
 		let bairros = [];
-		if(this.props.bairros){
-			bairros = this.props.bairros;
+		if(this.props.bairros && this.props.bairros.list){
+			bairros = this.props.bairros.list;
 		}
 
 		return(

@@ -1,3 +1,4 @@
+import _ from 'lodash';
 import React, { Component } from 'react';
 
 import { Provider } from 'react-redux';
@@ -192,14 +193,23 @@ const ListingListServicos = (props) => {
 }
 
 const BlogListNews = (props) => { 
+    let title = "Noticías da Cidade de Niterói e do Brasil";
+    let subtitle = "Noticías atualizadas diariamente de tudo o que acontece em Niterói";
+
+    if(subdomain){
+        title = `Notícias do Bairro ${_.startCase(subdomain)}`;
+        let subtitle = `Noticías atualizadas diariamente de tudo o que acontece no ${_.startCase(subdomain)}`;
+    }
+
     return (
         <BlogList 
-                title="Noticías da Cidade de Niterói e do Brasil" 
-                subtitle="Noticías atualizadas diariamente de tudo o que acontece em Niterói" 
+                title = {title} 
+                subtitle = {subtitle}
                 item="noticias"
                 columnRight={true}
                 match={props.match}
                 location={props.location}
+                subdomain={subdomain}
         />
     )
 }
