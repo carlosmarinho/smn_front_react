@@ -12,6 +12,13 @@
      /*overflow-x: hidden;*/
      overflow-x: visible;
 }
+
+::placeholder {
+    color: #999;
+    opacity: 1; /* Firefox */
+}
+  
+
  @font-face {
      font-family: 'Material Icons';
      font-style: normal;

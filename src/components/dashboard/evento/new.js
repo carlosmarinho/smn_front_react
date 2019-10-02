@@ -454,7 +454,7 @@ class EventoNew extends Component{
 								label="Bairro"
 								classCol="s4"
 								className="validate"
-								validate={[  ]}
+								validate={[required]}
 							/>
 						</div>
 						<div className="row">

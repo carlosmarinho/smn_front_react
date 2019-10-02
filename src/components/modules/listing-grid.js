@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import HeaderListing from '../header-destaque-listing';
 import { fetchEventos, fetchEventosByCategory } from '../../actions/evento';
-import { fetchBairros } from '../../actions/bairro';
+import { fetchBairros, fetchBairroBySlug } from '../../actions/bairro';
 import { fetchCategoriesEventoTop } from '../../actions/categoria';
 import Paginate from '../paginate';
 
@@ -29,8 +29,11 @@ class ListingGrid extends Component {
         this.generateEventos = this.generateEventos.bind(this);
     }
 
-    componentDidMount() {
-        //this.props.fetchEventos('5ba26f813a018f42215a36a0');
+    async componentDidMount() {
+        console.log("this.propssubdomain: ", this.props.subdomain)
+        if(this.props.subdomain)
+            await this.props.fetchBairroBySlug(this.props.subdomain);
+        
         this.props.fetchCategoriesEventoTop();
         this.props.fetchBairros('5ba26f813a018f42215a36a0');
 
@@ -38,6 +41,8 @@ class ListingGrid extends Component {
     }
 
     componentWillReceiveProps(nextProps) {
+        let bairro_id = null
+
 
         if(nextProps.match && nextProps.match.params.slug){
             let slug = nextProps.match.params.slug
@@ -54,11 +59,15 @@ class ListingGrid extends Component {
         }
         else{
             if(this.state.slug !== '/'){
-         
+
+                if(nextProps.bairros && nextProps.bairros.bairro){
+                    bairro_id = nextProps.bairros.bairro._id;
+                }
+        console.log("aqui no listing grid: ", nextProps);        
                 this.setState(
                     {
                         slug: '/',
-                        eventos: this.props.fetchEventos('5ba26f813a018f42215a36a0').then(()=>{
+                        eventos: this.props.fetchEventos('5ba26f813a018f42215a36a0', 100, bairro_id).then(()=>{
                             this.setState({loading:false})
                         })
                     }
@@ -319,4 +328,4 @@ function mapStateToProps(state){
     }
 }
 
-export default connect(mapStateToProps, { fetchEventos, fetchEventosByCategory, fetchBairros, fetchCategoriesEventoTop })(ListingGrid);
+export default connect(mapStateToProps, { fetchBairroBySlug, fetchEventos, fetchEventosByCategory, fetchBairros, fetchCategoriesEventoTop })(ListingGrid);

@@ -13,16 +13,15 @@ import { fetchNoticiasRecentes } from '../actions/noticia';
 class Footer extends Component {
 
     async componentDidMount() {
-     
-        let bairro_id = null;
-        if(this.props.bairros ) {
-            if(this.props.subdomain && ! this.props.bairros.bairro ){
-                await this.props.fetchBairroBySlug(this.props.subdomain);
-            }
     
-            this.props.fetchGuiasRecentes('5ba26f813a018f42215a36a0', 7, '_id:desc', this.props.bairros.bairro._id);
-            this.props.fetchNoticiasRecentes('5ba26f813a018f42215a36a0', 5, '_id:desc', this.props.bairros.bairro._id);
+        let bairro_id = null
+        if(this.props.subdomain && this.props.bairros && !this.props.bairros.bairro ){
+            await this.props.fetchBairroBySlug(this.props.subdomain);
+            bairro_id = this.props.bairros.bairro._id;
         }
+
+        this.props.fetchGuiasRecentes('5ba26f813a018f42215a36a0', 7, '_id:desc', bairro_id);
+        this.props.fetchNoticiasRecentes('5ba26f813a018f42215a36a0', 5, '_id:desc', bairro_id);
         
     }
 
@@ -51,7 +50,7 @@ class Footer extends Component {
                                                 <div className="row">
                                                     {/*<div className="col-sm-4 col-md-3 foot-logo"> <img src="/images/logo-soumaisniteroi-transp-footer.png" alt="logo rodapé" />*/}
                                                     <div className="col-sm-4 col-md-3 foot-logo"> <img src="http://images.soumaisniteroi.com.br/wp-content/uploads/2015/08/logo-soumaisniteroi-transp-footer.png" alt="logo rodapé" />
-                                                        <p className="hasimg">Somos o maior portal {subdomain && this.props.bairros.bairro ? `do bairro ${this.getPreposicao()} ${_.startCase(subdomain)}` :'da cidade de Niterói'}!</p>
+                                                        <p className="hasimg">Somos o maior portal {subdomain && this.props.bairros && this.props.bairros.bairro ? `do bairro ${this.getPreposicao()} ${_.startCase(subdomain)}` :'da cidade de Niterói'}!</p>
                                                         <p className="hasimg">Aqui você fica por dentro de tudo que acontece {subdomain ? 'no seu bairro' : 'na sua cidade'}. Notícias, eventos, guias e muito Mais! </p>
                                                         <p> <span className=""><i className="fa fa-phone" aria-hidden="true"></i> </span> <span className="footer-contact"> (21) 99172-0833</span> </p>
                                                         <p> <span className=""><i className="fa fa-envelope" aria-hidden="true"></i> </span> <span className="footer-contact">{subdomain?subdomain:'contato'}@soumaisniteroi.com.br</span> </p>
@@ -61,8 +60,8 @@ class Footer extends Component {
                                                     
                                                     <div className="col-sm-4 col-md-3">
                                                         <h4>Facebook</h4>
-                                                        <div className="fb-page" data-href={subdomain? this.props.bairros.bairro.facebook : 'https://www.facebook.com/soumaisniteroi'} data-tabs="timeline" data-width="300" data-height="220" data-small-header="true" data-adapt-container-width="true" data-hide-cover="false" data-show-facepile="false">
-                                                            <blockquote cite={subdomain? this.props.bairros.bairro.facebook : 'https://www.facebook.com/soumaisniteroi'} className="fb-xfbml-parse-ignore"><a href={subdomain? this.props.bairros.bairro.facebook : 'https://www.facebook.com/soumaisniteroi'}>Bairro {this.getPreposicao()} {_.startCase(subdomain)}</a></blockquote>
+                                                        <div className="fb-page" data-href={subdomain && this.props.bairros && this.props.bairros.bairro ? this.props.bairros.bairro.facebook : 'https://www.facebook.com/soumaisniteroi'} data-tabs="timeline" data-width="300" data-height="220" data-small-header="true" data-adapt-container-width="true" data-hide-cover="false" data-show-facepile="false">
+                                                            <blockquote cite={subdomain && this.props.bairros && this.props.bairros.bairro ? this.props.bairros.bairro.facebook : 'https://www.facebook.com/soumaisniteroi'} className="fb-xfbml-parse-ignore"><a href={subdomain && this.props.bairros && this.props.bairros.bairro ? this.props.bairros.bairro.facebook : 'https://www.facebook.com/soumaisniteroi'}>Bairro {this.getPreposicao()} {_.startCase(subdomain)}</a></blockquote>
                                                         </div>
                                                     </div>
                                                 </div>
