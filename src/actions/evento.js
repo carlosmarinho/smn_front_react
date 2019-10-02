@@ -452,9 +452,12 @@ export const fetchEventosByCategory = async(category='', limit='', sort=null) =>
     }
 }
 
-export const fetchEventosRecentes = async(id, limit=5) => {
+export const fetchEventosRecentes = async(id, bairro_id = null, limit=5) => {
+    let query = ``;
+    if(bairro_id != null)
+        query = `bairros=${bairro_id}`;
 
-    const request = axios.get(`${process.env.REACT_APP_URL_API}eventos/?approved=true&_sort=_id:desc&_limit=${limit}`);
+    const request = axios.get(`${process.env.REACT_APP_URL_API}eventos/?approved=true&${query}&_sort=_id:desc&_limit=${limit}`);
 
     return {
         type: FETCH_EVENTOS_RECENTES,

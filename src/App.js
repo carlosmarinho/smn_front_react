@@ -198,7 +198,7 @@ const BlogListNews = (props) => {
 
     if(subdomain){
         title = `Notícias do Bairro ${_.startCase(subdomain)}`;
-        let subtitle = `Noticías atualizadas diariamente de tudo o que acontece no ${_.startCase(subdomain)}`;
+        subtitle = `Noticías atualizadas diariamente de tudo o que acontece no ${_.startCase(subdomain)}`;
     }
 
     return (

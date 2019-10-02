@@ -43,14 +43,13 @@ class BlogList extends Component {
         }
 
         if(!(this.props.match && this.props.match.params.slug)) {
-            console.log("caiuuuuu aquiiii no proppppssss do bloglist noticias");
             this.props.fetchNoticias('5ba26f813a018f42215a36a0', this.props.category, bairro_id).then(()=>{
                 this.setState({loading:false})
             });
         }
         
-        this.props.fetchEventosRecentes('5ba26f813a018f42215a36a0');
-        this.props.fetchGuiasFeatured('5ba26f813a018f42215a36a0');
+        this.props.fetchEventosRecentes('5ba26f813a018f42215a36a0', bairro_id);
+        this.props.fetchGuiasFeatured('5ba26f813a018f42215a36a0', bairro_id);
     }
 
     componentWillReceiveProps(nextProps) {

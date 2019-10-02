@@ -843,9 +843,13 @@ export const fetchFeaturedGuias = async(city_id, bairro_id = null) => {
     }
 }
 
-export const fetchGuiasFeatured = async(city_id) => {
+export const fetchGuiasFeatured = async(city_id, bairro_id = null) => {
 
-    const request = axios.get(`${process.env.REACT_APP_URL_API}guias/?approved=true&cidade_destaque=${city_id}`);
+    let query = ``;
+    if(bairro_id != null)
+        query = `bairros=${bairro_id}`;
+
+    const request = axios.get(`${process.env.REACT_APP_URL_API}guias/?approved=true&cidade_destaque=${city_id}&${query}`);
 
     return {
         type: FETCH_GUIAS_FEATURED,

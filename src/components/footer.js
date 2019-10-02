@@ -15,13 +15,19 @@ class Footer extends Component {
     async componentDidMount() {
     
         let bairro_id = null
-        if(this.props.subdomain && this.props.bairros && !this.props.bairros.bairro ){
-            await this.props.fetchBairroBySlug(this.props.subdomain);
+        if(this.props.subdomain  ) 
+                await this.props.fetchBairroBySlug(this.props.subdomain);
+        
+        if(this.props.bairros && this.props.bairros.bairro)
             bairro_id = this.props.bairros.bairro._id;
-        }
-
+        
         this.props.fetchGuiasRecentes('5ba26f813a018f42215a36a0', 7, '_id:desc', bairro_id);
         this.props.fetchNoticiasRecentes('5ba26f813a018f42215a36a0', 5, '_id:desc', bairro_id);
+
+        
+    }
+
+    componentDidUpdate(){
         
     }
 
@@ -36,6 +42,8 @@ class Footer extends Component {
         console.log("props no footer: ", this.props);
 
         if(! this.props.guias || !this.props.noticias)
+            return null;
+        else if( subdomain && ! this.props.bairros)
             return null;
         else {
 
