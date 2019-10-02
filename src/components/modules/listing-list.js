@@ -382,7 +382,7 @@ class ListingList extends Component {
                         </div>
                         <div className="row">
                             <div className="dir-alp-con">
-                                {(leftColumn)?<ListingLeftColumn type="guia" objects={(this.props.guias)?this.props.guias.recentes:[]} categories={(this.props.categorias)?this.props.categorias.guia:[]} bairros={(this.props.bairros)?this.props.bairros:[]} />:''}
+                                {(leftColumn)?<ListingLeftColumn type="guia" objects={(this.props.guias)?this.props.guias.recentes:[]} categories={(this.props.categorias)?this.props.categorias.guia:[]} bairros={(this.props.bairros)?this.props.bairros.list:[]} />:''}
 
                                 <div className={(leftColumn)? 'col-md-9 dir-alp-con-right': 'col-md-12 dir-alp-con-right'}>
                                     <div className="dir-alp-con-right-1">

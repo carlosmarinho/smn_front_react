@@ -12,7 +12,11 @@ import windowSize from 'react-window-size';
 
 class ListingLeftColumn extends Component {
 
-    
+    showFiltroBairro(activeColapse){
+        if(! this.props.subdomain)
+            return
+                <WidgetFilterRadioCollapsable title="Filtro de Bairros" filterType="bairro" type={this.props.type} objects={this.props.bairros} classActive={activeColapse} />
+    }
 
     render(){
         let activeColapse = false
@@ -25,7 +29,7 @@ class ListingLeftColumn extends Component {
                 <LeftWidgetLink customClass="hide-992" title="Guias Recentes" objects={this.props.objects} />
                 
                 <WidgetFilterCheckboxCollapsable title="Filtro de Categoria" filterType="categoria" type={this.props.type} objects={this.props.categories} classActive={activeColapse} />                
-                <WidgetFilterRadioCollapsable title="Filtro de Bairros" filterType="bairro" type={this.props.type} objects={this.props.bairros} classActive={activeColapse} />
+                {this.showFiltroBairro(activeColapse)}
                 {/*@todo implementar esse filtro <WidgetFilterStarsCollapsable title="Filtro por avaliação" classActive={activeColapse} />*/}
 
             </div>

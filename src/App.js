@@ -79,7 +79,7 @@ if (parts.length > 3) {
   console.log("subdominio: ", subdomain);
 }
 
-//subdomain = 'fonseca';
+subdomain = 'fonseca';
 
 let city_or_neighbor = 'city/niteroi';
 if(subdomain != "")
@@ -108,20 +108,20 @@ let HomeProps = (props) => {
         />
     )
 }
-
-HomeProps = (props) => {
-    return(
-        <HomeBairro
+if(subdomain != ""){
+    HomeProps = (props) => {
+        return(
+            <HomeBairro
             subdomain={subdomain}
             props={props}
-        />
-    )
+            />
+        )
+    }
 }
-
 
 const CategoryOrItemProps = (props) => {
     return (
-        <ListingList 
+        <CategoryOrItem 
             props={props}
             subdomain={subdomain}
         />
@@ -154,6 +154,7 @@ const EventItemView = (props) => {
             dashboardView={true} 
             match={props.match}
             location={props.location}
+            subdomain={subdomain}
         />        
     )
 }
@@ -245,7 +246,7 @@ const GridEvents = (props) => {
             columnLeft={true}
             match={props.match}
             location={props.location}
-            subdomain
+            subdomain={subdomain}
          />
     )
 }                    
