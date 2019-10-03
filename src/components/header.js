@@ -31,7 +31,7 @@ class Header extends Component {
                     <Menu subdomain={this.props.subdomain} />
                 </section>
                 <section>
-                    <MenuMobile /> 
+                    <MenuMobile subdomain={this.props.subdomain} /> 
                 </section>
             </div>
         )

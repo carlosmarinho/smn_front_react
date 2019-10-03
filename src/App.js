@@ -139,6 +139,17 @@ const NewsItemView = (props) => {
     )
 }
 
+const NewsItemProps = (props) => {
+    return (
+        <NewsItem 
+            dashboardView={true} 
+            match={props.match}
+            location={props.location}
+            subdomain={subdomain}
+        />        
+    )
+}
+
 const ListingItemView = (props) => {
     return (
         <ListingItem
@@ -344,7 +355,7 @@ class App extends Component {
 
                                 <Route exact path="/noticias/categoria/:slug/page/:page" component={BlogList} />
                                 <Route exact path="/noticias/categoria/:slug" component={BlogList} />
-                                <Route exact path="/noticias/:slug" component={NewsItem} />
+                                <Route exact path="/noticias/:slug" component={NewsItemProps} />
                                 <Route exact path="/noticias/page/:page" component={BlogListNews} />
                                 <Route exact path="/noticias" component={BlogListNews} />
 

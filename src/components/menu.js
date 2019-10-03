@@ -86,11 +86,11 @@ class Menu extends Component {
                 <ul id='drop-menu-cidade' className='dropdown-content'>
                     <li><Link to={`/bairro/fotos-bairro-${subdomain}`}>Fotos do Bairro</Link></li>
                     <li className="divider"></li>
-                    <li><Link to={`/bairro/historia-do-bairro/${subdomain}`}>História do Bairro</Link></li>
+                    <li><Link to={`/bairro/historia-do-bairro-${subdomain}`}>História do Bairro</Link></li>
                     <li className="divider"></li>
-                    <li><Link to={`/bairro/populacao-do-bairro/${subdomain}`}>População do Bairro</Link></li>
+                    <li><Link to={`/bairro/populacao-do-bairro-${subdomain}`}>População do Bairro</Link></li>
                     <li className="divider"></li>
-                    <li><Link to={`/bairro/ocupacao-do-bairro/${subdomain}`}>Ocupação do Bairro</Link></li>
+                    <li><Link to={`/bairro/ocupacao-do-bairro-${subdomain}`}>Ocupação do Bairro</Link></li>
                 </ul>
             )
         }

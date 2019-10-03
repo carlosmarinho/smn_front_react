@@ -60,7 +60,31 @@ class MenuMobile extends Component {
 
     }
 
+    showBairrosMenu(){
+        const {subdomain} = this.props;
+        if(! subdomain) {
+            return(
+                <ul className="mob-menu-icon">
+                    <li><Link className="menu-close" to="/cidade/bairros-de-niteroi"><i className="fa fa-angle-right" aria-hidden="true"></i>Bairros</Link></li>
+                    <li><Link className="menu-close" to="/cidade/fotos-cidade-niteroi"><i className="fa fa-angle-right" aria-hidden="true"></i>Fotos da Cidade</Link></li>
+                    <li><Link className="menu-close" to="/cidade/historia-da-cidade-de-niteroi"><i className="fa fa-angle-right" aria-hidden="true"></i>História da Cidade</Link></li>
+                    <li><Link className="menu-close" to="/cidade/populacao-da-cidade-de-niteroi"><i className="fa fa-angle-right" aria-hidden="true"></i>População da Cidade</Link></li>
+                </ul>
+            )
+        }
+        else {
+            return(
+                <ul className="mob-menu-icon">
+                    <li><Link className="menu-close" to={`/bairro/fotos-cidade-${subdomain}`}><i className="fa fa-angle-right" aria-hidden="true"></i>Fotos do Bairro</Link></li>
+                    <li><Link className="menu-close" to={`/bairro/historia-do-bairro-${subdomain}`}><i className="fa fa-angle-right" aria-hidden="true"></i>História do Bairro</Link></li>
+                    <li><Link className="menu-close" to={`/bairro/populacao-do-bairro-${subdomain}`}><i className="fa fa-angle-right" aria-hidden="true"></i>População do Bairro</Link></li>
+                </ul>
+            )
+        }
+    }
+
     menu(){
+        let {subdomain} = this.props
         if(this.state.visibility)
         {
             return(
@@ -68,13 +92,8 @@ class MenuMobile extends Component {
 
                     <div className="mob-right-nav-close"><i className="fa fa-times" aria-hidden="true"></i> </div>
                     {this.showDashboard()}
-                    <h5><Link className="menu-close" to="/cidade">Cidade</Link></h5>
-                    <ul className="mob-menu-icon">
-                        <li><Link className="menu-close" to="/cidade/bairros-de-niteroi"><i className="fa fa-angle-right" aria-hidden="true"></i>Bairros</Link></li>
-                        <li><Link className="menu-close" to="/cidade/fotos-cidade-niteroi"><i className="fa fa-angle-right" aria-hidden="true"></i>Fotos da Cidade</Link></li>
-                        <li><Link className="menu-close" to="/cidade/historia-da-cidade-de-niteroi"><i className="fa fa-angle-right" aria-hidden="true"></i>História da Cidade</Link></li>
-                        <li><Link className="menu-close" to="/cidade/populacao-da-cidade-de-niteroi"><i className="fa fa-angle-right" aria-hidden="true"></i>População da Cidade</Link></li>
-                    </ul>
+                    <h5><Link className="menu-close" to={subdomain?'/bairro':'/cidade'}>{subdomain?'Bairro':'Cidade'}</Link></h5>
+                        {this.showBairrosMenu()}    
                     <h5><Link  className="menu-close" to="/guia" /*@todo takeaway jquery onClick={this.closeMenu}*/>Guia</Link></h5>
                     <ul className="mob-menu-icon">
                         <li><Link className='dropdown-button menu-close' to="/guia/comercial"><i className="fa fa-angle-right" aria-hidden="true"></i>Guia Comercial</Link></li>

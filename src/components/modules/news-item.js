@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { Redirect } from 'react-router-dom';
+
 import draftToHtml from 'draftjs-to-html';
 
 import RightColumn from '../right-column';
@@ -8,6 +10,8 @@ import PreFooter from './pre-footer'
 import { fetchNoticiaBySlug } from '../../actions/noticia';
 import { fetchEventosRecentes } from '../../actions/evento';
 import { fetchGuiasFeatured } from '../../actions/guia';
+import { fetchBairroBySlug } from '../../actions/bairro';
+
 import FormComment from './form-comment';
 import Reviews from './reviews';
 import { Link } from 'react-router-dom';
@@ -22,10 +26,17 @@ class NewsItem extends Component {
         }
     }
 
-    componentDidMount() {
+    async componentDidMount() {
         //this.props.fetchNoticiaBySlug(this.props.match.params.slug);
-        this.props.fetchEventosRecentes('5ba26f813a018f42215a36a0');
-        this.props.fetchGuiasFeatured('5ba26f813a018f42215a36a0');
+        let bairro_id = null;
+        if(this.props.subdomain){
+            await this.props.fetchBairroBySlug(this.props.subdomain);
+            bairro_id = this.props.bairros.bairro._id;
+        }
+
+
+        this.props.fetchEventosRecentes('5ba26f813a018f42215a36a0', bairro_id);
+        this.props.fetchGuiasFeatured('5ba26f813a018f42215a36a0', bairro_id);
     }
 
     componentWillReceiveProps(nextProps) {
@@ -33,10 +44,10 @@ class NewsItem extends Component {
         let slug = nextProps.match.params.slug
         
         if(slug !== this.state.slug){
+            this.props.fetchNoticiaBySlug(slug, 1, nextProps.dashboardView )
             this.setState(
                 {
-                   slug: slug,
-                   noticias: this.props.fetchNoticiaBySlug(slug, 1, nextProps.dashboardView )
+                   slug: slug,       
                 }
             )
         }
@@ -181,8 +192,14 @@ class NewsItem extends Component {
         //let columnRight = this.props.columnRight;
 
         let item = {};
-        if(this.props.noticias && this.props.noticias.noticia)
+        if(this.props.noticias && this.props.noticias.noticia){
             item = this.props.noticias.noticia;
+            if(this.props.subdomain){
+                return(
+                    <Redirect from={`${this.props.location.pathname}`} to={`http://soumaisniteroi.com.br/noticias/${this.props.noticias.noticia.slug}`} state={ { status: 301 } } />
+                )
+            }
+        }
             
 
         let columnRight = true;
@@ -218,8 +235,9 @@ function mapStateToProps(state){
     return {
         noticias: state.noticias,
         guias: state.guias,
-        eventos: state.eventos
+        eventos: state.eventos,
+        bairros: state.bairros
     }
 }
 
-export default connect(mapStateToProps, { fetchNoticiaBySlug, fetchEventosRecentes, fetchGuiasFeatured })(NewsItem);
+export default connect(mapStateToProps, { fetchBairroBySlug, fetchNoticiaBySlug, fetchEventosRecentes, fetchGuiasFeatured })(NewsItem);
