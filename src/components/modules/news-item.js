@@ -187,6 +187,8 @@ class NewsItem extends Component {
         )
     }
 
+
+
     render(){
 
         //let columnRight = this.props.columnRight;
@@ -194,9 +196,11 @@ class NewsItem extends Component {
         let item = {};
         if(this.props.noticias && this.props.noticias.noticia){
             item = this.props.noticias.noticia;
+            console.log("aqui", this.props.subdomain);
             if(this.props.subdomain){
+                /*@todo return with 301 on server side*/
                 return(
-                    <Redirect from={`${this.props.location.pathname}`} to={`http://soumaisniteroi.com.br/noticias/${this.props.noticias.noticia.slug}`} state={ { status: 301 } } />
+                    window.location.href = `http://soumaisniteroi.com.br/noticias/${this.props.noticias.noticia.slug}`
                 )
             }
         }
