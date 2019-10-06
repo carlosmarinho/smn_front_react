@@ -56,6 +56,22 @@ class ListingItem extends Component {
         let item = {};
         if(this.props.guias && this.props.guias.guia){
             item = this.props.guias.guia
+            console.log("guaiaaaaaaa: ", this.props.guias.guia)
+            console.log("subdomain: ", this.props.subdomain);
+            if(this.props.subdomain ){
+                let temBairro = [];
+                if(this.props.guias.guia.bairros){
+                    temBairro = this.props.guias.guia.bairros.filter(bairro => bairro.slug==this.props.subdomain)
+                }
+                console.log("tem bairroaaaaaaaaaaaaa: ", temBairro);
+                if(temBairro.length == 0){
+                    console.log("vai redirecionar");
+                    /*@todo return with 301 on server side*/
+                    return(
+                        window.location.href = `http://soumaisniteroi.com.br/guia/${this.props.guias.guia.slug}`
+                    )
+                }
+            }
         }
         else
             return <div>Carregando ....</div>

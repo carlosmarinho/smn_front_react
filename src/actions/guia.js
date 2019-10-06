@@ -429,7 +429,6 @@ export const fetchGuiasByAdm = async(limit=100, sort=null) => {
     const count = await axios.get(`${process.env.REACT_APP_URL_API}guias/count`);
     const newRequest = {data:request.data, count: count.data};
 
-    console.log("aqui no fetch guias by user", newRequest );
 
     return {
         type: FETCH_GUIAS_USER,
@@ -447,7 +446,6 @@ export const fetchGuiasByUser = async(user_id, limit=100, sort=null) => {
 
     const request = axios.get(`${process.env.REACT_APP_URL_API}guias/?user=${user_id}&_sort=${sort}${limit}`);
 
-    console.log("aqui no fetch guias by user")
     return {
         type: FETCH_GUIAS_USER,
         payload: request
@@ -478,7 +476,7 @@ export const fetchGuiasRecentes = async(city_id, limit='', sort=null, bairro_id 
 
 }
 
-export const fetchGuiasByCategoryBoth = async(category = '', limit='', sort = null, bairro_id = null) => {
+export const fetchGuiasByCategoryBoth = async(category = '', bairro_id = null, search=null, limit='', sort = null) => {
     if(!sort)
         sort = '_id:desc';
 
@@ -504,6 +502,7 @@ export const fetchGuiasByCategoryBoth = async(category = '', limit='', sort = nu
         }
     }
 
+        console.log("O request no fetchhhh botthhh: ", bairro_id);
 
 
     if(categoria !== '')
@@ -512,9 +511,13 @@ export const fetchGuiasByCategoryBoth = async(category = '', limit='', sort = nu
         if(bairro_id != null)
             query = `&bairros=${bairro_id}`;
 
-        let request = await axios.get(`${process.env.REACT_APP_URL_API}guias/?approved=true&nao_existe_mais=false&${categoria}${query}&_sort=${sort}${limit}`);
-        const request1 = await axios.get(`${process.env.REACT_APP_URL_API}guias/?approved=true&nao_existe_mais=false&${categoriaServico}${query}&_sort=${sort}${limit}`);
-        console.log("O request no fetchhhh botthhh: ", request);
+        let request = {data: []};
+        if(categoria)    
+            request = await axios.get(`${process.env.REACT_APP_URL_API}guias/?approved=true&nao_existe_mais=false&${categoria}${query}&_sort=${sort}${limit}2`);
+        
+        let request1 = {data: []};
+        if(categoriaServico)
+            request1 = await axios.get(`${process.env.REACT_APP_URL_API}guias/?approved=true&nao_existe_mais=false&${categoriaServico}${query}&_sort=${sort}${limit}3`);
         request.categoria = req.data[0];
         request.data = [...request.data, ...request1.data];
         return {
@@ -530,7 +533,7 @@ export const fetchGuiasByCategoryBoth = async(category = '', limit='', sort = nu
     }
 }
 
-export const fetchGuiasByCategoryComercial = async(category='', limit='', sort=null) => {
+export const fetchGuiasByCategoryComercial = async(category='', bairro_id = null, limit='', sort=null) => {
     if(!sort)
         sort = '_id:desc';
 
@@ -553,7 +556,11 @@ export const fetchGuiasByCategoryComercial = async(category='', limit='', sort=n
 
     if(categoria !== '')
     {
-        const request = await axios.get(`${process.env.REACT_APP_URL_API}guias/?${categoria}&approved=true&nao_existe_mais=false&_sort=${sort}${limit}`);
+        let query = ``;
+        if(bairro_id != null)
+            query = `&bairros=${bairro_id}`;
+
+        const request = await axios.get(`${process.env.REACT_APP_URL_API}guias/?${categoria}&approved=true&nao_existe_mais=false&${query}&_sort=${sort}${limit}`);
         request.categoria = req.data[0];
         return {
             type: FETCH_GUIAS,
@@ -568,7 +575,7 @@ export const fetchGuiasByCategoryComercial = async(category='', limit='', sort=n
     }
 }
 
-export const fetchGuiasByCategoryServico = async(category='', limit='', sort=null) => {
+export const fetchGuiasByCategoryServico = async(category = '', bairro_id = null, limit ='', sort = null) => {
     if(!sort)
         sort = '_id:desc';
 
@@ -589,7 +596,11 @@ export const fetchGuiasByCategoryServico = async(category='', limit='', sort=nul
 
     if(categoria !== '')
     {
-        const request = await axios.get(`${process.env.REACT_APP_URL_API}guias/?${categoria}&approved=true&nao_existe_mais=false&_sort=${sort}${limit}`);
+        let query = ``;
+        if(bairro_id != null)
+            query = `&bairros=${bairro_id}`;
+
+        const request = await axios.get(`${process.env.REACT_APP_URL_API}guias/?${categoria}&approved=true&nao_existe_mais=false&${query}&_sort=${sort}${limit}`);
         request.categoria = req.data[0];
         return {
             type: FETCH_GUIAS,

@@ -39,8 +39,6 @@ class Footer extends Component {
     render(){
         const {subdomain} = this.props;
 
-        console.log("props no footer: ", this.props);
-
         if(! this.props.guias || !this.props.noticias)
             return null;
         else if( subdomain && ! this.props.bairros)

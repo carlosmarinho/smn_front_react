@@ -49,10 +49,11 @@ class ListingList extends Component {
  */
         if(this.props.subdomain)
             await this.props.fetchBairroBySlug(this.props.subdomain);
+        
+
+            
         this.props.fetchCategoriesGuiaTop();
         this.props.fetchBairros('5ba26f813a018f42215a36a0', 50, 'nome:asc');
-
-        console.log("props no listing list: ", this.props.bairros);
 
         //this.setState({data: this.props.guias.list, pageCount: Math.ceil(  this.props.guias.list.lenght / evento)});
     }
@@ -63,7 +64,7 @@ class ListingList extends Component {
         
         if(nextProps.match && nextProps.match.params.slug){
             
-
+            console.log("no nextprops: ", nextProps);
             let search = '';
             if(nextProps.type){
                 search = `tipo=${nextProps.type}`
@@ -71,10 +72,14 @@ class ListingList extends Component {
             
             let slug = nextProps.match.params.slug
          
-            
+            console.log("slugggg no listing list: ", slug, " !== ", this.state.slug)
 
             if(slug !== this.state.slug){
-         
+                console.log("o slug é diferente mesmo veja bem");
+                if(nextProps.bairros && nextProps.bairros.bairro){
+                    bairro_id = nextProps.bairros.bairro._id;
+                }
+                
                 if(nextProps.location && nextProps.location.pathname.includes('comercial') ){
                     this.setState(
                         {
@@ -100,19 +105,22 @@ class ListingList extends Component {
                     )
                 }
                 else {
-                    this.setState(
-                        {
-                           search: search,
-                           slug: slug,
-                           guias: this.props.fetchGuiasByCategoryBoth(slug, bairro_id).then(()=>{
-                                this.setState({loading:false})
-                            })
-                        }
-                    )
+                    console.log("No fetch booth: ", slug);
+                    
+                    this.props.fetchGuiasByCategoryBoth(slug, bairro_id).then(()=>{
+                        this.setState(
+                            {
+                                loading:false,
+                                search: search,
+                                slug: slug,
+                            }
+                        )
+                    })
                 }
             }
         }
         else{
+            console.log("no else onde o state slug difer than barra");
             if(this.state.slug !== '/'){
                 if(nextProps.bairros && nextProps.bairros.bairro){
                     bairro_id = nextProps.bairros.bairro._id;
@@ -327,8 +335,6 @@ class ListingList extends Component {
         let { subdomain } = this.props;
         let leftColumn = true;
         let tipo = 'Comercial/Serviços'
-
-        console.log('type::::: ', this.state.type);
 
         if(this.state.type && this.state.type.includes('comercial'))
             tipo = 'Comercial'

@@ -26,6 +26,37 @@ export const fetchCategory = async (id) => {
     }
 }
 
+export const fetchCategoryGuiaBySlug = async(slug='', limit=1) => {
+    let slug1 = '';
+    if(slug){
+        slug1 = `slug=guia/comercial/${slug}`
+    }
+    else{
+        return {
+            type: FETCH_CATEGORY,
+            payload: null
+        }
+    }
+
+
+    let request = await axios.get(`${process.env.REACT_APP_URL_API}categorias/?${slug1}`);
+
+    if(request.data.length === 0){
+            slug1 = `slug=guia/servicos/${slug}`
+    
+            request = await axios.get(`${process.env.REACT_APP_URL_API}categorias/?${slug1}`);
+      
+    
+    }
+
+
+    return {
+        type: FETCH_CATEGORY,
+        payload: request
+    }
+}
+
+
 export const fetchCategoryBySlug = async(slug='', limit=1) => {
     let slug1 = '';
     if(slug){

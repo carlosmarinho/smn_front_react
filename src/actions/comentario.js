@@ -207,7 +207,6 @@ export const fetchComentarioGuiasByAdm = async(limit=100, sort=null) => {
     const request = await axios.get(`${process.env.REACT_APP_URL_API}comentarioguias/?_sort=${sort}${limit}`);
     //const count = await axios.get(`${process.env.REACT_APP_URL_API}guias/count`);
     //const newRequest = {data:request.data, count: count.data};
-    console.log("aqui no fetch guias by user", request );
 
     return {
         type: FETCH_COMENTARIO_GUIAS_USER,
@@ -245,7 +244,6 @@ export const fetchComentarioGuiasByUser = async(user_id, limit=100, sort=null) =
 
     const request = axios.get(`${process.env.REACT_APP_URL_API}comentarioguias/?user=${user_id}&_sort=${sort}${limit}`);
 
-    console.log("aqui no fetch guias by user")
     return {
         type: FETCH_COMENTARIO_GUIAS_USER,
         payload: request
@@ -366,7 +364,6 @@ export const fetchComentarioEventosByAdm = async(limit=100, sort=null) => {
     const request = await axios.get(`${process.env.REACT_APP_URL_API}comentarioeventos/?_sort=${sort}${limit}`);
     //const count = await axios.get(`${process.env.REACT_APP_URL_API}eventos/count`);
     //const newRequest = {data:request.data, count: count.data};
-    console.log("aqui no fetch eventos by user", request );
 
     return {
         type: FETCH_COMENTARIO_EVENTOS_USER,
@@ -384,7 +381,6 @@ export const fetchComentarioEventosByUser = async(user_id, limit=100, sort=null)
 
     const request = axios.get(`${process.env.REACT_APP_URL_API}comentarioeventos/?user=${user_id}&_sort=${sort}${limit}`);
 
-    console.log("aqui no fetch eventos by user")
     return {
         type: FETCH_COMENTARIO_EVENTOS_USER,
         payload: request
@@ -506,7 +502,6 @@ export const fetchComentarioNoticiasByAdm = async(limit=100, sort=null) => {
     const request = await axios.get(`${process.env.REACT_APP_URL_API}comentarios/?_sort=${sort}${limit}`);
     //const count = await axios.get(`${process.env.REACT_APP_URL_API}noticias/count`);
     //const newRequest = {data:request.data, count: count.data};
-    console.log("aqui no fetch noticias by user", request );
 
     return {
         type: FETCH_COMENTARIO_NOTICIAS_USER,
@@ -519,12 +514,10 @@ export const fetchComentarioNoticiasByUser = async(user_id, limit=100, sort=null
     if(!sort)
         sort = '_id:desc';
     if(limit)
-        limit = `&_limit=${limit}`
-
+        limit = `&_limit=${limit}`;
 
     const request = axios.get(`${process.env.REACT_APP_URL_API}comentarios/?user=${user_id}&_sort=${sort}${limit}`);
 
-    console.log("aqui no fetch noticias by user")
     return {
         type: FETCH_COMENTARIO_NOTICIAS_USER,
         payload: request

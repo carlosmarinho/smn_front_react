@@ -40,7 +40,6 @@ class NewsItem extends Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        console.log("next props: ", nextProps);
         let slug = nextProps.match.params.slug
         
         if(slug !== this.state.slug){
@@ -110,8 +109,6 @@ class NewsItem extends Component {
     showNoticiaContent(item) {
         if(! item)
             return <div>Carregando...</div>
-
-        console.log("descricao: ", item);
 
         if(item.descricao){
             return(
@@ -196,12 +193,15 @@ class NewsItem extends Component {
         let item = {};
         if(this.props.noticias && this.props.noticias.noticia){
             item = this.props.noticias.noticia;
-            console.log("aqui", this.props.subdomain);
-            if(this.props.subdomain){
-                /*@todo return with 301 on server side*/
-                return(
-                    window.location.href = `http://soumaisniteroi.com.br/noticias/${this.props.noticias.noticia.slug}`
-                )
+            if(this.props.subdomain ){
+                let temBairro = this.props.noticias.noticia.bairros.filter(bairro => bairro.slug==this.props.subdomain)
+                if(temBairro.length == 0){
+                    console.log("vai redirecionar");
+                    /*@todo return with 301 on server side*/
+                    return(
+                        window.location.href = `http://soumaisniteroi.com.br/noticias/${this.props.noticias.noticia.slug}`
+                    )
+                }
             }
         }
             

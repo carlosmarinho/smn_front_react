@@ -19,7 +19,6 @@ class MenuMobile extends Component {
         let user = localStorage.getItem('user');
         if(user){
             this.setState({userLogged: JSON.parse(user).user})
-            console.log("aaaa usuario no menuuuuu: ", JSON.parse(user).user , " --- ", this.state.userLogged);
         }
         
     }

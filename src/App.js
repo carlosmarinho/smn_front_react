@@ -113,8 +113,8 @@ if(subdomain != ""){
     HomeProps = (props) => {
         return(
             <HomeBairro
-            subdomain={subdomain}
-            props={props}
+                subdomain={subdomain}
+                props={props}
             />
         )
     }
@@ -123,7 +123,8 @@ if(subdomain != ""){
 const CategoryOrItemProps = (props) => {
     return (
         <CategoryOrItem 
-            props={props}
+            match={props.match}
+            location={props.location}
             subdomain={subdomain}
         />
     )
@@ -250,6 +251,8 @@ const BairrosGrid = (props) => {
     )
 }                 
 
+console.log("vamos ver so no rediiir vai passar aqui ");
+
 /*@todo Implementar a pagina de fotos */
 /*const Photos = () => {
     return(
@@ -345,7 +348,9 @@ class App extends Component {
                                 <Route exact path="/guia/servicos/" component={ListingListServicos} />
                                 <Route exact path="/guia/comercial/" component={ListingListComercios} />
                                 <Route exact path="/guia/categoria/:slug" component={ListingList} />
+                                <Route exact path="/guia/:slug/page/:page" component={CategoryOrItemProps} />
                                 <Route exact path="/guia/:slug" component={CategoryOrItemProps} />
+
 
                                 <Route exact path="/eventos" component={GridEvents} />
                                 <Route exact path="/eventos/categoria/:slug/page/:page" component={GridEvents} />
