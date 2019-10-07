@@ -74,7 +74,10 @@ class SearchList extends Component {
                 search = `tipo=${nextProps.type}`
             }
             
-            if(params.bairro){
+            if(nextProps.subdomain){
+                search = {bairro: nextProps.subdomain}
+            }
+            else if(params.bairro){
                 search = {bairro: params.bairro};
             }
 
