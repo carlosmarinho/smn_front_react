@@ -72,7 +72,7 @@ class HeaderDestaqueHome extends Component {
                     <title>{title}</title>
                     <link rel="canonical" href={`http://${subdomain}soumaisniteroi.com.br/`} />
                 </Helmet>
-                <section id="background1" className="dir1-home-head" style={{height:550}}>
+                <section id="background1" className="dir1-home-head bairro" style={{height:550}}>
                     <div className="container dir-ho-t-sp">
                         <div className="row">
                             <div className="dir-hr1">

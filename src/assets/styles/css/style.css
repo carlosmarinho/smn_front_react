@@ -6648,6 +6648,14 @@ footer ul li a:hover {
   left: 18px;
   top: 20px; }
 
+.bairro .tourz-search-form div:nth-child(1) {
+  width: 60%;
+  float: left; }
+
+.bairro .tourz-search-form div:nth-child(2) {
+  width: 30%;
+  float: left; }
+
 .tourz-search-form div:nth-child(1) {
   width: 20%;
   float: left; }
