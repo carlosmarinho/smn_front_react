@@ -634,7 +634,12 @@ export const fetchGuiasByBairroId = async(bairro='', limit='', sort=null) => {
 
 }
 
-export const fetchGuiasByCategoryId = async(category='', guias=[], limit='', sort=null) => {
+export const fetchGuiasByCategoryId = async(category='', guias=[], bairro_id = null, limit='', sort=null) => {
+    console.log("No guia by category id", category, ' --- ', bairro_id)
+    let query = '';
+    if(bairro_id != null)
+        query = `&bairros=${bairro_id}`;
+    
     if(!sort)
         sort = '_id:desc';
 
@@ -645,7 +650,7 @@ export const fetchGuiasByCategoryId = async(category='', guias=[], limit='', sor
 
     let request = {data:[]};
     if(category !== 0)
-        request = await axios.get(`${process.env.REACT_APP_URL_API}guias/?categorias=${category}&approved=true&nao_existe_mais=false&_sort=${sort}${limit}`);
+        request = await axios.get(`${process.env.REACT_APP_URL_API}guias/?categorias=${category}&approved=true&nao_existe_mais=false&${query}&_sort=${sort}${limit}`);
 
     const newRequest = {data: request.data, data1: guias}
 

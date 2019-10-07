@@ -42,9 +42,9 @@ class WidgetFilterCheckboxCollapsable extends Component {
     filterGuia(id){
         if(! this.state.checked.includes(id)) {
             if(this.state.checked.length >= 1)
-                this.props.fetchGuiasByCategoryId(id, this.props.guias.list);
+                this.props.fetchGuiasByCategoryId(id, this.props.guias.list, this.props.bairro_id);
             else
-                this.props.fetchGuiasByCategoryId(id);
+                this.props.fetchGuiasByCategoryId(id, [], this.props.bairro_id);
             this.setState({checked: [...this.state.checked, id]});
         }
         else{
@@ -57,7 +57,7 @@ class WidgetFilterCheckboxCollapsable extends Component {
                 ))
             }
             else{
-                this.props.fetchGuias('5ba26f813a018f42215a36a0');
+                this.props.fetchGuias('5ba26f813a018f42215a36a0', '', this.props.bairro_id);
             }
 
             this.setState({
@@ -70,23 +70,29 @@ class WidgetFilterCheckboxCollapsable extends Component {
 
     filterEvento(id){
         if(! this.state.checked.includes(id)) {
+            console.log("no filter evento:::: ", this.props.bairro_id);
             if(this.state.checked.length >= 1)
-                this.props.fetchEventosByCategoryId(id, this.props.eventos.list);
+                this.props.fetchEventosByCategoryId(id, this.props.eventos.list, this.props.bairro_id);
             else
-                this.props.fetchEventosByCategoryId(id);
+                this.props.fetchEventosByCategoryId(id, [], this.props.bairro_id );
+                
             this.setState({checked: [...this.state.checked, id]});
         }
         else{
+            console.log("no elseeeee  filter evento:::: ", this.props.bairro_id);
             if(this.state.checked.length > 1){   
-                this.props.fetchEventosByCategoryId(0, this.props.eventos.list.filter(evento => {
-                    const cat = evento.categorias.find( categoria => categoria._id === id );
-                    if(!cat)
-                        return  evento;
-                }
-                ))
+                this.props.fetchEventosByCategoryId(0, 
+                    this.props.eventos.list.filter(evento => {
+                        const cat = evento.categorias.find( categoria => categoria._id === id );
+                        if(!cat)
+                            return  evento;
+                    },
+                    this.props.bairro_id
+                    )
+                )
             }
             else{
-                this.props.fetchEventos('5ba26f813a018f42215a36a0');
+                this.props.fetchEventos('5ba26f813a018f42215a36a0', 200, this.props.bairro_id);
             }
 
             this.setState({
@@ -100,9 +106,11 @@ class WidgetFilterCheckboxCollapsable extends Component {
     filterObject(e){
         switch(this.props.type){
             case 'guia':
-                this.filterGuia(e.target.value)
+                this.filterGuia(e.target.value);
+                break;
             case 'evento':
                 this.filterEvento(e.target.value)
+                break;
         }
     }
 

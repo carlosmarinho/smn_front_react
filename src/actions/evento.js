@@ -393,7 +393,12 @@ export const fetchEventosBySearch = async(search='', limit='', sort=null) => {
     
     }
 
-export const fetchEventosByCategoryId = async(category='', eventos=[], limit='', sort=null) => {
+export const fetchEventosByCategoryId = async(category='', eventos=[], bairro_id = null, limit='', sort=null) => {
+    let query = ``;
+    if(bairro_id != null)
+        query = `bairros=${bairro_id}`;
+
+    console.log("no fetcheventos action: ", bairro_id)
 
     if(!sort)
         sort = '_id:desc';
@@ -405,7 +410,7 @@ export const fetchEventosByCategoryId = async(category='', eventos=[], limit='',
 
     let request = {data:[]};
     if(category !== 0)
-        request = await axios.get(`${process.env.REACT_APP_URL_API}eventos/?categorias=${category}&approved=true&_sort=${sort}${limit}`);
+        request = await axios.get(`${process.env.REACT_APP_URL_API}eventos/?categorias=${category}&approved=true&${query}&_sort=${sort}${limit}`);
     
     const newRequest = {data: request.data, data1: eventos}
     console.log("new request::: ", newRequest)

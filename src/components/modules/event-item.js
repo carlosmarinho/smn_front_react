@@ -7,8 +7,8 @@ import HeaderEvent from '../header-destaque-evento';
 import PreFooter from './pre-footer';
 import { fetchEventoBySlug } from '../../actions/evento';
 import { fetchEventosRecentes } from '../../actions/evento';
-import { fetchGuiasRecentes } from '../../actions/guia';
-import { fetchGuiasFeatured } from '../../actions/guia';
+import { fetchGuiasRecentes, fetchGuiasFeatured } from '../../actions/guia';
+import { fetchBairroBySlug } from '../../actions/bairro';
 import FormComment from './form-comment';
 import Reviews from './reviews';
 import StreetView from './street-view';
@@ -23,11 +23,16 @@ class EventItem extends Component {
         }
     }
 
-    componentDidMount() {
-        //this.props.fetchEventoBySlug(this.props.match.params.slug);
-        this.props.fetchEventosRecentes('5ba26f813a018f42215a36a0');
-        this.props.fetchGuiasRecentes('5ba26f813a018f42215a36a0');
-        this.props.fetchGuiasFeatured('5ba26f813a018f42215a36a0');
+    async componentDidMount() {
+        let bairro_id = null;
+        if(this.props.subdomain){
+            await this.props.fetchBairroBySlug(this.props.subdomain);
+            bairro_id = this.props.bairros.bairro._id;
+        }
+
+        this.props.fetchEventosRecentes('5ba26f813a018f42215a36a0', bairro_id);
+        this.props.fetchGuiasRecentes('5ba26f813a018f42215a36a0', bairro_id);
+        this.props.fetchGuiasFeatured('5ba26f813a018f42215a36a0', bairro_id);
     }
 
     componentWillReceiveProps(nextProps) {
@@ -45,10 +50,21 @@ class EventItem extends Component {
 
     render(){
         let item = null;
-        if(this.props.eventos){
+        if(this.props.eventos && this.props.eventos.evento){
             item = this.props.eventos.evento
             if(_.isArray(item))
                 item = item[0];
+
+            if(this.props.subdomain ){
+                let temBairro = item.bairros.filter(bairro => bairro.slug==this.props.subdomain)
+                if(temBairro.length == 0){
+                    console.log("vai redirecionar");
+                    /*@todo return with 301 on server side*/
+                    return(
+                        window.location.href = `http://soumaisniteroi.com.br/eventos/${item.slug}`
+                    )
+                }
+            }
         }
         
         console.log("iiiitemmm aqui: ", item)
@@ -341,8 +357,9 @@ function mapStateToProps(state){
     return {
         noticias: state.noticias,
         guias: state.guias,
-        eventos: state.eventos
+        eventos: state.eventos,
+        bairros: state.bairros
     }
 }
 
-export default connect(mapStateToProps, { fetchEventoBySlug, fetchEventosRecentes, fetchGuiasRecentes, fetchGuiasFeatured })(EventItem);
+export default connect(mapStateToProps, { fetchBairroBySlug, fetchEventoBySlug, fetchEventosRecentes, fetchGuiasRecentes, fetchGuiasFeatured })(EventItem);

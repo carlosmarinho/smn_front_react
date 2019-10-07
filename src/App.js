@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 
 import { Provider } from 'react-redux';
 import { BrowserRouter, Switch, Route, Redirect } from 'react-router-dom';
-import { createStore, applyMiddleware } from 'redux';
+import { createStore, applyMiddleware, compose } from 'redux';
 import promise from 'redux-promise';
 
 import reducers from './reducers';
@@ -161,6 +161,16 @@ const ListingItemView = (props) => {
     )
 }
 
+const EventItemProps = (props) => {
+    return (
+        <EventItem 
+            match={props.match}
+            location={props.location}
+            subdomain={subdomain}
+        />        
+    )
+}
+
 const EventItemView = (props) => {
     return (
         <EventItem 
@@ -273,14 +283,21 @@ const GridEvents = (props) => {
             subdomain={subdomain}
          />
     )
-}                    
+}       
+
+const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+
+const store = createStoreWithMiddleware(
+    reducers,
+    composeEnhancers(applyMiddleware())
+)
 
 class App extends Component {
 
     
     render() {
         return (
-        <Provider store={createStoreWithMiddleware(reducers)}>
+        <Provider store={store}>
             <BrowserRouter onUpdate={() => window.scrollTo(0, 0)}>
                 <Route>
                     <div>
@@ -356,7 +373,7 @@ class App extends Component {
                                 <Route exact path="/eventos/categoria/:slug/page/:page" component={GridEvents} />
                                 <Route exact path="/eventos/categoria/:slug" component={GridEvents} />
                                 <Route exact path="/eventos/page/:page" component={GridEvents} />
-                                <Route exact path="/eventos/:slug" component={EventItem} />
+                                <Route exact path="/eventos/:slug" component={EventItemProps} />
 
                                 <Route exact path="/noticias/categoria/:slug/page/:page" component={BlogList} />
                                 <Route exact path="/noticias/categoria/:slug" component={BlogList} />

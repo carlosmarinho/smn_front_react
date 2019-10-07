@@ -28,7 +28,14 @@ class ListingLeftColumn extends Component {
 
                 <LeftWidgetLink customClass="hide-992" title="Guias Recentes" objects={this.props.objects} />
                 
-                <WidgetFilterCheckboxCollapsable title="Filtro de Categoria" filterType="categoria" type={this.props.type} objects={this.props.categories} classActive={activeColapse} />                
+                <WidgetFilterCheckboxCollapsable 
+                    title="Filtro de Categoria" 
+                    filterType="categoria" 
+                    type={this.props.type} 
+                    objects={this.props.categories} 
+                    classActive={activeColapse}
+                    bairro_id={this.props.bairro_id}
+                />                
                 {this.showFiltroBairro(activeColapse)}
                 {/*@todo implementar esse filtro <WidgetFilterStarsCollapsable title="Filtro por avaliação" classActive={activeColapse} />*/}
 

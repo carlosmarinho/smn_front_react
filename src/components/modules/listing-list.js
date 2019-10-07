@@ -120,7 +120,6 @@ class ListingList extends Component {
             }
         }
         else{
-            console.log("no else onde o state slug difer than barra");
             if(this.state.slug !== '/'){
                 if(nextProps.bairros && nextProps.bairros.bairro){
                     bairro_id = nextProps.bairros.bairro._id;
@@ -399,7 +398,13 @@ class ListingList extends Component {
                         </div>
                         <div className="row">
                             <div className="dir-alp-con">
-                                {(leftColumn)?<ListingLeftColumn type="guia" objects={(this.props.guias)?this.props.guias.recentes:[]} categories={(this.props.categorias)?this.props.categorias.guia:[]} bairros={(this.props.bairros)?this.props.bairros.list:[]} />:''}
+                                {(leftColumn)?<ListingLeftColumn 
+                                    type="guia" 
+                                    objects={(this.props.guias)?this.props.guias.recentes:[]} 
+                                    categories={(this.props.categorias)?this.props.categorias.guia:[]} 
+                                    bairros={(this.props.bairros)?this.props.bairros.list:[]}
+                                    bairro_id={(this.props.bairros)?this.props.bairros.bairro._id: null} 
+                                    />:''}
 
                                 <div className={(leftColumn)? 'col-md-9 dir-alp-con-right': 'col-md-12 dir-alp-con-right'}>
                                     <div className="dir-alp-con-right-1">
