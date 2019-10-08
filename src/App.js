@@ -359,7 +359,7 @@ class App extends Component {
                                 <Route exact path="/cidade/:slug" component={PageItem} />
                                 <Route exact path="/cidade/:slug/page/:page" component={PageItem} />
 
-                                <Route exact path={`/bairro/fotos-bairro-${subdomain}`} component={PageItem} />
+                                <Route exact path={`/bairro/fotos-do-bairro-${subdomain}`} component={PageItem} />
                                 <Route exact path={`/bairro/historia-do-bairro-${subdomain}`} component={PageItem} />
                                 <Route exact path={`/bairro/populacao-do-bairro-${subdomain}`} component={PageItem} />
                                 <Route exact path={`/bairro/ocupacao-do-bairro-${subdomain}`} component={PageItem} />
