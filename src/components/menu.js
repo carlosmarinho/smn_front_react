@@ -142,7 +142,7 @@ class Menu extends Component {
                         <div className="v3-menu">
                             <div className="v3-m-1">
                                 {/*<Link  data-activates='drop-menu-home' to="/"><img src="/images/logo-soumaisniteroi.png" alt="" /></Link>*/}
-                                <a href="/"><img src={logoSrc} alt="" /></a>
+                                <Link to="/"><img src={logoSrc} alt="" /></Link>
                             </div>
                             <div className="v3-m-2">
                                 <ul>

@@ -75,16 +75,19 @@ class SearchList extends Component {
             }
             
             if(nextProps.subdomain){
-                search = {bairro: nextProps.subdomain}
+                console.log( "olha o subdomain: ", nextProps.subdomain);
+                search = {...search, bairro: nextProps.subdomain}
             }
             else if(params.bairro){
-                search = {bairro: params.bairro};
+                search = {...search, bairro: params.bairro};
             }
+            console.log("olha o search::::: ", search);
 
             if(params.keyword){
-                search = {keyword: params.keyword};
+                search = {...search, keyword: params.keyword};
             }
          
+
             if(slug !== this.state.slug){
          
                 this.setState(
@@ -479,10 +482,10 @@ class SearchList extends Component {
     render(){
         let leftColumn = true;
 
+        console.log("prroooops: ", this.props);
 
         let listName = this.props.match.params.slug;
 
-        console.log("prroooops: ", this.props);
 
         let guias = <div>Nenhum Guia listado para a busca</div>
 

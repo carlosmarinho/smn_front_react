@@ -93,6 +93,16 @@ import (`./assets/styles/css/${city_or_neighbor}.css`);
 
 const createStoreWithMiddleware = applyMiddleware(promise)(createStore);
 
+let SearchListProps = (props) => {
+    return( 
+        <SearchList
+            match={props.match}
+            location={props.location}
+            subdomain={subdomain}
+        />
+    )
+}
+
 let HeaderProps = (props) => {
     return(
         <Header
@@ -383,9 +393,9 @@ class App extends Component {
 
                                 <Route exact path="/tags/:slug/" component={TagList} />
 
-                                <Route exact path="/busca/bairro/:bairro/keyword/:keyword/" component={SearchList} />
-                                <Route exact path="/busca/bairro/:bairro/" component={SearchList} />
-                                <Route exact path="/busca/keyword/:keyword/" component={SearchList} />
+                                <Route exact path="/busca/bairro/:bairro/keyword/:keyword/" component={SearchListProps} />
+                                <Route exact path="/busca/bairro/:bairro/" component={SearchListProps} />
+                                <Route exact path="/busca/keyword/:keyword/" component={SearchListProps} />
 
                                 <Route exact path="/contato" component={Contact} />
 
