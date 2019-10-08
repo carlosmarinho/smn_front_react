@@ -74,7 +74,7 @@ class MenuMobile extends Component {
         else {
             return(
                 <ul className="mob-menu-icon">
-                    <li><Link className="menu-close" to={`/bairro/fotos-cidade-${subdomain}`}><i className="fa fa-angle-right" aria-hidden="true"></i>Fotos do Bairro</Link></li>
+                    <li><Link className="menu-close" to={`/bairro/fotos-do-bairro-${subdomain}`}><i className="fa fa-angle-right" aria-hidden="true"></i>Fotos do Bairro</Link></li>
                     <li><Link className="menu-close" to={`/bairro/historia-do-bairro-${subdomain}`}><i className="fa fa-angle-right" aria-hidden="true"></i>História do Bairro</Link></li>
                     <li><Link className="menu-close" to={`/bairro/populacao-do-bairro-${subdomain}`}><i className="fa fa-angle-right" aria-hidden="true"></i>População do Bairro</Link></li>
                 </ul>

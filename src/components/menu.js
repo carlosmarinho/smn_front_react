@@ -84,7 +84,7 @@ class Menu extends Component {
         else{
             return(
                 <ul id='drop-menu-cidade' className='dropdown-content'>
-                    <li><Link to={`/bairro/fotos-bairro-${subdomain}`}>Fotos do Bairro</Link></li>
+                    <li><Link to={`/bairro/fotos-do-bairro-${subdomain}`}>Fotos do Bairro</Link></li>
                     <li className="divider"></li>
                     <li><Link to={`/bairro/historia-do-bairro-${subdomain}`}>História do Bairro</Link></li>
                     <li className="divider"></li>
