@@ -403,7 +403,7 @@ class ListingList extends Component {
                                     objects={(this.props.guias)?this.props.guias.recentes:[]} 
                                     categories={(this.props.categorias)?this.props.categorias.guia:[]} 
                                     bairros={(this.props.bairros)?this.props.bairros.list:[]}
-                                    bairro_id={(this.props.bairros)?this.props.bairros.bairro._id: null} 
+                                    bairro_id={(this.props.bairros && this.props.bairros.bairro)?this.props.bairros.bairro._id: null} 
                                     />:''}
 
                                 <div className={(leftColumn)? 'col-md-9 dir-alp-con-right': 'col-md-12 dir-alp-con-right'}>

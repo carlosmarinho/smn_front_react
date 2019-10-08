@@ -313,7 +313,7 @@ class ListingGrid extends Component {
                                                 objects={(this.props.guias)?this.props.guias.recentes:[]} 
                                                 categories={(this.props.categorias)?this.props.categorias.evento:[]} 
                                                 bairros={(this.props.bairros)?this.props.bairros:[]} 
-                                                bairro_id={(this.props.bairros)?this.props.bairros.bairro._id: null}
+                                                bairro_id={(this.props.bairros && this.props.bairros.bairro)?this.props.bairros.bairro._id: null}
                                                />:''}
                                 
                                 <div className={(leftColumn)?'col-md-9 dir-alp-con-right list-grid-rig-pad':'col-md-12 dir-alp-con-right list-grid-rig-pad'}>

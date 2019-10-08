@@ -80,7 +80,7 @@ if (parts.length > 3) {
   console.log("subdominio: ", subdomain);
 }
 
-subdomain = 'fonseca';
+//subdomain = 'fonseca';
 
 let city_or_neighbor = 'city/niteroi';
 if(subdomain != "")
