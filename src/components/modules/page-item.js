@@ -21,8 +21,17 @@ class PageItem extends Component {
     }
 
     componentDidMount() {
-        this.setState({slug: this.props.match.params.slug})
-        this.props.fetchPaginaBySlug(this.props.match.params.slug);
+        console.log("this.propppps: ", this.props);
+        let slug = '';
+        if(this.props.match.path.includes('/bairro/')) {
+            slug = this.props.match.path.split('/bairro/');
+            slug = slug[1];
+        }
+        else {
+            slug = this.props.match.params.slug;
+        }
+        this.setState({slug})
+        this.props.fetchPaginaBySlug(slug);
         this.props.fetchEventosRecentes('5ba26f813a018f42215a36a0');
         this.props.fetchGuiasFeatured('5ba26f813a018f42215a36a0');
     }
