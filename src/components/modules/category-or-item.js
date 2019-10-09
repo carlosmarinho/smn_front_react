@@ -60,8 +60,9 @@ console.log("both::: ", bairro_id);
                     this.setState({loading:false})
                 });
             }
-            
-            //this.props.fetchGuiaBySlug(this.props.match.params.slug)
+            else{
+                await this.props.fetchGuiaBySlug(this.props.match.params.slug)
+            }
 
             this.setState({slug: this.props.match.params.slug})
         }
