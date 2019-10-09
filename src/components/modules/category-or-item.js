@@ -118,7 +118,7 @@ console.log("both::: ", bairro_id);
             }
             
             return(
-                <Route component={listingItem} />
+                <Route component={ListingItem} />
             )
 
         }
