@@ -34,7 +34,7 @@ class CategoryOrItem extends Component {
     }
 
     async componentDidMount() {
-        this.setState({slug: this.props.match.params.slug})
+        //this.setState({slug: this.props.match.params.slug})
         if(this.state.slug === ''){
             console.log("slug é differente: ", this.state.slug, ' === ', this.props.match.params.slug);
             await this.props.fetchCategoryGuiaBySlug(this.props.match.params.slug);
@@ -118,7 +118,7 @@ console.log("both::: ", bairro_id);
             }
             
             return(
-                <Route component={listingItemProps} />
+                <Route component={listingItem} />
             )
 
         }
