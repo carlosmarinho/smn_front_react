@@ -77,7 +77,7 @@ console.log("both::: ", bairro_id);
                    slug: slug
                 }
             )
-            await nextProps.fetchCategoriasBySlug(slug);
+            await nextProps.fetchCategoryGuiaBySlug(slug);
             nextProps.fetchGuiaBySlug(slug);
         }
 
