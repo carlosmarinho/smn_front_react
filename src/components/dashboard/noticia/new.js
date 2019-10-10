@@ -427,8 +427,8 @@ class NoticiaNew extends Component{
 		}
 
 		let bairros = [];
-		if(this.props.bairros){
-			bairros = this.props.bairros;
+		if(this.props.bairros && this.props.bairros.list){
+			bairros = this.props.bairros.list;
 		}
 		const { pristine, reset, submitting, handleSubmit } = this.props
 		
